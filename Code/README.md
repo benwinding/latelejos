@@ -6,3 +6,4 @@ Although this is to be confirmed, a possible structure could be the following:
 
  - Hardware/
  - UIController/
+ - Tests/
