@@ -17,6 +17,7 @@ Some GUI applications are available for git are:
 ## Commiting To This!
 ### Commiting - Terminal
 You always need to pull from the server before you commit, to make sure you commit with the latest version of the repository.
+    
     $ git pull
     $ git commit -m "My Change"
     $ git push
