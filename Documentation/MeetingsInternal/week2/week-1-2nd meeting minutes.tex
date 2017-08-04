@@ -1,0 +1,133 @@
+%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
+\documentclass[11pt, a4paper]{article}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+%%% page parameters
+\oddsidemargin -0.5 cm
+\evensidemargin -0.5 cm
+\textwidth 15 cm
+\topmargin -1.2 cm
+\textheight 22 cm
+
+\renewcommand{\baselinestretch}{1.4}\normalsize
+\setlength{\parskip}{0pt}
+
+\begin{document}
+%%%mention the no, time, and venue of the meeting
+\noindent Software Engineering Group Project PG 29 {\bf Hub Room 336} at {\bf 3 pm Friday 04/08/2017}.
+\vspace*{10pt}
+\begin{center}
+\huge Week 1, 2nd Meeting Minutes
+\end{center}
+\vspace*{10pt}
+\begin{center}
+\huge Prepared by Sammy
+\end{center}
+\begin{center}
+\huge August 4, 2017
+\end{center}
+%%%first, nominate a chair for the meeting. We suggest that each member at least has one chance as the chair.
+\section*{Chair: Issac}
+
+\section{Attendees}
+\begin{itemize}
+\item Sean
+\item Sammy
+\item Pavi
+\item Isaac
+\item Ben
+\end{itemize}
+
+%%%if some students cannot make the meeting due to some reasons, their names should appear here.
+\section{Apologies}
+\begin{itemize}
+\item Huy Nguyen
+\end{itemize}
+
+\section{Discuss project overview}
+\subsection{Software architecture}
+\begin{itemize}
+\item Components we discussed: Light sensor, touch sensor, Remote Infrared beacon and motors
+\item GUI interface - buttons and map display
+\item Using light sensor to detect obstacles and tracks
+\item Using touch sensor to capture events of buttons
+\item Discuss the connection between controller and EV3 vehicle
+\item  1. Wifi - Need to configure IP address, Java socket programming
+\item  2. Remote Infrared Beacon
+\item Motors - according to received events to determine which ways should vehicle move and control the speed 
+\end{itemize}
+
+\subsection{Product's version}
+\begin{itemize}
+\item There are at least 3 versions for the product
+\item Version 1.0 - Only support control EV3 vehicle manually
+\end{itemize}
+
+\subsection{Testing overview}
+\begin{itemize}
+\item Prepare testing script and predicted outcomes.
+\item Can test the output signals.
+\item Before adding the new feature, make a backup of source code.
+\item When testing the new version of vehicle, don't only focus on new features. Please also run the whole testing script to ensure the existing vehicle's functionalities working well. 
+\end{itemize}
+
+\subsection{The choose of IDE}
+\begin{itemize}
+\item IntelliJ
+\item Reason: More powerful than eclipise and free to use for students
+\end{itemize}
+
+\subsection{The list of requirements}
+\begin{itemize}
+\item There are a list of requirements to be discussed in the meeting such as Map information, vehicle controlling. The actual requirements will be discussed in detail after client meeting. This meeting is focusing on client questions
+\end{itemize}
+
+\subsection{The questions for the client meeting next week}
+\begin{itemize}
+\item What does the map look like, physical obstacles and lines?
+\item No go zones, are they represented physically or just graphically on the map?
+\item Is the starting location and orientation of the robot known?
+\item How much of the map do we explore?
+\item How is accuracy measured?
+\item When can we access the robot?
+\item \bf Group members can add any question to the github's readme document
+\end{itemize}
+
+\section{General Discussion/Advice}
+\begin{itemize}
+\item No more than 10 percent of reuse code
+\item Please check readme in github. There are information about file systems for each directories.
+\item Don't need to use latex to make timesheet. 
+\item Please prepare and submit your timesheet weekly.
+\item Please be more familiar with Github and Latex.
+\end{itemize}
+
+\section{Before next meeting}
+\begin{itemize}
+\item Everyone: Study Java library we are going to use for product's version 1 development.
+\item - GUI interface, controller
+\item Ben: will prepare agenda for client meeting
+\item \bf I don't remember who is responsible for taking Client meeting's minutes. If we are not yet to decide, any volunteer?
+\end{itemize}
+
+%%%any schedules for this meeting should go next, each with a separate section.
+
+%%%more issues should make it like the above one.
+
+%%%finally, specifies time of next meeting
+\section{Next meeting}
+\begin{itemize}
+\item Date: 2pm-3pm, Monday, 7 Aug
+\item Location: Level 3-Room 339-Project Room
+\item Purpose: Briefly introduce the progress to Huy Nguyen before client meeting
+\item \bf Remark: Don't need to prepare agenda for this meeting
+\end{itemize}
+
+\vspace*{10pt}
+
+\end{document}
