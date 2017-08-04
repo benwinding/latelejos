@@ -6,11 +6,13 @@ This folder is for our internal meetings. It's intended to have folders for each
 
 ## Structure
 - [ ] week1/
+
   ... didn't have a group
 - [ ] week2/
   - w2_minutes.tex
   - w2_agenda.tex
   - w2_tasks.tex
+  
 ...
 - [ ] week999/
 
