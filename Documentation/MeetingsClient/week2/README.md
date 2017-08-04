@@ -10,6 +10,7 @@ This folder is intended to contain all information concerning the client meeting
   - How are they created on the UI?
 - Is the starting location and orientation of the robot known?
 - How much of the map do we explore?
+- How is accuracy measured?
 
 ### Technical
 - Wifi control detail?
