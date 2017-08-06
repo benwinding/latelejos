@@ -1,4 +1,4 @@
-# Client Meeting - Week 2
+# Client Meeting - Week 3
 This folder is intended to contain all information concerning the client meeting in Week 2
 
 ## Questions For The Client
