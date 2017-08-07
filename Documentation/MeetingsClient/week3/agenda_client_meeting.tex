@@ -10,11 +10,8 @@
 %%% page parameters
 \oddsidemargin -0.5 cm
 \evensidemargin -0.5 cm
-\textwidth 15 cm
-\topmargin -1.2 cm
-\textheight 22 cm
 
-\renewcommand{\baselinestretch}{1.4}\normalsize
+\renewcommand{\baselinestretch}{0.4}\normalsize
 \setlength{\parskip}{0pt}
 
 \begin{document}
@@ -26,10 +23,6 @@
 \end{center}
 
 %%%first, nominate a chair for the meeting. We suggest that each member at least has one chance as the chair.
-\section*{Chair: Ben}
-
-\vspace*{10pt}
-
 \section{Attendees}
 \begin{itemize}
 \item Chair: Ben
@@ -41,37 +34,55 @@
 \end{itemize}
 %%%if some students cannot make the meeting due to some reasons, their names should appear here.
 
-\section{Questions}
-Questions for the client.
-
-\subsection{General}
+\section{Client Questions}
+\subsection{The Rover Map}
 \begin{itemize}
-\item What does the map look like, physical obstacles and lines?
-\item No go zones, are they represented physically or just graphically on the map?
-\item Is the starting location and orientation of the robot known?
-\item How much of the map do we explore?
-\item How is accuracy measured?
-\item When can we access the robot?
+	\item What does the map look like, physical obstacles and lines?
+	\item Is the starting location and orientation of the robot known?
+	\item How much of the map do we explore?
+	\item How is accuracy measured?
+	\item When this DTD for the xml completed? Is there any ETA?
+	\item Details on the starting point for partially completed maps
 \end{itemize}
 
-\subsection{Technical}
+\subsection{No Go Zones}
 \begin{itemize}
-\item Wifi control detail?
-\item How are the No Go Zones intended to be selected on the UI?
+	\item How are the No Go Zones intended to be selected on the UI?
+	\item Are they represented physically or just graphically on the map?
+	\item What is used by the operator to display the map and control the robot?
+	\item What are the consequences of moving out side the map? or NGZ or craters?
 \end{itemize}
 
-\section{System Overview}
+\subsection{Simulated Terrain}
+\begin{itemize}
+	\item How wide are the lines on the map?
+	\item What colours/shapes indicate craters, trails?
+	\item What is definition of mission accomplished?
+	\item Do tracks/trails exist inside survey area or border only?
+	\item What is the landing size?
+\end{itemize}
+
+\subsection{Operation of Rover}
+\begin{itemize}
+	\item Details on robot interfaces and sensors?
+	\item How does the operator give commands to robot?
+\end{itemize}
+
+\subsection{Safety}
+\begin{itemize}
+	\item What indicates an external object?
+	\item What is the definition of a "collision" and "significant" force?
+\end{itemize}
+
+\section{Initial System Overview}
 \includegraphics[width=\textwidth]{system-flowchart}
 
 \section{Negotiation}
 \begin{itemize}
 	\item What milestones are most important?
-	\item ....
 \end{itemize}
 
 \section{Next meeting}
-
-\section{Other business}
 
 \section {Close meeting}
 %%%finally, specifies time of next meeting
