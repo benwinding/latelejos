@@ -36,41 +36,25 @@ public class MotorCommander {
     try {
       motorLeft.setSpeed(200);
       motorRight.setSpeed(200);
-    } catch (RemoteException e) {
+    } catch (Exception e) {
       System.out.println("Unable to set motor speed");
     }
     switch (Direction) {
       case "Forward" :
-        try {
-          motorLeft.forward();
-          motorRight.forward();
-        } catch (RemoteException e) {
-          System.out.println("Unable to set motors: " + Direction);
-        }
+        MoveLeftMotor(true);
+        MoveRightMotor(true);
         break;
       case "Backward" :
-        try {
-          motorLeft.backward();
-          motorRight.backward();
-        } catch (RemoteException e) {
-          System.out.println("Unable to set motors: " + Direction);
-        }
+        MoveLeftMotor(false);
+        MoveRightMotor(false);
         break;
       case "Left" :
-        try {
-          motorLeft.backward();
-          motorRight.forward();
-        } catch (RemoteException e) {
-          System.out.println("Unable to set motors: " + Direction);
-        }
+        MoveLeftMotor(false);
+        MoveRightMotor(true);
         break;
       case "Right" :
-        try {
-          motorLeft.forward();
-          motorRight.backward();
-        } catch (RemoteException e) {
-          System.out.println("Unable to set motors: " + Direction);
-        }
+        MoveLeftMotor(true);
+        MoveRightMotor(false);
         break;
       case "Stop" :
         try {
@@ -82,6 +66,28 @@ public class MotorCommander {
         break;
       default:
         System.out.println("Unknown Direction: " + Direction);
+    }
+  }
+
+  static void MoveLeftMotor(boolean forward) {
+    try {
+      if(forward)
+        motorLeft.forward();
+      else
+        motorLeft.backward();
+    } catch (Exception e) {
+      System.out.println("Unable to move left motor");
+    }
+  }
+
+  static void MoveRightMotor(boolean forward) {
+    try {
+      if(forward)
+        motorRight.forward();
+      else
+        motorRight.backward();
+    } catch (Exception e) {
+      System.out.println("Unable to move right motor");
     }
   }
 }

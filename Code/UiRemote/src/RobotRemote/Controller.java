@@ -16,9 +16,13 @@ public class Controller {
 
   private static void WriteMsg(String msg) {
     Brick brick = ConnectionManager.GetBrick();
-    brick.getTextLCD().clear();
-    brick.getTextLCD().drawString(msg,0,4);
-    System.out.println("Sending message:" + msg);
+    try {
+      brick.getTextLCD().clear();
+      brick.getTextLCD().drawString(msg,0,4);
+      System.out.println("Sending message:" + msg);
+    } catch(Exception e) {
+      System.out.println("Could not write to LCD");
+    }
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
