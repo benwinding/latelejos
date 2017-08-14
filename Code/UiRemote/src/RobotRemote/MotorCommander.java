@@ -58,8 +58,8 @@ public class MotorCommander {
         break;
       case "Stop" :
         try {
-          motorLeft.close();
-          motorRight.close();
+          motorLeft.stop(true);
+          motorRight.stop(true);
         } catch (RemoteException e) {
           System.out.println("Unable to set motors: " + Direction);
         }
