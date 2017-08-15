@@ -44,12 +44,12 @@ public class MotorCommander {
   static void MoveMotors(String Direction) {
     switch (Direction) {
       case "Forward" :
-        SetMotorSpeed(300);
+        SetMotorSpeed(200);
         MoveLeftMotor(true);
         MoveRightMotor(true);
         break;
       case "Backward" :
-        SetMotorSpeed(300);
+        SetMotorSpeed(200);
         MoveLeftMotor(false);
         MoveRightMotor(false);
         break;
