@@ -221,4 +221,5 @@ TSWLatexianTemp*
 
 #idea folder
 .idea
+Code/UiRemote/.idea
 *.iml
