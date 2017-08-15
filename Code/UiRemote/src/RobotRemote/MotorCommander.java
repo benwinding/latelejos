@@ -32,27 +32,34 @@ public class MotorCommander {
     }
   }
 
-  static void MoveMotors(String Direction) {
+  static void SetMotorSpeed(int speed) {
     try {
-      motorLeft.setSpeed(200);
-      motorRight.setSpeed(200);
+      motorLeft.setSpeed(speed);
+      motorRight.setSpeed(speed);
     } catch (Exception e) {
       System.out.println("Unable to set motor speed");
     }
+  }
+
+  static void MoveMotors(String Direction) {
     switch (Direction) {
       case "Forward" :
+        SetMotorSpeed(300);
         MoveLeftMotor(true);
         MoveRightMotor(true);
         break;
       case "Backward" :
+        SetMotorSpeed(300);
         MoveLeftMotor(false);
         MoveRightMotor(false);
         break;
       case "Left" :
+        SetMotorSpeed(100);
         MoveLeftMotor(false);
         MoveRightMotor(true);
         break;
       case "Right" :
+        SetMotorSpeed(100);
         MoveLeftMotor(true);
         MoveRightMotor(false);
         break;
