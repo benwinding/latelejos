@@ -221,4 +221,7 @@ TSWLatexianTemp*
 
 #idea folder
 .idea
+Code/UiRemote/.idea
 *.iml
+**/.idea/*
+Code/UiRemote/.idea/workspace.xml

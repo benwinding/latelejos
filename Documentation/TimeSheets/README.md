@@ -4,8 +4,7 @@ This folder contains the timesheets from each team member for each of the weeks 
 # Structure
 - timesheet-template.xlsx
 - [ ] week1/
-  - w1-a1111111-timesheet.xlsx
-  - w1-a2222222-timesheet.xlsx
+  - NAME-timesheet-week1.xlsx
   - ....
 - [ ] ... /
 - [ ] week999/

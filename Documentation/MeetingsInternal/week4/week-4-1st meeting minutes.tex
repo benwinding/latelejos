@@ -1,0 +1,249 @@
+%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
+\documentclass[11pt, a4paper]{article}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+%%% page parameters
+\oddsidemargin -0.5 cm
+\evensidemargin -0.5 cm
+\textwidth 15 cm
+\topmargin -1.2 cm
+\textheight 22 cm
+
+\renewcommand{\baselinestretch}{1.4}\normalsize
+\setlength{\parskip}{0pt}
+
+\begin{document}
+	%%%mention the no, time, and venue of the meeting
+	\noindent Software Engineering Group Project PG 29 {\bf Hub Room 339} at {\bf 12 pm Friday 18/08/2017}.
+	\vspace*{10pt}
+	\begin{center}
+		\huge Week 4, 1st Meeting Minutes
+	\end{center}
+	\vspace*{10pt}
+	\begin{center}
+		\huge Prepared by Huy Nguyen
+	\end{center}
+	\begin{center}
+		\huge August 18, 2017
+	\end{center}
+	%%%first, nominate a chair for the meeting. We suggest that each member at least has one chance as the chair.
+	\section*{Chair:}
+	
+	\section{Attendees}
+	\begin{itemize}
+		\item Sean
+		\item Sammy
+		\item Pavi
+		\item Isaac
+		\item Ben
+		\item Huy Nguyen
+	\end{itemize}
+	
+	%%%if some students cannot make the meeting due to some reasons, their names should appear here.
+	
+	
+	\section{Meeting Outcome}
+	 Separate SRS document task for members
+	\begin{enumerate}
+		\item Introduction (BEN)
+		\begin{itemize}
+			\item Purpose of document 
+			\begin{itemize}
+				\item Detail overview of the product
+				\item Target audience
+				\item User Interface
+				\item Hardware and software requirement
+				\item As Describe by project specs 
+			\end{itemize}
+			\item Document Covention
+			\begin{itemize}
+				\item Special notation (ex: App for Application)
+				\item Special symbols
+				\item Highlighting convention
+			\end{itemize}
+			\item Target audience
+			\begin{itemize}
+				\item Client description
+				\item Project team
+				\item Management team
+				\item Testing team
+				\item ....
+			\end{itemize}
+			\item  Project Scope
+			\begin{itemize}
+				\item Reflect the specs
+				\item Any unique expectation
+			\end{itemize}
+			\item References
+			\begin{itemize}
+				\item Any refernce document use in this project
+			\end{itemize}
+		\end{itemize}
+		\item Overall Description (Sami)
+		\begin{itemize}
+			\item Project perspective
+			\begin{itemize}
+				\item New self contained project
+				\item Relies on existing lego robot
+				\item Diagram, connection and interfaces
+			\end{itemize}
+		
+			\item Product features
+			\begin{itemize}
+				\item Summary features
+				\item Survey area and Mapping the survey area is the most important
+				\item Manual controliv.	Autonomous control
+				\item Obstacle avoidance
+				\item NGZ detection
+				\item Start from landing point then Survey then Return
+			\end{itemize}
+		
+			\item User classes and characteric
+			\begin{itemize}
+				\item Who will use this application (Student, teacher)
+				\item Only basic knowledge of GUI control
+			\end{itemize}
+		
+			\item Operating Environment 
+			\begin{itemize}
+				\item Window 7 or above
+				\item Mac OS 10 or above
+				\item Linus
+				\item Ubuntu 16+
+				\item Hardware:
+				\begin{itemize}
+					\item Windows: 1 gigahertz (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*
+					1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit)
+					16 GB available hard disk space (32-bit) or 20 GB (64-bit)
+					DirectX 9 graphics device with WDDM 1.0 or higher driver.
+					\item Mac:
+					An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor.
+					Mac OS X v10.6.6 or later to install via the Mac App Store (v10.6.8 recommended)
+					7 GB of available disk space.
+					2 GB of RAM.
+				\end{itemize}
+			\end{itemize}
+		
+			\item Design and Implementation Constrains
+			\begin{itemize}
+				\item Tools
+				\item Minimum hardware/soft requirements
+				\item LeJos 0.9.0
+				\item Java version 7
+				\item Wifi (encryption)
+				\item Leo Kit
+				\item 10 percent external code max
+			\end{itemize}
+		
+			\item User Documentation
+			\begin{itemize}
+				\item Describe about User manual
+			\end{itemize}
+		
+			\item Assumptions
+			\begin{itemize}
+				\item	Any landing zones
+				\item Clear colors of track/trails and the map that
+				\item Flat surface
+				\item Thickness of the line making (2cm)
+				\item Trail reasonable smooth
+				\item Survey area is rectangular area.
+				\item Safe landing zone ( it can not NGZ or and danger area)
+			\end{itemize}
+		\end{itemize}
+	
+		\item User Requirements (Pavi)
+		\begin{itemize}
+			\item Survey the are and show map
+			\item GUI for manual control and map
+			\item Able to draw NGZ  on GUI
+			\item Set start and destination point
+			\item Obstacle avoid
+			\item Switch between auto and manual
+			\item NGZ avoidance
+			\item Stop (emergency stop)
+			\item Robot must return to pickup zone
+			\item Track detection
+			\item Recognize different obstacles
+			\item Take partial map and complete the map
+			\item Map can be recorded to XML format
+			\item Map has to be zoomable 
+			\item No more than ½ of the robot can cross the NGZ/boundary/obstacle/hazardous area
+			\item Map construct in Realtime include obstacle just discover.
+			\item Map track position of robot
+			\item Must finish survey in reasonable time.
+			\item How to security the robot from taking control from un-authorize person
+		\end{itemize}
+	
+		\item  System Feature (Huy Nguyen)
+		\begin{itemize}
+			\item GUI: Map and relevant controller
+			\begin{itemize}
+				\item Manual controller
+				\begin{itemize}
+					\item Direction buttons and keyboard control
+					\item Stop button
+					\item Connect button
+					\item User authentication (Username/password)
+					\item Switch controller mode button.
+				\end{itemize}
+				\item Auto controller
+				\begin{itemize}
+					\item Stop button
+					\item Auto controller
+				\end{itemize}
+				\item Map
+				\begin{itemize}
+					\item Display survey area on map
+					\item Display robot moment on map
+					\item Use mouse to define NGZ
+					\item Load and save map
+				\end{itemize}
+			\end{itemize}
+			\item Robot:
+			\begin{itemize}
+				\item Color sensor recognization
+				\item Wifi: connection
+				\item Ultra sonic sensor recognition
+			\end{itemize}
+		\end{itemize}
+	
+		\item External Interface Requirement (Issac)
+		\item None Function Requirement
+		\begin{itemize}
+			\item Performance
+			\begin{itemize}
+				\item Accuracy
+				\item Fast survey
+				\item Easy to use
+				\item Stable and high speed internet connection
+			\end{itemize}
+			\item Safety Requirement 
+			\begin{itemize}
+				\item No high impact collation
+				\item No more than ½ NGZ
+				\item Return landing zone 
+			\end{itemize}
+			\item Security requirement
+			\begin{itemize}
+				\item Avoid un-authorize access
+				\item ...
+			\end{itemize}
+		\end{itemize}
+	\end{enumerate}
+	
+	%%%any schedules for this meeting should go next, each with a separate section.
+	
+	%%%more issues should make it like the above one.
+	
+	%%%finally, specifies time of next meeting
+	\section{Next meeting}
+	
+	\vspace*{10pt}
+	
+\end{document}
