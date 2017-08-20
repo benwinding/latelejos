@@ -73,15 +73,23 @@ The main features of this robot include
 	\paragraph{}
 The users of the robot include three types: students, teacher and people who only have basic knowledge of GUI control. The last type usually contains student and teacher.
 	\paragraph{}
-Students are those who enrolled in the university of Adelaide, especially the school of computer science. There are constraints for students: they are not allowed to access the robot system, and they can only control the robot after the group members enter the password for them.	\paragraph{}
+Students are those who enrolled in the university of Adelaide, especially the school of computer science. There are constraints for students: they are not allowed to access the robot system, and they can only control the robot after the group members enter the password for them.
+	\paragraph{}
 Teachers are permitted to get the password of the robot system and should not tell students the password. 
 	\paragraph{}
-People who has basic knowledge of GUI control can also control the robot and they cannot get the password as well except for the client of this project. The client owns all privileges of this robot as long as the robot is not damaged deliberately.
+People who has basic knowledge of GUI control can also control the robot and they cannot get the password as well except for the client of this project. The client owns all privileges of this robot as long as the robot is not damaged deliberately.
+
 	\subsection{Operating Environment}
 The software can be run in Window7 or above, Mac OS 10 or above, Linux and Ubuntu 16+ as long as GUI is complied using JDK (version 1.7 only). The information of hardware includes:
 	\begin{itemize}
-	\item Window: 1 gigahertz (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;   1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);	   16 GB available hard disk space (32-bit) or 20 GB (64-bit);	   DirectX 9 graphics device with WDDM 1.0 or higher driver.
-	\item Mac: An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor;         Mac OS X v10.6.6 or later to install via the Mac App Store (v10.6.8 recommended);         7 GB of available disk space;         2 GB of RAM.
+	\item Window: 1 gigahertz (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;
+   1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
+	   16 GB available hard disk space (32-bit) or 20 GB (64-bit);
+	   DirectX 9 graphics device with WDDM 1.0 or higher driver.
+	\item Mac: An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor;
+         Mac OS X v10.6.6 or later to install via the Mac App Store (v10.6.8 recommended);
+         7 GB of available disk space;
+         2 GB of RAM.
 	\end{itemize}
 
 	\subsection{Design and Implementation Constraints}
@@ -97,7 +105,8 @@ The main constraints of design and implementation include:
 	\item The external code should not exceed 10 \%.
 	\end{itemize}
 	\subsection{User Documentation}
-At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the offline and online browser and so on, assisting users to control the robot better.
+At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the offline and online browser and so on, assisting users to control the robot better.
+
 	\subsection{Assumptions and Dependencies}
 	\paragraph{}
 It is assumed that the password is entered correctly and the robot establishes connection successfully with appropriate software and hardware. Also, the robot is ready to be control manually or automatically. 	
@@ -179,7 +188,150 @@ Assumptions and dependencies include:
     \paragraph{Acceptance criteria}   This feature can be verified by setting a survey point on the map using the GUI and the robot will move towards it.
 
 	\section{System Features}
-
+	\subsection{Map input feature}
+	\subsubsection{Description and priority}
+	\text This feature is designed for operator manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
+	\subsubsection{Stimulus/response sequence}
+	\textbf{Stimulus:}
+	\begin{itemize}
+		\item Step 1: Open MJ Control application.
+		\item Step 2: Enter username/password.
+		\item Step 3: Click button “Add map info”.
+		\item Step 4: Select information type from info type dropdown list (NGZ, tracks/trails etc)
+		\item Step 5: Click on the map to input new map information.
+		\item Step 6: Click “Save”/ ”Cancel” button to save or discard information input in step 5.)
+	\end{itemize}
+	\textbf{Response:}
+	\begin{itemize}
+	\item	Save new information enter by operator into map XML file.
+	\end{itemize}
+	\subsubsection{Functional requirements}
+	\begin{itemize}
+		\item \textbf{Map.InputInfo.UI} \space The application provides a UI to enter new map information.
+		Map.OutputInfo.Persist: The application shall translate new map information into correct xml format and update current xml map info file with new information.
+	\end{itemize}
+	
+	
+	\subsection{Map imported/exported feature}
+	\subsubsection{Description and priority}
+	\text This feature designed to allow operator to import a predefine map or export current map information in xml format.
+	\subsubsection{Stimulus/response sequence}
+		\textbf{Stimulus:}
+	\begin{itemize}
+		\item Step 1: Open MJ Control application.
+		\item Step 2: Enter username/password.
+		\item {Step 3:}
+		\begin{itemize}	
+			\item \textbf{For import action:} Click “Import map” browse to existed xml map file.
+			\item \textbf{For export action:} Click” Export map” system will automatically generate latest xml map information with unique name (Map-export-[current-time].xml) in “MapExport” folder of application.
+		\end{itemize}
+		
+	\end{itemize}
+	\textbf{Response:}
+	\begin{itemize}
+	\item Load imported map to the UI screen.
+	\item Save latest info to “MapExport” folder when operator click export.
+	\end{itemize}
+	\subsubsection{Functional requirements}
+	\begin{itemize}
+		\item \textbf{Map.InputInfo.Import}: The application shall allow operator import initial map information at the beginning of the survey mission. The application shall disable import button while robot is surveying the map.
+		\item \textbf{Map.OutputInfo.Export}: The application shall allow operator export map information and save it with a unique name in designated folder.
+	\end{itemize}
+	
+	\subsection{Map display feature}
+	\subsubsection{Description and priority}
+	\text This feature is designed to display information of survey area in real-time and robot location. This feature also allow operator to import a xml partial map. The operators can see completed map information with zoom-in/zoom-out supported. Map will display information from imported map, manual input information from operator and real-time information return from robot while it explores the survey area (obstacle, tracks/trail, radiation areas. Etc)
+	\subsubsection{Stimulus/response sequence}
+	\textbf{Stimulus:}
+	\begin{itemize}
+	
+		\item Step 1: Open MJ Control application.
+		\item Step 2: Enter username/password.
+		\item Step 3 (optional): Use “import map” button to browse to existing xml predefined map if there is one.
+		\item Step 4 (optional): Use manual control mode or autonomous to explore survey area.
+		\item Step 5 (optional): Use “Map input” feature to manual add new information to map.
+		\item Step 6 (optional): Zoom-in/Zoom-out on a specific region.
+		
+	\end{itemize}
+	\textbf{Response:}
+	\begin{itemize}
+		\item LRealtime information displays on GUI map.
+	\end{itemize}
+	\subsubsection{Functional requirements}
+	\begin{itemize}
+		\item \textbf{Map.Import}: The application shall allow to import predefined a xml format map file which comply with predefine DTD provide by client.
+		\item \textbf{Map.RealtimeDisplay}: The application shall display all information from imported map, operator inputs and survey info return from robot at real-time.
+	\end{itemize}
+	
+	\subsection{Manual control feature }
+	\subsubsection{Description and priority}
+	\text This feature designated to allow operator manual control robot. It also has function to switch between manual/autonomous control and emergency stop.
+	\subsubsection{Stimulus/response sequence}
+	\textbf{Stimulus:}
+	\begin{itemize}
+		\item Step 1: Open MJ Control application.
+		\item Step 2: Enter username/password.
+		\item Step 3: Use navigation button on UI to control robot.
+		\item Step 4: Switch between Autonomous/Manual control by turn on/off “Autonomous Control” toggle button.
+		\item Step 5: Emergency stop robot by click “Emergency Stop” button
+	\end{itemize}
+	\textbf{Response:}
+	\begin{itemize}
+		\item Robot moving correct when operator use navigation buttons in manual control mode.
+		\item When click on autonomous mode all navigation buttons will be disabled and robot will autonomous survey the area with internal survey algorithm.
+		\item Emergency stop will stop robot intermediately both on manual/autonomous mode.
+	\end{itemize}
+	\subsubsection{Functional requirements}
+	\begin{itemize}
+		\item \textbf{Control.Manual.Navigation}: The application shall allow operator manual control robot precisely with navigation buttons.
+		\item \textbf{Control.EmergencyStop}: Emergency stop button shall stop robot immediately.
+		\item \textbf{Control.SwitchMode}: The application shall allow switch between manual/autonomous mode.
+		\item \textbf{Map.SurveyRecord}: While robot move under manual control. All map informations collected from sensor must be recorded and display on map as describe feature 4.3.
+	\end{itemize}
+	
+	
+	\subsection{Autonomous control feature }
+	\subsubsection{Description and priority}
+	\text Robot have ability to self-control and autonomously survey the area. Robot also can auto navigate from one point to another point on the map after get instruction from operator.
+	\subsubsection{Stimulus/response sequence}
+	\textbf{Stimulus:}
+	\begin{itemize}
+		\item Step 1: Open MJ Control application.
+		\item Step 2: Enter username/password.
+		\item Step 3: Step 3: Click the Autonomous Control” toggle button to turn on autonomous mode.
+		\item Step 4 (optional): Click on “Move to Location” button and enter the destination coordinate (x,y). Robot will auto navigate from current location to entered destination.
+	\end{itemize}
+	\textbf{Response:}
+	\begin{itemize}
+		\item Robot will self-control and autonomously survey area then move back to landing point after mission completed. While in autonomous mode all navigation buttons will be disabled.
+	\end{itemize}
+	\subsubsection{Functional requirements}
+	\begin{itemize}
+		\item \textbf{Control.Autonomous.Navigation}: The application shall have an self-control module which can control and navigate robot automatically corresponding to information from the map and sensors data while surveying.
+		\item \textbf{Control.Autonomous.ObstacleDetectAndAvoidance}: The application shall have an obstacle detection algorithms that prevent robot collide with obstacle or move into NGZs/Craters.
+		\item \textbf{Control.Autonomous.PathFinding}: The application shall have a build in algorithm to find the safe and shortest path to navigate from one location to another location.
+		\item \textbf{Map.SurveyRecord}: While robot move under manual control. All map informations collected from sensor must be recorded and display on map as describe feature 4.3.
+	\end{itemize}
+ 
+ 
+	 \subsection{Authentication feature }
+	 \subsubsection{Description and priority}
+	 \text This feature is designed to prevent un-authorize person access to control robot.
+	 \subsubsection{Stimulus/response sequence}
+	 \textbf{Stimulus:}
+	 \begin{itemize}
+	 	\item Step 1: Open MJ Control application.
+	 	\item Step 2: Enter username/password.
+	 \end{itemize}
+	 \textbf{Response:}
+	\begin{itemize}
+		\item Grant access to MJ control UI if username/password valid. Otherwise, display un-authorization message
+	\end{itemize}
+	 \subsubsection{Functional requirements}
+	 \begin{itemize}
+	 	\item \textbf{Control.Authentication:}  Application shall provide authentication step before operator can start to control robot.
+	 \end{itemize}
+	
 	\section{External Interface Requirements}
 	\subsection{User Interfaces}
 	\subsection{Hardware Interfaces}
