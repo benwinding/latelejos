@@ -5,6 +5,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+
+
 \setlength\parindent{0pt}
 \begin{document}
 	
@@ -53,13 +55,64 @@ This robot is to be constructed using the EV3 Lego Mindstorms robot provided by 
 	
 	\section{Overall Description}
 	\subsection{Product Perspective}
-	\subsection{Product Features}
-	\subsection{User Classes and Characteristics}
-	\subsection{Operating Environment}
-	\subsection{Design and Implementation Constraints}
-	\subsection{User Documentation}
-	\subsection{Assumptions and Dependencies}
+The product described in this SRS is new self-contained project. It relies on the existing LEGO robot that is built by all LEGO bricks. Previously, robot cannot be controlled by human being with software no matter whether manually or automatically. In addition, this SRS defines the component of the robot system and the following diagram is identifying the functionalities and interfaces of this system.
 	
+
+	\subsection{Product Features}
+The main features of this robot include
+\begin{itemize}
+\item Enables the robot to map the survey area;
+\item Enables the robot to be controlled manually and automatically;
+\item Enables the robot to avoid obstacles;
+\item Enables the robot to detect the no-go zone;
+\item Enables the robot to start from the landing point and survey;
+\item Enables the robot to return the start point.
+\end{itemize}
+
+	\subsection{User Classes and Characteristics}
+	\paragraph{}
+The users of the robot include three types: students, teacher and people who only have basic knowledge of GUI control. The last type usually contains student and teacher.
+	\paragraph{}
+Students are those who enrolled in the university of Adelaide, especially the school of computer science. There are constraints for students: they are not allowed to access the robot system, and they can only control the robot after the group members enter the password for them.	\paragraph{}
+Teachers are permitted to get the password of the robot system and should not tell students the password. 
+	\paragraph{}
+People who has basic knowledge of GUI control can also control the robot and they cannot get the password as well except for the client of this project. The client owns all privileges of this robot as long as the robot is not damaged deliberately.
+	\subsection{Operating Environment}
+The software can be run in Window7 or above, Mac OS 10 or above, Linux and Ubuntu 16+ as long as GUI is complied using JDK (version 1.7 only). The information of hardware includes:
+	\begin{itemize}
+	\item Window: 1 gigahertz (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;   1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);	   16 GB available hard disk space (32-bit) or 20 GB (64-bit);	   DirectX 9 graphics device with WDDM 1.0 or higher driver.
+	\item Mac: An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor;         Mac OS X v10.6.6 or later to install via the Mac App Store (v10.6.8 recommended);         7 GB of available disk space;         2 GB of RAM.
+	\end{itemize}
+
+	\subsection{Design and Implementation Constraints}
+The main constraints of design and implementation include:
+	\begin{itemize}
+
+	\item This project is restricted using tools and the group use particular tool to do particular thing. For example, firstly, when identify the functionalities of the robot, IntelliJ is used to design and write code. Secondly, Github is used for version control and the members of group share files each other by commit. Thirdly, slack is for communication to exchange ideas or discuss some issues. Fourthly, the tool of testing functionalities of robot is ant. Also, Python is considered as writing the test script. Lastly, Latex is used for documentation since it is simple to implement professional documentation;
+	\item The operating environment should meet the minimum requirements of hardware and software that mentioned in section 2.4;
+	\item The version of LeJos software should be 0.9.0;
+	\item The version of Java should be 7. It does not yet support version 8;
+	\item Since the controller is connected with Wi-Fi and only allows the user to access, the encryption is necessary.
+	\item The software only supports Lego mind storm EV3;
+	\item The external code should not exceed 10 \%.
+	\end{itemize}
+	\subsection{User Documentation}
+At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the offline and online browser and so on, assisting users to control the robot better.
+	\subsection{Assumptions and Dependencies}
+	\paragraph{}
+It is assumed that the password is entered correctly and the robot establishes connection successfully with appropriate software and hardware. Also, the robot is ready to be control manually or automatically. 	
+	\paragraph{}
+Assumptions and dependencies include: 
+	\begin{itemize}
+	\item Any survey area can be landing zones;
+	\item The map has clear colours of track/trails;
+	\item The map is flat surface;
+	\item Thickness of the line is 2cm;
+	\item Trail is reasonably smooth;
+	\item Survey area is rectangular;
+	\item Landing zone does not contain no-go zone and dangerous area.
+	\end{itemize}
+
 	\section{User Requirements}
 	\subsection{The Map}
     \subsubsection{The robot shall enter the survey area and produce a survey map}
