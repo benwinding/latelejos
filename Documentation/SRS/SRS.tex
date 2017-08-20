@@ -54,48 +54,51 @@ This robot is to be constructed using the EV3 Lego Mindstorms robot provided by 
 3. Ev3 kit
 	
 	\section{Overall Description}
-	\subsection{Product Perspective}
-The product described in this SRS is new self-contained project. It relies on the existing LEGO robot that is built by all LEGO bricks. Previously, robot cannot be controlled by human being with software no matter whether manually or automatically. In addition, this SRS defines the component of the robot system and the following diagram is identifying the functionalities and interfaces of this system.
+\subsection{Product Perspective}
+The product described in this SRS is new self-contained project. It relies on the existing LEGO robot that is built by all LEGO bricks. Previously, robot cannot be controlled by human being with software no matter whether manually or automatically. This SRS defines the component of the robot system and the following diagram is identifying the functionalities and interfaces of this system.\\\\\\\\\\\\\\\\
+\begin{figure}
+	\includegraphics[width=\linewidth]{Robot_system.PNG}
 	
+\end{figure}
 
-	\subsection{Product Features}
+\subsection{Product Features}
 The main features of this robot include
 \begin{itemize}
-\item Enables the robot to map the survey area;
-\item Enables the robot to be controlled manually and automatically;
-\item Enables the robot to avoid obstacles;
-\item Enables the robot to detect the no-go zone;
-\item Enables the robot to start from the landing point and survey;
-\item Enables the robot to return the start point.
+	\item Enables the robot to map the survey area;
+	\item Enables the robot to be controlled manually and automatically;
+	\item Enables the robot to avoid obstacles;
+	\item Enables the robot to detect the no-go zone;
+	\item Enables the robot to start from the landing point and survey;
+	\item Enables the robot to return the start point.
 \end{itemize}
 
-	\subsection{User Classes and Characteristics}
-	\paragraph{}
+\subsection{User Classes and Characteristics}
+\paragraph{}
 The users of the robot include three types: students, teacher and people who only have basic knowledge of GUI control. The last type usually contains student and teacher.
-	\paragraph{}
+\paragraph{}
 Students are those who enrolled in the university of Adelaide, especially the school of computer science. There are constraints for students: they are not allowed to access the robot system, and they can only control the robot after the group members enter the password for them.
-	\paragraph{}
+\paragraph{}
 Teachers are permitted to get the password of the robot system and should not tell students the password. 
-	\paragraph{}
+\paragraph{}
 People who has basic knowledge of GUI control can also control the robot and they cannot get the password as well except for the client of this project. The client owns all privileges of this robot as long as the robot is not damaged deliberately.
 
-	\subsection{Operating Environment}
+\subsection{Operating Environment}
 The software can be run in Window7 or above, Mac OS 10 or above, Linux and Ubuntu 16+ as long as GUI is complied using JDK (version 1.7 only). The information of hardware includes:
-	\begin{itemize}
+\begin{itemize}
 	\item Window: 1 gigahertz (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;
-   1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
-	   16 GB available hard disk space (32-bit) or 20 GB (64-bit);
-	   DirectX 9 graphics device with WDDM 1.0 or higher driver.
+	1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
+	16 GB available hard disk space (32-bit) or 20 GB (64-bit);
+	DirectX 9 graphics device with WDDM 1.0 or higher driver.
 	\item Mac: An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor;
-         Mac OS X v10.6.6 or later to install via the Mac App Store (v10.6.8 recommended);
-         7 GB of available disk space;
-         2 GB of RAM.
-	\end{itemize}
+	Mac OS X v10.6.6 or later to install via the Mac App Store (v10.6.8 recommended);
+	7 GB of available disk space;
+	2 GB of RAM.
+\end{itemize}
 
-	\subsection{Design and Implementation Constraints}
+\subsection{Design and Implementation Constraints}
 The main constraints of design and implementation include:
-	\begin{itemize}
-
+\begin{itemize}
+	
 	\item This project is restricted using tools and the group use particular tool to do particular thing. For example, firstly, when identify the functionalities of the robot, IntelliJ is used to design and write code. Secondly, Github is used for version control and the members of group share files each other by commit. Thirdly, slack is for communication to exchange ideas or discuss some issues. Fourthly, the tool of testing functionalities of robot is ant. Also, Python is considered as writing the test script. Lastly, Latex is used for documentation since it is simple to implement professional documentation;
 	\item The operating environment should meet the minimum requirements of hardware and software that mentioned in section 2.4;
 	\item The version of LeJos software should be 0.9.0;
@@ -103,16 +106,16 @@ The main constraints of design and implementation include:
 	\item Since the controller is connected with Wi-Fi and only allows the user to access, the encryption is necessary.
 	\item The software only supports Lego mind storm EV3;
 	\item The external code should not exceed 10 \%.
-	\end{itemize}
-	\subsection{User Documentation}
+\end{itemize}
+\subsection{User Documentation}
 At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the offline and online browser and so on, assisting users to control the robot better.
 
-	\subsection{Assumptions and Dependencies}
-	\paragraph{}
+\subsection{Assumptions and Dependencies}
+\paragraph{}
 It is assumed that the password is entered correctly and the robot establishes connection successfully with appropriate software and hardware. Also, the robot is ready to be control manually or automatically. 	
-	\paragraph{}
+\paragraph{}
 Assumptions and dependencies include: 
-	\begin{itemize}
+\begin{itemize}
 	\item Any survey area can be landing zones;
 	\item The map has clear colours of track/trails;
 	\item The map is flat surface;
@@ -120,7 +123,7 @@ Assumptions and dependencies include:
 	\item Trail is reasonably smooth;
 	\item Survey area is rectangular;
 	\item Landing zone does not contain no-go zone and dangerous area.
-	\end{itemize}
+\end{itemize}
 
 	\section{User Requirements}
 	\subsection{The Map}
@@ -199,7 +202,7 @@ Assumptions and dependencies include:
 		\item Step 3: Click button “Add map info”.
 		\item Step 4: Select information type from info type dropdown list (NGZ, tracks/trails etc)
 		\item Step 5: Click on the map to input new map information.
-		\item Step 6: Click “Save”/ ”Cancel” button to save or discard information input in step 5.)
+		\item Step 6: Click “Save”/”Cancel” button to save or discard information input in step 5.)
 	\end{itemize}
 	\textbf{Response:}
 	\begin{itemize}
@@ -333,10 +336,136 @@ Assumptions and dependencies include:
 	 \end{itemize}
 	
 	\section{External Interface Requirements}
-	\subsection{User Interfaces}
-	\subsection{Hardware Interfaces}
-	\subsection{Software Interfaces}
-	\subsection{Communications Interfaces}
+\subsection{User Interfaces}
+Graphic User Interface will be provided to allow a user to interact with the system through graphical buttons and map scene. This user interface will be implemented by using JavaFX. There are three types of buttons and two types of display area:\\
+
+\textbf {Control Buttons:}This type of buttons is for user to control a EV3 robot.
+
+Forward: It will make a robot to go forward.\\
+Left: It will make a robot to turn left.\\
+Right: It will make a robot to turn right.\\
+Backward: It will make a robot to go backward.\\
+
+\textbf {Connection Buttons:}This type of buttons is for user to connect and disconnect to a robot, and switch navigation mode.\\
+Connect to a robot: It will make a user PC to connect to robot remotely.\\
+Disconnect to a robot: It will make a user PC to disconnect to robot.\\
+
+\textbf {Navigation Buttons:}This type of buttons is for user to switch a mode for robot navigation. There are two modes for robot navigation, manual control and automatic control.\\
+
+Switch mode: It is for switching a robot navigation mode.\\
+
+\textbf{Map Area:}\\
+Users can draw a no-go zone in the map through mouse click.\\
+
+\textbf{Message Area:}\\
+It will display handled system information and error messages.\\
+
+level 1 Information: It is about system status.\\\\
+The example of Level 1 messages:\\
+-Connected: Robot, Motors, Sensors\\
+-Disconnected: Robot\\
+-Moving forward\\
+-Moving backward\\
+-Turn left\\
+-Turn right\\\\
+
+Level 2 Warning: This is non-critical message.\\\\
+The example of Level 2 messages:\\
+-No EV3 found\\
+-No XML found\\\\
+
+Level 3 Error: This is critical message. There are several suggesting actions for user to solve this problem\\\\
+The example of Level 3 messages:\\
+-Fail to connect EV3\\
+-Fail to open motor port\\
+-Fail to open sensor port <= System reboot is required\\
+-Fail to load XML file <= Please check whether the XML file is created by correct format.\\\\
+
+The details of the user interface design will be documented in a separate user interface specification.
+
+
+
+\subsection{Hardware Interfaces}
+
+There are two types of interfaces in the system. Remote hardware interface is to provide GUI for a user to send a signal to robot and control it. Robot Hardware interface is to provide an interface to receive signals from remote system and control the hardware component in the robot.\\\\
+
+\textbf{Remote Hardware Interface:}\\
+
+The system is a software which is designed to run in a x86 based computer system. A modern PC with running in window, MacOS or Linux operation system is required for the system. All data and signal will be sent to robot through PC keyboard and mouse.\\
+
+\textbf{Robot Hardware Interface:}\\
+
+All hardware components such as sensors and motors in the Robot are controlled by a controller called EV3 brick. EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WIFI. The details of specification of WIFI dongle which is inserted to the Robot will be discussed in 5.4 section.\\
+
+\textbf{The flow of data and control interaction between software and the hardware:}\\
+
+The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. Therefore, all data and control interactions are through WIFI module.\\
+
+\begin{figure}[h]
+	\includegraphics[width=\linewidth]{data_and_control.PNG}
+	\label{fig:Flow of data and control interaction}
+\end{figure}
+
+EV3 brick will base on received signal from a user remote system to control motors and sensors.\\
+
+\subsection{Software Interfaces}
+
+The system is developed in Java 7 environment and support running in x-86 based computer system (Window, Linux and MacOS). The flow of software communication between each component is as below:\\\\\\\\\\\\\\\\\\\\
+
+\begin{figure}[h]
+	\includegraphics[width=\linewidth]{software_interface.PNG}
+	\label{fig:Flow of software communication}
+\end{figure}
+
+\textbf{The details of system package:}\\
+
+-	JDK 1.7 development environment.\\
+-	LeJOS 0.9.1 library including ev3 classes.\\
+
+These two libraries are for making a jar file which can be executed in LeJOS firmware. Also, ev3 classes provide necessary application programming interfaces for the system to communicate with robot.\\
+
+\textbf{The detail of software components:}\\
+
+-LeJOS EV3 is running in Linux and LeJOS EV3 0.9.1 is supporting JAVA 1.7 only.     
+Therefore, the system is developed in JAVA 1.7 environment.\\
+
+-User must execute the system via provided libraries in the system package. System package contains all necessary libraries for running the system.\\
+
+-Robot can be controlled by user via GUI only.\\
+
+-All data and mapping information will be transferred via wireless network. There are 100ms delay. In case of unavailable of wireless network, the system also provides Bluetooth network for communication. However, it is very unstable and longer delays is expected.\\
+
+
+
+
+\textbf{LeJOS application programming interface description:}\\
+
+Manual control:\\
+
+Package: lejos.hardware.motor, lejos.hardware.port and lejos.hardware.sensor\\
+
+This package of APIs is for the system to access robot’s hardware such motor and sensor.\\
+
+Automatic control:\\
+
+Package: lejos.robotics.navigation, lejos.robotics.pathfinding, lejos.robotics.objectdetection, lejos.robotics.mapping\\
+
+This package of APIs is for the system to navigate the map and detect the obstacle automatically. Also, the robot will update the map information to the system.\\
+
+The detail about mapping mechanism will provide later.\\
+
+\subsection{Communications Interfaces}
+
+The communication including data transfer and API communication is via wireless network (WIFI). The below is the standard for establishing wireless channel and supporting type of communication.\\
+
+\textbf{LeJOS ev3 robot and remote system communication:}\\\\
+-	The communication channel is established via WIFI.\\
+-	The Digitech WIFI dongle is used for EV3 to connect wireless network (Support 802.11 b/g/n standards).\\
+-	The encryption type for accessing wireless network supports WPA2 or none.\\\\
+\textbf{The type of communication between LeJOS ev3 robot and remote system:}\\\\
+-All system messages will be transferred to GUI display area only. It will not send any e-mail alerts to user e-mail. For the detail about what will be shown to the GUI display area, please refer to 5.1 user interface.\\
+-Except for software message, the User can get the errors message about EV3 robot via SCP only since there are no external server setting in the EV3 robot.\\
+-Since all functionalities are developed running remotely, all mapping information and initial map are supposed to upload to user’s PC. There are no need to transfer any document to EV3 robot.\\
 
 	\section{Other Non-Functional Requirements}
 	\subsection{Performance Requirements}
