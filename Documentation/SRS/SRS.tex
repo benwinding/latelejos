@@ -334,10 +334,16 @@ Assumptions and dependencies include:
 	 \begin{itemize}
 	 	\item \textbf{Control.Authentication:}  Application shall provide authentication step before operator can start to control robot.
 	 \end{itemize}
-	
+\newpage	
 	\section{External Interface Requirements}
 \subsection{User Interfaces}
-Graphic User Interface will be provided to allow a user to interact with the system through graphical buttons and map scene. This user interface will be implemented by using JavaFX. There are three types of buttons and two types of display area:\\
+Graphic User Interface will be provided to allow a user to interact with the system through graphical buttons and map scene. The size of GUI shall be large enough to display system message and map information clearly. This GUI will be implemented by using JavaFX. There are three types of buttons and two types of display area:\\
+
+\begin{figure}[h]
+	\includegraphics[width=\linewidth]{GUI.PNG}
+	\caption{The prototype of GUI with keyboard shortcuts for each button}
+	\label{fig:GUI with keyboard shortcuts}
+\end{figure}
 
 \textbf {Control Buttons:}This type of buttons is for user to control a EV3 robot.
 
@@ -354,8 +360,11 @@ Disconnect to a robot: It will make a user PC to disconnect to robot.\\
 
 Switch mode: It is for switching a robot navigation mode.\\
 
-\textbf{Map Area:}\\
+\textbf{Map Area and buttons:}\\
 Users can draw a no-go zone in the map through mouse click.\\
+Upload button: For a user to upload a Map information, the file format must be XML.\\
+Download button: For a user to download a Map information, the file format must be XML.\\
+
 
 \textbf{Message Area:}\\
 It will display handled system information and error messages.\\
