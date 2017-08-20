@@ -13,6 +13,7 @@
 
 \setlist[itemize]{noitemsep} % No spaces in itemize lists
 \setlist[enumerate]{noitemsep} % No spaces in itemize lists
+\setlist[description]{noitemsep} % No spaces in itemize lists
 \titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
 \titlespacing*{\paragraph}{0pt}{3pt}{5pt}
 
@@ -29,7 +30,9 @@
 			\vspace{20pt}
 			\fontsize{20}{12}\selectfont{\textsc{Software Requirements Specification}}\\
 			\vspace{10pt}
-			\large{Software Engineering \& Project}
+			\large{Software Engineering \& Project} \\
+			\vspace{20pt}
+			\includegraphics[width=200px]{title-page-ev3.png}					
 		}
 		\date{20/08/2017}
 		\author{
@@ -51,13 +54,27 @@
 	
 	\section{Introduction}
 	\subsection{Purpose}
-	This report is to describe the software requirements specification of the lunar rover project.
+	This report is to describe the software requirements specification of the lunar rover project. The lunar rover project involves building a prototype rover capable of surveying a designated area automatically. The project is to be completed in semester 2 2017.
 	
 	\subsection{Document Conventions}
-	The document conventions in this project include the following main points....
+	This document contains a series of user requirements. These requirements have been broken down into categories and given a priority based on the sequence they are stated, the first being the most important feature.
+	\paragraph{}
+	Acronyms are also prevalent in the document. These mainly consist of computer technology acronyms such as:
+	\begin{description}[align=right,labelwidth=3cm]
+		\item [App] Application
+		\item [GUI] Graphical User Interface
+		\item [SRS] Software Requirements Specification 
+		\item [....]
+	\end{description}
 	
 	\subsection{Intended Audience and Reading Suggestions}
-	The intended audience of this document are the Client, this project team and project supervisor.
+	The intended audience of this document are the Client, this project team and project supervisor. Reading suggestions for this document are:
+	\begin{itemize}
+		\item Client Specification
+		\item Project Specification
+		\item LEGO\cpright Mindstorms EV3 kit overview
+		\item LeJOS EV3 Java Library overview
+	\end{itemize}
 	
 	\subsection{Project Scope}
 	\paragraph{}
@@ -72,10 +89,12 @@
 	
 	\section{Overall Description}
 	\subsection{Product Perspective}
-	The product described in this SRS is the new self-contained project. It relies on the existing LEGO\cpright. robot that is built by all LEGO\cpright bricks. Previously, robot cannot be controlled by human being with software no matter whether manually or automatically. This SRS defines the component of the robot system and the following diagram is identifying the functionalities and interfaces of this system.
+	The product described in this SRS is a self-contained project. It relies on the existing LEGO\cpright Mindstorms robot, supplied by the client. Previously, the robot cannot be controlled by a human being with software no matter whether manually or automatically. This SRS defines the component of the robot system and the following diagram is identifying the functionalities and interfaces of this system.
 	
 	\begin{figure}[H]
-		\includegraphics[width=\linewidth]{Robot_system.png}  
+		\includegraphics[width=\linewidth]{Robot_system.png}  % created using www.draw.io
+		\caption{High level system overview}
+		\label{fig:system overview}				
 	\end{figure}
 	
 	\subsection{Product Features}
@@ -295,13 +314,13 @@
 	This feature designated to allow operator manual control robot. It also has function to switch between manual/autonomous control and emergency stop.
 	
 	\subsubsection*{Stimulus}
-	\begin{itemize}
-		\item Step 1: Open MJ Control application.
-		\item Step 2: Enter username/password.
-		\item Step 3: Use navigation button on UI to control robot.
-		\item Step 4: Switch between Autonomous/Manual control by turn on/off “Autonomous Control” toggle button.
-		\item Step 5: Emergency stop robot by click “Emergency Stop” button
-	\end{itemize}
+	\begin{enumerate}
+		\item Open MJ Control application.
+		\item Enter username/password.
+		\item Use navigation button on UI to control robot.
+		\item Switch between Autonomous/Manual control by turn on/off “Autonomous Control” toggle button.
+		\item Emergency stop robot by click “Emergency Stop” button
+	\end{enumerate}
 	
 	\subsubsection*{Response}
 	\begin{itemize}
@@ -347,10 +366,10 @@
 	\text This feature is designed to prevent un-authorised persons from accessing control of the robot.
 	
 	\subsubsection*{Stimulus}
-	\begin{itemize}
-		\item Step 1: Open MJ Control application.
-		\item Step 2: Enter username/password.
-	\end{itemize}
+	\begin{enumerate}
+		\item Open MJ Control application.
+		\item Enter username/password.
+	\end{enumerate}
 	
 	\subsubsection*{Response}
 	\begin{itemize}
