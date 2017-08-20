@@ -61,6 +61,69 @@ This robot is to be constructed using the EV3 Lego Mindstorms robot provided by 
 	\subsection{Assumptions and Dependencies}
 	
 	\section{User Requirements}
+	\subsection{The Map}
+    \subsubsection{The robot shall enter the survey area and produce a survey map}
+    \paragraph{Description}   Upon landing, the robot shall enter the survey area and produce a survey map based on the track followed by the vehicle.
+    \paragraph{Rationale}   This map will be used to analyse the survey area. This map will also be used to monitor and provide instruction to the vehicle.
+    \paragraph{Acceptance criteria}   This requirement can be verified by doing a survey of an area  by using the software that we are going to develop and the survey map will be automatically produced.
+    \subsubsection{The map shall be constructed in real time}
+     \paragraph{Description}   After landing the robot on the predefined landing zone, the map shall be constructed in real time as long as the robot starts the survey.
+    \paragraph{Rationale}   This feature will allow the remote operator to monitor and instruct the robot in real time.
+    \paragraph{Acceptance criteria}   This requirement can be verified by physically observing the robot and compairing the changes on the map.
+    \subsubsection{The current location of the vehicle shall be visible on map}
+     \paragraph{Description}   The current location of the vehicle shall be clearly visible on the map in real time. No matter where the robot goes in the map, the operator shall be able to track the current locaton.
+    \paragraph{Rationale}   This feature will allow the remote operator to track the current location of the robot. 
+    \paragraph{Acceptance criteria}   This requirement can be verified by moving the robot into different directions and physically comparing the actual position of the robot between the physical map and the map on the GUI .
+    \subsubsection{The map shall be able to be stored in "XML" format}
+     \paragraph{Description}   The survey map which shall be created during the process of survey, shall be able to be stored in "XML" format in the system.
+    \paragraph{Rationale}   This feature will allow the user to store, process, share etc the survey map.
+    \paragraph{Acceptance criteria}   This requirement can be verified by storing any sample survey map in "XML" format and then veiwing it in "XML" supported plateform only. 
+    \subsubsection{The software shall allow to load existing "XML" map file }
+     \paragraph{Description}   The user shall be able to load any existing partial or fully completed suvey map file in "XML" format into the software. 
+    \paragraph{Rationale}   This feature will allow the user to test the robot before sending it to actual survey area and will also be handy in case of system failure.
+    \paragraph{Acceptance criteria}   This requirement can be verified by loading an exiting "XML" map file in the software and by allowing the robot to suvey this map.
+    \subsubsection{The map shall allow to zoom in on particular area }
+     \paragraph{Description}   The user shall be able to zoom in on particular area in the map by using the GUI of the software.
+    \paragraph{Rationale}   This feature can be very useful if the user wants to focus on a particular area on the map and wants to have a closer and detailed look.
+    \paragraph{Acceptance criteria}   This requirement can be verified by client by zooming in on a particular area of a sample map.
+    \subsubsection{The map shall allow to designate NGZ any time }
+     \paragraph{Description}   The remote operate shall be able to designate NGZ any time on the map by using the GUI of the software.
+    \paragraph{Rationale}   This feature can be very useful in avoid any potential dangerous areas of the map detected by the remote operator.
+    \paragraph{Acceptance criteria}   This requirement can be verified by drawing a few NGZ on a sample map using GUI.
+	\subsection{Sensors}
+    \subsubsection{The robot shall not go into craters}
+     \paragraph{Description}   The robot shall detect and avoid going into carters during the survey and try to find any alternate route to destination.
+    \paragraph{Rationale}   This feature will protect the robot from going into area where it is impossible for robot to recover without assistance.  
+    \paragraph{Acceptance criteria}   This requirement can be verified by trying to send the robot into craters by setting the destination on other side of the carter.
+    \subsubsection{ The robot shall not collide against an external object}
+     \paragraph{Description}   The robot shall detect an external object and avoid colliding with it .
+    \paragraph{Rationale}   This feature will protect the expensive vehicle from harm and also preserve the integrity of the survey site..
+    \paragraph{Acceptance criteria}   This requirement can be verified by instructing the robot to move towards an external object.
+    \subsubsection{The robot shall not go into any NGZ on map}
+     \paragraph{Description}   The robot shall detect and avoid going into any NGZ available on the survey map.
+    \paragraph{Rationale}   NGZ is considered as potentially dangerous area of the map in which robot shall not go. By doing so, the robot can be protected from any harm.
+    \paragraph{Acceptance criteria}   This requirement can be verified by trying to send the robot into NGZ by setting the destination of the robot on other side of the NGZ.
+    \subsubsection{The robot shall be able to detect a track on a given map}
+     \paragraph{Description}   The robot shall be able to detect and follow any given track on the survey map.
+    \paragraph{Rationale}   This will allow the operator to survey the specific area of the map.
+    \paragraph{Acceptance criteria}   This requirement can be verified by loading an existing survey map with atleast one track into software and robot will detect and follow that track.
+	\subsection{Operations}
+    \subsubsection{The robot shall return to landing site}
+     \paragraph{Description}   The robot shall remember its landing site and shall return to it when the survey is finished.
+    \paragraph{Rationale}   This feature will allow the operator to bring the robot back, once the survey is finished.
+    \paragraph{Acceptance criteria}   This requirement can be verified by instructing the robot to return to the landing site at any time during the survey.
+    \subsubsection{The software shall provide manual control of the robot as well}
+     \paragraph{Description}   The operate shall be able to take manual control of the robot at any time. 
+    \paragraph{Rationale}   This feature can be useful in manually adjusting the position of the robot at any time.
+    \paragraph{Acceptance criteria}   This requirement can be verified controlling the robot manully at any time using the provided GUI.
+    \subsubsection{The operater shall be able to stop the robot at any time}
+     \paragraph{Description}   The remote operator shall be able to stop the robot at any time using the stop button on the GUI. 
+    \paragraph{Rationale}   This feature can be useful in protecting the robot or if the operator wants to abort the mission, he/she can just stop the robot and instruct it to return to the landing site.
+    \paragraph{Acceptance criteria}   This requirement can be verified by pressing the stop button on GUI and in response to this, the robot will stop immediately. 
+    \subsubsection{The robot shall be able to move immediately to a given point}
+     \paragraph{Description}   The remote operator shall be able to place survey point on the map and the robot shall move immediately towards that point.
+    \paragraph{Rationale}   This feature will allow the operator to survey any area on the map by just setting the survey point on the map.
+    \paragraph{Acceptance criteria}   This feature can be verified by setting a survey point on the map using the GUI and the robot will move towards it.
 
 	\section{System Features}
 
