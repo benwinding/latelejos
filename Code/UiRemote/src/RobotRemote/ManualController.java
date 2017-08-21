@@ -1,21 +1,24 @@
 package RobotRemote;
 
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import lejos.hardware.Brick;
 import lejos.remote.ev3.RemoteEV3;
 import java.rmi.RemoteException;
+import static RobotRemote.RobotMotorManager.InitMotors;
+import static RobotRemote.RobotMotorManager.MoveMotors;
 
-import static RobotRemote.MotorCommander.InitMotors;
-import static RobotRemote.MotorCommander.MoveMotors;
+public class ManualController {
+  private Scene scene;
 
-public class Controller {
   public void onClickConnectToRobot(MouseEvent mouseEvent) {
     InitMotors();
   }
 
-
   private static void WriteMsg(String msg) {
-    Brick brick = ConnectionManager.GetBrick();
+    Brick brick = RobotConnectionManager.GetBrick();
     try {
       brick.getTextLCD().clear();
       brick.getTextLCD().drawString(msg,0,4);
@@ -26,7 +29,7 @@ public class Controller {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    RemoteEV3 brick = ConnectionManager.GetBrick();
+    RemoteEV3 brick = RobotConnectionManager.GetBrick();
     brick.getAudio().playTone(10,8);
     WriteMsg("STOPPING! ...");
     MoveMotors("Stop");
@@ -50,5 +53,16 @@ public class Controller {
   public void onClickRight(MouseEvent mouseEvent) {
     WriteMsg("Moving Right ...");
     MoveMotors("Right");
+  }
+
+  public void onClickMap(MouseEvent mouseEvent) throws Exception {
+    System.out.println("Clicked map: x=" + mouseEvent.getX() + ",y="+ mouseEvent.getY());
+    Canvas canvas = (Canvas) this.scene.lookup("#robotMap");
+    GraphicsContext a = canvas.getGraphicsContext2D();
+    a.strokeLine(0,0,mouseEvent.getX(), mouseEvent.getY());
+  }
+
+  public void setScene(Scene scene) {
+    this.scene = scene;
   }
 }

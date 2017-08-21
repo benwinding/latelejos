@@ -1,7 +1,6 @@
 package RobotRemote;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,11 +10,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("remoteUi.fxml"));
-        primaryStage.setTitle("Robot Remote UI");
-        primaryStage.setScene(new Scene(root, 700, 400));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ManualView.fxml"));
+        Parent root = (Parent) loader.load();
 
-        MotorCommander.InitMotors();
+        // Setup controller
+        ManualController manualController = loader.getController();
+        Scene scene = new Scene(root, 700, 400);
+        manualController.setScene(scene);
+
+        primaryStage.setTitle("Robot Remote UI");
+        primaryStage.setScene(scene);
+
+        RobotMotorManager.InitMotors();
 
         primaryStage.show();
     }
@@ -23,7 +29,7 @@ public class Main extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
-        MotorCommander.ShutdownMotors();
+        RobotMotorManager.ShutdownMotors();
     }
 
     public static void main(String[] args) {

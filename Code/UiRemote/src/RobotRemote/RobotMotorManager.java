@@ -5,7 +5,7 @@ import lejos.remote.ev3.RemoteEV3;
 
 import java.rmi.RemoteException;
 
-public class MotorCommander {
+public class RobotMotorManager {
   private static RMIRegulatedMotor motorLeft;
   private static RMIRegulatedMotor motorRight;
 
@@ -22,7 +22,7 @@ public class MotorCommander {
   }
 
   public static void InitMotors() {
-    RemoteEV3 brick = ConnectionManager.GetBrick();
+    RemoteEV3 brick = RobotConnectionManager.GetBrick();
     try {
       motorLeft = brick.createRegulatedMotor("A", 'L');
       motorRight = brick.createRegulatedMotor("B", 'L');
