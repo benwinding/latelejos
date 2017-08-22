@@ -4,11 +4,91 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\documentclass[12pt]{article}
+\usepackage{tikz}
+
 \begin{document}
-	\part{Robot States}
-	\section{Waiting Instruction}
-	\section{Manual control mode}
-	\section{Warning of objects}
-	\section{Auto survey mode}
-	\section{Object avoidance mode}
+\part{Robot States}
+\section{Waiting Instruction}
+\subsection{events}
+\begin{itemize}
+\item Import map
+\item Export map
+\item Automatic Mode
+\item Manual Mode	
+\end{itemize}
+\section{Manual control mode}
+\subsection {events}
+\begin{itemize}
+\item 
+\end{itemize}
+\section{Warning of objects}
+\section{Auto survey mode}
+\section{Object avoidance mode}
+
+
+	\begin{center}
+		\begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw [black] (46.3,-13) circle (3);
+		\draw (46.3,-13) node {$Wait\mbox{ }$};
+		\draw [black] (46.3,-30.4) circle (3);
+		\draw (46.3,-30.4) node {$Automap$};
+		\draw [black] (18.7,-13) circle (3);
+		\draw (18.7,-13) node {$Manual$};
+		\draw [black] (11.7,-22.8) circle (3);
+		\draw (11.7,-22.8) node {$Warn$};
+		\draw [black] (70.4,-30.4) circle (3);
+		\draw (70.4,-30.4) node {$Avoid$};
+		\draw [black] (23.3,-30.4) circle (3);
+		\draw (23.3,-30.4) node {$Line\mbox{ }Follow$};
+		\draw [black] (21.691,-12.767) arc (93.90808:86.09192:158.593);
+		\fill [black] (21.69,-12.77) -- (22.52,-13.21) -- (22.45,-12.21);
+		\draw (32.5,-11.9) node [above] {$Manual\mbox{ }Button$};
+		\draw [black] (44.624,-27.919) arc (-152.36299:-207.63701:13.408);
+		\fill [black] (44.62,-27.92) -- (44.7,-26.98) -- (43.81,-27.44);
+		\draw (42.59,-21.7) node [left] {$Auto\mbox{ }Button$};
+		\draw [black] (16.96,-15.44) -- (13.44,-20.36);
+		\fill [black] (13.44,-20.36) -- (14.32,-20) -- (13.5,-19.42);
+		\draw (14.61,-16.53) node [left] {$Detect\mbox{ }Object$};
+		\draw [black] (12.037,-25.769) arc (34.20256:-253.79744:2.25);
+		\fill [black] (9.55,-24.87) -- (8.61,-24.91) -- (9.17,-25.74);
+		\draw [black] (44.344,-10.741) arc (248.62087:-39.37913:2.25);
+		\fill [black] (46.9,-10.07) -- (47.66,-9.51) -- (46.73,-9.15);
+		\draw [black] (47.623,-33.08) arc (54:-234:2.25);
+		\fill [black] (44.98,-33.08) -- (44.1,-33.43) -- (44.91,-34.02);
+		\draw [black] (67.603,-31.481) arc (-71.77395:-108.22605:29.584);
+		\fill [black] (67.6,-31.48) -- (66.69,-31.26) -- (67,-32.21);
+		\draw (58.35,-33.47) node [below] {$Detect\mbox{ }Object$};
+		\draw [black] (47.656,-15.671) arc (21.65263:-21.65263:16.339);
+		\fill [black] (47.66,-15.67) -- (47.49,-16.6) -- (48.42,-16.23);
+		\draw (49.31,-21.7) node [right] {$STOP$};
+		\draw [black] (49.177,-29.552) arc (104.13088:75.86912:37.573);
+		\fill [black] (49.18,-29.55) -- (50.07,-29.84) -- (49.83,-28.87);
+		\draw (58.35,-27.92) node [above] {$Finished\mbox{ }Avoiding$};
+		\draw [black] (26.074,-29.261) arc (109.09395:70.90605:26.676);
+		\fill [black] (26.07,-29.26) -- (26.99,-29.47) -- (26.67,-28.53);
+		\draw (34.8,-27.29) node [above] {$Detect\mbox{ }Trail$};
+		\draw [black] (43.636,-31.774) arc (-66.58536:-113.41464:22.235);
+		\fill [black] (43.64,-31.77) -- (42.7,-31.63) -- (43.1,-32.55);
+		\draw (34.8,-34.1) node [below] {$Finished\mbox{ }Line$};
+		\draw [black] (24.945,-32.895) arc (61.12502:-226.87498:2.25);
+		\fill [black] (22.32,-33.22) -- (21.5,-33.68) -- (22.37,-34.17);
+		\draw [black] (49.248,-13.548) arc (76.76124:31.58082:31.633);
+		\fill [black] (49.25,-13.55) -- (49.91,-14.22) -- (50.14,-13.24);
+		\draw (63.45,-18.2) node [above] {$STOP$};
+		\draw [black] (24.859,-27.838) arc (146.25273:107.96386:35.466);
+		\fill [black] (43.41,-13.8) -- (42.5,-13.57) -- (42.8,-14.53);
+		\draw (30.02,-18.76) node [above] {$STOP$};
+		\draw [black] (17.08,-10.489) arc (240.54962:-47.45038:2.25);
+		\fill [black] (19.71,-10.19) -- (20.54,-9.74) -- (19.67,-9.24);
+		\draw [black] (21.17,-11.301) arc (120.66297:59.33703:22.217);
+		\fill [black] (43.83,-11.3) -- (43.4,-10.46) -- (42.89,-11.32);
+		\draw (32.5,-7.69) node [above] {$STOP$};
+		\end{tikzpicture}
+	\end{center}
+	
 \end{document}
+
+
+
