@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ev3classes" level="project" />
+    <orderEntry type="library" name="jfxrt" level="project" />
   </component>
 </module>
