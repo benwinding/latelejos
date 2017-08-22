@@ -22,14 +22,16 @@ Testing issac
 \item 
 \end{itemize}
 \section{Warning of objects}
+This state happens when an object is detected during operation.
 \section{Auto survey mode}
 \section{Object avoidance mode}
 
 
 	\begin{center}
+		% State machine diagram
 		\begin{tikzpicture}[scale=0.2]
 		\tikzstyle{every node}+=[inner sep=0pt]
-		\draw [black] (46.3,-13) circle (3);
+		\draw [black] (46.3,-13) circle (3); 
 		\draw (46.3,-13) node {$Wait\mbox{ }$};
 		\draw [black] (46.3,-30.4) circle (3);
 		\draw (46.3,-30.4) node {$Automap$};
