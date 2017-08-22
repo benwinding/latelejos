@@ -3,6 +3,7 @@ package RobotRemote;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import lejos.hardware.Brick;
 import lejos.remote.ev3.RemoteEV3;
@@ -17,8 +18,9 @@ public class ManualController {
     InitMotors();
   }
 
-  private static void WriteMsg(String msg) {
+  private void WriteMsg(String msg) {
     Brick brick = RobotConnectionManager.GetBrick();
+    WriteToGUI(msg);
     try {
       brick.getTextLCD().clear();
       brick.getTextLCD().drawString(msg,0,4);
@@ -26,6 +28,11 @@ public class ManualController {
     } catch(Exception e) {
       System.out.println("Could not write to LCD");
     }
+  }
+
+  private void WriteToGUI(String msg) {
+    TextArea textArea = (TextArea) this.scene.lookup("#messageDisplayer");
+    textArea.appendText(msg + '\n');
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
