@@ -1,17 +1,13 @@
 package RobotRemote;
 
 import lejos.remote.ev3.RemoteRequestEV3;
-import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.ArcRotateMoveController;
-import lejos.robotics.navigation.Navigator;
 import lejos.robotics.navigation.Pose;
 
 import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
 
 class RobotMotorManager {
   private static ArcRotateMoveController pilot;
-  private static Navigator navigator;
-  static Pose pose;
   private static RobotCoordinateSystemInterface cs;
 
   static void InitMotors() {
@@ -23,48 +19,37 @@ class RobotMotorManager {
       pilot.setAngularSpeed(30);
       pilot.setAngularAcceleration(10);
 
-      navigator = new Navigator(pilot);
-      pose = navigator.getPoseProvider().getPose();
-      //MoveInSquare(20);
+      cs = new RobotCoordinateSystem();
 
-      System.out.println("Successfully opened motor ports");
+      Logger.Log("Successfully opened motor ports");
     } catch (Exception e) {
-      System.out.println("Unable to open motor ports");
+      Logger.Log("Unable to open motor ports");
     }
-  }
-
-  private static void MoveInSquare(int size) {
-    navigator.goTo(0,0);
-    navigator.goTo(size,0);
-    navigator.goTo(0,size);
-    navigator.goTo(0,size);
-    navigator.goTo(0,size);
-    navigator.goTo(0,0);
   }
 
   static void MoveMotors(String Direction) {
     switch (Direction) {
       case "Forward":
-        navigator.goTo(10,0);
-        pose.translate(10,0);
+        pilot.travel(10);
+        cs.GoingForward(10);
         break;
       case "Backward":
-        navigator.goTo(-10,0);
-        pose.translate(-10,0);
+        pilot.travel(10, true);
+        cs.GoingBackward(10);
         break;
       case "Left":
-        navigator.goTo(0,10);
-        pose.translate(0,10);
+        pilot.rotate(90);
+        cs.ChangingHeading(90);
         break;
       case "Right":
-        navigator.goTo(0,-10);
-        pose.translate(0,-10);
+        pilot.rotate(-90);
+        cs.ChangingHeading(-90);
         break;
       case "Stop":
         pilot.stop();
         break;
       default:
-        System.out.println("Unknown Direction: " + Direction);
+        Logger.Log("Unknown Direction: " + Direction);
     }
   }
 

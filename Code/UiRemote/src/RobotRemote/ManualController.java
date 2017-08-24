@@ -3,82 +3,59 @@ package RobotRemote;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import lejos.hardware.Brick;
-import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.robotics.navigation.Pose;
 
 import java.rmi.RemoteException;
 import java.util.List;
 
-import static RobotRemote.RobotMotorManager.InitMotors;
 import static RobotRemote.RobotMotorManager.MoveMotors;
 
 public class ManualController {
   private Scene scene;
   private static MapState mapState = new MapState();
 
-  public void onClickConnectToRobot(MouseEvent mouseEvent) {
-    InitMotors();
-  }
-
-  private void WriteMsg(String msg) {
-    Brick brick = RobotConnectionManager.GetBrick();
-    WriteToGUI(msg);
-    try {
-      brick.getTextLCD().clear();
-      brick.getTextLCD().drawString(msg,0,4);
-      System.out.println("Sending message:" + msg);
-    } catch(Exception e) {
-      System.out.println("Could not write to LCD");
-    }
-  }
-
-  private void WriteToGUI(String msg) {
-    TextArea textArea = (TextArea) this.scene.lookup("#messageDisplayer");
-    textArea.appendText(msg + '\n');
-  }
-
   public void onClickStop(MouseEvent mouseEvent) {
-    RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
-    brick.getAudio().playTone(10,8);
-    WriteMsg("STOPPING! ...");
+    Logger.Log("STOPPING! ...");
     MoveMotors("Stop");
     UpdateFromRobotLocation();
   }
 
   public void onClickForward(MouseEvent mouseEvent) throws RemoteException {
-    WriteMsg("Moving Forward ...");
+    Logger.Log("Moving Forward ...");
     MoveMotors("Forward");
     UpdateFromRobotLocation();
   }
 
   public void onClickBackward(MouseEvent mouseEvent) {
-    WriteMsg("Moving Backward ...");
+    Logger.Log("Moving Backward ...");
     MoveMotors("Backward");
     UpdateFromRobotLocation();
   }
 
   public void onClickLeft(MouseEvent mouseEvent) {
-    WriteMsg("Moving Left ...");
+    Logger.Log("Moving Left ...");
     MoveMotors("Left");
     UpdateFromRobotLocation();
   }
 
   public void onClickRight(MouseEvent mouseEvent) {
-    WriteMsg("Moving Right ...");
+    Logger.Log("Moving Right ...");
     MoveMotors("Right");
     UpdateFromRobotLocation();
   }
 
   public void onClickMap(MouseEvent mouseEvent) throws Exception {
-    System.out.println("Clicked map: x=" + mouseEvent.getX() + ",y="+ mouseEvent.getY());
+    Logger.Log("Clicked map: x=" + mouseEvent.getX() + ",y="+ mouseEvent.getY());
   }
 
   private void UpdateFromRobotLocation() {
-    float x = RobotMotorManager.pose.getX();
-    float y = RobotMotorManager.pose.getY();
-    SyncMapToView(x, y);
+    Pose robotPose = RobotMotorManager.GetCoords();
+    if(robotPose == null) {
+      Logger.Log("Unable to get Map location");
+      return;
+    }
+    SyncMapToView(robotPose.getX(), robotPose.getY());
   }
 
   private void SyncMapToView(double x, double y) {

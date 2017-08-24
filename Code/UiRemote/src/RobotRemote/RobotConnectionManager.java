@@ -2,7 +2,6 @@ package RobotRemote;
 
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
-import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RemoteRequestEV3;
 
 public class RobotConnectionManager {
@@ -15,11 +14,11 @@ public class RobotConnectionManager {
     try {
       BrickInfo firstEv3 = bricks[0];
       BrickInstance = new RemoteRequestEV3(firstEv3.getIPAddress());
-      System.out.println("Found ev3!");
-      System.out.println("Ip address: " + firstEv3.getIPAddress());
+      Logger.Log("Found ev3!");
+      Logger.Log("Ip address: " + firstEv3.getIPAddress());
     }
     catch (Exception e) {
-      System.out.println("No ev3 robots detected in network");
+      Logger.Log("No ev3 robots detected in network");
     }
   }
 

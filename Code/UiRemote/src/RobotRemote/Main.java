@@ -18,6 +18,8 @@ public class Main extends Application {
         Scene scene = new Scene(root, 700, 400);
         manualController.setScene(scene);
 
+        // Init things
+        Logger.Init(scene);
         RobotMotorManager.InitMotors();
 
         primaryStage.setTitle("Robot Remote UI");
