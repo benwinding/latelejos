@@ -8,11 +8,14 @@ import javafx.scene.input.MouseEvent;
 import lejos.hardware.Brick;
 import lejos.remote.ev3.RemoteEV3;
 import java.rmi.RemoteException;
+import java.util.List;
+
 import static RobotRemote.RobotMotorManager.InitMotors;
 import static RobotRemote.RobotMotorManager.MoveMotors;
 
 public class ManualController {
   private Scene scene;
+  private static MapState mapState = new MapState();
 
   public void onClickConnectToRobot(MouseEvent mouseEvent) {
     InitMotors();
@@ -64,12 +67,24 @@ public class ManualController {
 
   public void onClickMap(MouseEvent mouseEvent) throws Exception {
     System.out.println("Clicked map: x=" + mouseEvent.getX() + ",y="+ mouseEvent.getY());
-    Canvas canvas = (Canvas) this.scene.lookup("#robotMap");
-    GraphicsContext a = canvas.getGraphicsContext2D();
-    a.strokeLine(0,0,mouseEvent.getX(), mouseEvent.getY());
+    SyncMapToView(mouseEvent.getX(), mouseEvent.getY());
   }
 
-  public void setScene(Scene scene) {
+  private void SyncMapToView(double x, double y) {
+    mapState.AddPoint(x,y);
+    List<MapPoint> points = mapState.GetPointsVisited();
+
+    Canvas canvas = (Canvas) this.scene.lookup("#robotMap");
+    GraphicsContext mapUi = canvas.getGraphicsContext2D();
+
+    for(int i = 0; i<points.size() - 1;i++) {
+      MapPoint p1 = points.get(i);
+      MapPoint p2 = points.get(i+1);
+      mapUi.strokeLine(p1.x, p1.y, p2.x, p2.y);
+    }
+  }
+
+  void setScene(Scene scene) {
     this.scene = scene;
   }
 }
