@@ -6,7 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import lejos.hardware.Brick;
-import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteRequestEV3;
+
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class ManualController {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    RemoteEV3 brick = RobotConnectionManager.GetBrick();
+    RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
     brick.getAudio().playTone(10,8);
     WriteMsg("STOPPING! ...");
     MoveMotors("Stop");
