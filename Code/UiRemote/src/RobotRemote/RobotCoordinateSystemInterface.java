@@ -1,6 +1,5 @@
 package RobotRemote;
 
-import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.Pose;
 
 /**
@@ -12,10 +11,13 @@ import lejos.robotics.navigation.Pose;
  */
 
 interface RobotCoordinateSystemInterface {
+    // Returns the global position of the robot in a Pose object
     Pose GetGlobalPose();
 
-    Point GetForward(float distance);
-    Point GetBackward(float distance);
-    // Get the relative heading to the robot
-    float GetHeading(float angle);
+    // Called when the robot is going forward some distance
+    void GoingForward(float distance);
+    // Called when the robot is going backward some distance
+    void GoingBackward(float distance);
+    // Called when the robot is changing heading some degree
+    void ChangingHeading(float angle);
 }

@@ -1,6 +1,5 @@
 package RobotRemote;
 
-import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.Pose;
 
 public class RobotCoordinateSystem implements RobotCoordinateSystemInterface {
@@ -10,17 +9,17 @@ public class RobotCoordinateSystem implements RobotCoordinateSystemInterface {
     }
 
     @Override
-    public Point GetForward(float distance) {
-        return null;
+    public void GoingForward(float distance) {
+
     }
 
     @Override
-    public Point GetBackward(float distance) {
-        return null;
+    public void GoingBackward(float distance) {
+
     }
 
     @Override
-    public float GetHeading(float angle) {
-        return 0;
+    public void ChangingHeading(float angle) {
+
     }
 }
