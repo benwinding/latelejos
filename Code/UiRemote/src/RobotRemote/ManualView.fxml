@@ -22,7 +22,6 @@
       <items>
         <AnchorPane minWidth="300">
           <children>
-            <Button layoutX="37.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#onClickConnectToRobot" text="Connect To Robot" />
             <GridPane alignment="center" hgap="10" prefHeight="200.0" prefWidth="290.0" vgap="10">
               <columnConstraints>
                 <ColumnConstraints />

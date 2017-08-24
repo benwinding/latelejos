@@ -28,6 +28,10 @@ class RobotMotorManager {
   }
 
   static void MoveMotors(String Direction) {
+    if(pilot == null) {
+      Logger.Log("ev3 not connected, cannot move:" + Direction);
+      return;
+    }
     switch (Direction) {
       case "Forward":
         pilot.travel(10);
