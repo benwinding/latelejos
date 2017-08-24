@@ -1,25 +1,31 @@
 package RobotRemote;
 
 import lejos.remote.ev3.RemoteRequestEV3;
+import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.ArcRotateMoveController;
+import lejos.robotics.navigation.Navigator;
+import lejos.robotics.navigation.Pose;
 
-public class RobotMotorManager {
+import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
+
+class RobotMotorManager {
   private static ArcRotateMoveController pilot;
+  private static Navigator navigator;
+  static Pose pose;
+  private static RobotCoordinateSystemInterface cs;
 
-  public static void ShutdownMotors() {
-    try {
-      pilot.stop();
-      System.out.println("Successfully closed motor ports");
-    } catch (Exception e) {
-      System.out.println("Unable to close motor ports");
-    }
-  }
-
-  public static void InitMotors() {
+  static void InitMotors() {
     RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
     try {
-      pilot = brick.createPilot(41.6,41.6,"A","B");
-      pilot.setLinearSpeed(40);
+      pilot = brick.createPilot(WHEEL_SIZE_EV3,10,"A","B");
+      pilot.setLinearSpeed(5);
+      pilot.setLinearAcceleration(5);
+      pilot.setAngularSpeed(30);
+      pilot.setAngularAcceleration(10);
+
+      navigator = new Navigator(pilot);
+      pose = navigator.getPoseProvider().getPose();
+      //MoveInSquare(20);
 
       System.out.println("Successfully opened motor ports");
     } catch (Exception e) {
@@ -27,19 +33,32 @@ public class RobotMotorManager {
     }
   }
 
+  private static void MoveInSquare(int size) {
+    navigator.goTo(0,0);
+    navigator.goTo(size,0);
+    navigator.goTo(0,size);
+    navigator.goTo(0,size);
+    navigator.goTo(0,size);
+    navigator.goTo(0,0);
+  }
+
   static void MoveMotors(String Direction) {
     switch (Direction) {
       case "Forward":
-        pilot.forward();
+        navigator.goTo(10,0);
+        pose.translate(10,0);
         break;
       case "Backward":
-        pilot.backward();
+        navigator.goTo(-10,0);
+        pose.translate(-10,0);
         break;
       case "Left":
-        pilot.rotate(90);
+        navigator.goTo(0,10);
+        pose.translate(0,10);
         break;
       case "Right":
-        pilot.rotate(-90);
+        navigator.goTo(0,-10);
+        pose.translate(0,-10);
         break;
       case "Stop":
         pilot.stop();
@@ -47,5 +66,9 @@ public class RobotMotorManager {
       default:
         System.out.println("Unknown Direction: " + Direction);
     }
+  }
+
+  static Pose GetCoords() {
+    return cs.GetGlobalPose();
   }
 }

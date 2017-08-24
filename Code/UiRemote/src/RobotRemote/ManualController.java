@@ -44,31 +44,41 @@ public class ManualController {
     brick.getAudio().playTone(10,8);
     WriteMsg("STOPPING! ...");
     MoveMotors("Stop");
+    UpdateFromRobotLocation();
   }
 
   public void onClickForward(MouseEvent mouseEvent) throws RemoteException {
     WriteMsg("Moving Forward ...");
     MoveMotors("Forward");
+    UpdateFromRobotLocation();
   }
 
   public void onClickBackward(MouseEvent mouseEvent) {
     WriteMsg("Moving Backward ...");
     MoveMotors("Backward");
+    UpdateFromRobotLocation();
   }
 
   public void onClickLeft(MouseEvent mouseEvent) {
     WriteMsg("Moving Left ...");
     MoveMotors("Left");
+    UpdateFromRobotLocation();
   }
 
   public void onClickRight(MouseEvent mouseEvent) {
     WriteMsg("Moving Right ...");
     MoveMotors("Right");
+    UpdateFromRobotLocation();
   }
 
   public void onClickMap(MouseEvent mouseEvent) throws Exception {
     System.out.println("Clicked map: x=" + mouseEvent.getX() + ",y="+ mouseEvent.getY());
-    SyncMapToView(mouseEvent.getX(), mouseEvent.getY());
+  }
+
+  private void UpdateFromRobotLocation() {
+    float x = RobotMotorManager.pose.getX();
+    float y = RobotMotorManager.pose.getY();
+    SyncMapToView(x, y);
   }
 
   private void SyncMapToView(double x, double y) {

@@ -10,7 +10,7 @@ public class RobotConnectionManager {
 
   private static boolean IsConnected() {return BrickInstance != null;}
 
-  private static void InitializeBrick() {
+  public static void InitializeBrick() {
     BrickInfo[] bricks = BrickFinder.discover();
     try {
       BrickInfo firstEv3 = bricks[0];

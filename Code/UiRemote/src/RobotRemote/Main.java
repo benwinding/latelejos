@@ -18,10 +18,10 @@ public class Main extends Application {
         Scene scene = new Scene(root, 700, 400);
         manualController.setScene(scene);
 
+        RobotMotorManager.InitMotors();
+
         primaryStage.setTitle("Robot Remote UI");
         primaryStage.setScene(scene);
-
-        RobotMotorManager.InitMotors();
 
         primaryStage.show();
     }
@@ -29,7 +29,6 @@ public class Main extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
-        RobotMotorManager.ShutdownMotors();
     }
 
     public static void main(String[] args) {
