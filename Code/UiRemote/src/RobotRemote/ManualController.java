@@ -1,5 +1,7 @@
 package RobotRemote;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -7,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
+import javafx.stage.Stage;
 import lejos.robotics.navigation.Pose;
 
 import java.rmi.RemoteException;
@@ -16,6 +19,7 @@ import static RobotRemote.RobotMotorManager.MoveMotors;
 
 public class ManualController {
   private Scene scene;
+  private Scene help;
   private static MapState mapState = new MapState();
 
   public void keyPressed(KeyEvent e) {
@@ -45,6 +49,26 @@ public class ManualController {
       MoveMotors("Backward");
       UpdateFromRobotLocation();
     }
+  }
+
+  public void onClickHelp(MouseEvent mouseEvent) {
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("help.fxml"));
+      Parent root = (Parent) fxmlLoader.load();
+
+      ManualController manualController = fxmlLoader.getController();
+      help = new Scene(root, 400, 300);
+      manualController.setScene(help);
+      Stage stage = new Stage();
+      stage.setTitle("Help Menu");
+      stage.setScene(help);
+      stage.show();
+
+
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
