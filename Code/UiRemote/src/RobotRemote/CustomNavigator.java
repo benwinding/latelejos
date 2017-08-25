@@ -17,7 +17,7 @@ public class CustomNavigator implements CustomNavigatorInterface {
 
   @Override
   public void MoveStraight(float distance) {
-    moveThread.interrupt();
+    Stop();
     if(pilot != null)
       pilot.travel(distance);
     cs.GoingStraight(distance);
@@ -25,6 +25,7 @@ public class CustomNavigator implements CustomNavigatorInterface {
 
   @Override
   public void MoveAsync(final float distanceIncrement) {
+    Stop();
     Task<Integer> task = new Task<Integer>() {
       @Override protected Integer call() throws Exception {
         while(!isCancelled()) {
@@ -50,8 +51,7 @@ public class CustomNavigator implements CustomNavigatorInterface {
 
   @Override
   public void Rotate(float angle) {
-    if(moveThread != null)
-      moveThread.interrupt();
+    Stop();
     if(pilot != null)
       pilot.rotate(angle);
     cs.ChangingHeading(angle);
@@ -59,7 +59,8 @@ public class CustomNavigator implements CustomNavigatorInterface {
 
   @Override
   public void Stop() {
-    moveThread.interrupt();
+    if(moveThread != null)
+      moveThread.interrupt();
   }
 
   @Override

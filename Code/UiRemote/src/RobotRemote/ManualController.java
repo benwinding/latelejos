@@ -28,25 +28,21 @@ public class ManualController {
 
   public void keyPressed(KeyEvent e) {
     if(e.getCode()==KeyCode.W){
-      Logger.Log("Moving Forward ...");
       MoveMotors("Forward");
       UpdateFromRobotLocation();
     }
 
     else if(e.getCode()==KeyCode.A){
-      Logger.Log("Moving Left ...");
       MoveMotors("Left");
       UpdateFromRobotLocation();
     }
 
     else if(e.getCode()==KeyCode.D){
-      Logger.Log("Moving Right ...");
       MoveMotors("Right");
       UpdateFromRobotLocation();
     }
 
     else if(e.getCode()==KeyCode.S){
-      Logger.Log("Moving Backward ...");
       MoveMotors("Backward");
       UpdateFromRobotLocation();
     }

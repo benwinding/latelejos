@@ -11,8 +11,16 @@ public class Logger {
   }
 
   static void Log(String msg) {
-    System.out.println(msg);
+    TryToLogConsole(msg);
     TryToWriteToUi(msg);
+  }
+
+  private static void TryToLogConsole(String msg) {
+    try {
+      System.out.println(msg);
+    }catch (Exception e) {
+
+    }
   }
 
   private static void TryToWriteToUi(String msg) {
@@ -21,7 +29,6 @@ public class Logger {
       textArea.appendText(msg + '\n');
     }
     catch (Exception e) {
-      System.out.println("Ui not loaded, could not display message on UI");
     }
   }
 
