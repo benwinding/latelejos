@@ -29,8 +29,10 @@ public class CustomNavigator implements CustomNavigatorInterface {
     Task<Integer> task = new Task<Integer>() {
       @Override protected Integer call() throws Exception {
         while(!isCancelled()) {
-          if(pilot != null)
+          try{
             pilot.travel(distanceIncrement);
+          } catch (Exception ignored) {
+          }
           cs.GoingStraight(distanceIncrement);
           Logger.LogCrossThread("TASK: Moving robot distance:" + distanceIncrement);
           try {
@@ -52,15 +54,19 @@ public class CustomNavigator implements CustomNavigatorInterface {
   @Override
   public void Rotate(float angle) {
     Stop();
-    if(pilot != null)
+    try{
       pilot.rotate(angle);
+    } catch (Exception ignored) {
+    }
     cs.ChangingHeading(angle);
   }
 
   @Override
   public void Stop() {
-    if(moveThread != null)
+    try{
       moveThread.interrupt();
+    } catch (Exception ignored) {
+    }
   }
 
   @Override

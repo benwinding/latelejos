@@ -14,7 +14,7 @@ class RobotMotorManager {
   }
 
   static void MoveMotors(String Direction) {
-    //Logger.Log("Moving motors: " + Direction);
+    Logger.Log("Moving motors: " + Direction);
     switch (Direction) {
       case "Forward":
         navigator.MoveAsync(10);
@@ -32,7 +32,7 @@ class RobotMotorManager {
         navigator.Stop();
         break;
       default:
-        //Logger.Log("Unknown Direction: " + Direction);
+        Logger.Log("Unknown Direction: " + Direction);
     }
   }
 

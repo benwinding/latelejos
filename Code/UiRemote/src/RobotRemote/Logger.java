@@ -18,8 +18,7 @@ public class Logger {
   private static void TryToLogConsole(String msg) {
     try {
       System.out.println(msg);
-    }catch (Exception e) {
-
+    }catch (Exception ignored) {
     }
   }
 
@@ -28,11 +27,11 @@ public class Logger {
       TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
       textArea.appendText(msg + '\n');
     }
-    catch (Exception e) {
+    catch (Exception ignored) {
     }
   }
 
-  public static void LogCrossThread(String s) {
+  static void LogCrossThread(String s) {
 //    System.out.println(s);
   }
 }

@@ -34,7 +34,7 @@
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0">
           <children>
-            <Canvas id="robotMap" fx:id="robotMap" height="389.0" width="464.0" />
+            <Canvas id="robotMap" fx:id="robotMap" height="527.0" layoutX="7.0" layoutY="8.0" width="457.0" />
           </children>
         </AnchorPane>
         <AnchorPane minWidth="300">
