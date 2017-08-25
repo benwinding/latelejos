@@ -13,34 +13,29 @@ import static RobotRemote.RobotMotorManager.MoveMotors;
 
 public class ManualController {
   private Scene scene;
-  private static MapState mapState = new MapState();
+  private static MapState mapState = new MapState(100,100);
 
   public void onClickStop(MouseEvent mouseEvent) {
-    Logger.Log("STOPPING! ...");
     MoveMotors("Stop");
     UpdateFromRobotLocation();
   }
 
   public void onClickForward(MouseEvent mouseEvent) throws RemoteException {
-    Logger.Log("Moving Forward ...");
     MoveMotors("Forward");
     UpdateFromRobotLocation();
   }
 
   public void onClickBackward(MouseEvent mouseEvent) {
-    Logger.Log("Moving Backward ...");
     MoveMotors("Backward");
     UpdateFromRobotLocation();
   }
 
   public void onClickLeft(MouseEvent mouseEvent) {
-    Logger.Log("Moving Left ...");
     MoveMotors("Left");
     UpdateFromRobotLocation();
   }
 
   public void onClickRight(MouseEvent mouseEvent) {
-    Logger.Log("Moving Right ...");
     MoveMotors("Right");
     UpdateFromRobotLocation();
   }

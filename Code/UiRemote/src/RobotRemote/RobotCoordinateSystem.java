@@ -10,12 +10,7 @@ public class RobotCoordinateSystem implements RobotCoordinateSystemInterface {
     private Pose globalPose = new Pose();
 
     @Override
-    public void GoingForward(float distance) {
-        globalPose.moveUpdate(distance);
-    }
-
-    @Override
-    public void GoingBackward(float distance) {
+    public void GoingStraight(float distance) {
         globalPose.moveUpdate(distance);
     }
 

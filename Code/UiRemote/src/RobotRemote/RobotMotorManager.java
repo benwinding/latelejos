@@ -3,23 +3,21 @@ package RobotRemote;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
-
 import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
 
 class RobotMotorManager {
-  private static ArcRotateMoveController pilot;
-  private static RobotCoordinateSystemInterface cs;
+  static private CustomNavigatorInterface navigator;
 
   static void InitMotors() {
     RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
-    cs = new RobotCoordinateSystem();
     try {
-      pilot = brick.createPilot(WHEEL_SIZE_EV3,10,"A","B");
+      ArcRotateMoveController pilot = brick.createPilot(WHEEL_SIZE_EV3, 10, "A", "B");
       pilot.setLinearSpeed(5);
-      pilot.setLinearAcceleration(5);
       pilot.setAngularSpeed(30);
       pilot.setAngularAcceleration(10);
-
+      RobotCoordinateSystemInterface cs = new RobotCoordinateSystem();
+      navigator = new CustomNavigator();
+      navigator.Init(cs, pilot);
       Logger.Log("Successfully opened motor ports");
     } catch (Exception e) {
       Logger.Log("Unable to open motor ports");
@@ -27,29 +25,22 @@ class RobotMotorManager {
   }
 
   static void MoveMotors(String Direction) {
-    if(pilot == null) {
-      Logger.Log("ev3 not connected, cannot move:" + Direction);
-      return;
-    }
+    Logger.Log("Moving motors: " + Direction);
     switch (Direction) {
       case "Forward":
-        pilot.travel(10);
-        cs.GoingForward(10);
+        navigator.MoveAsync(10);
         break;
       case "Backward":
-        pilot.travel(10, true);
-        cs.GoingBackward(10);
+        navigator.MoveAsync(-10);
         break;
       case "Left":
-        pilot.rotate(90);
-        cs.ChangingHeading(90);
+        navigator.Rotate(90);
         break;
       case "Right":
-        pilot.rotate(-90);
-        cs.ChangingHeading(-90);
+        navigator.Rotate(-90);
         break;
       case "Stop":
-        pilot.stop();
+        navigator.Stop();
         break;
       default:
         Logger.Log("Unknown Direction: " + Direction);
@@ -57,6 +48,6 @@ class RobotMotorManager {
   }
 
   static Pose GetCoords() {
-    return cs.GetGlobalPose();
+    return navigator.GetGlobalPose();
   }
 }

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapState {
-  private List<MapPoint> pointsVisited= new ArrayList<MapPoint>();
+  private List<MapPoint> pointsVisited;
+
+  public MapState(double xInit, double yInit) {
+    pointsVisited = new ArrayList<>();
+    pointsVisited.add(new MapPoint(xInit,yInit));
+  }
 
   void AddPoint(double x, double y) {
     MapPoint newPoint = new MapPoint(x,y);

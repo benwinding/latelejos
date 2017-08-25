@@ -15,9 +15,7 @@ interface RobotCoordinateSystemInterface {
     Pose GetGlobalPose();
 
     // Called when the robot is going forward some distance
-    void GoingForward(float distance);
-    // Called when the robot is going backward some distance
-    void GoingBackward(float distance);
+    void GoingStraight(float distance);
     // Called when the robot is changing heading some degree
     void ChangingHeading(float angle);
 }
