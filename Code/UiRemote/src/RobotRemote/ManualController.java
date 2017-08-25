@@ -8,7 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Pose;
 
@@ -20,12 +19,14 @@ import static RobotRemote.RobotMotorManager.MoveMotors;
 public class ManualController {
   private Scene scene;
   private Scene help;
-  private static MapState mapState = new MapState();
+  private MapState mapState;
+
+  public void Init(Scene scene, float initX, float initY) {
+    this.scene = scene;
+    this.mapState = new MapState(initX,initY);
+  }
 
   public void keyPressed(KeyEvent e) {
-
-
-
     if(e.getCode()==KeyCode.W){
       Logger.Log("Moving Forward ...");
       MoveMotors("Forward");
@@ -53,18 +54,13 @@ public class ManualController {
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("help.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
-
-      ManualController manualController = fxmlLoader.getController();
       help = new Scene(root, 400, 300);
-      manualController.setScene(help);
       Stage stage = new Stage();
       stage.setTitle("Help Menu");
       stage.setScene(help);
       stage.show();
-
-
     } catch(Exception e) {
       e.printStackTrace();
     }
@@ -96,17 +92,13 @@ public class ManualController {
     UpdateFromRobotLocation();
   }
 
-  public void onClickMap(MouseEvent mouseEvent) throws Exception {
-    Logger.Log("Clicked map: x=" + mouseEvent.getX() + ",y="+ mouseEvent.getY());
-  }
-
   private void UpdateFromRobotLocation() {
     Pose robotPose = RobotMotorManager.GetCoords();
     if(robotPose == null) {
       Logger.Log("Unable to get Map location");
       return;
     }
-    SyncMapToView(robotPose.getX()+100, robotPose.getY()+100);
+    SyncMapToView(robotPose.getX(), robotPose.getY());
   }
 
   private void SyncMapToView(double x, double y) {
@@ -121,9 +113,5 @@ public class ManualController {
       MapPoint p2 = points.get(i+1);
       mapUi.strokeLine(p1.x, p1.y, p2.x, p2.y);
     }
-  }
-
-  void setScene(Scene scene) {
-    this.scene = scene;
   }
 }

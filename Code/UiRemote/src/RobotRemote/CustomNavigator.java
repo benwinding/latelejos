@@ -7,7 +7,6 @@ import lejos.robotics.navigation.Pose;
 public class CustomNavigator implements CustomNavigatorInterface {
   private static ArcRotateMoveController pilot;
   private static RobotCoordinateSystemInterface cs;
-
   private Thread moveThread;
 
   @Override
@@ -19,7 +18,8 @@ public class CustomNavigator implements CustomNavigatorInterface {
   @Override
   public void MoveStraight(float distance) {
     moveThread.interrupt();
-    pilot.travel(distance);
+    if(pilot != null)
+      pilot.travel(distance);
     cs.GoingStraight(distance);
   }
 
@@ -28,10 +28,9 @@ public class CustomNavigator implements CustomNavigatorInterface {
     Task<Integer> task = new Task<Integer>() {
       @Override protected Integer call() throws Exception {
         while(!isCancelled()) {
-          if(pilot != null) {
+          if(pilot != null)
             pilot.travel(distanceIncrement);
-            cs.GoingStraight(distanceIncrement);
-          }
+          cs.GoingStraight(distanceIncrement);
           Logger.LogCrossThread("TASK: Moving robot distance:" + distanceIncrement);
           try {
             Thread.sleep(10);
@@ -51,8 +50,10 @@ public class CustomNavigator implements CustomNavigatorInterface {
 
   @Override
   public void Rotate(float angle) {
-    moveThread.interrupt();
-    pilot.rotate(angle);
+    if(moveThread != null)
+      moveThread.interrupt();
+    if(pilot != null)
+      pilot.rotate(angle);
     cs.ChangingHeading(angle);
   }
 

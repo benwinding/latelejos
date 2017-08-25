@@ -3,11 +3,16 @@ package RobotRemote;
 import lejos.robotics.navigation.Pose;
 
 public class RobotCoordinateSystem implements RobotCoordinateSystemInterface {
+    public RobotCoordinateSystem(float xInit, float yInit) {
+        globalPose = new Pose();
+        globalPose.setLocation(xInit, yInit);
+    }
+
     @Override
     public Pose GetGlobalPose() {
         return globalPose;
     }
-    private Pose globalPose = new Pose();
+    private Pose globalPose;
 
     @Override
     public void GoingStraight(float distance) {

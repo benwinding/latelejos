@@ -16,11 +16,12 @@ public class Main extends Application {
         // Setup controller
         ManualController manualController = loader.getController();
         Scene scene = new Scene(root, 800, 600);
-        manualController.setScene(scene);
-
         // Init things
+        float initX = 100;
+        float initY = 100;
+        manualController.Init(scene, initX, initY);
         Logger.Init(scene);
-        RobotMotorManager.InitMotors();
+        RobotMotorManager.InitMotors(initX, initY);
 
         primaryStage.setTitle("Robot Remote UI");
         primaryStage.setScene(scene);

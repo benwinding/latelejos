@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.ManualController">
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.HelpController">
    <children>
       <TextArea editable="false" layoutX="61.0" layoutY="48.0" prefHeight="200.0" prefWidth="200.0" text="Keyword Shotcuts:&#10;&#10;Forward(W) &#10;Left(A) &#10;Right(D) &#10;Down(S) &#10;Stop(X)&#10;Upload(U)&#10;Download(L)" />
    </children>

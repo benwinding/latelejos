@@ -10,8 +10,8 @@ public class RobotConnectionManager {
   private static boolean IsConnected() {return BrickInstance != null;}
 
   public static void InitializeBrick() {
-    BrickInfo[] bricks = BrickFinder.discover();
     try {
+      BrickInfo[] bricks = BrickFinder.discover();
       BrickInfo firstEv3 = bricks[0];
       BrickInstance = new RemoteRequestEV3(firstEv3.getIPAddress());
       Logger.Log("Found ev3!");
