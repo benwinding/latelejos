@@ -3,7 +3,10 @@ package RobotRemote;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 import lejos.robotics.navigation.Pose;
 
 import java.rmi.RemoteException;
@@ -14,6 +17,35 @@ import static RobotRemote.RobotMotorManager.MoveMotors;
 public class ManualController {
   private Scene scene;
   private static MapState mapState = new MapState();
+
+  public void keyPressed(KeyEvent e) {
+
+
+
+    if(e.getCode()==KeyCode.W){
+      Logger.Log("Moving Forward ...");
+      MoveMotors("Forward");
+      UpdateFromRobotLocation();
+    }
+
+    else if(e.getCode()==KeyCode.A){
+      Logger.Log("Moving Left ...");
+      MoveMotors("Left");
+      UpdateFromRobotLocation();
+    }
+
+    else if(e.getCode()==KeyCode.D){
+      Logger.Log("Moving Right ...");
+      MoveMotors("Right");
+      UpdateFromRobotLocation();
+    }
+
+    else if(e.getCode()==KeyCode.S){
+      Logger.Log("Moving Backward ...");
+      MoveMotors("Backward");
+      UpdateFromRobotLocation();
+    }
+  }
 
   public void onClickStop(MouseEvent mouseEvent) {
     Logger.Log("STOPPING! ...");
