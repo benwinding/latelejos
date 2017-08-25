@@ -55,7 +55,7 @@ public class ManualController {
       Logger.Log("Unable to get Map location");
       return;
     }
-    SyncMapToView(robotPose.getX(), robotPose.getY());
+    SyncMapToView(robotPose.getX()+100, robotPose.getY()+100);
   }
 
   private void SyncMapToView(double x, double y) {

@@ -5,21 +5,23 @@ import lejos.robotics.navigation.Pose;
 public class RobotCoordinateSystem implements RobotCoordinateSystemInterface {
     @Override
     public Pose GetGlobalPose() {
-        return null;
+        return globalPose;
     }
+    private Pose globalPose = new Pose();
 
     @Override
     public void GoingForward(float distance) {
-
+        globalPose.moveUpdate(distance);
     }
 
     @Override
     public void GoingBackward(float distance) {
-
+        globalPose.moveUpdate(distance);
     }
 
     @Override
     public void ChangingHeading(float angle) {
-
+        float currentHeading = globalPose.getHeading();
+        globalPose.setHeading(currentHeading + angle);
     }
 }
