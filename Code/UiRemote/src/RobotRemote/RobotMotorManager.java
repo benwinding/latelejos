@@ -12,14 +12,13 @@ class RobotMotorManager {
 
   static void InitMotors() {
     RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
+    cs = new RobotCoordinateSystem();
     try {
       pilot = brick.createPilot(WHEEL_SIZE_EV3,10,"A","B");
       pilot.setLinearSpeed(5);
       pilot.setLinearAcceleration(5);
       pilot.setAngularSpeed(30);
       pilot.setAngularAcceleration(10);
-
-      cs = new RobotCoordinateSystem();
 
       Logger.Log("Successfully opened motor ports");
     } catch (Exception e) {

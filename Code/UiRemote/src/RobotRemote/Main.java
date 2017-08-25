@@ -15,7 +15,7 @@ public class Main extends Application {
 
         // Setup controller
         ManualController manualController = loader.getController();
-        Scene scene = new Scene(root, 700, 400);
+        Scene scene = new Scene(root, 800, 600);
         manualController.setScene(scene);
 
         // Init things
