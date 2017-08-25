@@ -3,14 +3,18 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.ManualController">
+<GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.ManualController">
   <columnConstraints>
     <ColumnConstraints />
   </columnConstraints>
@@ -33,25 +37,68 @@
                       <children>
                         <GridPane alignment="center" hgap="5" prefHeight="235.0" prefWidth="300.0" vgap="5">
                           <columnConstraints>
-                            <ColumnConstraints />
-                            <ColumnConstraints halignment="CENTER" maxWidth="105.0" minWidth="52.0" prefWidth="72.0" />
-                            <ColumnConstraints maxWidth="83.0" minWidth="30.0" prefWidth="63.0" />
+                            <ColumnConstraints maxWidth="89.0" minWidth="83.0" prefWidth="83.0" />
+                            <ColumnConstraints halignment="CENTER" maxWidth="105.0" minWidth="52.0" prefWidth="95.0" />
+                            <ColumnConstraints maxWidth="83.0" minWidth="30.0" prefWidth="51.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints />
                             <RowConstraints />
                             <RowConstraints />
                           </rowConstraints>
-                          <Button mnemonicParsing="false" onMouseClicked="#onClickLeft" prefHeight="26.0" prefWidth="66.0" text="Left" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                          <Button mnemonicParsing="false" onMouseClicked="#onClickRight" prefHeight="26.0" prefWidth="63.0" text="Right" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                          <Button mnemonicParsing="false" onMouseClicked="#onClickForward" text="Forward" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                          <Button mnemonicParsing="false" onMouseClicked="#onClickBackward" text="Backward" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                          <Button mnemonicParsing="false" onMouseClicked="#onClickStop" text="STOP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                          <Button mnemonicParsing="false" onMouseClicked="#onClickLeft" prefHeight="26.0" prefWidth="66.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <graphic>
+                                       <ImageView fitHeight="68.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@left.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic></Button>
+                          <Button mnemonicParsing="false" onMouseClicked="#onClickRight" prefHeight="59.0" prefWidth="49.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <graphic>
+                                       <ImageView fitHeight="63.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@right.png" />
+                                          </image></ImageView>
+                                    </graphic></Button>
+                          <Button mnemonicParsing="false" onMouseClicked="#onClickForward" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <graphic>
+                                       <ImageView fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@up.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic></Button>
+                          <Button mnemonicParsing="false" onMouseClicked="#onClickBackward" prefHeight="46.0" prefWidth="72.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <graphic>
+                                       <ImageView fitHeight="78.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@down.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic></Button>
+                          <Button mnemonicParsing="false" onMouseClicked="#onClickStop" style="-fx-background-radius: 100;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <GridPane.margin>
                               <Insets />
                             </GridPane.margin>
+                                    <graphic>
+                                       <ImageView fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@stop.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic>
                                  </Button>
                         </GridPane>
+                              <Button layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#onClickHelp" text="Button">
+                                 <contextMenu>
+                                    <ContextMenu>
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                                      </items>
+                                    </ContextMenu>
+                                 </contextMenu>
+                              </Button>
                       </children>
                     </AnchorPane>
                   </items>
