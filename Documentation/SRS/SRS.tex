@@ -261,8 +261,16 @@
 	
 	\subsubsection*{Functional requirements}
 	\begin{itemize}
-		\item \textbf{Map.InputInfo.UI} \space The application provides a UI to enter new map information.
-		Map.OutputInfo.Persist: The application shall translate new map information into correct XML format and update current XML map info file with new information.
+		\item \textbf{FR001} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application provides a UI to enter new map information.
+		\end{itemize}
+		\item \textbf{FR002}
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall translate new map information into correct XML format and update current XML map info file with new information.
+		\end{itemize}
 	\end{itemize}
 	
 	\subsection{Map imported/exported feature}
@@ -287,8 +295,18 @@
 	
 	\subsubsection*{Functional requirements}
 	\begin{itemize}
-		\item \textbf{Map.InputInfo.Import}: The application shall allow operator import initial map information at the beginning of the survey mission. The application shall disable import button while robot is surveying the map.
-		\item \textbf{Map.OutputInfo.Export}: The application shall allow operator export map information and save it with a unique name in designated folder.
+		
+		\item \textbf{FR003} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall allow operator import initial map information at the beginning of the survey mission. The application shall disable import button while robot is surveying the map.
+		\end{itemize}
+	
+		\item \textbf{FR004} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall allow operator export map information and save it with a unique name in designated folder.
+		\end{itemize}
 	\end{itemize}
 	
 	\subsection{Map display feature}
@@ -311,8 +329,18 @@
 	
 	\subsubsection*{Functional requirements}
 	\begin{itemize}
-		\item \textbf{Map.Import}: The application shall allow to import predefined a xml format map file which comply with predefine DTD provide by client.
-		\item \textbf{Map.RealtimeDisplay}: The application shall display all information from imported map, operator inputs and survey info return from robot at real-time.
+		
+		\item \textbf{FR005} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall allow to import predefined a xml format map file which comply with predefine DTD provide by client.
+		\end{itemize}
+		\item \textbf{FR006} 
+		\begin{itemize}
+		\item \textbf{Priority:} Normal
+		\item \textbf{Description:} The application shall display all information from imported map, operator inputs and survey info return from robot at real-time.
+		\end{itemize}
+	
 	\end{itemize}
 	
 	\subsection{Manual control feature }
@@ -336,10 +364,29 @@
 	
 	\subsubsection*{Functional requirements}
 	\begin{itemize}
-		\item \textbf{Control.Manual.Navigation}: The application shall allow operator manual control robot precisely with navigation buttons.
-		\item \textbf{Control.EmergencyStop}: Emergency stop button shall stop robot immediately.
-		\item \textbf{Control.SwitchMode}: The application shall allow switch between manual/autonomous mode.
-		\item \textbf{Map.SurveyRecord}: While robot move under manual control. All map information collected from sensor must be recorded and display on map as describe feature 4.3.
+		
+		\item \textbf{FR008} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall allow operator manual control robot precisely with navigation buttons.
+		\end{itemize}
+		\item \textbf{FR009} 
+		\begin{itemize}
+		\item \textbf{Priority:} High
+		\item \textbf{Description:} Emergency stop button shall stop robot immediately navigation buttons.
+		\end{itemize}
+	
+		\item \textbf{FR010} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall allow switch between manual/autonomous mode.
+		\end{itemize}
+	
+		\item \textbf{FR011} 
+		\begin{itemize}
+			\item \textbf{Priority:} Normal
+			\item \textbf{Description:} While robot move under manual control. All map information collected from sensor will be recorded and display on map as describe feature 4.3.
+		\end{itemize}
 	\end{itemize}
 	
 	
@@ -361,10 +408,26 @@
 	
 	\subsubsection*{Functional requirements}
 	\begin{itemize}
-		\item \textbf{Control.Autonomous.Navigation}: The application shall have an self-control module which can control and navigate robot automatically corresponding to information from the map and sensors data while surveying.
-		\item \textbf{Control.Autonomous.ObstacleDetectAndAvoidance}: The application shall have an obstacle detection algorithms that prevent robot collide with obstacle or move into NGZ's/Craters.
-		\item \textbf{Control.Autonomous.PathFinding}: The application shall have a build in algorithm to find the safe and shortest path to navigate from one location to another location.
-		\item \textbf{Map.SurveyRecord}: While robot move under manual control. All map information collected from sensor must be recorded and display on map as describe feature 4.3.
+		
+		
+		\item \textbf{FR012} 
+		\begin{itemize}
+			\item \textbf{Priority:} High
+			\item \textbf{Description:} The application shall have an self-control module which can control and navigate robot automatically corresponding to information from the map and sensors data while surveying.
+		\end{itemize}
+		\item \textbf{FR013} 
+		\begin{itemize}
+		\item \textbf{Priority:} High
+		\item \textbf{Description:} The application shall have an obstacle detection algorithms that prevent robot collide with obstacle or move into NGZ's/Craters.
+		\end{itemize}
+	
+		\item \textbf{FR014} 
+		\begin{itemize}
+			\item \textbf{Priority:} Normal
+			\item \textbf{Description:} The application shall have a build in algorithm to find the safe and shortest path to navigate from one location to another location.
+		\end{itemize}
+		\item \textbf{FR011}
+	
 	\end{itemize}
 	
 	\subsection{Authentication feature }
@@ -383,7 +446,12 @@
 	
 	\subsubsection{Functional requirements}
 	\begin{itemize}
-		\item \textbf{Control.Authentication:}  Application shall provide authentication step before operator can start to control robot.
+		\item \textbf{FR015}
+		\begin{itemize}
+			\item \textbf{Priority:} Normal
+			\item \textbf{Description:} Application shall provide authentication step before operator can start to control robot.
+		\end{itemize} 
+		
 	\end{itemize}
 	
 	\section{External Interface Requirements}
