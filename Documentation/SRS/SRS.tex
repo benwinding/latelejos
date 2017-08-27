@@ -664,14 +664,9 @@
 	\subsubsection*{Robot Embedded Interface}
 	All hardware components such as sensors and motors in the Robot are controlled by a controller called a LEGO\cpright EV3 brick. The EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WiFi. The details of specification of WiFi dongle which is inserted to the Robot will be discussed in 5.4 section.
 	
-	\subsubsection*{System Control Flowchart}
-	The flow of system control is shown in figure \ref{fig:Flow of data and control interaction}. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.
+	\subsubsection*{System Control}
+	 The system control is conducted via WiFi connection. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.	
 	
-	\begin{figure}[h]
-		\includegraphics[width=\linewidth]{data_and_control.PNG}
-		\caption{Flow of data and control interaction}
-		\label{fig:Flow of data and control interaction}
-	\end{figure}
 	
 	\subsection{Software Interfaces}  
 	The system is developed in Java 7 environment and support running with machine specifications as stated in section 2.4. The flow of software communication between each component is shown in figure \ref{fig:Flow of software communication}.
