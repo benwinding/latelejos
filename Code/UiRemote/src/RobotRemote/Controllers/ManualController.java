@@ -1,5 +1,6 @@
 package RobotRemote.Controllers;
 
+import RobotRemote.RobotSensorManager;
 import RobotRemote.Utils.Logger;
 import RobotRemote.Models.MapState;
 import RobotRemote.MapUiDrawer;
@@ -26,7 +27,9 @@ import static RobotRemote.RobotMotorManager.MoveMotors;
 public class ManualController {
   private Scene scene;
   private Scene help;
+  private Scene demo;
   private MapState mapState;
+
   @FXML
   ImageView btnMoveLeft;
 
@@ -76,6 +79,24 @@ public class ManualController {
       UpdateLocationFromRobot();
     }
   }
+
+  public void onClickDemo(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/views/DemoSensor.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+
+            demo = new Scene(root, 700, 600);
+            Stage stage = new Stage();
+            stage.setTitle("Demo");
+            stage.setScene(demo);
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        Logger.demoInit(demo);
+
+    }
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {

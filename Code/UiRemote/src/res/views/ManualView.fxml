@@ -5,15 +5,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.Controllers.ManualController">
+<GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.Controllers.ManualController">
   <columnConstraints>
     <ColumnConstraints />
   </columnConstraints>
@@ -28,6 +28,7 @@
         <Button mnemonicParsing="false" text="Upload" />
         <Button mnemonicParsing="false" text="Download" />
         <Button mnemonicParsing="false" text="Disconnect" />
+            <Button mnemonicParsing="false" onMouseClicked="#onClickDemo" text="Demo" />
       </items>
     </ToolBar>
     <SplitPane dividerPositions="0.6062176165803109" prefHeight="400.0" prefWidth="774.0" GridPane.rowIndex="1">
@@ -41,7 +42,7 @@
           <children>
             <SplitPane dividerPositions="0.7275204359673024" orientation="VERTICAL" prefHeight="542.0" prefWidth="774.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#onClickDemo" prefHeight="100.0" prefWidth="160.0">
                   <children>
                     <GridPane alignment="center" hgap="5" prefHeight="235.0" prefWidth="300.0" vgap="5">
                       <columnConstraints>
