@@ -10,7 +10,7 @@ import lejos.robotics.navigation.Pose;
 public class CustomNavigator implements CustomNavigatorInterface {
   private static ArcRotateMoveController pilot;
   private static RobotCoordinateSystemInterface cs;
-  private Thread moveThread;
+  public static Thread moveThread = new Thread();
 
   @Override
   public void Init(RobotCoordinateSystemInterface cs, ArcRotateMoveController pilot) {

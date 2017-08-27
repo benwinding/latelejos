@@ -29,10 +29,10 @@ import java.util.ResourceBundle;
 import static RobotRemote.RobotMotorManager.MoveMotors;
 
 public class ManualController implements Initializable {
-  private Scene scene;
   private Scene help;
   private Scene demo;
   private MapState mapState;
+  public static Thread mapRefreshThread = new Thread();
 
   @FXML
   ImageView btnMoveLeft;
@@ -57,8 +57,7 @@ public class ManualController implements Initializable {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(Scene scene, float initX, float initY) {
-    this.scene = scene;
+  public void Init(float initX, float initY) {
     this.mapState = new MapState(initX,initY);
     this.initGUI();
     this.initMap();
@@ -68,7 +67,7 @@ public class ManualController implements Initializable {
     Task task = new Task<Void>() {
       @Override
       public Void call() throws Exception {
-        while (true) {
+        while (!isCancelled()) {
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -78,9 +77,10 @@ public class ManualController implements Initializable {
           });
           Thread.sleep(500);
         }
+        return null;
       }
     };
-    Thread mapRefreshThread = new Thread(task);
+    mapRefreshThread = new Thread(task);
     mapRefreshThread.setDaemon(true);
     mapRefreshThread.start();
   }
