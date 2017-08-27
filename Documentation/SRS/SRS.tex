@@ -728,40 +728,56 @@
 	\section{Other Non-Functional Requirements}
 	
 	\subsection{Performance Requirements}
-	\subsubsection*{Map Accuracy}
+	\subsubsection*{NFR01: Map Accuracy}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR01, UR02, UR03, UR04
 	\paragraph{Description:} The visual representation of the map shall be as accurate as possible. The various objects and hazards that the robot encounters must be recognised and drawn as soon as the robot encounters them.
 	\paragraph{Rationale:} The client must be able to use the map for other purposes once the crash site has been found and therefore is relying on the map to be an accurate representation of the environment. In addition, the robot must be able to use the map to determine where past obstacles were to allow for smooth navigation and to avoid unnecessary travel time.\\
 	
-	\subsubsection*{Speed}
+	\subsubsection*{NFR02: Speed}
+	\paragraph{Priortiy:} Medium
+	\paragraph{Dependencies:} None
 	\paragraph {Description:} The surveying of the land and discovery of the goal shall be completed in reasonable time. For this prototype, this shall be interpreted as no more than 25 minutes to complete the journey form landing to returning to the landing zone after completing the goal. On manual control this shall be determined by the operator of the robot but will not be allowed to exceed a specified limit for safety purposes.
 	\paragraph {Rationale:} The robot will have a limited power supply and must be able to complete its mission before that power runs out. 
 	
 	\subsection{Safety Requirements}
 	\subsubsection*{Significant Impact}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR09
 	\paragraph {Description:} While on autopilot, the robot shall not exceed \begin{math}0.3 m/s\end{math}. When detecting an obstacle, the robot shall stop within 0.15 metres before collision to avoid significant impact and to allow for turning room. During prototype testing, a collision will be deemed significant impact if the robot manages to physically move an obstacle. The manual controller shall default to no more than \begin{math}0.3 m/s\end{math} however the pilot may have additional speed options available to them.
 	\paragraph {Rationale:}The safety of any persons on the landing site is paramount and a collision of the actual robot to any persons may lead to severe injury or death. The prototype is also representing a robot that will be expensive to repair and significant damage to the robot may lead to irreparable damage and failure of the mission.
 	
-	\subsubsection*{No Go Zones}
+	\subsubsection*{NFR03: No Go Zones}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR10
 	\paragraph {Description:} No more than half the robot may enter the NGZ at any time.\\
 	\paragraph{Rationale:} An NGZ may represent an area where personnel are active or may indicate an area of known hazardous materials or obstacles otherwise not detectable by the robot. For the safety of the personnel and the robot, the prototype must be able to demonstrate the ability to maneuver its way out of an NGZ without risking injury to personnel or getting stuck in an hazardous area.\\
 	
 	\subsection{Security Requirements}
-	\subsubsection*{Unauthorised Access}
+	\subsubsection*{NFR04: Unauthorised Access}
+	\paragraph{Priortiy:}Medium
+	\paragraph{Dependencies:}TBD
 	\paragraph {Description:} The GUI shall have a login section where a username and password is presented and verified before the controller can be used.\\
 	\paragraph{Rationale:} Unauthorised use of the robot may lead to damage or loss if targeted by malicious competition or an individual who has not been verified by the client.\\
 	
 	\subsection{Software Quality Attributes}
 	
-	\subsubsection*{Ease of use}
+	\subsubsection*{NFR05:Ease of use}
+	\paragraph{Priortiy:} Low
+	\paragraph{Dependencies:} None
 	\paragraph {Description:} The GUI shall have intuitive controls and clearly marked buttons. The size of the controller and map shall be set to a size that is sufficient for comfort and legibility. The visual style of the GUI will conform to the standards of similar controller layouts commonly found in maps and remote controllers.\\
 	\paragraph {Rationale:} The Client will have limited time to spend learning controls and must be able to intuitively navigate the GUI without much training. This should include importing and exporting map data.\\
 	
 	\section{Other Requirements}
 	
 	\section{Appendix A: Glossary}
-	NGZ: No-Go Zone
+	\textbf{GUI:} Graphical User Interface\\	
+	\textbf{MJ:} "Michael Jackson" - internal nickname to lunar robot and controller application	\\
+	\textbf{NGZ:} No-Go Zone\\
+	\textbf{TBD:} To Be Determined\\
+	\textbf{UI:} User Interface\\
 	
-	\section{Appendix B: Analysis Models}
+		\section{Appendix B: Analysis Models}
 	
 	\section{Appendix C: Issues List}
 	
