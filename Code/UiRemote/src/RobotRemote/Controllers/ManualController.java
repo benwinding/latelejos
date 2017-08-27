@@ -7,19 +7,17 @@ import RobotRemote.RobotMotorManager;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Pose;
-
-import java.rmi.RemoteException;
 
 import static RobotRemote.RobotMotorManager.MoveMotors;
 
@@ -41,6 +39,10 @@ public class ManualController {
 
   @FXML
   ImageView btnMoveStop;
+
+  @FXML
+  Pane map;
+
   public void Init(Scene scene, float initX, float initY) {
     this.scene = scene;
     this.mapState = new MapState(initX,initY);
@@ -56,25 +58,23 @@ public class ManualController {
       this.btnMoveStop.setImage(new Image("res/img/stop.png"));
   }
   public void keyPressed(KeyEvent e) {
-    if(e.getCode()==KeyCode.W){
-      MoveMotors("Forward");
-      UpdateLocationFromRobot();
+    switch (e.getCode()) {
+      case W:
+        MoveMotors("Forward");
+        break;
+      case A:
+        MoveMotors("Left");
+        break;
+      case D:
+        MoveMotors("Right");
+        break;
+      case S:
+        MoveMotors("Backward");
+        break;
+      default:
+        Logger.Log("Key press:" + e.getCode() + " is not implemented");
     }
-
-    else if(e.getCode()==KeyCode.A){
-      MoveMotors("Left");
-      UpdateLocationFromRobot();
-    }
-
-    else if(e.getCode()==KeyCode.D){
-      MoveMotors("Right");
-      UpdateLocationFromRobot();
-    }
-
-    else if(e.getCode()==KeyCode.S){
-      MoveMotors("Backward");
-      UpdateLocationFromRobot();
-    }
+    UpdateLocationFromRobot();
   }
 
   public void onClickHelp(MouseEvent mouseEvent) {
@@ -96,7 +96,7 @@ public class ManualController {
     UpdateLocationFromRobot();
   }
 
-  public void onClickForward(MouseEvent mouseEvent) throws RemoteException {
+  public void onClickForward(MouseEvent mouseEvent) {
     MoveMotors("Forward");
     UpdateLocationFromRobot();
   }
@@ -117,20 +117,36 @@ public class ManualController {
   }
 
   private void UpdateLocationFromRobot() {
-    Pose robotPose = RobotMotorManager.GetCoords();
-    if(robotPose == null) {
+    Pose pose = RobotMotorManager.GetCoords();
+    if(pose == null) {
       Logger.Log("Unable to get Map location");
       return;
     }
-    mapState.AddPoint(robotPose.getX(),robotPose.getY());
+    mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
     SyncMapStateToView();
   }
 
   private void SyncMapStateToView() {
-    Canvas canvas = (Canvas) this.scene.lookup("#robotMap");
-    GraphicsContext mapUi = canvas.getGraphicsContext2D();
+    // Create Layers
+    Canvas layer1 = new Canvas(500,400);
+    Canvas layer2 = new Canvas(500,400);
+    Canvas layer3 = new Canvas(500,400);
 
-    MapUiDrawer.DrawPoints(mapUi, mapState.GetPointsBorder(), Color.BLACK);
-    MapUiDrawer.DrawPoints(mapUi, mapState.GetMapSize(), mapState.GetPointsVisited(), Color.GREEN);
+    // Obtain Graphics Contexts
+    GraphicsContext layerBorder = layer1.getGraphicsContext2D();
+    GraphicsContext layerPointsVisited = layer2.getGraphicsContext2D();
+    GraphicsContext layerRobot = layer3.getGraphicsContext2D();
+
+    // Draw on layers
+    MapUiDrawer mapDrawer = new MapUiDrawer(mapState.GetMapSize());
+    mapDrawer.DrawBorderPoints(layerBorder, mapState.GetPointsBorder(), Color.BLACK);
+    mapDrawer.DrawMapPoints(layerPointsVisited, mapState.GetPointsVisited(), Color.GREEN);
+    mapDrawer.DrawRobot(layerRobot, mapState.GetLastPoint());
+
+    // Add to GUI
+    map.getChildren().clear();
+    map.getChildren().add(layer1);
+    map.getChildren().add(layer2);
+    map.getChildren().add(layer3);
   }
 }

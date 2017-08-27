@@ -40,7 +40,7 @@ public class RobotMotorManager {
         navigator.MoveAsync();
         break;
       case "Backward":
-        navigator.MoveAsync();
+        navigator.MoveAsync(true);
         break;
       case "Left":
         navigator.Rotate(90);

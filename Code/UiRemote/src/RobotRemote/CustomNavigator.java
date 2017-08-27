@@ -29,16 +29,20 @@ public class CustomNavigator implements CustomNavigatorInterface {
   }
 
   @Override
-  public void MoveAsync() {
+  public void MoveAsync(boolean ...backward) {
     Stop();
     double linearSpeed = pilot.getLinearSpeed(); //cm per second
     final double mapUpdateInterval = 0.05; //seconds
     final double mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
     final float distancePerInterval = (float) (linearSpeed * mapUpdateInterval); //cm
 
+    final boolean isBackward = backward.length >= 1;
     Task<Integer> task = new Task<Integer>() {
       @Override protected Integer call() throws Exception {
-        pilot.forward();
+        if(isBackward)
+          pilot.backward();
+        else
+          pilot.forward();
         while(!isCancelled()) {
           try {
             Thread.sleep((long) mapUpdateIntervalMs);
@@ -46,7 +50,7 @@ public class CustomNavigator implements CustomNavigatorInterface {
             Logger.LogCrossThread("TASK: interrupted!");
             break;
           }
-          cs.GoingStraight(distancePerInterval);
+          cs.GoingStraight(distancePerInterval); // Update coordinate system
         }
         pilot.stop();
         Logger.LogCrossThread("TASK: Exiting call loop!");

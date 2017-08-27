@@ -7,7 +7,13 @@ import javafx.scene.paint.Color;
 import java.util.List;
 
 public class MapUiDrawer {
-  public static void DrawPoints(GraphicsContext mapUi, List<MapPoint> points, Color colour) {
+  private MapPoint mapSize;
+
+  public MapUiDrawer(MapPoint mapSize){
+    this.mapSize = mapSize;
+  }
+
+  public void DrawBorderPoints(GraphicsContext mapUi, List<MapPoint> points, Color colour) {
     mapUi.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
@@ -16,7 +22,7 @@ public class MapUiDrawer {
     }
   }
 
-  public static void DrawPoints(GraphicsContext mapUi, MapPoint mapSize, List<MapPoint> points, Color colour) {
+  public void DrawMapPoints(GraphicsContext mapUi, List<MapPoint> points, Color colour) {
     mapUi.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
@@ -27,5 +33,14 @@ public class MapUiDrawer {
       double y2 = mapSize.y -p2.y;
       mapUi.strokeLine(x1,y1,x2,y2);
     }
+  }
+
+  public void DrawRobot(GraphicsContext mapUi, MapPoint robotLocation) {
+    mapUi.setFill(Color.BLUE);
+    int robotW = 10;
+    int robotH = 20;
+    double x1 = robotLocation.x - robotW/2;
+    double y1 = mapSize.y - robotLocation.y - robotH/2;
+    mapUi.fillRect(x1,y1, robotW, robotH);
   }
 }

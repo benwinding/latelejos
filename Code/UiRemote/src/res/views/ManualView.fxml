@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.layout.Pane?>
 <GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.Controllers.ManualController">
   <columnConstraints>
     <ColumnConstraints />
@@ -34,7 +35,7 @@
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0">
           <children>
-            <Canvas id="robotMap" fx:id="robotMap" height="527.0" layoutX="7.0" layoutY="8.0" width="457.0" />
+            <Pane fx:id="map" id="map" prefHeight="100" prefWidth="100"/>
           </children>
         </AnchorPane>
         <AnchorPane minWidth="300">
