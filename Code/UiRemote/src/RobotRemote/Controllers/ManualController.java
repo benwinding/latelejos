@@ -1,9 +1,8 @@
 package RobotRemote.Controllers;
 
-import RobotRemote.RobotSensorManager;
 import RobotRemote.Utils.Logger;
 import RobotRemote.Models.MapState;
-import RobotRemote.MapUiDrawer;
+import RobotRemote.MapLayerFactory;
 import RobotRemote.RobotMotorManager;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -17,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -171,31 +169,22 @@ public class ManualController implements Initializable {
     } catch (Exception ignored) {
       Logger.Log("Unable to get Map location");
     }
-    Logger.LogCrossThread("Updating Location From Robot");
-    SyncMapStateToView();
+    DrawMap();
   }
 
-  private void SyncMapStateToView() {
-    // Create Layers
-    Canvas layer1 = new Canvas(600,600);
-    Canvas layer2 = new Canvas(600,600);
-    Canvas layer3 = new Canvas(600,600);
-
-    // Obtain Graphics Contexts
-    GraphicsContext layerBorder = layer1.getGraphicsContext2D();
-    GraphicsContext layerPointsVisited = layer2.getGraphicsContext2D();
-    GraphicsContext layerRobot = layer3.getGraphicsContext2D();
-
-    // Draw on layers
-    MapUiDrawer mapDrawer = new MapUiDrawer(mapState.GetMapSize());
-    mapDrawer.DrawBorderPoints(layerBorder, mapState.GetPointsBorder(), Color.BLACK);
-    mapDrawer.DrawMapPoints(layerPointsVisited, mapState.GetPointsVisited(), Color.GREEN);
-    mapDrawer.DrawRobot(layerRobot, mapState.GetLastPoint());
+  private void DrawMap() {
+    // Create map layers from mapstate
+    MapLayerFactory mapFactory = new MapLayerFactory(mapState.GetMapSize());
+    Canvas layerBorder = mapFactory.CreateBorderLayer(mapState.GetPointsBorder(), Color.BLACK);
+    Canvas layerVisited = mapFactory.CreateVisitedLayer(mapState.GetPointsVisited(), Color.GREEN);
+    Canvas layerRobot = mapFactory.CreateCurrentLocationLayer(mapState.GetLastPoint());
+    Canvas layerSensors = mapFactory.CreateSensorFieldLayer(mapState.GetLastPoint());
 
     // Add to GUI
     map.getChildren().clear();
-    map.getChildren().add(layer1);
-    map.getChildren().add(layer2);
-    map.getChildren().add(layer3);
+    map.getChildren().add(layerBorder);
+    map.getChildren().add(layerSensors);
+    map.getChildren().add(layerRobot);
+    map.getChildren().add(layerVisited);
   }
 }
