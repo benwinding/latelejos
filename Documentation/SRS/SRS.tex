@@ -10,6 +10,7 @@
 \usepackage{anyfontsize} % custom fontsizes
 \usepackage{titlesec} % custom section spacings
 \usepackage{multirow} % merge table rows
+\usepackage{vhistory} % revision table package
 
 \setlist[itemize]{noitemsep} % No spaces in itemize lists
 \setlist[enumerate]{noitemsep} % No spaces in itemize lists
@@ -47,9 +48,23 @@
 		\maketitle
 		
 	\end{titlepage}
-	
-	\tableofcontents
+		 
+	\tableofcontents	
 	\listoffigures
+	
+	
+	\section*{Revision History}	
+	\label{revtable}	
+	\begin{tabular}{|p{2.1cm}|p{2.5cm}|p{2cm}|p{4.1cm}|}		
+		\hline 
+		\textbf {Name} & \textbf{Date} & \textbf {Version} &\textbf {Summary of Changes} \\ 
+		\hline 
+		1st Draft & 21/08/2017 & 1.0 & Initial Draft\\
+		\hline
+		2nd Draft & 27/08/2017 & 2.0 & Identificatons numbers added. Grammar improvements. Diagrams revisisted. Assumptions added. Priority classifications Added.\\ 
+		\hline 		
+	\end{tabular}
+
 	\newpage
 	
 	\section{Introduction}
@@ -146,18 +161,18 @@
 	
 	\subsection{Design and Implementation Constraints}
 	\subsubsection*{Implementation Constraints}
-	The system is to be implemented using the EV3 LEGO\cpright Mindstorms kit supplied by the client. The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0. And the external code used in the system shall not exceed 10. The build tool for compiling the software and deploying it to the system is \textit{ant}. The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
+	The system is to be implemented using the EV3 LEGO\cpright Mindstorms kit supplied by the client. The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0. And the external code used in the system shall not exceed 10\%. The build tool for compiling the software and deploying it to the system is \textit{ant}. The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
 	
 	\subsubsection*{Development Constraints}
 	The university enterprise Github instance is the version control system to be used throughout the project. During development the project team will use the IntelliJ IDE to design and write code. Slack is used for communication and coordination through out the project. Lastly, Latex is used to produce documentation since it is simple and is easier to maintain in a version control system.
 	
 	\subsection{User Documentation}
-	At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the off-line and online browser and so on, assisting users to control the robot better.
+	At the end of the project, a user manual will be available to users via a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the off-line and online browser and so on, assisting users to control the robot better.
 	
 	\subsection{Assumptions and Dependencies}
-	\paragraph{}
-	It is assumed that the password is entered correctly and the robot establishes connection successfully with appropriate software and hardware. Also, the robot is ready to be control manually or automatically.  
-	\paragraph{}
+	
+	It is assumed that the password is entered correctly and the robot establishes connection successfully with appropriate software and hardware. Also, the robot is ready to be control manually or automatically. \\ 
+
 	Additional assumptions and dependencies include: 
 	\begin{itemize}
 		\item The robot is controlled in manual mode before in automagical mode
@@ -251,11 +266,11 @@
 	\subsection{Sensors}
   
     \begin{itemize}
-		\item \textbf{UR08:} The robot shall not go into craters
+		\item \textbf{UR08:} The robot shall detect craters
 		\begin{itemize}
 			\item \textbf{Priority:} High
             \item \textbf{Dependency:} None
-			\item \textbf{Description:} The robot shall detect and avoid going into carters during the survey and try to find any alternate route to destination. 
+			\item \textbf{Description:} The robot shall detect and avoid going into carters during the survey and try to find an alternate route to destination. 
             \item \textbf{Rationale:} This feature will protect the robot from going into area where it is impossible for robot to recover without assistance. 
             \item \textbf{Acceptance criteria:} This requirement can be verified by trying to send the robot into craters by setting the destination on other side of the carter. 
 		\end{itemize} 
@@ -318,7 +333,7 @@
 		\begin{itemize}
 			\item \textbf{Priority:} Medium
             \item \textbf{Dependency:} None
-			\item \textbf{Description:}  The operate shall be able to take manual control of the robot at any time.   
+			\item \textbf{Description:}  The operator shall be able to take manual control of the robot at any time.   
             \item \textbf{Rationale:} This feature can be useful in manually adjusting the position of the robot at any time. 
             \item \textbf{Acceptance criteria:} This requirement can be verified controlling the robot manually at any time using the provided GUI. 
 		\end{itemize} 
@@ -328,7 +343,7 @@
 		\begin{itemize}
 			\item \textbf{Priority:} Medium
             \item \textbf{Dependency:} None
-			\item \textbf{Description:}   The robot shall remember its landing site and shall return to it when the survey is finished.
+			\item \textbf{Description:} The robot shall remember its landing site and shall return to it when the survey is finished.
             \item \textbf{Rationale:}  This feature will allow the operator to bring the robot back, once the survey is finished.
             \item \textbf{Acceptance criteria:} This requirement can be verified by instructing the robot to return to the landing site at any time during the survey. 
 		\end{itemize} 
@@ -337,7 +352,7 @@
 	
 	\section{System Features}
 	\subsection{Map input feature}
-	This feature is designed for operator manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
+	This feature is designed to allow the operator to manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
 	
 	\subsubsection*{Stimulus}
 	\begin{enumerate}
@@ -359,11 +374,13 @@
 		\item \textbf{FR001} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application provides a UI to enter new map information.
 		\end{itemize}
 		\item \textbf{FR002}
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall translate new map information into correct XML format and update current XML map info file with new information.
 		\end{itemize}
 	\end{itemize}
@@ -394,12 +411,14 @@
 		\item \textbf{FR003} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow operator import initial map information at the beginning of the survey mission. The application shall disable import button while robot is surveying the map.
 		\end{itemize}
 	
 		\item \textbf{FR004} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow operator export map information and save it with a unique name in designated folder.
 		\end{itemize}
 	\end{itemize}
@@ -428,11 +447,13 @@
 		\item \textbf{FR005} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow to import predefined a xml format map file which comply with predefine DTD provide by client.
 		\end{itemize}
 		\item \textbf{FR006} 
 		\begin{itemize}
 		\item \textbf{Priority:} Normal
+		\item \textbf{Dependency:} FR005
 		\item \textbf{Description:} The application shall display all information from imported map, operator inputs and survey info return from robot at real-time.
 		\end{itemize}
 	
@@ -463,23 +484,27 @@
 		\item \textbf{FR008} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} FR006
 			\item \textbf{Description:} The application shall allow operator manual control robot precisely with navigation buttons.
 		\end{itemize}
 		\item \textbf{FR009} 
 		\begin{itemize}
 		\item \textbf{Priority:} High
+		\item \textbf{Dependency:} None
 		\item \textbf{Description:} Emergency stop button shall stop robot immediately navigation buttons.
 		\end{itemize}
 	
 		\item \textbf{FR010} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow switch between manual/autonomous mode.
 		\end{itemize}
 	
 		\item \textbf{FR011} 
 		\begin{itemize}
 			\item \textbf{Priority:} Normal
+			\item \textbf{Dependency:} FR006
 			\item \textbf{Description:} While robot move under manual control. All map information collected from sensor will be recorded and display on map as describe feature 4.3.
 		\end{itemize}
 	\end{itemize}
@@ -508,17 +533,20 @@
 		\item \textbf{FR012} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} FR004
 			\item \textbf{Description:} The application shall have an self-control module which can control and navigate robot automatically corresponding to information from the map and sensors data while surveying.
 		\end{itemize}
 		\item \textbf{FR013} 
 		\begin{itemize}
 		\item \textbf{Priority:} High
+		\item \textbf{Dependency:} None
 		\item \textbf{Description:} The application shall have an obstacle detection algorithms that prevent robot collide with obstacle or move into NGZ's/Craters.
 		\end{itemize}
 	
 		\item \textbf{FR014} 
 		\begin{itemize}
 			\item \textbf{Priority:} Normal
+			\item \textbf{Dependency:} FR013
 			\item \textbf{Description:} The application shall have a build in algorithm to find the safe and shortest path to navigate from one location to another location.
 		\end{itemize}
 		\item \textbf{FR011}
@@ -544,6 +572,7 @@
 		\item \textbf{FR015}
 		\begin{itemize}
 			\item \textbf{Priority:} Normal
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} Application shall provide authentication step before operator can start to control robot.
 		\end{itemize} 
 		
@@ -635,14 +664,9 @@
 	\subsubsection*{Robot Embedded Interface}
 	All hardware components such as sensors and motors in the Robot are controlled by a controller called a LEGO\cpright EV3 brick. The EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WiFi. The details of specification of WiFi dongle which is inserted to the Robot will be discussed in 5.4 section.
 	
-	\subsubsection*{System Control Flowchart}
-	The flow of system control is shown in figure \ref{fig:Flow of data and control interaction}. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.
+	\subsubsection*{System Control}
+	 The system control is conducted via WiFi connection. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.	
 	
-	\begin{figure}[h]
-		\includegraphics[width=\linewidth]{data_and_control.PNG}
-		\caption{Flow of data and control interaction}
-		\label{fig:Flow of data and control interaction}
-	\end{figure}
 	
 	\subsection{Software Interfaces}  
 	The system is developed in Java 7 environment and support running with machine specifications as stated in section 2.4. The flow of software communication between each component is shown in figure \ref{fig:Flow of software communication}.
@@ -699,40 +723,56 @@
 	\section{Other Non-Functional Requirements}
 	
 	\subsection{Performance Requirements}
-	\subsubsection*{Map Accuracy}
+	\subsubsection*{NFR01: Map Accuracy}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR01, UR02, UR03, UR04
 	\paragraph{Description:} The visual representation of the map shall be as accurate as possible. The various objects and hazards that the robot encounters must be recognised and drawn as soon as the robot encounters them.
 	\paragraph{Rationale:} The client must be able to use the map for other purposes once the crash site has been found and therefore is relying on the map to be an accurate representation of the environment. In addition, the robot must be able to use the map to determine where past obstacles were to allow for smooth navigation and to avoid unnecessary travel time.\\
 	
-	\subsubsection*{Speed}
+	\subsubsection*{NFR02: Speed}
+	\paragraph{Priortiy:} Medium
+	\paragraph{Dependencies:} None
 	\paragraph {Description:} The surveying of the land and discovery of the goal shall be completed in reasonable time. For this prototype, this shall be interpreted as no more than 25 minutes to complete the journey form landing to returning to the landing zone after completing the goal. On manual control this shall be determined by the operator of the robot but will not be allowed to exceed a specified limit for safety purposes.
 	\paragraph {Rationale:} The robot will have a limited power supply and must be able to complete its mission before that power runs out. 
 	
 	\subsection{Safety Requirements}
 	\subsubsection*{Significant Impact}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR09
 	\paragraph {Description:} While on autopilot, the robot shall not exceed \begin{math}0.3 m/s\end{math}. When detecting an obstacle, the robot shall stop within 0.15 metres before collision to avoid significant impact and to allow for turning room. During prototype testing, a collision will be deemed significant impact if the robot manages to physically move an obstacle. The manual controller shall default to no more than \begin{math}0.3 m/s\end{math} however the pilot may have additional speed options available to them.
 	\paragraph {Rationale:}The safety of any persons on the landing site is paramount and a collision of the actual robot to any persons may lead to severe injury or death. The prototype is also representing a robot that will be expensive to repair and significant damage to the robot may lead to irreparable damage and failure of the mission.
 	
-	\subsubsection*{No Go Zones}
+	\subsubsection*{NFR03: No Go Zones}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR10
 	\paragraph {Description:} No more than half the robot may enter the NGZ at any time.\\
 	\paragraph{Rationale:} An NGZ may represent an area where personnel are active or may indicate an area of known hazardous materials or obstacles otherwise not detectable by the robot. For the safety of the personnel and the robot, the prototype must be able to demonstrate the ability to maneuver its way out of an NGZ without risking injury to personnel or getting stuck in an hazardous area.\\
 	
 	\subsection{Security Requirements}
-	\subsubsection*{Unauthorised Access}
+	\subsubsection*{NFR04: Unauthorised Access}
+	\paragraph{Priortiy:}Medium
+	\paragraph{Dependencies:}TBD
 	\paragraph {Description:} The GUI shall have a login section where a username and password is presented and verified before the controller can be used.\\
 	\paragraph{Rationale:} Unauthorised use of the robot may lead to damage or loss if targeted by malicious competition or an individual who has not been verified by the client.\\
 	
 	\subsection{Software Quality Attributes}
 	
-	\subsubsection*{Ease of use}
+	\subsubsection*{NFR05:Ease of use}
+	\paragraph{Priortiy:} Low
+	\paragraph{Dependencies:} None
 	\paragraph {Description:} The GUI shall have intuitive controls and clearly marked buttons. The size of the controller and map shall be set to a size that is sufficient for comfort and legibility. The visual style of the GUI will conform to the standards of similar controller layouts commonly found in maps and remote controllers.\\
 	\paragraph {Rationale:} The Client will have limited time to spend learning controls and must be able to intuitively navigate the GUI without much training. This should include importing and exporting map data.\\
 	
 	\section{Other Requirements}
 	
 	\section{Appendix A: Glossary}
-	NGZ: No-Go Zone
+	\textbf{GUI:} Graphical User Interface\\	
+	\textbf{MJ:} "Michael Jackson" - internal nickname to lunar robot and controller application	\\
+	\textbf{NGZ:} No-Go Zone\\
+	\textbf{TBD:} To Be Determined\\
+	\textbf{UI:} User Interface\\
 	
-	\section{Appendix B: Analysis Models}
+		\section{Appendix B: Analysis Models}
 	
 	\section{Appendix C: Issues List}
 	

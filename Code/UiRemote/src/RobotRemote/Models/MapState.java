@@ -1,9 +1,11 @@
 package RobotRemote.Models;
 
 import RobotRemote.Models.MapPoint;
+import lejos.robotics.navigation.Pose;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MapState {
   private List<MapPoint> pointsVisited = new ArrayList<>();
@@ -23,8 +25,8 @@ public class MapState {
     pointsMapBorder.add(new MapPoint(0,0));
   }
 
-  public void AddPoint(double x, double y) {
-    MapPoint newPoint = new MapPoint(y,x); // Reversed x and y for Ui
+  public void AddPoint(double x, double y, double theta) {
+    MapPoint newPoint = new MapPoint(y, x, theta); // Reversed x and y for Ui
     this.pointsVisited.add(newPoint);
   }
 
@@ -34,5 +36,10 @@ public class MapState {
   public List<MapPoint> GetPointsBorder() { return this.pointsMapBorder; }
 
   public MapPoint GetMapSize() { return this.mapSize; }
+
+  public MapPoint GetLastPoint() {
+    int size = this.pointsVisited.size();
+    return this.pointsVisited.get(size - 1);
+  }
 }
 

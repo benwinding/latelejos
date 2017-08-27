@@ -21,30 +21,41 @@ public class CustomNavigator implements CustomNavigatorInterface {
   @Override
   public void MoveStraight(float distance) {
     Stop();
-    if(pilot != null)
+    try{
       pilot.travel(distance);
+    } catch (Exception ignored) {
+    }
     cs.GoingStraight(distance);
   }
 
   @Override
-  public void MoveAsync(final float distanceIncrement) {
+  public void MoveAsync(boolean ...backward) {
     Stop();
+    final double linearSpeed = pilot.getLinearSpeed(); //cm per second
+    final double mapUpdateInterval = 0.05; //seconds
+    final double mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
+
+    final boolean isBackward = backward.length >= 1;
+
     Task<Integer> task = new Task<Integer>() {
       @Override protected Integer call() throws Exception {
+        float distancePerInterval = (float) (-linearSpeed * mapUpdateInterval); //cm
+        if(isBackward) {
+          pilot.backward();
+          distancePerInterval = -1 * distancePerInterval;
+        }
+        else
+          pilot.forward();
         while(!isCancelled()) {
-          try{
-            pilot.travel(distanceIncrement);
-          } catch (Exception ignored) {
-          }
-          cs.GoingStraight(distanceIncrement);
-          Logger.LogCrossThread("TASK: Moving robot distance:" + distanceIncrement);
           try {
-            Thread.sleep(10);
+            Thread.sleep((long) mapUpdateIntervalMs);
           } catch (InterruptedException interrupted) {
             Logger.LogCrossThread("TASK: interrupted!");
             break;
           }
+          cs.GoingStraight(distancePerInterval); // Update coordinate system
         }
+        pilot.stop();
         Logger.LogCrossThread("TASK: Exiting call loop!");
         return 0;
       }

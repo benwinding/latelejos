@@ -3,6 +3,7 @@ package RobotRemote;
 import RobotRemote.Controllers.ManualController;
 import RobotRemote.Utils.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,11 +28,14 @@ public class Main extends Application {
         primaryStage.setTitle("Robot Remote UI");
         primaryStage.setScene(scene);
 
+        Platform.setImplicitExit(false);
+
         primaryStage.show();
     }
     @Override
     public void stop(){
         System.out.println("Stage is closing");
+        RobotMotorManager.StopAll();
     }
 
     public static void main(String[] args) {
