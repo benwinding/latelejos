@@ -4,7 +4,10 @@ import RobotRemote.Utils.Logger;
 import RobotRemote.Models.MapState;
 import RobotRemote.MapUiDrawer;
 import RobotRemote.RobotMotorManager;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -19,9 +22,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Pose;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import static RobotRemote.RobotMotorManager.MoveMotors;
 
-public class ManualController {
+public class ManualController implements Initializable {
   private Scene scene;
   private Scene help;
   private MapState mapState;
@@ -43,20 +49,47 @@ public class ManualController {
   @FXML
   Pane map;
 
+  @Override
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    Logger.Log("UI Loaded!");
+  }
+
   public void Init(Scene scene, float initX, float initY) {
     this.scene = scene;
     this.mapState = new MapState(initX,initY);
     this.initGUI();
+    this.initMap();
+  }
+
+  private void initMap() {
+    Task task = new Task<Void>() {
+      @Override
+      public Void call() throws Exception {
+        while (true) {
+          Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+              UpdateLocationFromRobot();
+              Logger.LogCrossThread("Updating Map");
+            }
+          });
+          Thread.sleep(500);
+        }
+      }
+    };
+    Thread mapRefreshThread = new Thread(task);
+    mapRefreshThread.setDaemon(true);
+    mapRefreshThread.start();
   }
 
   private void initGUI(){
-
-      this.btnMoveLeft.setImage(new Image("res/img/left.png"));
-      this.btnMoveRight.setImage(new Image("res/img/right.png"));
-      this.btnMoveUp.setImage(new Image("res/img/up.png"));
-      this.btnMoveDown.setImage(new Image("res/img/down.png"));
-      this.btnMoveStop.setImage(new Image("res/img/stop.png"));
+    this.btnMoveLeft.setImage(new Image("res/img/left.png"));
+    this.btnMoveRight.setImage(new Image("res/img/right.png"));
+    this.btnMoveUp.setImage(new Image("res/img/up.png"));
+    this.btnMoveDown.setImage(new Image("res/img/down.png"));
+    this.btnMoveStop.setImage(new Image("res/img/stop.png"));
   }
+
   public void keyPressed(KeyEvent e) {
     switch (e.getCode()) {
       case W:
@@ -74,7 +107,6 @@ public class ManualController {
       default:
         Logger.Log("Key press:" + e.getCode() + " is not implemented");
     }
-    UpdateLocationFromRobot();
   }
 
   public void onClickHelp(MouseEvent mouseEvent) {
@@ -93,44 +125,40 @@ public class ManualController {
 
   public void onClickStop(MouseEvent mouseEvent) {
     MoveMotors("Stop");
-    UpdateLocationFromRobot();
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
     MoveMotors("Forward");
-    UpdateLocationFromRobot();
   }
 
   public void onClickBackward(MouseEvent mouseEvent) {
     MoveMotors("Backward");
-    UpdateLocationFromRobot();
   }
 
   public void onClickLeft(MouseEvent mouseEvent) {
     MoveMotors("Left");
-    UpdateLocationFromRobot();
   }
 
   public void onClickRight(MouseEvent mouseEvent) {
     MoveMotors("Right");
-    UpdateLocationFromRobot();
   }
 
   private void UpdateLocationFromRobot() {
-    Pose pose = RobotMotorManager.GetCoords();
-    if(pose == null) {
+    try {
+      Pose pose = RobotMotorManager.GetCoords();
+      mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
+    } catch (Exception ignored) {
       Logger.Log("Unable to get Map location");
-      return;
     }
-    mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
+    Logger.LogCrossThread("Updating Location From Robot");
     SyncMapStateToView();
   }
 
   private void SyncMapStateToView() {
     // Create Layers
-    Canvas layer1 = new Canvas(500,400);
-    Canvas layer2 = new Canvas(500,400);
-    Canvas layer3 = new Canvas(500,400);
+    Canvas layer1 = new Canvas(600,600);
+    Canvas layer2 = new Canvas(600,600);
+    Canvas layer3 = new Canvas(600,600);
 
     // Obtain Graphics Contexts
     GraphicsContext layerBorder = layer1.getGraphicsContext2D();

@@ -31,16 +31,19 @@ public class CustomNavigator implements CustomNavigatorInterface {
   @Override
   public void MoveAsync(boolean ...backward) {
     Stop();
-    double linearSpeed = pilot.getLinearSpeed(); //cm per second
+    final double linearSpeed = pilot.getLinearSpeed(); //cm per second
     final double mapUpdateInterval = 0.05; //seconds
     final double mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
-    final float distancePerInterval = (float) (linearSpeed * mapUpdateInterval); //cm
 
     final boolean isBackward = backward.length >= 1;
+
     Task<Integer> task = new Task<Integer>() {
       @Override protected Integer call() throws Exception {
-        if(isBackward)
+        float distancePerInterval = (float) (-linearSpeed * mapUpdateInterval); //cm
+        if(isBackward) {
           pilot.backward();
+          distancePerInterval = -1 * distancePerInterval;
+        }
         else
           pilot.forward();
         while(!isCancelled()) {

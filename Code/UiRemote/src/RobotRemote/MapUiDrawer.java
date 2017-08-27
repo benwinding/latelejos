@@ -37,7 +37,7 @@ public class MapUiDrawer {
 
   public void DrawRobot(GraphicsContext mapUi, MapPoint robotLocation) {
     mapUi.setFill(Color.BLUE);
-    int robotW = 10;
+    int robotW = 20;
     int robotH = 20;
     double x1 = robotLocation.x - robotW/2;
     double y1 = mapSize.y - robotLocation.y - robotH/2;
