@@ -10,6 +10,7 @@
 \usepackage{anyfontsize} % custom fontsizes
 \usepackage{titlesec} % custom section spacings
 \usepackage{multirow} % merge table rows
+\usepackage{vhistory} % revision table package
 
 \setlist[itemize]{noitemsep} % No spaces in itemize lists
 \setlist[enumerate]{noitemsep} % No spaces in itemize lists
@@ -47,9 +48,23 @@
 		\maketitle
 		
 	\end{titlepage}
-	
-	\tableofcontents
+		 
+	\tableofcontents	
 	\listoffigures
+	
+	
+	\section*{Revision History}	
+	\label{revtable}	
+	\begin{tabular}{|p{2.1cm}|p{2.5cm}|p{2cm}|p{4.1cm}|}		
+		\hline 
+		\textbf {Name} & \textbf{Date} & \textbf {Version} &\textbf {Summary of Changes} \\ 
+		\hline 
+		1st Draft & 21/08/2017 & 1.0 & Initial Draft\\
+		\hline
+		2nd Draft & 27/08/2017 & 2.0 & Identificatons numbers added. Grammar improvements. Diagrams revisisted. Assumptions added. Priority classifications Added.\\ 
+		\hline 		
+	\end{tabular}
+
 	\newpage
 	
 	\section{Introduction}
@@ -146,13 +161,13 @@
 	
 	\subsection{Design and Implementation Constraints}
 	\subsubsection*{Implementation Constraints}
-	The system is to be implemented using the EV3 LEGO\cpright Mindstorms kit supplied by the client. The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0. And the external code used in the system shall not exceed 10. The build tool for compiling the software and deploying it to the system is \textit{ant}. The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
+	The system is to be implemented using the EV3 LEGO\cpright Mindstorms kit supplied by the client. The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0. And the external code used in the system shall not exceed 10\%. The build tool for compiling the software and deploying it to the system is \textit{ant}. The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
 	
 	\subsubsection*{Development Constraints}
 	The university enterprise Github instance is the version control system to be used throughout the project. During development the project team will use the IntelliJ IDE to design and write code. Slack is used for communication and coordination through out the project. Lastly, Latex is used to produce documentation since it is simple and is easier to maintain in a version control system.
 	
 	\subsection{User Documentation}
-	At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the off-line and online browser and so on, assisting users to control the robot better.
+	At the end of the project, a user manual will be available to users via a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the off-line and online browser and so on, assisting users to control the robot better.
 	
 	\subsection{Assumptions and Dependencies}
 	\paragraph{}
@@ -251,11 +266,11 @@
 	\subsection{Sensors}
   
     \begin{itemize}
-		\item \textbf{UR08:} The robot shall not go into craters
+		\item \textbf{UR08:} The robot shall detect craters
 		\begin{itemize}
 			\item \textbf{Priority:} High
             \item \textbf{Dependency:} None
-			\item \textbf{Description:} The robot shall detect and avoid going into carters during the survey and try to find any alternate route to destination. 
+			\item \textbf{Description:} The robot shall detect and avoid going into carters during the survey and try to find an alternate route to destination. 
             \item \textbf{Rationale:} This feature will protect the robot from going into area where it is impossible for robot to recover without assistance. 
             \item \textbf{Acceptance criteria:} This requirement can be verified by trying to send the robot into craters by setting the destination on other side of the carter. 
 		\end{itemize} 
@@ -318,7 +333,7 @@
 		\begin{itemize}
 			\item \textbf{Priority:} Medium
             \item \textbf{Dependency:} None
-			\item \textbf{Description:}  The operate shall be able to take manual control of the robot at any time.   
+			\item \textbf{Description:}  The operator shall be able to take manual control of the robot at any time.   
             \item \textbf{Rationale:} This feature can be useful in manually adjusting the position of the robot at any time. 
             \item \textbf{Acceptance criteria:} This requirement can be verified controlling the robot manually at any time using the provided GUI. 
 		\end{itemize} 
@@ -328,7 +343,7 @@
 		\begin{itemize}
 			\item \textbf{Priority:} Medium
             \item \textbf{Dependency:} None
-			\item \textbf{Description:}   The robot shall remember its landing site and shall return to it when the survey is finished.
+			\item \textbf{Description:} The robot shall remember its landing site and shall return to it when the survey is finished.
             \item \textbf{Rationale:}  This feature will allow the operator to bring the robot back, once the survey is finished.
             \item \textbf{Acceptance criteria:} This requirement can be verified by instructing the robot to return to the landing site at any time during the survey. 
 		\end{itemize} 
@@ -337,7 +352,7 @@
 	
 	\section{System Features}
 	\subsection{Map input feature}
-	This feature is designed for operator manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
+	This feature is designed to allow the operator to manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
 	
 	\subsubsection*{Stimulus}
 	\begin{enumerate}
@@ -359,11 +374,13 @@
 		\item \textbf{FR001} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application provides a UI to enter new map information.
 		\end{itemize}
 		\item \textbf{FR002}
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall translate new map information into correct XML format and update current XML map info file with new information.
 		\end{itemize}
 	\end{itemize}
@@ -394,12 +411,14 @@
 		\item \textbf{FR003} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow operator import initial map information at the beginning of the survey mission. The application shall disable import button while robot is surveying the map.
 		\end{itemize}
 	
 		\item \textbf{FR004} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow operator export map information and save it with a unique name in designated folder.
 		\end{itemize}
 	\end{itemize}
@@ -428,11 +447,13 @@
 		\item \textbf{FR005} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow to import predefined a xml format map file which comply with predefine DTD provide by client.
 		\end{itemize}
 		\item \textbf{FR006} 
 		\begin{itemize}
 		\item \textbf{Priority:} Normal
+		\item \textbf{Dependency:} FR005
 		\item \textbf{Description:} The application shall display all information from imported map, operator inputs and survey info return from robot at real-time.
 		\end{itemize}
 	
@@ -463,23 +484,27 @@
 		\item \textbf{FR008} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} FR006
 			\item \textbf{Description:} The application shall allow operator manual control robot precisely with navigation buttons.
 		\end{itemize}
 		\item \textbf{FR009} 
 		\begin{itemize}
 		\item \textbf{Priority:} High
+		\item \textbf{Dependency:} None
 		\item \textbf{Description:} Emergency stop button shall stop robot immediately navigation buttons.
 		\end{itemize}
 	
 		\item \textbf{FR010} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} The application shall allow switch between manual/autonomous mode.
 		\end{itemize}
 	
 		\item \textbf{FR011} 
 		\begin{itemize}
 			\item \textbf{Priority:} Normal
+			\item \textbf{Dependency:} FR006
 			\item \textbf{Description:} While robot move under manual control. All map information collected from sensor will be recorded and display on map as describe feature 4.3.
 		\end{itemize}
 	\end{itemize}
@@ -508,17 +533,20 @@
 		\item \textbf{FR012} 
 		\begin{itemize}
 			\item \textbf{Priority:} High
+			\item \textbf{Dependency:} FR004
 			\item \textbf{Description:} The application shall have an self-control module which can control and navigate robot automatically corresponding to information from the map and sensors data while surveying.
 		\end{itemize}
 		\item \textbf{FR013} 
 		\begin{itemize}
 		\item \textbf{Priority:} High
+		\item \textbf{Dependency:} None
 		\item \textbf{Description:} The application shall have an obstacle detection algorithms that prevent robot collide with obstacle or move into NGZ's/Craters.
 		\end{itemize}
 	
 		\item \textbf{FR014} 
 		\begin{itemize}
 			\item \textbf{Priority:} Normal
+			\item \textbf{Dependency:} FR013
 			\item \textbf{Description:} The application shall have a build in algorithm to find the safe and shortest path to navigate from one location to another location.
 		\end{itemize}
 		\item \textbf{FR011}
@@ -544,6 +572,7 @@
 		\item \textbf{FR015}
 		\begin{itemize}
 			\item \textbf{Priority:} Normal
+			\item \textbf{Dependency:} None
 			\item \textbf{Description:} Application shall provide authentication step before operator can start to control robot.
 		\end{itemize} 
 		
