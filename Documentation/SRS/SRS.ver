@@ -1,0 +1,18 @@
+\begin {longtable}{@{}ll>{\hsize =\vhAuthorColWidth }X>{\hsize =\vhChangeColWidth }X@{}}
+\textbf {\vhversionname }
+ & \textbf {\vhdatename }
+ & \textbf {\vhauthorname }
+ & \textbf {\vhchangename }\\[1ex]
+Name
+ & Date
+ & \listset {Version}
+ & Changes\\
+1st Draft
+ & 21/08/2017
+ & \listset {1.0}
+ & Initial Draft\\
+2nd Draft
+ & 27/08/2017
+ & \listset {1.1}
+ & Identificatons numbers added, grammar improvements, Diagram revisisted, more assumptions added, added priority classification\\
+\end {longtable}

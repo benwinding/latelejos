@@ -10,6 +10,7 @@
 \usepackage{anyfontsize} % custom fontsizes
 \usepackage{titlesec} % custom section spacings
 \usepackage{multirow} % merge table rows
+\usepackage{vhistory} % revision table package
 
 \setlist[itemize]{noitemsep} % No spaces in itemize lists
 \setlist[enumerate]{noitemsep} % No spaces in itemize lists
@@ -47,9 +48,23 @@
 		\maketitle
 		
 	\end{titlepage}
-	
-	\tableofcontents
+		 
+	\tableofcontents	
 	\listoffigures
+	
+	
+	\section*{Revision History}	
+	\label{revtable}	
+	\begin{tabular}{|p{2.1cm}|p{2.5cm}|p{2cm}|p{4.1cm}|}		
+		\hline 
+		\textbf {Name} & \textbf{Date} & \textbf {Version} &\textbf {Summary of Changes} \\ 
+		\hline 
+		1st Draft & 21/08/2017 & 1.0 & Initial Draft\\
+		\hline
+		2nd Draft & 27/08/2017 & 2.0 & Identificatons numbers added. Grammar improvements. Diagrams revisisted. Assumptions added. Priority classifications Added.\\ 
+		\hline 		
+	\end{tabular}
+
 	\newpage
 	
 	\section{Introduction}
@@ -152,7 +167,7 @@
 	The university enterprise Github instance is the version control system to be used throughout the project. During development the project team will use the IntelliJ IDE to design and write code. Slack is used for communication and coordination through out the project. Lastly, Latex is used to produce documentation since it is simple and is easier to maintain in a version control system.
 	
 	\subsection{User Documentation}
-	At the end of the project, a user manual would be available to users on a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the off-line and online browser and so on, assisting users to control the robot better.
+	At the end of the project, a user manual will be available to users via a handbook. The handbook will mainly describe the different parts of GUI, including the getting started window, the paths and targets browser, the off-line and online browser and so on, assisting users to control the robot better.
 	
 	\subsection{Assumptions and Dependencies}
 	\paragraph{}
