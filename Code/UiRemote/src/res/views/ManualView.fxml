@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.ManualController">
+<GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.Controllers.ManualController">
   <columnConstraints>
     <ColumnConstraints />
   </columnConstraints>
@@ -56,44 +56,34 @@
                       </rowConstraints>
                       <Button mnemonicParsing="false" onMouseClicked="#onClickLeft" prefHeight="26.0" prefWidth="66.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                         <graphic>
-                          <ImageView fitHeight="68.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                              <Image url="@left.png" />
-                            </image>
+                          <ImageView fx:id="btnMoveLeft" fitHeight="68.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                           </ImageView>
-                        </graphic></Button>
+                        </graphic>
+                      </Button>
                       <Button mnemonicParsing="false" onMouseClicked="#onClickRight" prefHeight="59.0" prefWidth="49.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <graphic>
-                          <ImageView fitHeight="63.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                              <Image url="@right.png" />
-                            </image></ImageView>
+                          <ImageView fx:id="btnMoveRight" fitHeight="63.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                          </ImageView>
                         </graphic></Button>
                       <Button mnemonicParsing="false" onMouseClicked="#onClickForward" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <graphic>
-                          <ImageView fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                              <Image url="@up.png" />
-                            </image>
+                          <ImageView fx:id="btnMoveUp" fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+
                           </ImageView>
-                        </graphic></Button>
+                        </graphic>
+                      </Button>
                       <Button mnemonicParsing="false" onMouseClicked="#onClickBackward" prefHeight="46.0" prefWidth="72.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                         <graphic>
-                          <ImageView fitHeight="78.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                              <Image url="@down.png" />
-                            </image>
+                          <ImageView fx:id="btnMoveDown" fitHeight="78.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                           </ImageView>
-                        </graphic></Button>
+                        </graphic>
+                      </Button>
                       <Button mnemonicParsing="false" onMouseClicked="#onClickStop" style="-fx-background-radius: 100;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                         <GridPane.margin>
                           <Insets />
                         </GridPane.margin>
                         <graphic>
-                          <ImageView fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                              <Image url="@stop.png" />
-                            </image>
+                          <ImageView fx:id="btnMoveStop" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                           </ImageView>
                         </graphic>
                       </Button>

@@ -1,5 +1,6 @@
 package RobotRemote;
 
+import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
 import lejos.robotics.navigation.Pose;
 
 public class RobotCoordinateSystem implements RobotCoordinateSystemInterface {

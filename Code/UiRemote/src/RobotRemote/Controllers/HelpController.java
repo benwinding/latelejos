@@ -1,4 +1,4 @@
-package RobotRemote;
+package RobotRemote.Controllers;
 
 public class HelpController {
 

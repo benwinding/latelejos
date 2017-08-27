@@ -1,5 +1,8 @@
 package RobotRemote;
 
+import RobotRemote.Models.Interfaces.CustomNavigatorInterface;
+import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
+import RobotRemote.Utils.Logger;
 import javafx.concurrent.Task;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;

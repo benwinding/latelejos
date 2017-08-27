@@ -1,5 +1,6 @@
 package RobotRemote;
 
+import RobotRemote.Utils.Logger;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteRequestEV3;

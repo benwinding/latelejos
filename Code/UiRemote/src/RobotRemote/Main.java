@@ -1,5 +1,7 @@
 package RobotRemote;
 
+import RobotRemote.Controllers.ManualController;
+import RobotRemote.Utils.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,9 +12,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ManualView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/res/views/ManualView.fxml"));
         Parent root = (Parent) loader.load();
-
         // Setup controller
         ManualController manualController = loader.getController();
         Scene scene = new Scene(root, 800, 600);
@@ -28,7 +29,6 @@ public class Main extends Application {
 
         primaryStage.show();
     }
-
     @Override
     public void stop(){
         System.out.println("Stage is closing");

@@ -1,5 +1,12 @@
-package RobotRemote;
+package RobotRemote.Controllers;
 
+import RobotRemote.Utils.Logger;
+import RobotRemote.MapState;
+import RobotRemote.MapUiDrawer;
+import RobotRemote.RobotMotorManager;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,12 +27,34 @@ public class ManualController {
   private Scene scene;
   private Scene help;
   private MapState mapState;
+  @FXML
+  ImageView btnMoveLeft;
 
+  @FXML
+  ImageView btnMoveUp;
+
+  @FXML
+  ImageView btnMoveDown;
+
+  @FXML
+  ImageView btnMoveRight;
+
+  @FXML
+  ImageView btnMoveStop;
   public void Init(Scene scene, float initX, float initY) {
     this.scene = scene;
     this.mapState = new MapState(initX,initY);
+    this.initGUI();
   }
 
+  private void initGUI(){
+
+      this.btnMoveLeft.setImage(new Image("res/img/left.png"));
+      this.btnMoveRight.setImage(new Image("res/img/right.png"));
+      this.btnMoveUp.setImage(new Image("res/img/up.png"));
+      this.btnMoveDown.setImage(new Image("res/img/down.png"));
+      this.btnMoveStop.setImage(new Image("res/img/stop.png"));
+  }
   public void keyPressed(KeyEvent e) {
     if(e.getCode()==KeyCode.W){
       MoveMotors("Forward");
@@ -50,7 +79,7 @@ public class ManualController {
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpView.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/views/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
       help = new Scene(root, 400, 300);
       Stage stage = new Stage();

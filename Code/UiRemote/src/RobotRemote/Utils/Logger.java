@@ -1,4 +1,4 @@
-package RobotRemote;
+package RobotRemote.Utils;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -6,23 +6,23 @@ import javafx.scene.control.TextArea;
 public class Logger {
   private static Scene uiScene;
 
-  static void Init(Scene scene) {
+  public static void Init(Scene scene) {
     uiScene = scene;
   }
 
-  static void Log(String msg) {
+  public static void Log(String msg) {
     TryToLogConsole(msg);
     TryToWriteToUi(msg);
   }
 
-  private static void TryToLogConsole(String msg) {
+  public static void TryToLogConsole(String msg) {
     try {
       System.out.println(msg);
     }catch (Exception ignored) {
     }
   }
 
-  private static void TryToWriteToUi(String msg) {
+  public static void TryToWriteToUi(String msg) {
     try{
       TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
       textArea.appendText(msg + '\n');
@@ -31,7 +31,7 @@ public class Logger {
     }
   }
 
-  static void LogCrossThread(String s) {
+  public static void LogCrossThread(String s) {
 //    System.out.println(s);
   }
 }

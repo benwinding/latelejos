@@ -1,19 +1,39 @@
 package RobotRemote;
 
+import RobotRemote.Models.Interfaces.CustomNavigatorInterface;
+import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
+import RobotRemote.Utils.Logger;
+import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
-class RobotMotorManager {
+import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
+
+public class RobotMotorManager {
   static private CustomNavigatorInterface navigator;
+  static ArcRotateMoveController GetPilot() {
+    ArcRotateMoveController pilot;
+    try {
+      RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
+      pilot = brick.createPilot(WHEEL_SIZE_EV3, 10, "A", "B");
+      pilot.setLinearSpeed(5);
+      pilot.setAngularSpeed(30);
+      pilot.setAngularAcceleration(10);
+      return pilot;
+    } catch (Exception e) {
+      Logger.Log("Pilot Factory: Unable to get pilot from ev3, using test pilot");
+      return null;
+    }
+  }
 
   static void InitMotors(float xInit, float yInit) {
     RobotCoordinateSystemInterface cs = new RobotCoordinateSystem(xInit, yInit);
-    ArcRotateMoveController pilot = PilotFactory.GetPilot();
+    ArcRotateMoveController pilot = GetPilot();
     navigator = new CustomNavigator();
     navigator.Init(cs, pilot);
   }
 
-  static void MoveMotors(String Direction) {
+  public static void MoveMotors(String Direction) {
     Logger.Log("Moving motors: " + Direction);
     switch (Direction) {
       case "Forward":
@@ -36,7 +56,7 @@ class RobotMotorManager {
     }
   }
 
-  static Pose GetCoords() {
+  public static Pose GetCoords() {
     return navigator.GetGlobalPose();
   }
 }

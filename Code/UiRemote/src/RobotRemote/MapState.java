@@ -1,5 +1,7 @@
 package RobotRemote;
 
+import RobotRemote.Models.MapPoint;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,15 +23,15 @@ public class MapState {
     pointsMapBorder.add(new MapPoint(0,0));
   }
 
-  void AddPoint(double x, double y) {
+  public void AddPoint(double x, double y) {
     MapPoint newPoint = new MapPoint(y,x); // Reversed x and y for Ui
     this.pointsVisited.add(newPoint);
   }
 
-  List<MapPoint> GetPointsVisited() {
+  public List<MapPoint> GetPointsVisited() {
     return this.pointsVisited;
   }
-  List<MapPoint> GetPointsBorder() { return this.pointsMapBorder; }
+  public List<MapPoint> GetPointsBorder() { return this.pointsMapBorder; }
 
   public MapPoint GetMapSize() { return this.mapSize; }
 }
