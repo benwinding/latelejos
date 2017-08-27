@@ -161,7 +161,7 @@
 	
 	\subsection{Design and Implementation Constraints}
 	\subsubsection*{Implementation Constraints}
-	The system is to be implemented using the EV3 LEGO\cpright Mindstorms kit supplied by the client. The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0. And the external code used in the system shall not exceed 10. The build tool for compiling the software and deploying it to the system is \textit{ant}. The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
+	The system is to be implemented using the EV3 LEGO\cpright Mindstorms kit supplied by the client. The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0. And the external code used in the system shall not exceed 10\%. The build tool for compiling the software and deploying it to the system is \textit{ant}. The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
 	
 	\subsubsection*{Development Constraints}
 	The university enterprise Github instance is the version control system to be used throughout the project. During development the project team will use the IntelliJ IDE to design and write code. Slack is used for communication and coordination through out the project. Lastly, Latex is used to produce documentation since it is simple and is easier to maintain in a version control system.
@@ -266,11 +266,11 @@
 	\subsection{Sensors}
   
     \begin{itemize}
-		\item \textbf{UR08:} The robot shall not go into craters
+		\item \textbf{UR08:} The robot shall detect craters
 		\begin{itemize}
 			\item \textbf{Priority:} High
             \item \textbf{Dependency:} None
-			\item \textbf{Description:} The robot shall detect and avoid going into carters during the survey and try to find any alternate route to destination. 
+			\item \textbf{Description:} The robot shall detect and avoid going into carters during the survey and try to find an alternate route to destination. 
             \item \textbf{Rationale:} This feature will protect the robot from going into area where it is impossible for robot to recover without assistance. 
             \item \textbf{Acceptance criteria:} This requirement can be verified by trying to send the robot into craters by setting the destination on other side of the carter. 
 		\end{itemize} 
@@ -333,7 +333,7 @@
 		\begin{itemize}
 			\item \textbf{Priority:} Medium
             \item \textbf{Dependency:} None
-			\item \textbf{Description:}  The operate shall be able to take manual control of the robot at any time.   
+			\item \textbf{Description:}  The operator shall be able to take manual control of the robot at any time.   
             \item \textbf{Rationale:} This feature can be useful in manually adjusting the position of the robot at any time. 
             \item \textbf{Acceptance criteria:} This requirement can be verified controlling the robot manually at any time using the provided GUI. 
 		\end{itemize} 
@@ -343,7 +343,7 @@
 		\begin{itemize}
 			\item \textbf{Priority:} Medium
             \item \textbf{Dependency:} None
-			\item \textbf{Description:}   The robot shall remember its landing site and shall return to it when the survey is finished.
+			\item \textbf{Description:} The robot shall remember its landing site and shall return to it when the survey is finished.
             \item \textbf{Rationale:}  This feature will allow the operator to bring the robot back, once the survey is finished.
             \item \textbf{Acceptance criteria:} This requirement can be verified by instructing the robot to return to the landing site at any time during the survey. 
 		\end{itemize} 
@@ -352,7 +352,7 @@
 	
 	\section{System Features}
 	\subsection{Map input feature}
-	This feature is designed for operator manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
+	This feature is designed to allow the operator to manually enter new information to the map such as NGZ, start/destination point, tracks/trails.
 	
 	\subsubsection*{Stimulus}
 	\begin{enumerate}
