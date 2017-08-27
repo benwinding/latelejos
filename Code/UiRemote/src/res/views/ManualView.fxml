@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" onKeyPressed="#keyPressed" prefHeight="600.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.Controllers.ManualController">
+<GridPane onKeyPressed="#keyPressed" prefHeight="675.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.Controllers.ManualController">
   <columnConstraints>
-    <ColumnConstraints />
+    <ColumnConstraints percentWidth="100" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints />
-    <RowConstraints />
+    <RowConstraints minHeight="40" />
+    <RowConstraints percentHeight="100" />
   </rowConstraints>
   <children>
     <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.rowIndex="0">
@@ -30,72 +28,75 @@
         <Button mnemonicParsing="false" text="Upload" />
         <Button mnemonicParsing="false" text="Download" />
         <Button mnemonicParsing="false" text="Disconnect" />
-            <Button mnemonicParsing="false" onMouseClicked="#onClickDemo" text="Demo" />
+        <Button mnemonicParsing="false" onMouseClicked="#onClickDemo" text="Demo" />
       </items>
     </ToolBar>
-    <SplitPane dividerPositions="0.6062176165803109" prefHeight="400.0" prefWidth="774.0" GridPane.rowIndex="1">
+    <SplitPane dividerPositions="0.6" GridPane.rowIndex="1">
       <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0">
-          <children>
-            <Pane fx:id="map" id="map" prefHeight="100" prefWidth="100"/>
-          </children>
+        <AnchorPane>
+          <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+              <Pane id="map" fx:id="map" />
+            </children>
+          </HBox>
         </AnchorPane>
-        <AnchorPane minWidth="300">
+        <AnchorPane prefHeight="592.0" prefWidth="497.0">
           <children>
-            <SplitPane dividerPositions="0.7275204359673024" orientation="VERTICAL" prefHeight="542.0" prefWidth="774.0">
+            <SplitPane dividerPositions="0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#onClickDemo" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane>
                   <children>
-                    <GridPane alignment="center" hgap="5" prefHeight="235.0" prefWidth="300.0" vgap="5">
-                      <columnConstraints>
-                        <ColumnConstraints maxWidth="89.0" minWidth="83.0" prefWidth="83.0" />
-                        <ColumnConstraints halignment="CENTER" maxWidth="105.0" minWidth="52.0" prefWidth="95.0" />
-                        <ColumnConstraints maxWidth="83.0" minWidth="30.0" prefWidth="51.0" />
-                      </columnConstraints>
-                      <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                      </rowConstraints>
-                      <Button mnemonicParsing="false" onMouseClicked="#onClickLeft" prefHeight="26.0" prefWidth="66.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                        <graphic>
-                          <ImageView fx:id="btnMoveLeft" fitHeight="68.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
-                          </ImageView>
-                        </graphic>
-                      </Button>
-                      <Button mnemonicParsing="false" onMouseClicked="#onClickRight" prefHeight="59.0" prefWidth="49.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                        <graphic>
-                          <ImageView fx:id="btnMoveRight" fitHeight="63.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                          </ImageView>
-                        </graphic></Button>
-                      <Button mnemonicParsing="false" onMouseClicked="#onClickForward" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                        <graphic>
-                          <ImageView fx:id="btnMoveUp" fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-
-                          </ImageView>
-                        </graphic>
-                      </Button>
-                      <Button mnemonicParsing="false" onMouseClicked="#onClickBackward" prefHeight="46.0" prefWidth="72.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                        <graphic>
-                          <ImageView fx:id="btnMoveDown" fitHeight="78.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                          </ImageView>
-                        </graphic>
-                      </Button>
-                      <Button mnemonicParsing="false" onMouseClicked="#onClickStop" style="-fx-background-radius: 100;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                        <GridPane.margin>
-                          <Insets />
-                        </GridPane.margin>
-                        <graphic>
-                          <ImageView fx:id="btnMoveStop" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                          </ImageView>
-                        </graphic>
-                      </Button>
-                    </GridPane>
+                    <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                      <GridPane hgap="5" vgap="5">
+                        <columnConstraints>
+                          <ColumnConstraints maxWidth="89.0" minWidth="83.0" prefWidth="83.0" />
+                          <ColumnConstraints halignment="CENTER" maxWidth="105.0" minWidth="52.0" prefWidth="95.0" />
+                          <ColumnConstraints maxWidth="83.0" minWidth="30.0" prefWidth="51.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                          <RowConstraints />
+                          <RowConstraints />
+                          <RowConstraints />
+                        </rowConstraints>
+                        <Button mnemonicParsing="false" onMouseClicked="#onClickLeft" prefHeight="26.0" prefWidth="66.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                          <graphic>
+                            <ImageView fx:id="btnMoveLeft" fitHeight="68.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                            </ImageView>
+                          </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onMouseClicked="#onClickRight" prefHeight="59.0" prefWidth="49.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                          <graphic>
+                            <ImageView fx:id="btnMoveRight" fitHeight="63.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                            </ImageView>
+                          </graphic></Button>
+                        <Button mnemonicParsing="false" onMouseClicked="#onClickForward" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                          <graphic>
+                            <ImageView fx:id="btnMoveUp" fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                            </ImageView>
+                          </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onMouseClicked="#onClickBackward" prefHeight="46.0" prefWidth="72.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                          <graphic>
+                            <ImageView fx:id="btnMoveDown" fitHeight="78.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                            </ImageView>
+                          </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onMouseClicked="#onClickStop" style="-fx-background-radius: 100;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                          <GridPane.margin>
+                            <Insets />
+                          </GridPane.margin>
+                          <graphic>
+                            <ImageView fx:id="btnMoveStop" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                            </ImageView>
+                          </graphic>
+                        </Button>
+                      </GridPane>
+                    </HBox>
                   </children>
                 </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="747.0">
+                <AnchorPane>
                   <children>
-                    <TextArea id="messageDisplayer" fx:id="messageDisplayer" editable="false" prefHeight="143.0" prefWidth="772.0" wrapText="true" />
+                    <TextArea id="messageDisplayer" fx:id="messageDisplayer" editable="false" wrapText="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                   </children>
                 </AnchorPane>
               </items>

@@ -20,7 +20,7 @@ public class MapLayerFactory {
   }
 
   public Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(600,600);
+    Canvas layer = new Canvas(mapSize.x,mapSize.y);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
@@ -32,7 +32,7 @@ public class MapLayerFactory {
   }
 
   public Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(600,600);
+    Canvas layer = new Canvas(mapSize.x,mapSize.y);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
@@ -51,7 +51,7 @@ public class MapLayerFactory {
     int robotW = 60;
     int robotH = 50;
 
-    Canvas layer = new Canvas(600, 600);
+    Canvas layer = new Canvas(mapSize.x,mapSize.y);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double x = robotLocation.x - robotW/2;
@@ -79,7 +79,7 @@ public class MapLayerFactory {
     int robotW = 60;
     int robotH = 180;
 
-    Canvas layer = new Canvas(600, 600);
+    Canvas layer = new Canvas(mapSize.x,mapSize.y);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double x = robotLocation.x - robotW/2;

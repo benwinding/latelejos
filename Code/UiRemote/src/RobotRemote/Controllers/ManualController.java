@@ -8,11 +8,13 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -52,6 +54,18 @@ public class ManualController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+//    AnchorPane anc = (AnchorPane) map.getParent();
+
+//    anc.setPrefSize( Double.MAX_VALUE, Double.MAX_VALUE );
+
+//    map.prefWidthProperty().bind(anc.prefWidthProperty());
+//    map.prefWidthProperty().bind(anc.widthProperty());
+
+//    anc.setStyle("-fx-background-color: blue");
+//    map.setStyle("-fx-background-color: yellow");
+
+//    AnchorPane.setLeftAnchor(anc, 0.0);
+//    map.prefWidthProperty().bind(an.widthProperty());
     Logger.Log("UI Loaded!");
   }
 
@@ -94,15 +108,19 @@ public class ManualController implements Initializable {
   public void keyPressed(KeyEvent e) {
     switch (e.getCode()) {
       case W:
+      case UP:
         MoveMotors("Forward");
         break;
       case A:
+      case LEFT:
         MoveMotors("Left");
         break;
       case D:
+      case RIGHT:
         MoveMotors("Right");
         break;
       case S:
+      case DOWN:
         MoveMotors("Backward");
         break;
       default:
@@ -111,22 +129,22 @@ public class ManualController implements Initializable {
   }
 
   public void onClickDemo(MouseEvent mouseEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/views/DemoSensor.fxml"));
-            Parent root = (Parent) fxmlLoader.load();
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/views/DemoSensor.fxml"));
+      Parent root = (Parent) fxmlLoader.load();
 
-            demo = new Scene(root, 700, 600);
-            Stage stage = new Stage();
-            stage.setTitle("Demo");
-            stage.setScene(demo);
-            stage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        Logger.demoInit(demo);
-
+      demo = new Scene(root, 700, 600);
+      Stage stage = new Stage();
+      stage.setTitle("Demo");
+      stage.setScene(demo);
+      stage.show();
+    } catch(Exception e) {
+      e.printStackTrace();
     }
+
+    Logger.demoInit(demo);
+
+  }
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
@@ -167,7 +185,7 @@ public class ManualController implements Initializable {
       Pose pose = RobotMotorManager.GetCoords();
       mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
     } catch (Exception ignored) {
-      Logger.Log("Unable to get Map location");
+      Logger.Log("Warning: Unable to get Map location");
     }
     DrawMap();
   }
