@@ -37,10 +37,10 @@ public class RobotMotorManager {
     Logger.Log("Moving motors: " + Direction);
     switch (Direction) {
       case "Forward":
-        navigator.MoveAsync(10);
+        navigator.MoveAsync();
         break;
       case "Backward":
-        navigator.MoveAsync(-10);
+        navigator.MoveAsync();
         break;
       case "Left":
         navigator.Rotate(90);
@@ -58,5 +58,10 @@ public class RobotMotorManager {
 
   public static Pose GetCoords() {
     return navigator.GetGlobalPose();
+  }
+
+  public static void StopAll() {
+    Logger.Log("Stopping All Motors");
+    navigator.Stop();
   }
 }

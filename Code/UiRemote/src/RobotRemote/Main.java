@@ -32,6 +32,7 @@ public class Main extends Application {
     @Override
     public void stop(){
         System.out.println("Stage is closing");
+        RobotMotorManager.StopAll();
     }
 
     public static void main(String[] args) {

@@ -6,7 +6,7 @@ import lejos.robotics.navigation.Pose;
 public interface CustomNavigatorInterface {
   void Init(RobotCoordinateSystemInterface cs, ArcRotateMoveController pilot);
   void MoveStraight(float distance);
-  void MoveAsync(float distanceIncrement);
+  void MoveAsync();
   void Rotate(float angle);
   void Stop();
 

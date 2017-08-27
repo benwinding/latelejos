@@ -13,7 +13,6 @@ import lejos.robotics.navigation.Pose;
 public interface RobotCoordinateSystemInterface {
     // Returns the global position of the robot in a Pose object
     Pose GetGlobalPose();
-
     // Called when the robot is going forward some distance
     void GoingStraight(float distance);
     // Called when the robot is changing heading some degree
