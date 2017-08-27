@@ -1,7 +1,7 @@
 package RobotRemote.Controllers;
 
 import RobotRemote.Utils.Logger;
-import RobotRemote.MapState;
+import RobotRemote.Models.MapState;
 import RobotRemote.MapUiDrawer;
 import RobotRemote.RobotMotorManager;
 import javafx.fxml.FXML;
