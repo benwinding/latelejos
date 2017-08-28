@@ -83,8 +83,11 @@ public class ManualController implements Initializable {
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
-              UpdateLocationFromRobot();
-              Logger.LogCrossThread("Updating Map");
+              if(RobotMotorManager.IsDirty ) {
+                UpdateLocationFromRobot();
+                Logger.LogCrossThread("Updating Map");
+                RobotMotorManager.IsDirty = false;
+              }
             }
           });
           Thread.sleep(500);

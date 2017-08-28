@@ -63,6 +63,7 @@ public class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
+    //
     gc.rotate(robotLocation.theta);
     gc.translate(-rotationCenterX, -rotationCenterY);
 

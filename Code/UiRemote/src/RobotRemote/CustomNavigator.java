@@ -7,15 +7,28 @@ import javafx.concurrent.Task;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
+import javax.security.auth.login.Configuration;
+
 public class CustomNavigator implements CustomNavigatorInterface {
-  private static ArcRotateMoveController pilot;
-  private static RobotCoordinateSystemInterface cs;
-  public static Thread moveThread = new Thread();
+    //Configuration
+    private   double linearSpeed ; //cm per second
+    private   double mapUpdateInterval ; //seconds
+    private   double mapUpdateIntervalMs; //milliseconds
+    private   float distancePerInterval; //cm
+    private static ArcRotateMoveController pilot;
+    private static RobotCoordinateSystemInterface cs;
+    public static Thread moveThread = new Thread();
+    private boolean IsStop;
 
   @Override
   public void Init(RobotCoordinateSystemInterface cs, ArcRotateMoveController pilot) {
     CustomNavigator.pilot = pilot;
     CustomNavigator.cs = cs;
+
+       linearSpeed = pilot.getLinearSpeed(); //cm per second
+       mapUpdateInterval = 0.05; //seconds
+       mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
+       distancePerInterval = ((float)(-linearSpeed * mapUpdateInterval)); //cm
   }
 
   @Override
@@ -27,47 +40,50 @@ public class CustomNavigator implements CustomNavigatorInterface {
     }
     cs.GoingStraight(distance);
   }
+    Task<Integer> task;
 
   @Override
   public void MoveAsync(boolean ...backward) {
-    Stop();
-    final double linearSpeed = pilot.getLinearSpeed(); //cm per second
-    final double mapUpdateInterval = 0.05; //seconds
-    final double mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
+        final boolean isBackward = backward.length >= 1;
+        IsStop =false;
+        if (isBackward) {
+            pilot.backward();
+            distancePerInterval = -1*Math.abs(distancePerInterval);
+        } else {
 
-    final boolean isBackward = backward.length >= 1;
-
-    Task<Integer> task = new Task<Integer>() {
-      @Override protected Integer call() throws Exception {
-        float distancePerInterval = (float) (-linearSpeed * mapUpdateInterval); //cm
-        if(isBackward) {
-          pilot.backward();
-          distancePerInterval = -1 * distancePerInterval;
-        }
-        else
+          distancePerInterval = Math.abs(distancePerInterval);
           pilot.forward();
-        while(!isCancelled()) {
-          try {
-            Thread.sleep((long) mapUpdateIntervalMs);
-          } catch (InterruptedException interrupted) {
-            Logger.LogCrossThread("TASK: interrupted!");
-            break;
-          }
-          cs.GoingStraight(distancePerInterval); // Update coordinate system
         }
-        pilot.stop();
-        Logger.LogCrossThread("TASK: Exiting call loop!");
-        return 0;
-      }
-    };
-    moveThread = new Thread(task);
-    moveThread.setDaemon(true);
-    moveThread.start();
+        if(task==null)
+        {
+            task = new Task<Integer>() {
+                @Override
+                protected Integer call() throws Exception {
+                    while (true)
+                    {
+                        if(!IsStop) {
+                            Logger.LogCrossThread("TASK: In call loop!");
+                            try {
+                                Thread.sleep((long) mapUpdateIntervalMs);
+                            } catch (InterruptedException interrupted) {
+                                Logger.LogCrossThread("TASK: interrupted!");
+                                break;
+                            }
+                            cs.GoingStraight(distancePerInterval); // Update coordinate system
+                        }
+                    }
+                    Logger.LogCrossThread("TASK: Exiting call loop!");
+                    return 0;
+                }
+            };
+            moveThread = new Thread(task);
+            moveThread.setDaemon(true);
+            moveThread.start();
+        }
   }
 
   @Override
   public void Rotate(float angle) {
-    Stop();
     try{
       pilot.rotate(angle);
     } catch (Exception ignored) {
@@ -78,8 +94,11 @@ public class CustomNavigator implements CustomNavigatorInterface {
   @Override
   public void Stop() {
     try{
-      moveThread.interrupt();
+        pilot.stop();
+        task.cancel();
+        task =null;
     } catch (Exception ignored) {
+        Logger.LogCrossThread("Exception: Unable to stop! Reason:"+ ignored.getMessage());
     }
   }
 

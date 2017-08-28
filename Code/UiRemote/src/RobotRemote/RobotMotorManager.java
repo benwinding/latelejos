@@ -11,6 +11,8 @@ import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
 
 public class RobotMotorManager {
   static private CustomNavigatorInterface navigator;
+  public static boolean IsDirty;
+  public static String OldCommand;
   static ArcRotateMoveController GetPilot() {
     ArcRotateMoveController pilot;
     try {
@@ -33,9 +35,14 @@ public class RobotMotorManager {
     navigator.Init(cs, pilot);
   }
 
-  public static void MoveMotors(String Direction) {
-    Logger.Log("Moving motors: " + Direction);
-    switch (Direction) {
+  public static void MoveMotors(String command) {
+    Logger.Log("Moving motors: " + command);
+    if(OldCommand != "" && OldCommand == command) {
+      return;
+    }
+    OldCommand = command;
+
+      switch (command) {
       case "Forward":
         navigator.MoveAsync();
         break;
@@ -48,11 +55,11 @@ public class RobotMotorManager {
       case "Right":
         navigator.Rotate(-90);
         break;
-      case "Stop":
-        navigator.Stop();
+      case  "Stop":
+          navigator.Stop();
         break;
       default:
-        Logger.Log("Unknown Direction: " + Direction);
+        Logger.Log("Unknown command: " + command);
     }
   }
 
