@@ -18,7 +18,6 @@ public class CustomNavigator implements CustomNavigatorInterface {
     private static ArcRotateMoveController pilot;
     private static RobotCoordinateSystemInterface cs;
     public static Thread moveThread = new Thread();
-    private boolean IsStop;
 
   @Override
   public void Init(RobotCoordinateSystemInterface cs, ArcRotateMoveController pilot) {
@@ -45,7 +44,6 @@ public class CustomNavigator implements CustomNavigatorInterface {
   @Override
   public void MoveAsync(boolean ...backward) {
         final boolean isBackward = backward.length >= 1;
-        IsStop =false;
         if (isBackward) {
             pilot.backward();
             distancePerInterval = -1*Math.abs(distancePerInterval);
@@ -61,18 +59,15 @@ public class CustomNavigator implements CustomNavigatorInterface {
                 protected Integer call() throws Exception {
                     while (true)
                     {
-                        if(!IsStop) {
-                            Logger.LogCrossThread("TASK: In call loop!");
-                            try {
-                                Thread.sleep((long) mapUpdateIntervalMs);
-                            } catch (InterruptedException interrupted) {
-                                Logger.LogCrossThread("TASK: interrupted!");
-                                break;
-                            }
-                            cs.GoingStraight(distancePerInterval); // Update coordinate system
+                        Logger.LogCrossThread("TASK: In call loop!");
+                        try {
+                            Thread.sleep((long) mapUpdateIntervalMs);
+                        } catch (InterruptedException interrupted) {
+                            Logger.LogCrossThread("TASK: interrupted!");
+                            break;
                         }
+                        cs.GoingStraight(distancePerInterval); // Update coordinate system
                     }
-                    Logger.LogCrossThread("TASK: Exiting call loop!");
                     return 0;
                 }
             };

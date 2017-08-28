@@ -28,8 +28,8 @@ public class RobotMotorManager {
     }
   }
 
-  static void InitMotors(float xInit, float yInit) {
-    RobotCoordinateSystemInterface cs = new RobotCoordinateSystem(xInit, yInit);
+  static void InitMotors(float xInit, float yInit, float thetaInit) {
+    RobotCoordinateSystemInterface cs = new RobotCoordinateSystem(xInit, yInit, thetaInit);
     ArcRotateMoveController pilot = GetPilot();
     navigator = new CustomNavigator();
     navigator.Init(cs, pilot);
@@ -41,7 +41,7 @@ public class RobotMotorManager {
       return;
     }
     OldCommand = command;
-
+      navigator.Stop();
       switch (command) {
       case "Forward":
         navigator.MoveAsync();
@@ -56,7 +56,6 @@ public class RobotMotorManager {
         navigator.Rotate(-90);
         break;
       case  "Stop":
-          navigator.Stop();
         break;
       default:
         Logger.Log("Unknown command: " + command);

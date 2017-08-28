@@ -69,8 +69,8 @@ public class ManualController implements Initializable {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(float initX, float initY) {
-    this.mapState = new MapState(initX,initY);
+  public void Init(float initX, float initY, float initTheta) {
+    this.mapState = new MapState(initX,initY,initTheta);
     this.initGUI();
     this.initMap();
   }
