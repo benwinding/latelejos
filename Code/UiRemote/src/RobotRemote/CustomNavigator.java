@@ -25,7 +25,7 @@ public class CustomNavigator implements CustomNavigatorInterface {
           CustomNavigator.pilot = pilot;
           CustomNavigator.cs = cs;
 
-          linearSpeed = pilot.getLinearSpeed(); //cm per second
+          linearSpeed =RobotConnectionManager.IsConnected()? pilot.getLinearSpeed():0; //cm per second
           mapUpdateInterval = 0.05; //seconds
           mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
           distancePerInterval = ((float) (-linearSpeed * mapUpdateInterval)); //cm

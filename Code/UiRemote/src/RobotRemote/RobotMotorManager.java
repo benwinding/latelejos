@@ -17,7 +17,7 @@ public class RobotMotorManager {
     ArcRotateMoveController pilot;
     try {
       RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
-      pilot = brick.createPilot(WHEEL_SIZE_EV3, 10, "A", "B");
+      pilot = brick.createPilot(2.1f, 4.4f, "A", "B");
       pilot.setLinearSpeed(5);
       pilot.setAngularSpeed(30);
       pilot.setAngularAcceleration(10);
