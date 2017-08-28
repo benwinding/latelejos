@@ -19,11 +19,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Pose;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ManualController implements Initializable {
@@ -200,17 +200,10 @@ public class ManualController implements Initializable {
 
   private void DrawMap() {
     // Create map layers from mapstate
-    MapLayerFactory mapFactory = new MapLayerFactory(mapState.GetMapSize());
-    Canvas layerBorder = mapFactory.CreateBorderLayer(mapState.GetPointsBorder(), Color.BLACK);
-    Canvas layerVisited = mapFactory.CreateVisitedLayer(mapState.GetPointsVisited(), Color.GREEN);
-    Canvas layerRobot = mapFactory.CreateCurrentLocationLayer(mapState.GetLastPoint());
-    Canvas layerSensors = mapFactory.CreateSensorFieldLayer(mapState.GetLastPoint());
-
+    MapLayerFactory mapFactory = new MapLayerFactory(mapState);
+    List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
     // Add to GUI
     map.getChildren().clear();
-    map.getChildren().add(layerBorder);
-    map.getChildren().add(layerSensors);
-    map.getChildren().add(layerRobot);
-    map.getChildren().add(layerVisited);
+    map.getChildren().addAll(allMapLayers);
   }
 }

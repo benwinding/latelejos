@@ -1,18 +1,32 @@
 package RobotRemote;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.Models.MapState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MapLayerFactory {
-  private MapPoint mapSize;
+  private final MapPoint mapSize;
+  private MapState mapState;
 
-  public MapLayerFactory(MapPoint mapSize){
-    this.mapSize = mapSize;
+  public MapLayerFactory(MapState mapState) {
+    this.mapState = mapState;
+    this.mapSize = mapState.GetMapSize();
+  }
+
+  public List<Canvas> CreateMapLayers() {
+    List<Canvas> mapLayers = Arrays.asList(
+        this.CreateBorderLayer(mapState.GetPointsBorder(), Color.BLACK),
+        this.CreateCurrentLocationLayer(mapState.GetLastPoint()),
+        this.CreateSensorFieldLayer(mapState.GetLastPoint()),
+        this.CreateVisitedLayer(mapState.GetPointsVisited(), Color.GREEN)
+    );
+    return mapLayers;
   }
 
   public Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
