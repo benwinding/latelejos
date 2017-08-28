@@ -13,6 +13,7 @@ public class RobotMotorManager {
   static private CustomNavigatorInterface navigator;
   public static boolean IsDirty;
   public static String OldCommand;
+
   static ArcRotateMoveController GetPilot() {
     ArcRotateMoveController pilot;
     try {

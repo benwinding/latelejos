@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
@@ -92,6 +93,7 @@
                         </Button>
                       </GridPane>
                     </HBox>
+                    <CheckBox fx:id="isTestControls" mnemonicParsing="false" text="Test Manual Control" />
                   </children>
                 </AnchorPane>
                 <AnchorPane>
