@@ -26,7 +26,7 @@ public class Main extends Application {
         Logger.Init(scene);
         float initX = 100;
         float initY = 100;
-        float initTheta = 180;
+        float initTheta = 0;
         manualController.Init(initX, initY, initTheta);
         RobotMotorManager.InitMotors(initX, initY, initTheta);
         TestingMotorManager.InitMotors(initX, initY, initTheta);
