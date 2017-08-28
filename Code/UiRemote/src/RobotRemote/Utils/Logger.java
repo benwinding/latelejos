@@ -47,6 +47,7 @@ public class Logger {
     }
 
   public static void LogCrossThread(String s) {
-    System.out.println(s);
+    // Implement this later ...
+    // System.out.println(s);
   }
 }

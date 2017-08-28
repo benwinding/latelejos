@@ -1,6 +1,7 @@
 package RobotRemote;
 
 import RobotRemote.Controllers.ManualController;
+import RobotRemote.Mocks.TestingMotorManager;
 import RobotRemote.Utils.Logger;
 import RobotRemote.Utils.ThreadManager;
 import javafx.application.Application;
@@ -28,6 +29,7 @@ public class Main extends Application {
         float initTheta = 180;
         manualController.Init(initX, initY, initTheta);
         RobotMotorManager.InitMotors(initX, initY, initTheta);
+        TestingMotorManager.InitMotors(initX, initY, initTheta);
 
         primaryStage.setTitle("Robot Remote UI");
         primaryStage.setScene(scene);

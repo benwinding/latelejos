@@ -1,6 +1,7 @@
 package RobotRemote.Controllers;
 
 import RobotRemote.MapLayerFactory;
+import RobotRemote.Mocks.TestingMotorManager;
 import RobotRemote.Models.MapState;
 import RobotRemote.RobotMotorManager;
 import RobotRemote.Utils.Logger;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -23,8 +25,6 @@ import lejos.robotics.navigation.Pose;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static RobotRemote.RobotMotorManager.MoveMotors;
 
 public class ManualController implements Initializable {
   private Scene help;
@@ -50,6 +50,9 @@ public class ManualController implements Initializable {
   @FXML
   Pane map;
 
+  @FXML
+  CheckBox isTestControls;
+
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     Logger.Log("UI Loaded!");
@@ -69,11 +72,8 @@ public class ManualController implements Initializable {
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
-              if(RobotMotorManager.IsDirty ) {
-                UpdateLocationFromRobot();
-                Logger.LogCrossThread("Updating Map");
-                RobotMotorManager.IsDirty = false;
-              }
+            UpdateLocationFromRobot();
+            Logger.LogCrossThread("Updating Map");
             }
           });
           Thread.sleep(500);
@@ -169,9 +169,24 @@ public class ManualController implements Initializable {
     MoveMotors("Right");
   }
 
+  private void MoveMotors(String command) {
+    if(isTestControls.isSelected()) {
+      TestingMotorManager.MoveMotors(command);
+    }
+    else {
+      RobotMotorManager.MoveMotors(command);
+    }
+  }
+
   private void UpdateLocationFromRobot() {
     try {
-      Pose pose = RobotMotorManager.GetCoords();
+      Pose pose;
+      if(isTestControls.isSelected()) {
+        pose = TestingMotorManager.GetCoords();
+      }
+      else {
+        pose = RobotMotorManager.GetCoords();
+      }
       mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
     } catch (Exception ignored) {
       Logger.Log("Warning: Unable to get Map location");
