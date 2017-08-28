@@ -12,7 +12,7 @@ import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
 public class RobotMotorManager {
   static private CustomNavigatorInterface navigator;
   public static boolean IsDirty;
-  public static String OldCommand;
+  public static String PreCommand;
 
   static ArcRotateMoveController GetPilot() {
     ArcRotateMoveController pilot;
@@ -38,10 +38,8 @@ public class RobotMotorManager {
 
   public static void MoveMotors(String command) {
     Logger.Log("Moving motors: " + command);
-    if(OldCommand != "" && OldCommand == command) {
-      return;
-    }
-    OldCommand = command;
+    if(PreCommand== command && (PreCommand=="Forward"||PreCommand =="Backward"))
+        return;
       navigator.Stop();
       switch (command) {
       case "Forward":

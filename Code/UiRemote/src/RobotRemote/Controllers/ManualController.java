@@ -112,6 +112,10 @@ public class ManualController implements Initializable {
       case DOWN:
         MoveMotors("Backward");
         break;
+        case ENTER:
+            MoveMotors("Stop");
+        break;
+
       default:
         Logger.Log("Key press:" + e.getCode() + " is not implemented");
     }
