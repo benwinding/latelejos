@@ -25,8 +25,9 @@ public class Main extends Application {
         Logger.Init(scene);
         float initX = 100;
         float initY = 100;
-        manualController.Init(initX, initY);
-        RobotMotorManager.InitMotors(initX, initY);
+        float initTheta = 180;
+        manualController.Init(initX, initY, initTheta);
+        RobotMotorManager.InitMotors(initX, initY, initTheta);
 
         primaryStage.setTitle("Robot Remote UI");
         primaryStage.setScene(scene);

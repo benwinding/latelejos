@@ -14,8 +14,8 @@ public class MapState {
   private float a1_L = 841/2;
   private MapPoint mapSize = new MapPoint(a1_W, a1_L);
 
-  public MapState(double xInit, double yInit) {
-    pointsVisited.add(new MapPoint(xInit,yInit));
+  public MapState(double xInit, double yInit, float initTheta) {
+    pointsVisited.add(new MapPoint(xInit,yInit,initTheta));
 
     // A1 = 594 x 841 mm
     pointsMapBorder.add(new MapPoint(0,0));
