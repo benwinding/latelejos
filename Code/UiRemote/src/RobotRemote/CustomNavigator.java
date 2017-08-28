@@ -21,13 +21,15 @@ public class CustomNavigator implements CustomNavigatorInterface {
 
   @Override
   public void Init(RobotCoordinateSystemInterface cs, ArcRotateMoveController pilot) {
-    CustomNavigator.pilot = pilot;
-    CustomNavigator.cs = cs;
+      if(RobotConnectionManager.IsConnected()) {
+          CustomNavigator.pilot = pilot;
+          CustomNavigator.cs = cs;
 
-       linearSpeed = pilot.getLinearSpeed(); //cm per second
-       mapUpdateInterval = 0.05; //seconds
-       mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
-       distancePerInterval = ((float)(-linearSpeed * mapUpdateInterval)); //cm
+          linearSpeed = pilot.getLinearSpeed(); //cm per second
+          mapUpdateInterval = 0.05; //seconds
+          mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
+          distancePerInterval = ((float) (-linearSpeed * mapUpdateInterval)); //cm
+      }
   }
 
   @Override

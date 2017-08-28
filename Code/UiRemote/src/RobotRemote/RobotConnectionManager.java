@@ -8,7 +8,7 @@ import lejos.remote.ev3.RemoteRequestEV3;
 public class RobotConnectionManager {
   public static RemoteRequestEV3 BrickInstance;
 
-  private static boolean IsConnected() {return BrickInstance != null;}
+  public static boolean IsConnected() {return BrickInstance != null;}
 
   public static void InitializeBrick() {
     try {
