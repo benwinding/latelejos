@@ -1,31 +1,32 @@
 package RobotRemote.Services.Mocks;
 
+import RobotRemote.Models.MoveCommand;
 import RobotRemote.Services.CustomCoordinateSystem;
 import RobotRemote.Utils.Logger;
 import lejos.robotics.navigation.Pose;
 
-public class TestingMotorManager {
+public class TestingMoveService {
   private static CustomCoordinateSystem cs;
 
   public static void InitMotors(float xInit, float yInit, float thetaInit) {
     cs = new CustomCoordinateSystem(xInit, yInit, thetaInit);
   }
 
-  public static void MoveMotors(String command) {
+  public static void MoveMotors(MoveCommand command) {
     switch (command) {
-      case "Forward":
+      case Forward:
         cs.GoingStraight(5);
         break;
-      case "Backward":
+      case Backward:
         cs.GoingStraight(-5);
         break;
-      case "Left":
+      case Left:
         cs.ChangingHeading(-90);
         break;
-      case "Right":
+      case Right:
         cs.ChangingHeading(90);
         break;
-      case "Stop":
+      case  Stop:
         break;
       default:
         Logger.Log("Unknown command: " + command);

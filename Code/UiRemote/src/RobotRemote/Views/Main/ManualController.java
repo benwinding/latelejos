@@ -1,7 +1,8 @@
 package RobotRemote.Views.Main;
 
 import RobotRemote.Models.MapLayerFactory;
-import RobotRemote.Services.Mocks.TestingMotorManager;
+import RobotRemote.Models.MoveCommand;
+import RobotRemote.Services.Mocks.TestingMoveService;
 import RobotRemote.Models.MapState;
 import RobotRemote.Services.RobotMoveService;
 import RobotRemote.Utils.Logger;
@@ -98,22 +99,22 @@ public class ManualController implements Initializable {
     switch (e.getCode()) {
       case W:
       case UP:
-        MoveMotors("Forward");
+        MoveMotors(MoveCommand.Forward);
         break;
       case A:
       case LEFT:
-        MoveMotors("Left");
+        MoveMotors(MoveCommand.Left);
         break;
       case D:
       case RIGHT:
-        MoveMotors("Right");
+        MoveMotors(MoveCommand.Right);
         break;
       case S:
       case DOWN:
-        MoveMotors("Backward");
+        MoveMotors(MoveCommand.Backward);
         break;
         case ENTER:
-            MoveMotors("Stop");
+          MoveMotors(MoveCommand.Stop);
         break;
 
       default:
@@ -154,28 +155,28 @@ public class ManualController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    MoveMotors("Stop");
+    MoveMotors(MoveCommand.Stop);
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
-    MoveMotors("Forward");
+    MoveMotors(MoveCommand.Forward);
   }
 
   public void onClickBackward(MouseEvent mouseEvent) {
-    MoveMotors("Backward");
+    MoveMotors(MoveCommand.Backward);
   }
 
   public void onClickLeft(MouseEvent mouseEvent) {
-    MoveMotors("Left");
+    MoveMotors(MoveCommand.Left);
   }
 
   public void onClickRight(MouseEvent mouseEvent) {
-    MoveMotors("Right");
+    MoveMotors(MoveCommand.Right);
   }
 
-  private void MoveMotors(String command) {
+  private void MoveMotors(MoveCommand command) {
     if(isTestControls.isSelected()) {
-      TestingMotorManager.MoveMotors(command);
+      TestingMoveService.MoveMotors(command);
     }
     else {
       RobotMoveService.MoveMotors(command);
@@ -186,7 +187,7 @@ public class ManualController implements Initializable {
     try {
       Pose pose;
       if(isTestControls.isSelected()) {
-        pose = TestingMotorManager.GetCoords();
+        pose = TestingMoveService.GetCoords();
       }
       else {
         pose = RobotMoveService.GetCoords();

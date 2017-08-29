@@ -1,14 +1,17 @@
 package RobotRemote.Services;
 
+import RobotRemote.Models.MoveCommand;
 import RobotRemote.Utils.Logger;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
+import static RobotRemote.Models.MoveCommand.*;
+
 public class RobotMoveService {
   static private ICustomNavigator navigator;
   public static boolean IsDirty;
-  public static String PreCommand;
+  public static MoveCommand PreCommand;
 
   static ArcRotateMoveController GetPilot() {
     ArcRotateMoveController pilot;
@@ -32,25 +35,25 @@ public class RobotMoveService {
     navigator.Init(cs, pilot);
   }
 
-  public static void MoveMotors(String command) {
+  public static void MoveMotors(final MoveCommand command) {
     Logger.Log("Moving motors: " + command);
-    if(PreCommand== command && (PreCommand=="Forward"||PreCommand =="Backward"))
-        return;
-      navigator.Stop();
-      switch (command) {
-      case "Forward":
+    if(PreCommand== command && (PreCommand== Forward||PreCommand == Backward))
+      return;
+    navigator.Stop();
+    switch (command) {
+      case Forward:
         navigator.MoveAsync();
         break;
-      case "Backward":
+      case Backward:
         navigator.MoveAsync(true);
         break;
-      case "Left":
+      case Left:
         navigator.Rotate(90);
         break;
-      case "Right":
+      case Right:
         navigator.Rotate(-90);
         break;
-      case  "Stop":
+      case  Stop:
         break;
       default:
         Logger.Log("Unknown command: " + command);
