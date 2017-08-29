@@ -1,21 +1,19 @@
 package RobotRemote.Services;
 
-import RobotRemote.Models.Interfaces.CustomNavigatorInterface;
-import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
 import RobotRemote.Utils.Logger;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
-public class RobotMotorManager {
-  static private CustomNavigatorInterface navigator;
+public class RobotMoveService {
+  static private ICustomNavigator navigator;
   public static boolean IsDirty;
   public static String PreCommand;
 
   static ArcRotateMoveController GetPilot() {
     ArcRotateMoveController pilot;
     try {
-      RemoteRequestEV3 brick = RobotConnectionManager.GetBrick();
+      RemoteRequestEV3 brick = RobotConnectionService.GetBrick();
       pilot = brick.createPilot(2.1f, 4.4f, "A", "B");
       pilot.setLinearSpeed(5);
       pilot.setAngularSpeed(30);
@@ -28,7 +26,7 @@ public class RobotMotorManager {
   }
 
   public static void InitMotors(float xInit, float yInit, float thetaInit) {
-    RobotCoordinateSystemInterface cs = new RobotCoordinateSystem(xInit, yInit, thetaInit);
+    ICustomCoordinateSystem cs = new CustomCoordinateSystem(xInit, yInit, thetaInit);
     ArcRotateMoveController pilot = GetPilot();
     navigator = new CustomNavigator();
     navigator.Init(cs, pilot);

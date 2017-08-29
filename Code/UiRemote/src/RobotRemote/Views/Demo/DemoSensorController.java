@@ -1,17 +1,17 @@
 package RobotRemote.Views.Demo;
 
-import RobotRemote.Services.RobotSensorManager;
+import RobotRemote.Services.RobotSensorService;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DemoSensorController implements Initializable {
-    private static RobotSensorManager sensor;
+    private static RobotSensorService sensor;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        sensor=new RobotSensorManager();
+        sensor=new RobotSensorService();
     }
 
     public void onClickSensor(){

@@ -1,14 +1,14 @@
-package RobotRemote.Services;
+package RobotRemote.Services.Mocks;
 
-import RobotRemote.Services.RobotCoordinateSystem;
+import RobotRemote.Services.CustomCoordinateSystem;
 import RobotRemote.Utils.Logger;
 import lejos.robotics.navigation.Pose;
 
 public class TestingMotorManager {
-  private static RobotCoordinateSystem cs;
+  private static CustomCoordinateSystem cs;
 
   public static void InitMotors(float xInit, float yInit, float thetaInit) {
-    cs = new RobotCoordinateSystem(xInit, yInit, thetaInit);
+    cs = new CustomCoordinateSystem(xInit, yInit, thetaInit);
   }
 
   public static void MoveMotors(String command) {

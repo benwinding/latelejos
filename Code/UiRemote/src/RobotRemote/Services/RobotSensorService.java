@@ -6,7 +6,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
-public class RobotSensorManager extends Thread{
+public class RobotSensorService extends Thread{
     private EV3ColorSensor color;
     private SensorMode colorsensor;
     boolean cancel;

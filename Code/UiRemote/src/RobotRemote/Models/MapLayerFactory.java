@@ -1,4 +1,4 @@
-package RobotRemote.Services;
+package RobotRemote.Models;
 
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.MapState;

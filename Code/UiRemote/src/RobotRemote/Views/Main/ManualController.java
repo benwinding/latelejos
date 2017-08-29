@@ -1,9 +1,9 @@
 package RobotRemote.Views.Main;
 
-import RobotRemote.Services.MapLayerFactory;
-import RobotRemote.Services.TestingMotorManager;
+import RobotRemote.Models.MapLayerFactory;
+import RobotRemote.Services.Mocks.TestingMotorManager;
 import RobotRemote.Models.MapState;
-import RobotRemote.Services.RobotMotorManager;
+import RobotRemote.Services.RobotMoveService;
 import RobotRemote.Utils.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -178,7 +178,7 @@ public class ManualController implements Initializable {
       TestingMotorManager.MoveMotors(command);
     }
     else {
-      RobotMotorManager.MoveMotors(command);
+      RobotMoveService.MoveMotors(command);
     }
   }
 
@@ -189,7 +189,7 @@ public class ManualController implements Initializable {
         pose = TestingMotorManager.GetCoords();
       }
       else {
-        pose = RobotMotorManager.GetCoords();
+        pose = RobotMoveService.GetCoords();
       }
       mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
     } catch (Exception ignored) {

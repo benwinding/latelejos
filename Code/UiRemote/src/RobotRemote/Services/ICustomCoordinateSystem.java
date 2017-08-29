@@ -1,4 +1,4 @@
-package RobotRemote.Models.Interfaces;
+package RobotRemote.Services;
 
 import lejos.robotics.navigation.Pose;
 
@@ -10,7 +10,7 @@ import lejos.robotics.navigation.Pose;
  * coordinate system.
  */
 
-public interface RobotCoordinateSystemInterface {
+public interface ICustomCoordinateSystem {
     // Returns the global position of the robot in a Pose object
     Pose GetGlobalPose();
     // Called when the robot is going forward some distance

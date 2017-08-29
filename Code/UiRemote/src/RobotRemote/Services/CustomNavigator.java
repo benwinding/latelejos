@@ -1,29 +1,27 @@
 package RobotRemote.Services;
 
-import RobotRemote.Models.Interfaces.CustomNavigatorInterface;
-import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
 import RobotRemote.Utils.Logger;
 import javafx.concurrent.Task;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
-public class CustomNavigator implements CustomNavigatorInterface {
+public class CustomNavigator implements ICustomNavigator {
     //Configuration
     private   double linearSpeed ; //cm per second
     private   double mapUpdateInterval ; //seconds
     private   double mapUpdateIntervalMs; //milliseconds
     private   float distancePerInterval; //cm
     private static ArcRotateMoveController pilot;
-    private static RobotCoordinateSystemInterface cs;
+    private static ICustomCoordinateSystem cs;
     public static Thread moveThread = new Thread();
 
   @Override
-  public void Init(RobotCoordinateSystemInterface cs, ArcRotateMoveController pilot) {
-      if(RobotConnectionManager.IsConnected()) {
+  public void Init(ICustomCoordinateSystem cs, ArcRotateMoveController pilot) {
+      if(RobotConnectionService.IsConnected()) {
           CustomNavigator.pilot = pilot;
           CustomNavigator.cs = cs;
 
-          linearSpeed =RobotConnectionManager.IsConnected()? pilot.getLinearSpeed():0; //cm per second
+          linearSpeed = RobotConnectionService.IsConnected()? pilot.getLinearSpeed():0; //cm per second
           mapUpdateInterval = 0.05; //seconds
           mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
           distancePerInterval = ((float) (-linearSpeed * mapUpdateInterval)); //cm
