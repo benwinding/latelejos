@@ -124,7 +124,7 @@ public class ManualController implements Initializable {
 
   public void onClickDemo(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/RobotDemo/DemoSensor.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/Views/Demo/DemoSensor.fxml"));
       Parent root = (Parent) fxmlLoader.load();
 
       demo = new Scene(root, 700, 600);
@@ -142,7 +142,7 @@ public class ManualController implements Initializable {
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/views/HelpWindow/Help/HelpView.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/Views/Help/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
       help = new Scene(root, 400, 300);
       Stage stage = new Stage();
