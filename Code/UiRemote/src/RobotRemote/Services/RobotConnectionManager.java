@@ -1,4 +1,4 @@
-package RobotRemote;
+package RobotRemote.Services;
 
 import RobotRemote.Utils.Logger;
 import lejos.hardware.BrickFinder;

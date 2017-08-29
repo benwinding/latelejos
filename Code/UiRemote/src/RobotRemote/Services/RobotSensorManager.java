@@ -1,15 +1,10 @@
-package RobotRemote;
+package RobotRemote.Services;
 
 
 import RobotRemote.Utils.Logger;
-import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
-import lejos.hardware.Button;
-import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
-import lejos.robotics.SampleProvider;
 
 public class RobotSensorManager extends Thread{
     private EV3ColorSensor color;

@@ -1,10 +1,7 @@
-package RobotRemote.Controllers;
+package RobotRemote.Views.Demo;
 
-import RobotRemote.RobotSensorManager;
-import RobotRemote.Utils.Logger;
+import RobotRemote.Services.RobotSensorManager;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 
 import java.net.URL;
 import java.util.ResourceBundle;

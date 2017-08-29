@@ -1,4 +1,4 @@
-package RobotRemote;
+package RobotRemote.Services;
 
 import RobotRemote.Models.Interfaces.CustomNavigatorInterface;
 import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
@@ -6,8 +6,6 @@ import RobotRemote.Utils.Logger;
 import javafx.concurrent.Task;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
-
-import javax.security.auth.login.Configuration;
 
 public class CustomNavigator implements CustomNavigatorInterface {
     //Configuration

@@ -1,4 +1,4 @@
-package RobotRemote;
+package RobotRemote.Services;
 
 import RobotRemote.Models.Interfaces.CustomNavigatorInterface;
 import RobotRemote.Models.Interfaces.RobotCoordinateSystemInterface;
@@ -6,8 +6,6 @@ import RobotRemote.Utils.Logger;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
-
-import static lejos.robotics.navigation.MoveController.WHEEL_SIZE_EV3;
 
 public class RobotMotorManager {
   static private CustomNavigatorInterface navigator;
@@ -29,7 +27,7 @@ public class RobotMotorManager {
     }
   }
 
-  static void InitMotors(float xInit, float yInit, float thetaInit) {
+  public static void InitMotors(float xInit, float yInit, float thetaInit) {
     RobotCoordinateSystemInterface cs = new RobotCoordinateSystem(xInit, yInit, thetaInit);
     ArcRotateMoveController pilot = GetPilot();
     navigator = new CustomNavigator();

@@ -1,9 +1,9 @@
-package RobotRemote.Controllers;
+package RobotRemote.Views.Main;
 
-import RobotRemote.MapLayerFactory;
-import RobotRemote.Mocks.TestingMotorManager;
+import RobotRemote.Services.MapLayerFactory;
+import RobotRemote.Services.TestingMotorManager;
 import RobotRemote.Models.MapState;
-import RobotRemote.RobotMotorManager;
+import RobotRemote.Services.RobotMotorManager;
 import RobotRemote.Utils.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -87,11 +87,11 @@ public class ManualController implements Initializable {
   }
 
   private void initGUI(){
-    this.btnMoveLeft.setImage(new Image("res/img/left.png"));
-    this.btnMoveRight.setImage(new Image("res/img/right.png"));
-    this.btnMoveUp.setImage(new Image("res/img/up.png"));
-    this.btnMoveDown.setImage(new Image("res/img/down.png"));
-    this.btnMoveStop.setImage(new Image("res/img/stop.png"));
+    this.btnMoveLeft.setImage(new Image("RobotRemote/Images/left.png"));
+    this.btnMoveRight.setImage(new Image("RobotRemote/Images/right.png"));
+    this.btnMoveUp.setImage(new Image("RobotRemote/Images/up.png"));
+    this.btnMoveDown.setImage(new Image("RobotRemote/Images/down.png"));
+    this.btnMoveStop.setImage(new Image("RobotRemote/Images/stop.png"));
   }
 
   public void keyPressed(KeyEvent e) {
@@ -123,7 +123,7 @@ public class ManualController implements Initializable {
 
   public void onClickDemo(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/views/DemoSensor.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/RobotDemo/DemoSensor.fxml"));
       Parent root = (Parent) fxmlLoader.load();
 
       demo = new Scene(root, 700, 600);
@@ -141,7 +141,7 @@ public class ManualController implements Initializable {
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/views/HelpView.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/views/HelpWindow/Help/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
       help = new Scene(root, 400, 300);
       Stage stage = new Stage();

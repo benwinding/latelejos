@@ -1,11 +1,7 @@
 package RobotRemote.Models;
 
-import RobotRemote.Models.MapPoint;
-import lejos.robotics.navigation.Pose;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MapState {
   private List<MapPoint> pointsVisited = new ArrayList<>();

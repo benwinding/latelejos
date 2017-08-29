@@ -1,4 +1,4 @@
-package RobotRemote;
+package RobotRemote.Services;
 
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.MapState;
@@ -45,6 +45,7 @@ public class MapLayerFactory {
     Canvas layer = new Canvas(mapSize.x,mapSize.y);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
+    gc.setLineWidth(5);
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
@@ -76,7 +77,7 @@ public class MapLayerFactory {
     gc.rotate(robotLocation.theta);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
-    Image imgRobot = new Image(getClass().getResourceAsStream("../res/img/robot-map.png"));
+    Image imgRobot = new Image(getClass().getResourceAsStream("../Images/robot-map.png"));
 
     gc.drawImage(imgRobot,0,0, robotW, robotH);
 
@@ -104,7 +105,7 @@ public class MapLayerFactory {
     gc.rotate(robotLocation.theta);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
-    Image imgSensorField = new Image(getClass().getResourceAsStream("../res/img/sensor-field.png"));
+    Image imgSensorField = new Image(getClass().getResourceAsStream("../Images/sensor-field.png"));
 
     gc.drawImage(imgSensorField,0,0, robotW, robotH);
     gc.restore();

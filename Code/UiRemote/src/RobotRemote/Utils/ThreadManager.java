@@ -1,7 +1,7 @@
 package RobotRemote.Utils;
 
-import RobotRemote.Controllers.ManualController;
-import RobotRemote.CustomNavigator;
+import RobotRemote.Views.Main.ManualController;
+import RobotRemote.Services.CustomNavigator;
 
 public class ThreadManager {
 
