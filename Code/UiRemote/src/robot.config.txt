@@ -1,0 +1,3 @@
+location.x = 100
+location.y = 100
+location.heading = 0
