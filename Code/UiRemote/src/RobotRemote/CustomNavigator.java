@@ -85,7 +85,7 @@ public class CustomNavigator implements CustomNavigatorInterface {
       pilot.rotate(angle*0.955);
     } catch (Exception ignored) {
     }
-    cs.ChangingHeading(angle);
+    cs.ChangingHeading(-angle);
   }
 
   @Override
