@@ -1,16 +1,23 @@
 package RobotRemote.Services.Synchronous.Connection;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Models.RobotConfig;
+import RobotRemote.Repositories.RobotRepository;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteRequestEV3;
 
 public class RobotConnectionService {
-  public static RemoteRequestEV3 BrickInstance;
+  public RemoteRequestEV3 BrickInstance;
+  private RobotConfig robotConfig;
 
-  public static boolean IsConnected() {return BrickInstance != null;}
+  public RobotConnectionService(RobotConfig robotConfig) {
+    this.robotConfig = robotConfig;
+  }
 
-  public static void InitializeBrick() {
+  public boolean IsConnected() {return BrickInstance != null;}
+
+  public void InitializeBrick() {
     try {
       BrickInfo[] bricks = BrickFinder.discover();
       BrickInfo firstEv3 = bricks[0];
@@ -23,7 +30,7 @@ public class RobotConnectionService {
     }
   }
 
-  public static RemoteRequestEV3 GetBrick() {
+  public RemoteRequestEV3 GetBrick() {
     if(!IsConnected())
       InitializeBrick();
     return BrickInstance;

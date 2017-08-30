@@ -1,9 +1,6 @@
 package RobotRemote.UI.Views;
 
 import RobotRemote.Models.RobotConfig;
-import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.ServiceLocator;
-import RobotRemote.Services.ServiceUmpire;
 import RobotRemote.Services.Synchronous.GuiUpdater.MapLayerFactory;
 import RobotRemote.Models.MoveCommand;
 import RobotRemote.Services.Mocks.TestingMoveService;
@@ -36,6 +33,8 @@ public class RootController implements Initializable {
   private Scene help;
   private Scene demo;
   private MapState mapState;
+  private RobotMoveService robotMoveService;
+  private TestingMoveService testingMoveService;
   public static Thread mapRefreshThread = new Thread();
 
   @FXML
@@ -67,8 +66,10 @@ public class RootController implements Initializable {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(RobotConfig config) {
+  public void Init(RobotConfig config, RobotMoveService rbs, TestingMoveService tms) {
     this.mapState = new MapState(config.initX, config.initY, config.initTheta);
+    this.robotMoveService = rbs;
+    this.testingMoveService = tms;
     this.initGUI();
     this.initMap();
   }
@@ -180,10 +181,10 @@ public class RootController implements Initializable {
 
   private void MoveMotors(MoveCommand command) {
     if(isTestControls.isSelected()) {
-      TestingMoveService.MoveMotors(command);
+      testingMoveService.MoveMotors(command);
     }
     else {
-      RobotMoveService.MoveMotors(command);
+      robotMoveService.MoveMotors(command);
     }
   }
 
@@ -191,10 +192,10 @@ public class RootController implements Initializable {
     try {
       Pose pose;
       if(isTestControls.isSelected()) {
-        pose = TestingMoveService.GetCoords();
+        pose = testingMoveService.GetCoords();
       }
       else {
-        pose = RobotMoveService.GetCoords();
+        pose = robotMoveService.GetCoords();
       }
       mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
     } catch (Exception ignored) {

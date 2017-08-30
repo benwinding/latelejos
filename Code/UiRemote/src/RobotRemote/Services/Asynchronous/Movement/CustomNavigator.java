@@ -17,12 +17,12 @@ public class CustomNavigator implements ICustomNavigator {
   public static Thread moveThread = new Thread();
 
   @Override
-  public void Init(ICustomCoordinateSystem cs, ArcRotateMoveController pilot) {
-    if(RobotConnectionService.IsConnected()) {
+  public void Init(ICustomCoordinateSystem cs, ArcRotateMoveController pilot, RobotConnectionService robotConnectionService) {
+    if(robotConnectionService.IsConnected()) {
       CustomNavigator.pilot = pilot;
       CustomNavigator.cs = cs;
 
-      linearSpeed = RobotConnectionService.IsConnected()? pilot.getLinearSpeed():0; //cm per second
+      linearSpeed = robotConnectionService.IsConnected()? pilot.getLinearSpeed():0; //cm per second
       mapUpdateInterval = 0.05; //seconds
       mapUpdateIntervalMs = mapUpdateInterval * 1000; //milliseconds
       distancePerInterval = ((float) (-linearSpeed * mapUpdateInterval)); //cm

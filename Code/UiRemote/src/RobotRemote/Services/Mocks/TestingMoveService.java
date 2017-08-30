@@ -4,16 +4,17 @@ import RobotRemote.Models.MoveCommand;
 import RobotRemote.Models.RobotConfig;
 import RobotRemote.Services.Asynchronous.Movement.CustomCoordinateSystem;
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import lejos.robotics.navigation.Pose;
 
 public class TestingMoveService {
   private static CustomCoordinateSystem cs;
 
-  public static void InitMotors(RobotConfig config) {
+  public TestingMoveService(RobotConfig config, RobotConnectionService robotConnectionService) {
     cs = new CustomCoordinateSystem(config.initX, config.initY, config.initTheta);
   }
 
-  public static void MoveMotors(MoveCommand command) {
+  public void MoveMotors(MoveCommand command) {
     switch (command) {
       case Forward:
         cs.GoingStraight(5);
@@ -34,7 +35,7 @@ public class TestingMoveService {
     }
   }
 
-  public static Pose GetCoords() {
+  public Pose GetCoords() {
     return cs.GetGlobalPose();
   }
 }

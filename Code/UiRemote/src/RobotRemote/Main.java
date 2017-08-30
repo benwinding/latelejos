@@ -4,9 +4,11 @@ import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.ThreadManager;
 import RobotRemote.Models.RobotConfig;
 import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.*;
 import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
 import RobotRemote.Services.Mocks.TestingMoveService;
+import RobotRemote.Services.ServiceLocator;
+import RobotRemote.Services.ServiceUmpire;
+import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import RobotRemote.UI.Views.RootController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,24 +32,24 @@ public class Main extends Application {
     // Get Application Configuration
     RobotConfig robotConfig = new RobotConfig().GetConfiguration("/robot.config.txt");
 
-    // Spin up threads
-    RobotRepository rr = new RobotRepository(robotConfig);
-    ServiceLocator sl = new ServiceLocator(rr, rootController);
-    serviceUmpire = new ServiceUmpire(sl);
-
-    // Init things
+    // Prepare main controller
     Logger.Init(scene);
-    rootController.Init(robotConfig);
-    RobotMoveService.InitMotors(robotConfig);
-    TestingMoveService.InitMotors(robotConfig);
+    RobotConnectionService robotConnectionService = new RobotConnectionService(robotConfig);
+    RobotMoveService rbs = new RobotMoveService(robotConfig, robotConnectionService);
+    TestingMoveService tms = new TestingMoveService(robotConfig, robotConnectionService);
+    rootController.Init(robotConfig, rbs, tms);
 
+    // Spin up threads
+    RobotRepository robotRepository = new RobotRepository(robotConfig);
+    ServiceLocator serviceLocator = new ServiceLocator(robotConnectionService,robotRepository,rootController);
+    serviceUmpire = new ServiceUmpire(serviceLocator);
     serviceUmpire.StartAllThreads();
 
     primaryStage.setTitle("Robot Remote UI");
     primaryStage.setScene(scene);
-
     primaryStage.show();
   }
+
   @Override
   public void stop(){
     System.out.println("Stage is closing");

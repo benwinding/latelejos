@@ -11,10 +11,10 @@ public class ServiceLocator {
   private final RobotConnectionService robotConnectionService;
   private final GuiUpdaterService guiUpdaterService;
 
-  public ServiceLocator(RobotRepository robotRepository, RootController guiMainController) {
-    robotConnectionService = new RobotConnectionService();
-    sensorService = new SensorsService(robotConnectionService, robotRepository.getSensorsState());
-    guiUpdaterService = new GuiUpdaterService(robotRepository, guiMainController);
+  public ServiceLocator(RobotConnectionService robotConnectionService, RobotRepository robotRepository, RootController guiMainController) {
+    this.robotConnectionService = robotConnectionService;
+    this.sensorService = new SensorsService(robotConnectionService, robotRepository.getSensorsState());
+    this.guiUpdaterService = new GuiUpdaterService(robotRepository, guiMainController);
   }
 
   public SensorsService getSensorService() {

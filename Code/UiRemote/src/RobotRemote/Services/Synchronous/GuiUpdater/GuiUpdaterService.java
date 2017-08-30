@@ -20,9 +20,13 @@ public class GuiUpdaterService extends RobotThreadBase {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        double val = robotRepository.getSensorsState().getColourReading();
-        rootController.messageDisplayer.appendText("Current Val: " + val + "\n");
+        UpdateGuiThreadSafe();
       }
     });
+  }
+
+  private void UpdateGuiThreadSafe() {
+    double val = robotRepository.getSensorsState().getColourReading();
+    rootController.messageDisplayer.appendText("Current Val: " + val + "\n");
   }
 }
