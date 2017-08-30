@@ -1,10 +1,10 @@
 package RobotRemote;
 
-import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
-import RobotRemote.UI.Views.Main.ManualController;
-import RobotRemote.Services.Mocks.TestingMoveService;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.ThreadManager;
+import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
+import RobotRemote.Services.Mocks.TestingMoveService;
+import RobotRemote.UI.Views.Main.ManualController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

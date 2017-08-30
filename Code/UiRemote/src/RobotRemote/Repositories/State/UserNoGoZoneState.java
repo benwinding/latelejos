@@ -1,11 +1,11 @@
-package RobotRemote.Repositories;
+package RobotRemote.Repositories.State;
 
 import lejos.utility.Matrix;
 
 public class UserNoGoZoneState {
   private Matrix ngzMatrix;
 
-  UserNoGoZoneState(int ngzRows, int ngzCols) {
+  public UserNoGoZoneState(int ngzRows, int ngzCols) {
     ngzMatrix = new Matrix(ngzCols,ngzCols);
   }
 

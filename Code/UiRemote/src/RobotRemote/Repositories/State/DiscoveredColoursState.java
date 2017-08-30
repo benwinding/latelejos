@@ -1,4 +1,4 @@
-package RobotRemote.Repositories;
+package RobotRemote.Repositories.State;
 
 import RobotRemote.Models.MapPoint;
 import javafx.scene.paint.Color;
@@ -8,7 +8,7 @@ import java.util.*;
 public class DiscoveredColoursState {
   private HashMap<Color, List<MapPoint>> colouredPointsSeen;
 
-  public DiscoveredColoursState(double xInit, double yInit, float initTheta) {
+  public DiscoveredColoursState() {
     colouredPointsSeen = new HashMap<>();
   }
 

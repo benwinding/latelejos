@@ -1,5 +1,8 @@
 package RobotRemote.UI.Views.Main;
 
+import RobotRemote.Repositories.RobotRepository;
+import RobotRemote.Services.ServiceLocator;
+import RobotRemote.Services.ServiceUmpire;
 import RobotRemote.Services.Synchronous.GuiUpdater.MapLayerFactory;
 import RobotRemote.Models.MoveCommand;
 import RobotRemote.Services.Mocks.TestingMoveService;
@@ -15,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -73,11 +77,11 @@ public class ManualController implements Initializable {
           Platform.runLater(new Runnable() {
             @Override
             public void run() {
-            UpdateLocationFromRobot();
-            Logger.LogCrossThread("Updating Map");
+              UpdateLocationFromRobot();
+              Logger.LogCrossThread("Updating Map");
             }
           });
-          Thread.sleep(100);
+          Thread.sleep(500);
         }
         return null;
       }
@@ -98,23 +102,19 @@ public class ManualController implements Initializable {
   public void keyPressed(KeyEvent e) {
     switch (e.getCode()) {
       case W:
-      case UP:
         MoveMotors(MoveCommand.Forward);
         break;
       case A:
-      case LEFT:
         MoveMotors(MoveCommand.Left);
         break;
       case D:
-      case RIGHT:
         MoveMotors(MoveCommand.Right);
         break;
       case S:
-      case DOWN:
         MoveMotors(MoveCommand.Backward);
         break;
-        case ENTER:
-          MoveMotors(MoveCommand.Stop);
+      case ENTER:
+        MoveMotors(MoveCommand.Stop);
         break;
 
       default:
