@@ -1,5 +1,6 @@
 package RobotRemote.UI.Views.Main;
 
+import RobotRemote.Models.RobotConfig;
 import RobotRemote.Repositories.RobotRepository;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
@@ -63,8 +64,8 @@ public class ManualController implements Initializable {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(float initX, float initY, float initTheta) {
-    this.mapState = new MapState(initX,initY,initTheta);
+  public void Init(RobotConfig config) {
+    this.mapState = new MapState(config.initX, config.initY, config.initTheta);
     this.initGUI();
     this.initMap();
   }

@@ -1,6 +1,7 @@
 package RobotRemote.Services.Mocks;
 
 import RobotRemote.Models.MoveCommand;
+import RobotRemote.Models.RobotConfig;
 import RobotRemote.Services.Asynchronous.Movement.CustomCoordinateSystem;
 import RobotRemote.Helpers.Logger;
 import lejos.robotics.navigation.Pose;
@@ -8,8 +9,8 @@ import lejos.robotics.navigation.Pose;
 public class TestingMoveService {
   private static CustomCoordinateSystem cs;
 
-  public static void InitMotors(float xInit, float yInit, float thetaInit) {
-    cs = new CustomCoordinateSystem(xInit, yInit, thetaInit);
+  public static void InitMotors(RobotConfig config) {
+    cs = new CustomCoordinateSystem(config.initX, config.initY, config.initTheta);
   }
 
   public static void MoveMotors(MoveCommand command) {

@@ -2,6 +2,7 @@ package RobotRemote.Services.Asynchronous.Movement;
 
 import RobotRemote.Models.MoveCommand;
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Models.RobotConfig;
 import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
@@ -29,8 +30,8 @@ public class RobotMoveService {
     }
   }
 
-  public static void InitMotors(float xInit, float yInit, float thetaInit) {
-    ICustomCoordinateSystem cs = new CustomCoordinateSystem(xInit, yInit, thetaInit);
+  public static void InitMotors(RobotConfig config) {
+    ICustomCoordinateSystem cs = new CustomCoordinateSystem(config.initX, config.initY, config.initTheta);
     ArcRotateMoveController pilot = GetPilot();
     navigator = new CustomNavigator();
     navigator.Init(cs, pilot);

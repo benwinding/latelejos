@@ -2,6 +2,7 @@ package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.ThreadManager;
+import RobotRemote.Models.RobotConfig;
 import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
 import RobotRemote.Services.Mocks.TestingMoveService;
 import RobotRemote.UI.Views.Main.ManualController;
@@ -10,12 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-
-import java.net.URL;
-import java.util.NoSuchElementException;
 
 public class Main extends Application {
 
@@ -28,34 +23,13 @@ public class Main extends Application {
     ManualController manualController = loader.getController();
     Scene scene = new Scene(root, 1000, 700);
 
-    float initX = 100;
-    float initY = 100;
-    float initTheta = 0;
-    Configurations configs = new Configurations();
-    try
-    {
-      URL file = getClass().getResource("/robot.config.txt");
-      Configuration config = configs.properties(file);
-      // access configuration properties
-      initX = config.getFloat("location.x");
-      initY = config.getFloat("location.y");
-      initTheta = config.getFloat("location.heading");
-      Logger.Log("Configuration Successfully Read");
-    }
-    catch (ConfigurationException cex)
-    {
-      Logger.Log("Some problem with the configuration");
-    }
-    catch (NoSuchElementException ex) {
-      Logger.Log("Configuration Error: " + ex.getLocalizedMessage());
-      return;
-    }
+    RobotConfig robotConfig = new RobotConfig().GetConfiguration("/robot.config.txt");
 
     // Init things
     Logger.Init(scene);
-    manualController.Init(initX, initY, initTheta);
-    RobotMoveService.InitMotors(initX, initY, initTheta);
-    TestingMoveService.InitMotors(initX, initY, initTheta);
+    manualController.Init(robotConfig);
+    RobotMoveService.InitMotors(robotConfig);
+    TestingMoveService.InitMotors(robotConfig);
 
     primaryStage.setTitle("Robot Remote UI");
     primaryStage.setScene(scene);
