@@ -19,8 +19,6 @@ public class Logger {
     TryToWriteToUi(msg);
   }
 
-
-
   public static void TryToLogConsole(String msg) {
     try {
       System.out.println(msg);
@@ -37,14 +35,14 @@ public class Logger {
     }
   }
 
-    public static void TryToWriteToDemo(String msg) {
-        try{
-            TextArea textArea = (TextArea) demo.lookup("#messageDisplayer");
-            textArea.appendText(msg + '\n');
-        }
-        catch (Exception ignored) {
-        }
+  public static void TryToWriteToDemo(String msg) {
+    try{
+      TextArea textArea = (TextArea) demo.lookup("#messageDisplayer");
+      textArea.appendText(msg + '\n');
     }
+    catch (Exception ignored) {
+    }
+  }
 
   public static void LogCrossThread(String s) {
     // Implement this later ...
