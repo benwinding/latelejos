@@ -1,10 +1,10 @@
 package RobotRemote;
 
-import RobotRemote.Services.RobotMoveService;
-import RobotRemote.Views.Main.ManualController;
+import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
+import RobotRemote.UI.Views.Main.ManualController;
 import RobotRemote.Services.Mocks.TestingMoveService;
-import RobotRemote.Utils.Logger;
-import RobotRemote.Utils.ThreadManager;
+import RobotRemote.Helpers.Logger;
+import RobotRemote.Helpers.ThreadManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +21,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception{
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/RobotRemote/Views/Main/ManualView.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Main/ManualView.fxml"));
     Parent root = (Parent) loader.load();
 
     // Setup controller

@@ -1,8 +1,8 @@
 package RobotRemote.Services.Mocks;
 
 import RobotRemote.Models.MoveCommand;
-import RobotRemote.Services.CustomCoordinateSystem;
-import RobotRemote.Utils.Logger;
+import RobotRemote.Services.Asynchronous.Movement.CustomCoordinateSystem;
+import RobotRemote.Helpers.Logger;
 import lejos.robotics.navigation.Pose;
 
 public class TestingMoveService {

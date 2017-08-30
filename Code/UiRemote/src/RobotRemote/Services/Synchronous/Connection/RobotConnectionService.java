@@ -1,6 +1,6 @@
-package RobotRemote.Services;
+package RobotRemote.Services.Synchronous.Connection;
 
-import RobotRemote.Utils.Logger;
+import RobotRemote.Helpers.Logger;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteRequestEV3;
@@ -23,7 +23,7 @@ public class RobotConnectionService {
     }
   }
 
-  static RemoteRequestEV3 GetBrick() {
+  public static RemoteRequestEV3 GetBrick() {
     if(!IsConnected())
       InitializeBrick();
     return BrickInstance;

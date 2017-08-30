@@ -1,6 +1,7 @@
-package RobotRemote.Services;
+package RobotRemote.Services.Asynchronous.Movement;
 
-import RobotRemote.Utils.Logger;
+import RobotRemote.Helpers.Logger;
+import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import javafx.concurrent.Task;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;

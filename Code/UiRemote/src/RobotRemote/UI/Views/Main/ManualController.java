@@ -1,11 +1,11 @@
-package RobotRemote.Views.Main;
+package RobotRemote.UI.Views.Main;
 
-import RobotRemote.Models.MapLayerFactory;
+import RobotRemote.Services.Synchronous.GuiUpdater.MapLayerFactory;
 import RobotRemote.Models.MoveCommand;
 import RobotRemote.Services.Mocks.TestingMoveService;
 import RobotRemote.Models.MapState;
-import RobotRemote.Services.RobotMoveService;
-import RobotRemote.Utils.Logger;
+import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
+import RobotRemote.Helpers.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -77,7 +77,7 @@ public class ManualController implements Initializable {
             Logger.LogCrossThread("Updating Map");
             }
           });
-          Thread.sleep(500);
+          Thread.sleep(100);
         }
         return null;
       }
@@ -88,11 +88,11 @@ public class ManualController implements Initializable {
   }
 
   private void initGUI(){
-    this.btnMoveLeft.setImage(new Image("RobotRemote/Images/left.png"));
-    this.btnMoveRight.setImage(new Image("RobotRemote/Images/right.png"));
-    this.btnMoveUp.setImage(new Image("RobotRemote/Images/up.png"));
-    this.btnMoveDown.setImage(new Image("RobotRemote/Images/down.png"));
-    this.btnMoveStop.setImage(new Image("RobotRemote/Images/stop.png"));
+    this.btnMoveLeft.setImage(new Image("RobotRemote/UI/Images/left.png"));
+    this.btnMoveRight.setImage(new Image("RobotRemote/UI/Images/right.png"));
+    this.btnMoveUp.setImage(new Image("RobotRemote/UI/Images/up.png"));
+    this.btnMoveDown.setImage(new Image("RobotRemote/UI/Images/down.png"));
+    this.btnMoveStop.setImage(new Image("RobotRemote/UI/Images/stop.png"));
   }
 
   public void keyPressed(KeyEvent e) {
@@ -124,7 +124,7 @@ public class ManualController implements Initializable {
 
   public void onClickDemo(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/Views/Demo/DemoSensor.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Demo/DemoSensor.fxml"));
       Parent root = (Parent) fxmlLoader.load();
 
       demo = new Scene(root, 700, 600);
@@ -142,7 +142,7 @@ public class ManualController implements Initializable {
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/Views/Help/HelpView.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Help/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
       help = new Scene(root, 400, 300);
       Stage stage = new Stage();

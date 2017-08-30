@@ -1,7 +1,8 @@
-package RobotRemote.Services;
+package RobotRemote.Services.Asynchronous.Movement;
 
 import RobotRemote.Models.MoveCommand;
-import RobotRemote.Utils.Logger;
+import RobotRemote.Helpers.Logger;
+import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
@@ -13,7 +14,7 @@ public class RobotMoveService {
   public static boolean IsDirty;
   public static MoveCommand PreCommand;
 
-  static ArcRotateMoveController GetPilot() {
+  public static ArcRotateMoveController GetPilot() {
     ArcRotateMoveController pilot;
     try {
       RemoteRequestEV3 brick = RobotConnectionService.GetBrick();

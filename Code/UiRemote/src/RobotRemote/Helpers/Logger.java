@@ -1,4 +1,4 @@
-package RobotRemote.Utils;
+package RobotRemote.Helpers;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;

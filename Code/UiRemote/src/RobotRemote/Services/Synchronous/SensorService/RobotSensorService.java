@@ -1,7 +1,7 @@
-package RobotRemote.Services;
+package RobotRemote.Services.Synchronous.SensorService;
 
 
-import RobotRemote.Utils.Logger;
+import RobotRemote.Helpers.Logger;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;

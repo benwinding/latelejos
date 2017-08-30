@@ -1,6 +1,6 @@
-package RobotRemote.Views.Demo;
+package RobotRemote.UI.Views.Demo;
 
-import RobotRemote.Services.RobotSensorService;
+import RobotRemote.Services.Synchronous.SensorService.RobotSensorService;
 import javafx.fxml.Initializable;
 
 import java.net.URL;

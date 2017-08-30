@@ -1,4 +1,4 @@
-package RobotRemote.Models;
+package RobotRemote.Services.Synchronous.GuiUpdater;
 
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.MapState;
@@ -77,7 +77,7 @@ public class MapLayerFactory {
     gc.rotate(robotLocation.theta);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
-    Image imgRobot = new Image(getClass().getResourceAsStream("../Images/robot-map.png"));
+    Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));
 
     gc.drawImage(imgRobot,0,0, robotW, robotH);
 
@@ -105,7 +105,7 @@ public class MapLayerFactory {
     gc.rotate(robotLocation.theta);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
-    Image imgSensorField = new Image(getClass().getResourceAsStream("../Images/sensor-field.png"));
+    Image imgSensorField = new Image(getClass().getResourceAsStream("./Images/sensor-field.png"));
 
     gc.drawImage(imgSensorField,0,0, robotW, robotH);
     gc.restore();
