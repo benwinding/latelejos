@@ -1,4 +1,4 @@
-package RobotRemote.UI.Views.Main;
+package RobotRemote.UI.Views;
 
 import RobotRemote.Models.RobotConfig;
 import RobotRemote.Repositories.RobotRepository;
@@ -32,7 +32,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ManualController implements Initializable {
+public class RootController implements Initializable {
   private Scene help;
   private Scene demo;
   private MapState mapState;
@@ -58,6 +58,9 @@ public class ManualController implements Initializable {
 
   @FXML
   CheckBox isTestControls;
+
+  @FXML
+  public TextArea messageDisplayer;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
