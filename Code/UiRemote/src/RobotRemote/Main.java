@@ -1,13 +1,15 @@
 package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.RobotConfig;
-import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.Asynchronous.Movement.MovementEventListener;
+import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.Listeners.Movement.MovementEventListener;
 import RobotRemote.Services.Mocks.TestArcPilot;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
-import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
+import RobotRemote.Services.Workers.SensorService.SensorsService;
+import RobotRemote.Services.Workers.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
@@ -32,9 +34,9 @@ public class Main extends Application {
     Logger.Init(scene);
 
     // Get Application Configuration
-    RobotConfig robotConfig = new RobotConfig();
+    RobotConfiguration robotConfiguration = new RobotConfiguration();
     // Instantiate repository
-    RobotRepository robotRepository = new RobotRepository(robotConfig);
+    AppStateRepository appStateRepository = new AppStateRepository(robotConfiguration);
     // robotConnection Service
     RobotConnectionService robotConnectionService = new RobotConnectionService();
 
@@ -42,21 +44,23 @@ public class Main extends Application {
     EventBus eventBus = new EventBus();
 
     // Instantiate movement service
-    ArcRotateMoveController pilot = GetPilot(robotConnectionService, robotConfig);
-    MovementEventListener movementService = new MovementEventListener(robotConfig, pilot, robotRepository, eventBus);
+    ArcRotateMoveController pilot = GetPilot(robotConnectionService, robotConfiguration);
+    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
+
+    SensorsService sensorService = new SensorsService(robotConnectionService, appStateRepository.getSensorsState());
+    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     // Instantiate service locator
     ServiceLocator serviceLocator = new ServiceLocator(
         robotConnectionService,
-        robotRepository,
-        rootController,
-        movementService
+        sensorService,
+        uiUpdaterService
     );
     // Spin up threads
     serviceUmpire = new ServiceUmpire(serviceLocator);
     serviceUmpire.StartAllThreads();
 
-    rootController.Init(robotConfig, robotRepository.getUiState(), eventBus);
+    rootController.Init(robotConfiguration, appStateRepository.getUiState(), eventBus);
 
     // Show GUI
     primaryStage.setTitle("Robot Remote UI");
@@ -64,7 +68,7 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-  private ArcRotateMoveController GetPilot(RobotConnectionService connectionService, RobotConfig config) {
+  private ArcRotateMoveController GetPilot(RobotConnectionService connectionService, RobotConfiguration config) {
     connectionService.InitializeBrick();
     ArcRotateMoveController pilot;
     if(connectionService.IsConnected()) {

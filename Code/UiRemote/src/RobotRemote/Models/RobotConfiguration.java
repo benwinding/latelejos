@@ -1,6 +1,6 @@
 package RobotRemote.Models;
 
-public class RobotConfig {
+public class RobotConfiguration {
   public float initX = 100;
   public float initY = 200;
   public float initTheta = -90;
@@ -17,5 +17,6 @@ public class RobotConfig {
   public float robotTrackWidth = 4.4f;
   public String wheelPortLeft = "A";
   public String wheelPortRight = "B";
-  public int updateIntervalMoving_ms = 100;
+  public int updateIntervalMoving_ms = 50;
+  public int updateIntervalUi_ms = 40;
 }

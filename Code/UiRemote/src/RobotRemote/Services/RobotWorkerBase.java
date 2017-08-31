@@ -2,12 +2,12 @@ package RobotRemote.Services;
 
 import RobotRemote.Helpers.Logger;
 
-public abstract class RobotServiceBase implements Runnable{
+public abstract class RobotWorkerBase implements Runnable{
   private Thread thread;
   private String threadName;
   private int msDelay;
 
-  public RobotServiceBase(String threadName, int msDelay) {
+  public RobotWorkerBase(String threadName, int msDelay) {
     this.threadName = threadName;
     this.msDelay = msDelay;
   }

@@ -1,8 +1,8 @@
 package RobotRemote.Services;
 
-import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
-import RobotRemote.Services.Synchronous.SensorService.SensorsService;
-import RobotRemote.Services.Synchronous.UiUpdater.UiUpdaterService;
+import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.Workers.SensorService.SensorsService;
+import RobotRemote.Services.Workers.UiUpdater.UiUpdaterService;
 
 public class ServiceUmpire {
   private final UiUpdaterService uiUpdaterService;

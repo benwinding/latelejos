@@ -1,27 +1,18 @@
 package RobotRemote.Services;
 
-import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.Asynchronous.Movement.MovementEventListener;
-import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
-import RobotRemote.Services.Synchronous.SensorService.SensorsService;
-import RobotRemote.Services.Synchronous.UiUpdater.UiUpdaterService;
-import RobotRemote.UI.Views.RootController;
+import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.Workers.SensorService.SensorsService;
+import RobotRemote.Services.Workers.UiUpdater.UiUpdaterService;
 
 public class ServiceLocator {
-  private final SensorsService sensorService;
-  private final RobotConnectionService robotConnectionService;
-  private MovementEventListener movementService;
-  private final UiUpdaterService uiUpdaterService;
+  private RobotConnectionService robotConnectionService;
+  private SensorsService sensorService;
+  private UiUpdaterService uiUpdaterService;
 
-  public ServiceLocator(RobotConnectionService robotConnectionService, RobotRepository robotRepository, RootController guiMainController, MovementEventListener movementService) {
+  public ServiceLocator(RobotConnectionService robotConnectionService, SensorsService sensorService, UiUpdaterService uiUpdaterService) {
     this.robotConnectionService = robotConnectionService;
-    this.movementService = movementService;
-    this.sensorService = new SensorsService(robotConnectionService, robotRepository.getSensorsState());
-    this.uiUpdaterService = new UiUpdaterService(robotRepository, guiMainController);
-  }
-
-  public SensorsService getSensorService() {
-    return sensorService;
+    this.sensorService = sensorService;
+    this.uiUpdaterService = uiUpdaterService;
   }
 
   public UiUpdaterService getUiUpdaterService() {
@@ -32,7 +23,7 @@ public class ServiceLocator {
     return robotConnectionService;
   }
 
-  public MovementEventListener getMovementService() {
-    return movementService;
+  public SensorsService getSensorService() {
+    return sensorService;
   }
 }

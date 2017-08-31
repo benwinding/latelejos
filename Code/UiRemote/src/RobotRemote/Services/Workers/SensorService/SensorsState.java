@@ -1,4 +1,4 @@
-package RobotRemote.Services.Synchronous.SensorService;
+package RobotRemote.Services.Workers.SensorService;
 
 public class SensorsState {
   private double ultraReading;

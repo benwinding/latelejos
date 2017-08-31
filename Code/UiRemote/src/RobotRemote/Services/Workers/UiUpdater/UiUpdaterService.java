@@ -1,9 +1,10 @@
-package RobotRemote.Services.Synchronous.UiUpdater;
+package RobotRemote.Services.Workers.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.Asynchronous.Movement.LocationState;
-import RobotRemote.Services.RobotServiceBase;
+import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Services.Listeners.Movement.LocationState;
+import RobotRemote.Services.RobotWorkerBase;
 import RobotRemote.UI.Views.RootController;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -13,19 +14,14 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
-public class UiUpdaterService extends RobotServiceBase {
-  private RobotRepository robotRepository;
+public class UiUpdaterService extends RobotWorkerBase {
+  private AppStateRepository appStateRepository;
   private RootController rootController;
 
-  public UiUpdaterService(RobotRepository robotRepository, RootController rootController) {
-    super("GUI Updater Service", 300);
-    this.robotRepository = robotRepository;
+  public UiUpdaterService(RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController) {
+    super("GUI Updater Service", robotConfiguration.updateIntervalUi_ms);
+    this.appStateRepository = appStateRepository;
     this.rootController = rootController;
-  }
-
-  @Override
-  protected void OnStart() {
-
   }
 
   @Override
@@ -48,10 +44,10 @@ public class UiUpdaterService extends RobotServiceBase {
     VBox locationPane = rootController.locationDetails;
     locationPane.getChildren().clear();
 
-    MapPoint pos = robotRepository.getLocationState().GetCurrentPosition();
-    AddTextToPane(locationPane, String.format("x: %f, y: %f, rot: %f", pos.x, pos.y, pos.theta));
-    AddTextToPane(locationPane, String.format("Motors are: %s", robotRepository.getMovementState().getMotorState()));
-    AddTextToPane(locationPane, String.format("Ui Command: %s", robotRepository.getUiState().getCurrentCommand()));
+    MapPoint pos = appStateRepository.getLocationState().GetCurrentPosition();
+    AddTextToPane(locationPane, String.format("x: %d, y: %d, rot: %d", Math.round(pos.x), Math.round(pos.y), Math.round(pos.theta)));
+    AddTextToPane(locationPane, String.format("Motors are: %s", appStateRepository.getMovementState().getMotorState()));
+    AddTextToPane(locationPane, String.format("Ui Command: %s", appStateRepository.getUiState().getCurrentCommand()));
   }
 
   private void AddTextToPane(Pane pane, String format) {
@@ -61,14 +57,14 @@ public class UiUpdaterService extends RobotServiceBase {
   }
 
   private void UpdateSensorsOnGUI() {
-    double val = robotRepository.getSensorsState().getColourReadingR();
+    double val = appStateRepository.getSensorsState().getColourReadingR();
     //rootController.messageDisplayer.appendText("Current Val: " + val + "\n");
   }
 
   private void UpdateMapOnGUI() {
     rootController.map.getChildren().clear();
-    UiUpdaterState uiUpdaterState = robotRepository.getUiUpdaterState();
-    LocationState locationState = robotRepository.getLocationState();
+    UiUpdaterState uiUpdaterState = appStateRepository.getUiUpdaterState();
+    LocationState locationState = appStateRepository.getLocationState();
 
     MapLayerFactory mapFactory = new MapLayerFactory(uiUpdaterState, locationState);
     List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
@@ -76,7 +72,4 @@ public class UiUpdaterService extends RobotServiceBase {
     rootController.map.getChildren().clear();
     rootController.map.getChildren().addAll(allMapLayers);
   }
-
-  @Override
-  protected void OnShutdown() {}
 }

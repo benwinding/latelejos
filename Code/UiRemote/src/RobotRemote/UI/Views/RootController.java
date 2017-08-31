@@ -3,7 +3,7 @@ package RobotRemote.UI.Views;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
 import RobotRemote.Models.Events.EventManualControl;
-import RobotRemote.Models.RobotConfig;
+import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.fxml.FXML;
@@ -56,7 +56,7 @@ public class RootController implements Initializable {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(RobotConfig config, UiState uiState, EventBus eventBus) {
+  public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus) {
     this.uiState = uiState;
     this.eventBus = eventBus;
     this.initGUI();

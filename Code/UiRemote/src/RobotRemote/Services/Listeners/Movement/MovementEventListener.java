@@ -1,9 +1,9 @@
-package RobotRemote.Services.Asynchronous.Movement;
+package RobotRemote.Services.Listeners.Movement;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventManualControl;
-import RobotRemote.Models.RobotConfig;
-import RobotRemote.Repositories.RobotRepository;
+import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Repositories.AppStateRepository;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lejos.robotics.navigation.ArcRotateMoveController;
@@ -12,9 +12,9 @@ public final class MovementEventListener {
   private final MoveStraightThread moveStraightThread;
   private final MoveTurnSynchronous moveTurnSynchronous;
 
-  public MovementEventListener(RobotConfig config, ArcRotateMoveController pilot, RobotRepository robotRepository, EventBus eventBus) {
-    this.moveStraightThread = new MoveStraightThread(config, pilot, robotRepository.getLocationState(), robotRepository.getMovementState());
-    this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, robotRepository.getLocationState(), robotRepository.getMovementState());
+  public MovementEventListener(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appStateRepository, EventBus eventBus) {
+    this.moveStraightThread = new MoveStraightThread(config, pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
+    this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
     eventBus.register(this);
   }
 

@@ -1,12 +1,12 @@
-package RobotRemote.Services.Synchronous.SensorService;
+package RobotRemote.Services.Workers.SensorService;
 
-import RobotRemote.Services.RobotServiceBase;
-import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
+import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.RobotWorkerBase;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
 
-public class SensorsService extends RobotServiceBase {
+public class SensorsService extends RobotWorkerBase {
   private RobotConnectionService connectionService;
   private SensorsState sensorsState;
   private EV3ColorSensor colourSensorConnection;

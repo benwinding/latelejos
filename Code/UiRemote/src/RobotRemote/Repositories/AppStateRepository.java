@@ -1,17 +1,17 @@
 package RobotRemote.Repositories;
 
 import RobotRemote.Models.EnumCommandManual;
-import RobotRemote.Models.RobotConfig;
-import RobotRemote.Services.Asynchronous.Movement.LocationState;
-import RobotRemote.Services.Asynchronous.Movement.MovementState;
-import RobotRemote.Services.Asynchronous.StateMachine.DiscoveredColoursState;
-import RobotRemote.Services.Asynchronous.StateMachine.StateMachineState;
-import RobotRemote.Services.Asynchronous.StateMachine.UserNoGoZoneState;
-import RobotRemote.Services.Synchronous.SensorService.SensorsState;
-import RobotRemote.Services.Synchronous.UiUpdater.UiUpdaterState;
+import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Services.Listeners.Movement.LocationState;
+import RobotRemote.Services.Listeners.Movement.MovementState;
+import RobotRemote.Services.Listeners.StateMachine.DiscoveredColoursState;
+import RobotRemote.Services.Listeners.StateMachine.StateMachineState;
+import RobotRemote.Services.Listeners.StateMachine.UserNoGoZoneState;
+import RobotRemote.Services.Workers.SensorService.SensorsState;
+import RobotRemote.Services.Workers.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
 
-public class RobotRepository {
+public class AppStateRepository {
   private UiState uiState;
   private SensorsState sensorsState;
   private MovementState movementState;
@@ -21,7 +21,7 @@ public class RobotRepository {
   private UiUpdaterState uiUpdaterState;
   private StateMachineState stateMachineState;
 
-  public RobotRepository(RobotConfig config) {
+  public AppStateRepository(RobotConfiguration config) {
     sensorsState = new SensorsState();
     movementState = new MovementState();
     locationState = new LocationState(config.initX,config.initY,config.initTheta);

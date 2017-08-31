@@ -1,4 +1,4 @@
-package RobotRemote.Services.Synchronous.Connection;
+package RobotRemote.Services.Listeners.Connection;
 
 import RobotRemote.Helpers.Logger;
 import lejos.hardware.BrickFinder;

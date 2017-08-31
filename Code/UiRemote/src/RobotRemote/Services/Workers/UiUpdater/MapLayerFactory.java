@@ -1,7 +1,7 @@
-package RobotRemote.Services.Synchronous.UiUpdater;
+package RobotRemote.Services.Workers.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Services.Asynchronous.Movement.LocationState;
+import RobotRemote.Services.Listeners.Movement.LocationState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -10,20 +10,20 @@ import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapLayerFactory {
+class MapLayerFactory {
   private final float mapH;
   private final float mapW;
   private LocationState locationState;
   private UiUpdaterState uiUpdaterState;
 
-  public MapLayerFactory(UiUpdaterState uiUpdaterState, LocationState locationState) {
+  MapLayerFactory(UiUpdaterState uiUpdaterState, LocationState locationState) {
     this.uiUpdaterState = uiUpdaterState;
     this.mapH = uiUpdaterState.getMapH();
     this.mapW = uiUpdaterState.getMapW();
     this.locationState = locationState;
   }
 
-  public List<Canvas> CreateMapLayers() {
+  List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLACK),
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
@@ -33,7 +33,7 @@ public class MapLayerFactory {
     return mapLayers;
   }
 
-  public Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
+  Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
@@ -63,7 +63,7 @@ public class MapLayerFactory {
     return layer;
   }
 
-  public Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
+  Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
     int robotW = 60;
     int robotH = 50;
 
@@ -91,7 +91,7 @@ public class MapLayerFactory {
     return layer;
   }
 
-  public Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
+  Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
     int robotW = 60;
     int robotH = 180;
 
