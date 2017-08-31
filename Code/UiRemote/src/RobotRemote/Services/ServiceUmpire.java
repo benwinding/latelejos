@@ -1,24 +1,28 @@
 package RobotRemote.Services;
 
-import RobotRemote.Services.Synchronous.GuiUpdater.GuiUpdaterService;
+import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import RobotRemote.Services.Synchronous.SensorService.SensorsService;
+import RobotRemote.Services.Synchronous.UiUpdater.UiUpdaterService;
 
 public class ServiceUmpire {
-  private final GuiUpdaterService guiUpdaterService;
-  private SensorsService sensorService;
+  private final UiUpdaterService uiUpdaterService;
+  private final RobotConnectionService robotConnectionService;
+  private final SensorsService sensorService;
 
   public ServiceUmpire(ServiceLocator serviceLocator) {
     this.sensorService = serviceLocator.getSensorService();
-    this.guiUpdaterService = serviceLocator.getGuiUpdaterService();
+    this.uiUpdaterService = serviceLocator.getUiUpdaterService();
+    this.robotConnectionService = serviceLocator.getRobotConnectionService();
   }
 
   public void StartAllThreads() {
-    this.sensorService.start();
-    this.guiUpdaterService.start();
+    this.uiUpdaterService.start();
+    if(robotConnectionService.IsConnected())
+      this.sensorService.start();
   }
 
   public void StopAllThreads() {
     this.sensorService.kill();
-    this.guiUpdaterService.kill();
+    this.uiUpdaterService.kill();
   }
 }

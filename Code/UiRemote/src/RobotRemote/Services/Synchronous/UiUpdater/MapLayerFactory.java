@@ -1,7 +1,7 @@
-package RobotRemote.Services.Synchronous.GuiUpdater;
+package RobotRemote.Services.Synchronous.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Models.MapState;
+import RobotRemote.Services.Asynchronous.Movement.LocationState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -11,26 +11,30 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MapLayerFactory {
-  private final MapPoint mapSize;
-  private MapState mapState;
+  private final float mapH;
+  private final float mapW;
+  private LocationState locationState;
+  private UiUpdaterState uiUpdaterState;
 
-  public MapLayerFactory(MapState mapState) {
-    this.mapState = mapState;
-    this.mapSize = mapState.GetMapSize();
+  public MapLayerFactory(UiUpdaterState uiUpdaterState, LocationState locationState) {
+    this.uiUpdaterState = uiUpdaterState;
+    this.mapH = uiUpdaterState.getMapH();
+    this.mapW = uiUpdaterState.getMapW();
+    this.locationState = locationState;
   }
 
   public List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
-        this.CreateBorderLayer(mapState.GetPointsBorder(), Color.BLACK),
-        this.CreateCurrentLocationLayer(mapState.GetLastPoint()),
-        this.CreateSensorFieldLayer(mapState.GetLastPoint()),
-        this.CreateVisitedLayer(mapState.GetPointsVisited(), Color.GREEN)
+        this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLACK),
+        this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
+        this.CreateSensorFieldLayer(locationState.GetCurrentPosition()),
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN)
     );
     return mapLayers;
   }
 
   public Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(mapSize.x,mapSize.y);
+    Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
@@ -42,17 +46,18 @@ public class MapLayerFactory {
   }
 
   public Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(mapSize.x,mapSize.y);
+    Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     gc.setLineWidth(5);
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
+
       double x1 = p1.x;
-      double y1 = mapSize.y - p1.y;
       double x2 = p2.x;
-      double y2 = mapSize.y -p2.y;
+      double y1 = mapH - p1.y;
+      double y2 = mapH -p2.y;
       gc.strokeLine(x1,y1,x2,y2);
     }
     return layer;
@@ -62,11 +67,11 @@ public class MapLayerFactory {
     int robotW = 60;
     int robotH = 50;
 
-    Canvas layer = new Canvas(mapSize.x,mapSize.y);
+    Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double x = robotLocation.x - robotW/2;
-    double y = mapSize.y - robotLocation.y - robotH/2;
+    double y = mapH - robotLocation.y - robotH/2;
 
     double rotationCenterX = (robotW) / 2;
     double rotationCenterY = (robotH) / 2;
@@ -74,7 +79,7 @@ public class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(robotLocation.theta);
+    gc.rotate(360-robotLocation.theta-90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));
@@ -90,11 +95,11 @@ public class MapLayerFactory {
     int robotW = 60;
     int robotH = 180;
 
-    Canvas layer = new Canvas(mapSize.x,mapSize.y);
+    Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double x = robotLocation.x - robotW/2;
-    double y = mapSize.y - robotLocation.y - robotH/2;
+    double y = mapH - robotLocation.y - robotH/2;
 
     double rotationCenterX = (robotW) / 2;
     double rotationCenterY = (robotH) / 2;
@@ -102,7 +107,7 @@ public class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(robotLocation.theta);
+    gc.rotate(360-robotLocation.theta-90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgSensorField = new Image(getClass().getResourceAsStream("./Images/sensor-field.png"));

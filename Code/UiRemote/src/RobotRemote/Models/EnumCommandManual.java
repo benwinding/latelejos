@@ -1,9 +1,10 @@
 package RobotRemote.Models;
 
-public enum MoveCommand {
+public enum EnumCommandManual {
+  Ignore,
   Left,
   Right,
   Forward,
   Backward,
-  Stop
+  Stop,
 }

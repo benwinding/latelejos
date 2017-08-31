@@ -1,20 +1,21 @@
 package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Helpers.ThreadManager;
 import RobotRemote.Models.RobotConfig;
 import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
-import RobotRemote.Services.Mocks.TestingMoveService;
+import RobotRemote.Services.Asynchronous.Movement.MovementEventListener;
+import RobotRemote.Services.Mocks.TestArcPilot;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
 import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import RobotRemote.UI.Views.RootController;
+import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lejos.robotics.navigation.ArcRotateMoveController;
 
 public class Main extends Application {
 
@@ -28,32 +29,67 @@ public class Main extends Application {
     // Setup controller
     RootController rootController = loader.getController();
     Scene scene = new Scene(root, 1000, 700);
+    Logger.Init(scene);
 
     // Get Application Configuration
-    RobotConfig robotConfig = new RobotConfig().GetConfiguration("/robot.config.txt");
-
-    // Prepare main controller
-    Logger.Init(scene);
-    RobotConnectionService robotConnectionService = new RobotConnectionService(robotConfig);
-    RobotMoveService rbs = new RobotMoveService(robotConfig, robotConnectionService);
-    TestingMoveService tms = new TestingMoveService(robotConfig, robotConnectionService);
-    rootController.Init(robotConfig, rbs, tms);
-
-    // Spin up threads
+    RobotConfig robotConfig = new RobotConfig();
+    // Instantiate repository
     RobotRepository robotRepository = new RobotRepository(robotConfig);
-    ServiceLocator serviceLocator = new ServiceLocator(robotConnectionService,robotRepository,rootController);
+    // robotConnection Service
+    RobotConnectionService robotConnectionService = new RobotConnectionService();
+
+    // Instantiate EventBus
+    EventBus eventBus = new EventBus();
+
+    // Instantiate movement service
+    ArcRotateMoveController pilot = GetPilot(robotConnectionService, robotConfig);
+    MovementEventListener movementService = new MovementEventListener(robotConfig, pilot, robotRepository, eventBus);
+
+    // Instantiate service locator
+    ServiceLocator serviceLocator = new ServiceLocator(
+        robotConnectionService,
+        robotRepository,
+        rootController,
+        movementService
+    );
+    // Spin up threads
     serviceUmpire = new ServiceUmpire(serviceLocator);
     serviceUmpire.StartAllThreads();
 
+    rootController.Init(robotConfig, robotRepository.getUiState(), eventBus);
+
+    // Show GUI
     primaryStage.setTitle("Robot Remote UI");
     primaryStage.setScene(scene);
     primaryStage.show();
   }
 
+  private ArcRotateMoveController GetPilot(RobotConnectionService connectionService, RobotConfig config) {
+    connectionService.InitializeBrick();
+    ArcRotateMoveController pilot;
+    if(connectionService.IsConnected()) {
+      pilot = connectionService.GetBrick().createPilot(
+          config.robotWheelDia,
+          config.robotTrackWidth,
+          config.wheelPortLeft,
+          config.wheelPortRight
+      );
+      Logger.Log("Robot is connected, using robots pilot");
+    }
+    else {
+      Logger.Log("Robot not connected, using TestArcPilot");
+      pilot = new TestArcPilot();
+    }
+    pilot.setLinearSpeed(config.robotLinearSpeed_cms);
+    pilot.setLinearAcceleration(config.robotLinearAcceleration_cms2);
+    pilot.setAngularSpeed(config.robotAngularSpeed_degs);
+    pilot.setAngularAcceleration(config.robotAngularAcceleration_degs2);
+    return pilot;
+  }
+
   @Override
   public void stop(){
     System.out.println("Stage is closing");
-    ThreadManager.KillAll();
     serviceUmpire.StopAllThreads();
   }
 

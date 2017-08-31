@@ -1,10 +1,12 @@
-package RobotRemote.Repositories.State;
+package RobotRemote.Services.Asynchronous.Movement;
 
 import RobotRemote.Models.MotorsEnum;
 
-public class MotorsState {
+import static RobotRemote.Models.MotorsEnum.Stationary;
+
+public class MovementState {
   private double motorsSpeedLinear;
-  private MotorsEnum motorState;
+  private MotorsEnum motorState = Stationary;
 
   public double getMotorsSpeedLinear() {
     return motorsSpeedLinear;

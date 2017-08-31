@@ -1,8 +1,7 @@
 package RobotRemote.Services.Synchronous.SensorService;
 
-import RobotRemote.Repositories.State.SensorsState;
-import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import RobotRemote.Services.RobotServiceBase;
+import RobotRemote.Services.Synchronous.Connection.RobotConnectionService;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
@@ -17,7 +16,6 @@ public class SensorsService extends RobotServiceBase {
     super("Sensors Service", 100);
     this.connectionService = connectionService;
     this.sensorsState = sensorsState;
-    SetUpSensors();
   }
 
   private void SetUpSensors() {
@@ -33,6 +31,11 @@ public class SensorsService extends RobotServiceBase {
     sensorsState.setColourReadingR(sample[0]);
     sensorsState.setColourReadingG(sample[1]);
     sensorsState.setColourReadingB(sample[2]);
+  }
+
+  @Override
+  protected void OnStart() {
+    SetUpSensors();
   }
 
   @Override

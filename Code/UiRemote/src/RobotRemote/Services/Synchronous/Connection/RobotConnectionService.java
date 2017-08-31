@@ -1,19 +1,12 @@
 package RobotRemote.Services.Synchronous.Connection;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.RobotConfig;
-import RobotRemote.Repositories.RobotRepository;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteRequestEV3;
 
 public class RobotConnectionService {
   public RemoteRequestEV3 BrickInstance;
-  private RobotConfig robotConfig;
-
-  public RobotConnectionService(RobotConfig robotConfig) {
-    this.robotConfig = robotConfig;
-  }
 
   public boolean IsConnected() {return BrickInstance != null;}
 

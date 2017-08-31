@@ -1,42 +1,29 @@
 package RobotRemote.UI.Views;
 
-import RobotRemote.Models.RobotConfig;
-import RobotRemote.Services.Synchronous.GuiUpdater.MapLayerFactory;
-import RobotRemote.Models.MoveCommand;
-import RobotRemote.Services.Mocks.TestingMoveService;
-import RobotRemote.Models.MapState;
-import RobotRemote.Services.Asynchronous.Movement.RobotMoveService;
 import RobotRemote.Helpers.Logger;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+import RobotRemote.Models.EnumCommandManual;
+import RobotRemote.Models.Events.EventManualControl;
+import RobotRemote.Models.RobotConfig;
+import RobotRemote.UI.UiState;
+import com.google.common.eventbus.EventBus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import lejos.robotics.navigation.Pose;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class RootController implements Initializable {
-  private Scene help;
-  private Scene demo;
-  private MapState mapState;
-  private RobotMoveService robotMoveService;
-  private TestingMoveService testingMoveService;
-  public static Thread mapRefreshThread = new Thread();
-
   @FXML
   ImageView btnMoveLeft;
 
@@ -53,47 +40,26 @@ public class RootController implements Initializable {
   ImageView btnMoveStop;
 
   @FXML
-  Pane map;
-
-  @FXML
-  CheckBox isTestControls;
+  public Pane map;
 
   @FXML
   public TextArea messageDisplayer;
+
+  @FXML
+  public VBox locationDetails;
+
+  private UiState uiState;
+  private EventBus eventBus;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(RobotConfig config, RobotMoveService rbs, TestingMoveService tms) {
-    this.mapState = new MapState(config.initX, config.initY, config.initTheta);
-    this.robotMoveService = rbs;
-    this.testingMoveService = tms;
+  public void Init(RobotConfig config, UiState uiState, EventBus eventBus) {
+    this.uiState = uiState;
+    this.eventBus = eventBus;
     this.initGUI();
-    this.initMap();
-  }
-
-  private void initMap() {
-    Task task = new Task<Void>() {
-      @Override
-      public Void call() throws Exception {
-        while (!isCancelled()) {
-          Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-              UpdateLocationFromRobot();
-              Logger.LogCrossThread("Updating Map");
-            }
-          });
-          Thread.sleep(500);
-        }
-        return null;
-      }
-    };
-    mapRefreshThread = new Thread(task);
-    mapRefreshThread.setDaemon(true);
-    mapRefreshThread.start();
   }
 
   private void initGUI(){
@@ -107,22 +73,22 @@ public class RootController implements Initializable {
   public void keyPressed(KeyEvent e) {
     switch (e.getCode()) {
       case W:
-        MoveMotors(MoveCommand.Forward);
+        MoveMotors(EnumCommandManual.Forward);
         break;
       case A:
-        MoveMotors(MoveCommand.Left);
+        MoveMotors(EnumCommandManual.Left);
         break;
       case D:
-        MoveMotors(MoveCommand.Right);
+        MoveMotors(EnumCommandManual.Right);
         break;
       case S:
-        MoveMotors(MoveCommand.Backward);
+        MoveMotors(EnumCommandManual.Backward);
         break;
       case ENTER:
-        MoveMotors(MoveCommand.Stop);
+        MoveMotors(EnumCommandManual.Stop);
         break;
-
       default:
+        MoveMotors(EnumCommandManual.Stop);
         Logger.Log("Key press:" + e.getCode() + " is not implemented");
     }
   }
@@ -131,8 +97,7 @@ public class RootController implements Initializable {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Demo/DemoSensor.fxml"));
       Parent root = (Parent) fxmlLoader.load();
-
-      demo = new Scene(root, 700, 600);
+      Scene demo = new Scene(root, 700, 600);
       Stage stage = new Stage();
       stage.setTitle("Demo");
       stage.setScene(demo);
@@ -140,16 +105,13 @@ public class RootController implements Initializable {
     } catch(Exception e) {
       e.printStackTrace();
     }
-
-    Logger.demoInit(demo);
-
   }
 
   public void onClickHelp(MouseEvent mouseEvent) {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Help/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
-      help = new Scene(root, 400, 300);
+      Scene help = new Scene(root, 400, 300);
       Stage stage = new Stage();
       stage.setTitle("Help Menu");
       stage.setScene(help);
@@ -160,56 +122,27 @@ public class RootController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    MoveMotors(MoveCommand.Stop);
+    MoveMotors(EnumCommandManual.Stop);
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
-    MoveMotors(MoveCommand.Forward);
+    MoveMotors(EnumCommandManual.Forward);
   }
 
   public void onClickBackward(MouseEvent mouseEvent) {
-    MoveMotors(MoveCommand.Backward);
+    MoveMotors(EnumCommandManual.Backward);
   }
 
   public void onClickLeft(MouseEvent mouseEvent) {
-    MoveMotors(MoveCommand.Left);
+    MoveMotors(EnumCommandManual.Left);
   }
 
   public void onClickRight(MouseEvent mouseEvent) {
-    MoveMotors(MoveCommand.Right);
+    MoveMotors(EnumCommandManual.Right);
   }
 
-  private void MoveMotors(MoveCommand command) {
-    if(isTestControls.isSelected()) {
-      testingMoveService.MoveMotors(command);
-    }
-    else {
-      robotMoveService.MoveMotors(command);
-    }
-  }
-
-  private void UpdateLocationFromRobot() {
-    try {
-      Pose pose;
-      if(isTestControls.isSelected()) {
-        pose = testingMoveService.GetCoords();
-      }
-      else {
-        pose = robotMoveService.GetCoords();
-      }
-      mapState.AddPoint(pose.getX(), pose.getY(), pose.getHeading());
-    } catch (Exception ignored) {
-      Logger.Log("Warning: Unable to get Map location");
-    }
-    DrawMap();
-  }
-
-  private void DrawMap() {
-    // Create map layers from mapstate
-    MapLayerFactory mapFactory = new MapLayerFactory(mapState);
-    List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
-    // Add to GUI
-    map.getChildren().clear();
-    map.getChildren().addAll(allMapLayers);
+  private void MoveMotors(EnumCommandManual command) {
+    uiState.setCurrentCommand(command);
+    eventBus.post(new EventManualControl(command));
   }
 }
