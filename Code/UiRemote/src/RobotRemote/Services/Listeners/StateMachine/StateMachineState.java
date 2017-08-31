@@ -1,15 +1,15 @@
 package RobotRemote.Services.Listeners.StateMachine;
 
-import RobotRemote.Models.StateMachineEnum;
+import RobotRemote.Models.EnumOperationMode;
 
 public class StateMachineState {
-  private StateMachineEnum currentState;
+  private EnumOperationMode currentState;
 
-  public StateMachineEnum getCurrentState() {
+  public EnumOperationMode getCurrentState() {
     return currentState;
   }
 
-  void setCurrentState(StateMachineEnum currentState) {
+  void setCurrentState(EnumOperationMode currentState) {
     this.currentState = currentState;
   }
 }

@@ -19,9 +19,9 @@ public final class MovementEventListener {
   }
 
   @Subscribe
-  public void OnManualControl(EventManualControl manualControl) {
-    Logger.LogCrossThread("Received Manual Command: " + manualControl.getCommand());
-    switch (manualControl.getCommand()) {
+  public void OnManualControl(EventManualControl event) {
+    Logger.LogCrossThread("Received Manual Command: " + event.getCommand());
+    switch (event.getCommand()) {
       case Forward:
         this.moveStraightThread.MoveForward();
         break;
