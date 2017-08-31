@@ -1,11 +1,11 @@
 package RobotRemote.Services.Synchronous.GuiUpdater;
 
 import RobotRemote.Repositories.RobotRepository;
-import RobotRemote.Services.Synchronous.RobotThreadBase;
+import RobotRemote.Services.RobotServiceBase;
 import RobotRemote.UI.Views.RootController;
 import javafx.application.Platform;
 
-public class GuiUpdaterService extends RobotThreadBase {
+public class GuiUpdaterService extends RobotServiceBase {
   private RobotRepository robotRepository;
   private RootController rootController;
 
