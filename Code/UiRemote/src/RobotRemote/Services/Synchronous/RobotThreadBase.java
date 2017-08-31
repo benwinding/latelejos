@@ -19,14 +19,15 @@ public abstract class RobotThreadBase implements Runnable{
         Repeat();
         Thread.sleep(msDelay);
       } catch (InterruptedException e) {
-        Logger.LogCrossThread("THREAD: Interupted");
+        Logger.LogCrossThread("THREAD: Interupted " + threadName);
         break;
       }
     }
+    OnShutdown();
   }
 
-
-  public abstract void Repeat();
+  protected abstract void OnShutdown();
+  protected abstract void Repeat();
 
   public void start() {
     Logger.LogCrossThread("THREAD: Starting " + threadName);

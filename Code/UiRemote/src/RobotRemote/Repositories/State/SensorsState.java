@@ -2,7 +2,9 @@ package RobotRemote.Repositories.State;
 
 public class SensorsState {
   private double ultraReading;
-  private double colourReading;
+  private double colourReadingR;
+  private double colourReadingG;
+  private double colourReadingB;
 
   public double getUltraReading() {
     return ultraReading;
@@ -12,11 +14,27 @@ public class SensorsState {
     this.ultraReading = ultraReading;
   }
 
-  public double getColourReading() {
-    return colourReading;
+  public double getColourReadingR() {
+    return colourReadingR;
   }
 
-  public void setColourReading(double colourReading) {
-    this.colourReading = colourReading;
+  public void setColourReadingR(double colourReadingR) {
+    this.colourReadingR = colourReadingR;
+  }
+
+  public double getColourReadingG() {
+    return colourReadingG;
+  }
+
+  public void setColourReadingG(double colourReadingG) {
+    this.colourReadingG = colourReadingG;
+  }
+
+  public double getColourReadingB() {
+    return colourReadingB;
+  }
+
+  public void setColourReadingB(double colourReadingB) {
+    this.colourReadingB = colourReadingB;
   }
 }
