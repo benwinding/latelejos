@@ -5,7 +5,7 @@ public class RobotConfiguration {
   public float initY = 200;
   public float initTheta = -90;
   public int ngzRows = 10;
-  public int ngzCols = 10;
+  public int ngzCols = 15;
   public float mapInitZoom = 1;
   public float mapW = 300;
   public float mapH = 500;
@@ -18,5 +18,5 @@ public class RobotConfiguration {
   public String wheelPortLeft = "A";
   public String wheelPortRight = "B";
   public int updateIntervalMoving_ms = 50;
-  public int updateIntervalUi_ms = 40;
+  public int updateIntervalUi_ms = 200;
 }

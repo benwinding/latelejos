@@ -3,9 +3,9 @@ package RobotRemote.Services.Workers.UiUpdater;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.RobotWorkerBase;
 import RobotRemote.UI.Views.RootController;
+import com.google.common.eventbus.EventBus;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
@@ -17,11 +17,13 @@ import java.util.List;
 public class UiUpdaterService extends RobotWorkerBase {
   private AppStateRepository appStateRepository;
   private RootController rootController;
+  private EventBus eventBus;
 
-  public UiUpdaterService(RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController) {
+  public UiUpdaterService(RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController, EventBus eventBus) {
     super("GUI Updater Service", robotConfiguration.updateIntervalUi_ms);
     this.appStateRepository = appStateRepository;
     this.rootController = rootController;
+    this.eventBus = eventBus;
   }
 
   @Override
@@ -63,10 +65,12 @@ public class UiUpdaterService extends RobotWorkerBase {
 
   private void UpdateMapOnGUI() {
     rootController.map.getChildren().clear();
-    UiUpdaterState uiUpdaterState = appStateRepository.getUiUpdaterState();
-    LocationState locationState = appStateRepository.getLocationState();
-
-    MapLayerFactory mapFactory = new MapLayerFactory(uiUpdaterState, locationState);
+    MapLayerFactory mapFactory =
+        new MapLayerFactory(
+        eventBus,
+        appStateRepository.getUiUpdaterState(),
+        appStateRepository.getLocationState(),
+        appStateRepository.getUserNoGoZoneState());
     List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
     // Add to GUI
     rootController.map.getChildren().clear();

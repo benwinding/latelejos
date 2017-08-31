@@ -5,6 +5,7 @@ import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.Listeners.Movement.MovementEventListener;
+import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
 import RobotRemote.Services.Mocks.TestArcPilot;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
@@ -43,12 +44,18 @@ public class Main extends Application {
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
 
-    // Instantiate movement service
+    // Instantiate movement listener
     ArcRotateMoveController pilot = GetPilot(robotConnectionService, robotConfiguration);
     MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
 
+    // Instantiate state machine listener
+    StateMachineListener stateMachineListener = new StateMachineListener(
+        appStateRepository,
+        eventBus
+    );
+
     SensorsService sensorService = new SensorsService(robotConnectionService, appStateRepository.getSensorsState());
-    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
+    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
 
     // Instantiate service locator
     ServiceLocator serviceLocator = new ServiceLocator(

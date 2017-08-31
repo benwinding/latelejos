@@ -1,11 +1,16 @@
 package RobotRemote.Services.Workers.UiUpdater;
 
+import RobotRemote.Helpers.Logger;
+import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Services.Listeners.Movement.LocationState;
+import RobotRemote.Services.Listeners.StateMachine.UserNoGoZoneState;
+import com.google.common.eventbus.EventBus;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import lejos.utility.Matrix;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,13 +19,17 @@ class MapLayerFactory {
   private final float mapH;
   private final float mapW;
   private LocationState locationState;
+  private UserNoGoZoneState userNoGoZoneState;
+  private EventBus eventBus;
   private UiUpdaterState uiUpdaterState;
 
-  MapLayerFactory(UiUpdaterState uiUpdaterState, LocationState locationState) {
+  MapLayerFactory(EventBus eventBus, UiUpdaterState uiUpdaterState, LocationState locationState, UserNoGoZoneState userNoGoZoneState) {
+    this.eventBus = eventBus;
     this.uiUpdaterState = uiUpdaterState;
     this.mapH = uiUpdaterState.getMapH();
     this.mapW = uiUpdaterState.getMapW();
     this.locationState = locationState;
+    this.userNoGoZoneState = userNoGoZoneState;
   }
 
   List<Canvas> CreateMapLayers() {
@@ -28,9 +37,44 @@ class MapLayerFactory {
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLACK),
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
         this.CreateSensorFieldLayer(locationState.GetCurrentPosition()),
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN)
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN),
+        this.CreateGridLayer(
+          userNoGoZoneState.getNgzMatrix(),
+          Color.web("red",0.2),
+          Color.web("green",0.1)
+        )
     );
     return mapLayers;
+  }
+
+  private Canvas CreateGridLayer(Matrix matrix, Color colourOn, Color colourOff) {
+    Canvas layer = new Canvas(mapW,mapH);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+    gc.setStroke(colourOff.darker());
+    int cols = matrix.getColumnDimension();
+    int rows = matrix.getRowDimension();
+    float w = (mapW /rows);
+    float h = (mapH /cols);
+    for(int i=0;i<rows; i++) {
+      for(int j=0;j<cols; j++) {
+        float x1 = i*w;
+        float y1 = j*h;
+        gc.strokeRect(x1,y1,w,h);
+        if(matrix.get(i,j) == 1){
+          gc.setFill(colourOn);
+          gc.fillRect(x1,y1,w,h);
+        }
+        else {
+          gc.setFill(colourOff);
+          gc.fillRect(x1,y1,w,h);
+        }
+      }
+    }
+    layer.setOnMousePressed((mouseEvent) -> {
+      Logger.LogCrossThread("Event: Mouse click being posted");
+      this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
+    });
+    return layer;
   }
 
   Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {

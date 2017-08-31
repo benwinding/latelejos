@@ -30,7 +30,7 @@
               <VBox>
                 <children>
                   <Pane fx:id="map"/>
-                  <VBox fx:id="locationDetails" minHeight="200" />
+                  <VBox fx:id="locationDetails"/>
                 </children>
               </VBox>
             </children>
