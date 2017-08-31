@@ -17,9 +17,14 @@ public class RobotMoveService {
   private RobotConfig robotConfig;
   private RobotConnectionService robotConnectionService;
 
-  public RobotMoveService(RobotConfig robotConfig, RobotConnectionService robotConnectionService) {
-    this.robotConfig = robotConfig;
+  public RobotMoveService(RobotConfig config, RobotConnectionService robotConnectionService) {
+    this.robotConfig = config;
     this.robotConnectionService = robotConnectionService;
+
+    ICustomCoordinateSystem cs = new CustomCoordinateSystem(config.initX, config.initY, config.initTheta);
+    ArcRotateMoveController pilot = GetPilot();
+    navigator = new CustomNavigator();
+    navigator.Init(cs, pilot, robotConnectionService);
   }
 
   public ArcRotateMoveController GetPilot() {
@@ -35,13 +40,6 @@ public class RobotMoveService {
       Logger.Log("Pilot Factory: Unable to get pilot from ev3, using test pilot");
       return null;
     }
-  }
-
-  public void InitMotors(RobotConfig config) {
-    ICustomCoordinateSystem cs = new CustomCoordinateSystem(config.initX, config.initY, config.initTheta);
-    ArcRotateMoveController pilot = GetPilot();
-    navigator = new CustomNavigator();
-    navigator.Init(cs, pilot, robotConnectionService);
   }
 
   public void MoveMotors(final MoveCommand command) {
