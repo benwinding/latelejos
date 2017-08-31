@@ -12,7 +12,7 @@ public class MovementState {
     return motorsSpeedLinear;
   }
 
-  public void setMotorsSpeedLinear(double motorsSpeedLinear) {
+  void setMotorsSpeedLinear(double motorsSpeedLinear) {
     this.motorsSpeedLinear = motorsSpeedLinear;
   }
 
@@ -20,7 +20,7 @@ public class MovementState {
     return motorState;
   }
 
-  public void setMotorState(MotorsEnum motorState) {
+  void setMotorState(MotorsEnum motorState) {
     this.motorState = motorState;
   }
 }

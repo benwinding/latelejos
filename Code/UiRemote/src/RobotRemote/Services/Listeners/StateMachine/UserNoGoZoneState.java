@@ -13,11 +13,11 @@ public class UserNoGoZoneState {
     return ngzMatrix;
   }
 
-  public void selectNgzCell(int ngzRow, int ngzCol) {
+  void selectNgzCell(int ngzRow, int ngzCol) {
     ngzMatrix.set(ngzRow, ngzCol, 1);
   }
 
-  public void deselectNgzCell(int ngzRow, int ngzCol) {
+  void deselectNgzCell(int ngzRow, int ngzCol) {
     ngzMatrix.set(ngzRow, ngzCol, 0);
   }
 }

@@ -9,7 +9,7 @@ public class StateMachineState {
     return currentState;
   }
 
-  public void setCurrentState(StateMachineEnum currentState) {
+  void setCurrentState(StateMachineEnum currentState) {
     this.currentState = currentState;
   }
 }

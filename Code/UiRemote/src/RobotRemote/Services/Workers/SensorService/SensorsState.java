@@ -10,7 +10,7 @@ public class SensorsState {
     return ultraReading;
   }
 
-  public void setUltraReading(double ultraReading) {
+  void setUltraReading(double ultraReading) {
     this.ultraReading = ultraReading;
   }
 
@@ -18,7 +18,7 @@ public class SensorsState {
     return colourReadingR;
   }
 
-  public void setColourReadingR(double colourReadingR) {
+  void setColourReadingR(double colourReadingR) {
     this.colourReadingR = colourReadingR;
   }
 
@@ -26,7 +26,7 @@ public class SensorsState {
     return colourReadingG;
   }
 
-  public void setColourReadingG(double colourReadingG) {
+  void setColourReadingG(double colourReadingG) {
     this.colourReadingG = colourReadingG;
   }
 
@@ -34,7 +34,7 @@ public class SensorsState {
     return colourReadingB;
   }
 
-  public void setColourReadingB(double colourReadingB) {
+  void setColourReadingB(double colourReadingB) {
     this.colourReadingB = colourReadingB;
   }
 }

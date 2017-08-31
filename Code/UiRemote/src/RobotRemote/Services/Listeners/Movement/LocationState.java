@@ -23,12 +23,12 @@ public class LocationState {
     return this.pointsVisited.get(size - 1);
   }
 
-  public void GoingToPoint(double x, double y, double theta) {
+  void GoingToPoint(double x, double y, double theta) {
     MapPoint newPoint = new MapPoint(x, y, theta); // Reversed x and y for Ui
     this.pointsVisited.add(newPoint);
   }
 
-  public void GoingStraight(double distance) {
+  void GoingStraight(double distance) {
     MapPoint curr = GetCurrentPosition();
     Pose pose = new Pose();
     pose.setLocation((float) curr.x, (float) curr.y);
@@ -37,7 +37,7 @@ public class LocationState {
     GoingToPoint(pose.getX(),pose.getY(),pose.getHeading());
   }
 
-  public void ChangingHeading(double angle) {
+  void ChangingHeading(double angle) {
     MapPoint curr = GetCurrentPosition();
     GoingToPoint(curr.x,curr.y,curr.theta - angle);
   }
