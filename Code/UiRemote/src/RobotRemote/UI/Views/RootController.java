@@ -90,7 +90,6 @@ public class RootController implements Initializable {
         MoveMotors(EnumCommandManual.Stop);
         break;
       default:
-        MoveMotors(EnumCommandManual.Stop);
         Logger.Log("Key press:" + e.getCode() + " is not implemented");
     }
   }
