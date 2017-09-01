@@ -45,6 +45,11 @@ class MoveStraightThread extends RobotWorkerBase {
 
   @Override
   protected void OnShutdown() {
+    this.pilot.stop();
     this.movementState.setMotorState(Stationary);
+  }
+
+  void closeMotors() {
+    this.pilot.stop();
   }
 }

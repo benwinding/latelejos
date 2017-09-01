@@ -27,7 +27,7 @@ class MoveTurnSynchronous {
   }
 
   private void UpdateTurn(int angle) {
-    this.pilot.rotate(angle);
+    this.pilot.rotate(-angle);
     this.locationState.ChangingHeading(angle);
   }
 }

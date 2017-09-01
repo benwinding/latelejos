@@ -42,5 +42,9 @@ public final class MovementEventListener {
         this.moveStraightThread.kill();
     }
   }
+
+  public void closeMotors() {
+    this.moveStraightThread.closeMotors();
+  }
 }
 

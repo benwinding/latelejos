@@ -61,7 +61,8 @@ public class Main extends Application {
     ServiceLocator serviceLocator = new ServiceLocator(
         robotConnectionService,
         sensorService,
-        uiUpdaterService
+        uiUpdaterService,
+        movementListener
     );
     // Spin up threads
     serviceUmpire = new ServiceUmpire(serviceLocator);
