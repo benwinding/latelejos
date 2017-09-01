@@ -125,6 +125,21 @@ public class RootController implements Initializable {
     }
   }
 
+  public void onClickAbout(ActionEvent event) {
+
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/About/About.fxml"));
+      Parent root = (Parent) fxmlLoader.load();
+      Scene help = new Scene(root, 400, 300);
+      Stage stage = new Stage();
+      stage.setTitle("About");
+      stage.setScene(help);
+      stage.show();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   public void onClickStop(MouseEvent mouseEvent) {
     MoveMotors(EnumCommandManual.Stop);
   }

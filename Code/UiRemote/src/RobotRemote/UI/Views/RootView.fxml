@@ -121,7 +121,7 @@
           <Menu mnemonicParsing="false" text="Help">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
             </items>
           </Menu>
         </menus>
