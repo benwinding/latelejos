@@ -56,19 +56,19 @@ public class StateMachineListener{
     double mouseX = event.getX();
     double mouseY = event.getY();
 
-    int rows = this.appStateRepository.getUserNoGoZoneState().countGridRows();
-    int cols = this.appStateRepository.getUserNoGoZoneState().countGridCols();
+    int cols = this.appStateRepository.getUserNoGoZoneState().countGridRows();
+    int rows = this.appStateRepository.getUserNoGoZoneState().countGridCols();
 
-    float w = (mapW / rows);
-    float h = (mapH / cols);
+    int r = this.GetCellInRange(mapW, cols, mouseX);
+    int c = this.GetCellInRange(mapH, rows, mouseY);
+    userNoGoZoneState.switchNgzCell(r,c);
+  }
 
-    double r = mouseX/h;
-    double c = mouseY/w;
-
-    if(r > cols)
-      r = cols-1;
-    if(c > rows)
-      c = rows-1;
-    userNoGoZoneState.switchNgzCell((int)r,(int)c);
+  // Get the cell selected in a certain range
+  private int GetCellInRange(double distLength, int cellCount, double distPoint) {
+    double cellWidth = distLength/cellCount;
+    double cellsOver = distPoint / cellWidth;
+    double cell = Math.floor(cellsOver);
+    return (int) cell;
   }
 }
