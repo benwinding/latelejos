@@ -6,6 +6,7 @@ import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -109,7 +110,8 @@ public class RootController implements Initializable {
     }
   }
 
-  public void onClickHelp(MouseEvent mouseEvent) {
+  public void onClickHelp(ActionEvent event) {
+
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Help/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
