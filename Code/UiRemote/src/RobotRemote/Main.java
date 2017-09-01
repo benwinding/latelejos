@@ -93,7 +93,6 @@ public class Main extends Application {
       pilot = new TestArcPilot();
     }
     pilot.setLinearSpeed(config.robotLinearSpeed_cms);
-    pilot.setLinearAcceleration(config.robotLinearAcceleration_cms2);
     pilot.setAngularSpeed(config.robotAngularSpeed_degs);
     pilot.setAngularAcceleration(config.robotAngularAcceleration_degs2);
     return pilot;

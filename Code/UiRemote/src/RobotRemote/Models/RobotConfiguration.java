@@ -10,7 +10,7 @@ public class RobotConfiguration {
   public float mapW = 300;
   public float mapH = 500;
   public double robotLinearSpeed_cms = 5;
-  public double robotLinearAcceleration_cms2 = 10;
+  public double robotLinearAcceleration_cms2 = 0;
   public double robotAngularSpeed_degs = 30;
   public double robotAngularAcceleration_degs2 = 10;
   public float robotWheelDia = 5.6f;  // Tested on hard surface, Will not be accurate on carpet

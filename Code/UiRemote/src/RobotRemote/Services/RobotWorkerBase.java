@@ -24,8 +24,8 @@ public abstract class RobotWorkerBase implements Runnable{
         break;
       }
     }
-    thread = null;
     OnShutdown();
+    thread = null;
   }
 
   protected void OnStart() { }

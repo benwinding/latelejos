@@ -28,4 +28,10 @@ public class RobotConnectionService {
       InitializeBrick();
     return BrickInstance;
   }
+
+  public void closeConnection() {
+    if(!IsConnected())
+      return;
+    this.BrickInstance.disConnect();
+  }
 }

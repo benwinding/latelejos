@@ -86,6 +86,7 @@ public class RootController implements Initializable {
         break;
       case ENTER:
       case SPACE:
+      case Q:
         MoveMotors(EnumCommandManual.Stop);
         break;
       default:

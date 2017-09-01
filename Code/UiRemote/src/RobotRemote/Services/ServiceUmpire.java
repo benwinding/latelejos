@@ -27,6 +27,7 @@ public class ServiceUmpire {
   public void StopAllThreads() {
     this.sensorService.kill();
     this.uiUpdaterService.kill();
-    this.movementListener.closeMotors();
+    this.movementListener.shutdownMotors();
+    this.robotConnectionService.closeConnection();
   }
 }
