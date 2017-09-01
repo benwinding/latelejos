@@ -117,7 +117,7 @@ public class RootController implements Initializable {
       Parent root = (Parent) fxmlLoader.load();
       Scene help = new Scene(root, 400, 300);
       Stage stage = new Stage();
-      stage.setTitle("Help Menu");
+      stage.setTitle("Getting Started");
       stage.setScene(help);
       stage.show();
     } catch(Exception e) {
