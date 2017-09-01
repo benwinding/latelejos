@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <GridPane onKeyPressed="#keyPressed" prefHeight="675.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <columnConstraints>
     <ColumnConstraints percentWidth="100" />
@@ -27,18 +15,33 @@
   <children>
     <SplitPane dividerPositions="0.6" GridPane.rowIndex="1">
       <items>
-        <AnchorPane>
-          <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-            <children>
-              <VBox>
+        <SplitPane dividerPositions="0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+          <items>
+            <AnchorPane>
+              <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                 <children>
-                  <Pane fx:id="map" />
-                  <VBox fx:id="locationDetails" />
+                  <VBox>
+                    <children>
+                      <Pane fx:id="map" />
+                    </children>
+                  </VBox>
                 </children>
-              </VBox>
-            </children>
-          </HBox>
-        </AnchorPane>
+              </HBox>
+            </AnchorPane>
+            <AnchorPane>
+              <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <children>
+                  <VBox>
+                    <children>
+                      <Pane fx:id="locationDetails"/>
+                      <Pane fx:id="sensorDisplay" />
+                    </children>
+                  </VBox>
+                </children>
+              </HBox>
+            </AnchorPane>
+          </items>
+        </SplitPane>
         <AnchorPane prefHeight="592.0" prefWidth="497.0">
           <children>
             <SplitPane dividerPositions="0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -104,27 +107,27 @@
         </AnchorPane>
       </items>
     </SplitPane>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Upload XML" />
-                  <MenuItem mnemonicParsing="false" text="Export XML" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Change NGZ" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+    <MenuBar>
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Upload XML" />
+            <MenuItem mnemonicParsing="false" text="Export XML" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Change NGZ" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
   </children>
 </GridPane>

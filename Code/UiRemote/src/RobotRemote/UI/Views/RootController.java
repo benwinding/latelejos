@@ -18,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -47,7 +46,10 @@ public class RootController implements Initializable {
   public TextArea messageDisplayer;
 
   @FXML
-  public VBox locationDetails;
+  public Pane locationDetails;
+
+  @FXML
+  public Pane sensorDisplay;
 
   private UiState uiState;
   private EventBus eventBus;

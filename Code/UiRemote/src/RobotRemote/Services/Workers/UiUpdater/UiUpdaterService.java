@@ -8,8 +8,10 @@ import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -43,13 +45,14 @@ public class UiUpdaterService extends RobotWorkerBase {
   }
 
   private void UpdateLocationOnGUI() {
-    VBox locationPane = rootController.locationDetails;
-    locationPane.getChildren().clear();
-
+    Pane vbox = new VBox();
     MapPoint pos = appStateRepository.getLocationState().GetCurrentPosition();
-    AddTextToPane(locationPane, String.format("x: %d, y: %d, rot: %d", Math.round(pos.x), Math.round(pos.y), Math.round(pos.theta)));
-    AddTextToPane(locationPane, String.format("Motors are: %s", appStateRepository.getMovementState().getMotorState()));
-    AddTextToPane(locationPane, String.format("Ui Command: %s", appStateRepository.getUiState().getCurrentCommand()));
+    AddTextToPane(vbox, String.format("x: %d, y: %d, rot: %d", Math.round(pos.x), Math.round(pos.y), Math.round(pos.theta)));
+    AddTextToPane(vbox, String.format("Motors are: %s", appStateRepository.getMovementState().getMotorState()));
+    AddTextToPane(vbox, String.format("Ui Command: %s", appStateRepository.getUiState().getCurrentCommand()));
+    Pane locationPanes = rootController.locationDetails;
+    locationPanes.getChildren().clear();
+    locationPanes.getChildren().add(vbox);
   }
 
   private void AddTextToPane(Pane pane, String format) {
@@ -59,8 +62,25 @@ public class UiUpdaterService extends RobotWorkerBase {
   }
 
   private void UpdateSensorsOnGUI() {
-    double val = appStateRepository.getSensorsState().getColourReadingR();
-    //rootController.messageDisplayer.appendText("Current Val: " + val + "\n");
+    Canvas layer = new Canvas(300,100);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+
+    double sensorValUltra = appStateRepository.getSensorsState().getUltraReading();
+    gc.setFill(Color.YELLOW);
+    gc.fillRect(0,0,sensorValUltra + 80,40);
+
+    double sensorValColourR = appStateRepository.getSensorsState().getColourReadingR()* 100;
+    double sensorValColourG = appStateRepository.getSensorsState().getColourReadingG()* 100;
+    double sensorValColourB = appStateRepository.getSensorsState().getColourReadingB()* 100;
+    gc.setFill(Color.RED);
+    gc.fillRect(0,40,sensorValColourR + 30,20);
+    gc.setFill(Color.GREEN);
+    gc.fillRect(0,60,sensorValColourG + 20,20);
+    gc.setFill(Color.BLUE);
+    gc.fillRect(0,80,sensorValColourB + 70,20);
+
+    rootController.sensorDisplay.getChildren().clear();
+    rootController.sensorDisplay.getChildren().add(layer);
   }
 
   private void UpdateMapOnGUI() {
