@@ -16,6 +16,16 @@ public class Logger {
     TryToWriteToUi(msg);
   }
 
+  public static void LogCrossThread(String msg) {
+    TryToLogConsole(msg);
+    TryToWriteToUi(msg);
+  }
+
+  public static void WarnCrossThread(String msg) {
+    TryToWarnConsole(msg);
+    TryToWriteToUi(msg);
+  }
+
   public static void TryToLogConsole(final String msg) {
     Platform.runLater(new Runnable() {
       @Override
@@ -39,20 +49,16 @@ public class Logger {
       }
     });
   }
-
   public static void TryToWriteToUi(String msg) {
-    try{
-      TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
-      textArea.appendText(msg + '\n');
-    }
-    catch (Exception ignored) {
-    }
-  }
-  public static void LogCrossThread(String msg) {
-    TryToLogConsole(msg);
-  }
-
-  public static void WarnCrossThread(String msg) {
-    TryToWarnConsole(msg);
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
+          textArea.appendText(msg + '\n');
+        } catch(Exception ignored) {
+        }
+      }
+    });
   }
 }
