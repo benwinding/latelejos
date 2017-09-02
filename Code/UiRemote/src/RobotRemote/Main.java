@@ -1,12 +1,12 @@
 package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Helpers.NavigatorFactory;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.Listeners.Movement.MovementEventListener;
 import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
-import RobotRemote.Services.Mocks.TestArcPilot;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
 import RobotRemote.Services.Workers.SensorService.SensorsService;
@@ -45,7 +45,7 @@ public class Main extends Application {
     EventBus eventBus = new EventBus();
 
     // Instantiate movement listener
-    ArcRotateMoveController pilot = GetPilot(robotConnectionService, robotConfiguration);
+    ArcRotateMoveController pilot = NavigatorFactory.GetPilot(robotConnectionService, robotConfiguration);
     MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
 
     // Instantiate state machine listener
@@ -74,28 +74,6 @@ public class Main extends Application {
     primaryStage.setTitle("Robot Remote UI");
     primaryStage.setScene(scene);
     primaryStage.show();
-  }
-
-  private ArcRotateMoveController GetPilot(RobotConnectionService connectionService, RobotConfiguration config) {
-    connectionService.InitializeBrick();
-    ArcRotateMoveController pilot;
-    if(connectionService.IsConnected()) {
-      pilot = connectionService.GetBrick().createPilot(
-          config.robotWheelDia,
-          config.robotTrackWidth,
-          config.wheelPortLeft,
-          config.wheelPortRight
-      );
-      Logger.Log("Robot is connected, using robots pilot");
-    }
-    else {
-      Logger.Log("Robot not connected, using TestArcPilot");
-      pilot = new TestArcPilot();
-    }
-    pilot.setLinearSpeed(config.robotLinearSpeed_cms);
-    pilot.setAngularSpeed(config.robotAngularSpeed_degs);
-    pilot.setAngularAcceleration(config.robotAngularAcceleration_degs2);
-    return pilot;
   }
 
   @Override

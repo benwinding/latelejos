@@ -1,0 +1,30 @@
+package RobotRemote.Helpers;
+
+import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.Mocks.TestArcPilot;
+import lejos.robotics.navigation.ArcRotateMoveController;
+
+public class NavigatorFactory {
+  public static ArcRotateMoveController GetPilot(RobotConnectionService connectionService, RobotConfiguration config) {
+    connectionService.InitializeBrick();
+    ArcRotateMoveController pilot;
+    if(connectionService.IsConnected()) {
+      pilot = connectionService.GetBrick().createPilot(
+          config.robotWheelDia,
+          config.robotTrackWidth,
+          config.wheelPortLeft,
+          config.wheelPortRight
+      );
+      Logger.Log("Robot is connected, using robots pilot");
+    }
+    else {
+      Logger.Log("Robot not connected, using TestArcPilot");
+      pilot = new TestArcPilot();
+    }
+    pilot.setLinearSpeed(config.robotLinearSpeed_cms);
+    pilot.setAngularSpeed(config.robotAngularSpeed_degs);
+    pilot.setAngularAcceleration(config.robotAngularAcceleration_degs2);
+    return pilot;
+  }
+}
