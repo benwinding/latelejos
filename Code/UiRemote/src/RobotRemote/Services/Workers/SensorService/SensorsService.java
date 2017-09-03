@@ -1,9 +1,11 @@
 package RobotRemote.Services.Workers.SensorService;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.RobotWorkerBase;
+import lejos.hardware.DeviceException;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -20,7 +22,7 @@ public class SensorsService extends RobotWorkerBase {
   private EV3UltrasonicSensor ultrasonicSensorConnection;
 
   public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, SensorsState sensorsState) {
-    super("Sensors Service", 500);
+    super("Sensors Service", 200);
     this.config = config;
     this.connectionService = connectionService;
     this.sensorsState = sensorsState;
@@ -28,8 +30,10 @@ public class SensorsService extends RobotWorkerBase {
 
   @Override
   protected void OnStart() {
-    InitColourSensor();
-    InitUltrasonicSensor();
+    Synchronizer.RunNotConcurrent(() -> {
+      InitColourSensor();
+      InitUltrasonicSensor();
+    });
   }
 
   private void InitUltrasonicSensor() {
@@ -37,7 +41,7 @@ public class SensorsService extends RobotWorkerBase {
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortUltra);
       this.ultrasonicSensorConnection = new EV3UltrasonicSensor(port);
       this.ultrasonicMode = ultrasonicSensorConnection.getMode("Distance");
-    } catch(RemoteRequestException e) {
+    } catch(DeviceException | RemoteRequestException e) {
       Logger.WarnCrossThread("Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
     }
   }
@@ -47,15 +51,17 @@ public class SensorsService extends RobotWorkerBase {
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortColour);
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
-    } catch(RemoteRequestException e) {
+    } catch(DeviceException | RemoteRequestException e) {
       Logger.WarnCrossThread("Unable to open colour sensor, on port: " + config.sensorPortColour);
     }
   }
 
   @Override
   protected void Repeat() {
-    FetchColourSensor();
-    FetchUltrasonicSensor();
+    Synchronizer.RunNotConcurrent(() -> {
+      FetchColourSensor();
+      FetchUltrasonicSensor();
+    });
   }
 
   private void FetchUltrasonicSensor() {
@@ -82,9 +88,15 @@ public class SensorsService extends RobotWorkerBase {
   @Override
   protected void OnShutdown() {
     // close all sensor ports
-    if(this.colourSensorConnection != null)
-      this.colourSensorConnection.close();
-    if(this.ultrasonicSensorConnection != null)
-      this.ultrasonicSensorConnection.close();
+    Synchronizer.RunNotConcurrent(() -> {
+      try{
+        this.colourSensorConnection.close();
+      } catch (Exception ignored) {
+      }
+      try{
+        this.ultrasonicSensorConnection.close();
+      } catch (Exception ignored) {
+      }
+    });
   }
 }
