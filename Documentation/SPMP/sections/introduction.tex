@@ -1,105 +1,70 @@
-%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
-\documentclass[11pt, a4paper]{article}
-\usepackage{times}
-\usepackage{ifthen}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{setspace}
-
-%%% page parameters
-\oddsidemargin -0.5 cm
-\evensidemargin -0.5 cm
-\textwidth 15 cm
-\topmargin -1.2 cm
-\textheight 22 cm
-
-\renewcommand{\baselinestretch}{1.1}\normalsize
-\setlength{\parskip}{0pt}
-
-\begin{document}
-
-
-	
-	\section{Introduction}
 	\subsection{Purpose and Scope}
-	The purpose of this project involves building a prototype rover capable of surveying a designated area automatically, developing a safe system for the client properly. The map shall be constructed  in real time as long as the robot starts the survey, showing lines, obstacles and current location of the robot. The final product is relies on the existing EV3 LEGO Mind-storms robot provided by the client. It is to be controlled via a remote location, but is required to automatically make decisions based on the environment around it. The final product shall should meet the requirements of client, which is included in the software specification document.
+The purpose of this project involves building a prototype rover capable of surveying a designated area automatically, developing a safe system for the client properly. The map shall be constructed  in real time as long as the robot starts the survey, showing lines, obstacles and current location of the robot. The final product is relies on the existing EV3 LEGO Mind-storms robot provided by the client. It is to be controlled via a remote location, but is required to automatically make decisions based on the environment around it. The final product shall should meet the requirements of client, which is included in the software specification document.
+
+\subsection{Assumptions and Constraints}
+\paragraph{}
+Assumptions include:
+\begin{itemize}
+	\item The group will contain 6 members throughout the project 
+	\item Everyone will complete the assigned sections 
+	\item Each member in the group are expected to spending 120 hours completing the project
+	\item The functionalities of robot will be good during the client demonstrations
 	
-	\subsection{Assumptions and Constraints}
-	\paragraph{}
-	 Assumptions include:
-	\begin{itemize}
-		\item The group will contain 6 members throughout the project 
-		\item Everyone will complete the assigned sections 
-		\item Each member in the group are expected to spending 120 hours completing the project
-		\item The functionalities of robot will be good during the client demonstrations
-		
-	\end{itemize}
-	\paragraph{}
-	
-	Constraints include:
-	\begin{itemize}
+\end{itemize}
+\paragraph{}
+
+Constraints include:
+\begin{itemize}
 	\item The system is to be implemented using the EV3 LEGO Mind-storms kit supplied by the client.
 	\item The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0
 	\item The external code used in the system shall not exceed 10\%
 	\item The build tool for compiling the software and deploying it to the system is ant. 
 	\item The system will be implemented using the wireless technology WiFi over an encrypted WPA2 connection.
-	\end{itemize}
-	
-	\subsection{Project Deliverables}
-	The deliverables and due date of this project are list in the figure 1.
-		\begin{figure}
-		\centering
-		\begin{tabular}{|p{8cm}|p{3cm}|}
-	
-			\hline 
-			\textbf{Deliverables} &\textbf{Due Date} \\ 
-			\hline 
-				Software Requirement Specification 1st Draft & 22 Aug, 2017\\ 
-			\hline 
-				Software Project Management Plan 1st Draft & 5 Sep, 2017  \\ 
-			\hline 		
-				Milestone 1 demo specification finalize and sign agreement & 5 Sep, 2017 \\ 
-			\hline 
-				Milestone 1 demo & 12 Sep, 2017\\ 
-			\hline 
-				Milestone 2 demo specification finalize and sign agreement & 12 Sep, 2017 \\ 
-			\hline 
-				Software Design Document Draft & 3 Oct, 2017\\ 
-			\hline 
-				Milestone 2 demo & 3 Oct, 2017\\ 
-			\hline 		
-				User manual and instruction draft & 17 Oct, 2017\\ 
-			\hline 
-				Release final version of SRS, SPMP, SDD and user manual & 24 Oct, 2017\\ 
-			\hline 
-				Code free and product release & 24 Oct, 2017\\ 
-			\hline 
-				Final presentation & 31 Oct, 2017\\
-			\hline
-		\end{tabular} 
-		\caption{The due date of project deliverables}
-		\label{fig:tab Os Requirements}			
-		\end{figure}
+\end{itemize}
 
-	\subsection{Evolution of the plan}
-		\paragraph{}
-	The changes to the management plan will happen when:
-	\begin{itemize}
-		\item the definition of task is changed
-		\item the group is not able to finish the task before deadline
-		\item the group complete the task ahead of deadline		
-	\end{itemize}
-	\paragraph{}
-	The project manager will evaluate the performance when task is completed and will held a group meeting with group members to review issues. When the task is completed ahead of deadline, tasks whose deadline is in the future can be added in advance.
+\subsection{Project Deliverables}
+The deliverables and due date of this project are list in the figure 1.
+\begin{figure}
+	\centering
+	\begin{tabular}{|p{8cm}|p{3cm}|}
+		
+		\hline 
+		\textbf{Deliverables} &\textbf{Due Date} \\ 
+		\hline 
+		Software Requirement Specification 1st Draft & 22 Aug, 2017\\ 
+		\hline 
+		Software Project Management Plan 1st Draft & 5 Sep, 2017  \\ 
+		\hline 		
+		Milestone 1 demo specification finalize and sign agreement & 5 Sep, 2017 \\ 
+		\hline 
+		Milestone 1 demo & 12 Sep, 2017\\ 
+		\hline 
+		Milestone 2 demo specification finalize and sign agreement & 12 Sep, 2017 \\ 
+		\hline 
+		Software Design Document Draft & 3 Oct, 2017\\ 
+		\hline 
+		Milestone 2 demo & 3 Oct, 2017\\ 
+		\hline 		
+		User manual and instruction draft & 17 Oct, 2017\\ 
+		\hline 
+		Release final version of SRS, SPMP, SDD and user manual & 24 Oct, 2017\\ 
+		\hline 
+		Code free and product release & 24 Oct, 2017\\ 
+		\hline 
+		Final presentation & 31 Oct, 2017\\
+		\hline
+	\end{tabular} 
+	\caption{The due date of project deliverables}
+	\label{fig:tab Os Requirements}			
+\end{figure}
 
-	
-	
-	
-	
-	
-
-
-
-	
-\end{document}
+\subsection{Evolution of the plan}
+\paragraph{}
+The changes to the management plan will happen when:
+\begin{itemize}
+	\item the definition of task is changed
+	\item the group is not able to finish the task before deadline
+	\item the group complete the task ahead of deadline		
+\end{itemize}
+\paragraph{}
+The project manager will evaluate the performance when task is completed and will held a group meeting with group members to review issues. When the task is completed ahead of deadline, tasks whose deadline is in the future can be added in advance.
