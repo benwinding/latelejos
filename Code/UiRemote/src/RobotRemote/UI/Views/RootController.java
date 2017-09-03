@@ -2,7 +2,10 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
+import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventManualControl;
+import RobotRemote.Models.Events.EventUserAddNgz;
+import RobotRemote.Models.Events.EventUserAddWaypoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
@@ -12,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,11 +23,24 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import lejos.robotics.navigation.Waypoint;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RootController implements Initializable {
+  @FXML
+  public Pane map;
+
+  @FXML
+  public TextArea messageDisplayer;
+
+  @FXML
+  public Pane locationDetails;
+
+  @FXML
+  public Pane sensorDisplay;
+
   @FXML
   ImageView btnMoveLeft;
 
@@ -40,16 +57,10 @@ public class RootController implements Initializable {
   ImageView btnMoveStop;
 
   @FXML
-  public Pane map;
+  RadioButton enterNgz;
 
   @FXML
-  public TextArea messageDisplayer;
-
-  @FXML
-  public Pane locationDetails;
-
-  @FXML
-  public Pane sensorDisplay;
+  RadioButton enterWaypoint;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -112,7 +123,6 @@ public class RootController implements Initializable {
   }
 
   public void onClickHelp(ActionEvent event) {
-
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Help/HelpView.fxml"));
       Parent root = (Parent) fxmlLoader.load();
@@ -149,5 +159,21 @@ public class RootController implements Initializable {
   private void MoveMotors(EnumCommandManual command) {
     uiState.setCurrentCommand(command);
     eventBus.post(new EventManualControl(command));
+  }
+
+  public void onClickMap(MouseEvent mouseEvent) {
+    if(enterNgz.isSelected()) {
+      Logger.LogCrossThread("Event: Mouse click being posted");
+      this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
+    }
+    else if(enterWaypoint.isSelected()) {
+      uiState.setCurrentCommand(EnumCommandManual.MoveToPrecise);
+      Waypoint gotoOnMap = new Waypoint(mouseEvent.getX(), mouseEvent.getY());
+      eventBus.post(new EventUserAddWaypoint(gotoOnMap));
+      eventBus.post(new EventAutoControl(gotoOnMap));
+    }
+    else {
+      // No toggle was selected
+    }
   }
 }

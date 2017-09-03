@@ -7,6 +7,7 @@ import RobotRemote.Services.Listeners.Movement.MovementState;
 import RobotRemote.Services.Listeners.StateMachine.DiscoveredColoursState;
 import RobotRemote.Services.Listeners.StateMachine.StateMachineState;
 import RobotRemote.Services.Listeners.StateMachine.UserNoGoZoneState;
+import RobotRemote.Services.Listeners.StateMachine.UserWaypointsState;
 import RobotRemote.Services.Workers.SensorService.SensorsState;
 import RobotRemote.Services.Workers.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
@@ -17,19 +18,21 @@ public class AppStateRepository {
   private MovementState movementState;
   private LocationState locationState;
   private DiscoveredColoursState discoveredColoursState;
-  private UserNoGoZoneState userNoGoZoneState;
   private UiUpdaterState uiUpdaterState;
   private StateMachineState stateMachineState;
+  private UserNoGoZoneState userNoGoZoneState;
+  private UserWaypointsState userWaypointsState;
 
   public AppStateRepository(RobotConfiguration config) {
     sensorsState = new SensorsState();
     movementState = new MovementState();
     locationState = new LocationState(config.initX,config.initY,config.initTheta);
     discoveredColoursState = new DiscoveredColoursState();
-    userNoGoZoneState = new UserNoGoZoneState(config.ngzRows,config.ngzCols);
     uiUpdaterState = new UiUpdaterState(config.mapInitZoom, config.mapH, config.mapW);
     stateMachineState = new StateMachineState();
     uiState = new UiState(EnumCommandManual.Ignore);
+    userNoGoZoneState = new UserNoGoZoneState(config.ngzRows,config.ngzCols);
+    userWaypointsState = new UserWaypointsState();
   }
 
   public SensorsState getSensorsState() {
@@ -62,5 +65,9 @@ public class AppStateRepository {
 
   public UiState getUiState() {
     return uiState;
+  }
+
+  public UserWaypointsState getUserWaypointsState() {
+    return userWaypointsState;
   }
 }

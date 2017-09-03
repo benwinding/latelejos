@@ -3,7 +3,7 @@ package RobotRemote.Models;
 public class RobotConfiguration {
   public float initX = 100;
   public float initY = 200;
-  public float initTheta = -90;
+  public float initTheta = 90;
   public int ngzRows = 10;
   public int ngzCols = 15;
   public float mapInitZoom = 1;

@@ -19,6 +19,9 @@ class MoveStraightThread extends RobotWorkerBase {
     this.locationState = locationState;
     this.linearDistanceInterval = config.robotLinearSpeed_cms * (config.updateIntervalMoving_ms*1.0 / 1000);
     this.movementState = movementState;
+    // If already moving stop
+    this.pilot.forward();
+    this.pilot.stop();
   }
 
   public void MoveForward() {
@@ -45,6 +48,8 @@ class MoveStraightThread extends RobotWorkerBase {
 
   @Override
   protected void OnShutdown() {
+    if(this.pilot.isMoving())
+      this.pilot.stop();
     this.movementState.setMotorState(Stationary);
   }
 

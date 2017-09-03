@@ -88,9 +88,7 @@ public class UiUpdaterService extends RobotWorkerBase {
     MapLayerFactory mapFactory =
         new MapLayerFactory(
         eventBus,
-        appStateRepository.getUiUpdaterState(),
-        appStateRepository.getLocationState(),
-        appStateRepository.getUserNoGoZoneState());
+        appStateRepository);
     List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
     // Add to GUI
     rootController.map.getChildren().clear();

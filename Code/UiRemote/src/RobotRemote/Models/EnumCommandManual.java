@@ -6,5 +6,5 @@ public enum EnumCommandManual {
   Right,
   Forward,
   Backward,
-  Stop,
+  Stop, MoveToPrecise,
 }

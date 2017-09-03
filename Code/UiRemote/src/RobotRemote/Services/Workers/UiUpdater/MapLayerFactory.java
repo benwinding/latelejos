@@ -1,15 +1,16 @@
 package RobotRemote.Services.Workers.UiUpdater;
 
-import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.MapPoint;
+import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.Listeners.StateMachine.UserNoGoZoneState;
+import RobotRemote.Services.Listeners.StateMachine.UserWaypointsState;
 import com.google.common.eventbus.EventBus;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import lejos.robotics.navigation.Waypoint;
 import lejos.utility.Matrix;
 
 import java.util.Arrays;
@@ -18,18 +19,20 @@ import java.util.List;
 class MapLayerFactory {
   private final float mapH;
   private final float mapW;
+  private UserWaypointsState userWaypointsState;
   private LocationState locationState;
   private UserNoGoZoneState userNoGoZoneState;
   private EventBus eventBus;
   private UiUpdaterState uiUpdaterState;
 
-  MapLayerFactory(EventBus eventBus, UiUpdaterState uiUpdaterState, LocationState locationState, UserNoGoZoneState userNoGoZoneState) {
+  MapLayerFactory(EventBus eventBus, AppStateRepository appStateRepository) {
     this.eventBus = eventBus;
-    this.uiUpdaterState = uiUpdaterState;
+    this.uiUpdaterState = appStateRepository.getUiUpdaterState();
     this.mapH = uiUpdaterState.getMapH();
     this.mapW = uiUpdaterState.getMapW();
-    this.locationState = locationState;
-    this.userNoGoZoneState = userNoGoZoneState;
+    this.locationState = appStateRepository.getLocationState();
+    this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
+    this.userWaypointsState = appStateRepository.getUserWaypointsState();
   }
 
   List<Canvas> CreateMapLayers() {
@@ -38,6 +41,7 @@ class MapLayerFactory {
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
         this.CreateSensorFieldLayer(locationState.GetCurrentPosition()),
         this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN),
+        this.CreateWaypointsLayer(userWaypointsState.GetSelectedWayPoints(), Color.BLUE),
         this.CreateGridLayer(
           userNoGoZoneState.getNgzMatrix(),
           Color.web("red",0.2),
@@ -70,10 +74,6 @@ class MapLayerFactory {
         }
       }
     }
-    layer.setOnMousePressed((mouseEvent) -> {
-      Logger.LogCrossThread("Event: Mouse click being posted");
-      this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
-    });
     return layer;
   }
 
@@ -100,8 +100,8 @@ class MapLayerFactory {
 
       double x1 = p1.x;
       double x2 = p2.x;
-      double y1 = mapH - p1.y;
-      double y2 = mapH -p2.y;
+      double y1 = p1.y;
+      double y2 = p2.y;
       gc.strokeLine(x1,y1,x2,y2);
     }
     return layer;
@@ -115,7 +115,7 @@ class MapLayerFactory {
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double x = robotLocation.x - robotW/2;
-    double y = mapH - robotLocation.y - robotH/2;
+    double y = robotLocation.y - robotH/2;
 
     double rotationCenterX = (robotW) / 2;
     double rotationCenterY = (robotH) / 2;
@@ -123,7 +123,7 @@ class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(360-robotLocation.theta-90);
+    gc.rotate(360-robotLocation.theta+90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));
@@ -143,7 +143,7 @@ class MapLayerFactory {
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double x = robotLocation.x - robotW/2;
-    double y = mapH - robotLocation.y - robotH/2;
+    double y = robotLocation.y - robotH/2;
 
     double rotationCenterX = (robotW) / 2;
     double rotationCenterY = (robotH) / 2;
@@ -151,13 +151,26 @@ class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(360-robotLocation.theta-90);
+    gc.rotate(360-robotLocation.theta+90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgSensorField = new Image(getClass().getResourceAsStream("./Images/sensor-field.png"));
 
     gc.drawImage(imgSensorField,0,0, robotW, robotH);
     gc.restore();
+
+    return layer;
+  }
+
+  private Canvas CreateWaypointsLayer(List<Waypoint> waypoints, Color color) {
+    Canvas layer = new Canvas(mapW,mapH);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+
+    int circleSize = 30;
+    gc.setStroke(color);
+    for (Waypoint point : waypoints) {
+      gc.strokeOval(point.x-circleSize/2, point.y-circleSize/2, circleSize, circleSize);
+    }
 
     return layer;
   }
