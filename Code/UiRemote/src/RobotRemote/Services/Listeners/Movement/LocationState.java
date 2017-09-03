@@ -2,6 +2,7 @@ package RobotRemote.Services.Listeners.Movement;
 
 import RobotRemote.Models.MapPoint;
 import lejos.robotics.navigation.Pose;
+import lejos.robotics.navigation.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,18 @@ public class LocationState {
     return this.pointsVisited.get(size - 1);
   }
 
+  public void GoingToPose(Pose pose) {
+    MapPoint newPoint = new MapPoint(pose.getX(), pose.getY(), pose.getHeading());
+    this.pointsVisited.add(newPoint);
+  }
+
+  public void GoingToWayPoint(Waypoint waypoint) {
+    MapPoint newPoint = new MapPoint(waypoint.getX(), waypoint.getY(), waypoint.getHeading());
+    this.pointsVisited.add(newPoint);
+  }
+
   void GoingToPoint(double x, double y, double theta) {
-    MapPoint newPoint = new MapPoint(x, y, theta); // Reversed x and y for Ui
+    MapPoint newPoint = new MapPoint(x, y, theta);
     this.pointsVisited.add(newPoint);
   }
 

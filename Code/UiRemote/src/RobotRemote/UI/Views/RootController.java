@@ -2,6 +2,7 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
+import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.UI.UiState;
@@ -19,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import lejos.robotics.navigation.Waypoint;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -149,5 +151,11 @@ public class RootController implements Initializable {
   private void MoveMotors(EnumCommandManual command) {
     uiState.setCurrentCommand(command);
     eventBus.post(new EventManualControl(command));
+  }
+
+  public void onClickMap(MouseEvent mouseEvent) {
+    uiState.setCurrentCommand(EnumCommandManual.MoveToPrecise);
+    Waypoint gotoOnMap = new Waypoint(mouseEvent.getX(), mouseEvent.getY());
+    eventBus.post(new EventAutoControl(gotoOnMap));
   }
 }

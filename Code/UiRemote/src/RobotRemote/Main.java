@@ -1,7 +1,7 @@
 package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Helpers.NavigatorFactory;
+import RobotRemote.Helpers.PilotFactory;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
@@ -45,7 +45,7 @@ public class Main extends Application {
     EventBus eventBus = new EventBus();
 
     // Instantiate movement listener
-    ArcRotateMoveController pilot = NavigatorFactory.GetPilot(robotConnectionService, robotConfiguration);
+    ArcRotateMoveController pilot = PilotFactory.GetPilot(robotConnectionService, robotConfiguration);
     MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
 
     // Instantiate state machine listener

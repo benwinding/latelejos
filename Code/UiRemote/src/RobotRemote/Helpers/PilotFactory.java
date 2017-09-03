@@ -5,7 +5,7 @@ import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.Mocks.TestArcPilot;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
-public class NavigatorFactory {
+public class PilotFactory {
   public static ArcRotateMoveController GetPilot(RobotConnectionService connectionService, RobotConfiguration config) {
     connectionService.InitializeBrick();
     ArcRotateMoveController pilot;

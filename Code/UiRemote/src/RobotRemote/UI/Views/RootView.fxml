@@ -22,7 +22,14 @@
                 <children>
                   <VBox>
                     <children>
-                      <Pane fx:id="map" />
+                      <Pane onMouseClicked="#onClickMap" fx:id="map" />
+                    </children>
+                  </VBox>
+                  <VBox>
+                    <children>
+                      <Label>Map Interaction</Label>
+                      <ToggleButton text="Enter NGZ"/>
+                      <ToggleButton text="Enter Waypoint"/>
                     </children>
                   </VBox>
                 </children>
