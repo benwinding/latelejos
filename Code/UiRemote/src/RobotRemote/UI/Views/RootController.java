@@ -4,6 +4,7 @@ import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -65,26 +67,40 @@ public class RootController implements Initializable {
   @FXML
   RadioButton zoomMapOut;
 
+  @FXML
+  ImageView status;
+
+  @FXML
+  Button switchmode;
+
   private UiState uiState;
   private EventBus eventBus;
+  private RobotConnectionService connectionService;
+  private int counter=0;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     Logger.Log("UI Loaded!");
   }
 
-  public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus) {
+  public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus, RobotConnectionService connectionService) {
     this.uiState = uiState;
     this.eventBus = eventBus;
+    this.connectionService =connectionService;
     this.initGUI();
   }
 
-  private void initGUI(){
+  private void initGUI() {
     this.btnMoveLeft.setImage(new Image("RobotRemote/UI/Images/left.png"));
     this.btnMoveRight.setImage(new Image("RobotRemote/UI/Images/right.png"));
     this.btnMoveUp.setImage(new Image("RobotRemote/UI/Images/up.png"));
     this.btnMoveDown.setImage(new Image("RobotRemote/UI/Images/down.png"));
     this.btnMoveStop.setImage(new Image("RobotRemote/UI/Images/stop.png"));
+    this.switchmode.setText("Manual");
+    if (connectionService.IsConnected()) this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
+    else this.status.setImage(new Image("RobotRemote/UI/Images/status_red.png"));
+
+
   }
 
   public void keyPressed(KeyEvent e) {
@@ -109,6 +125,14 @@ public class RootController implements Initializable {
       default:
         Logger.Log("Key press:" + e.getCode() + " is not implemented");
     }
+  }
+
+  public void onClickSwitch(MouseEvent mouseEvent){
+    if(counter%2==0) this.switchmode.setText("Auto");
+    else this.switchmode.setText("Manual");
+    counter++;
+    eventBus.post(new EventRobotmode());
+
   }
 
   public void onClickDemo(MouseEvent mouseEvent) {
