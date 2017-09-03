@@ -6,7 +6,7 @@ import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteRequestEV3;
 
 public class RobotConnectionService {
-  public RemoteRequestEV3 BrickInstance;
+  private RemoteRequestEV3 BrickInstance;
 
   public boolean IsConnected() {return BrickInstance != null;}
 

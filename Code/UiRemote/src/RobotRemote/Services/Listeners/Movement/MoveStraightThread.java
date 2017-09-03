@@ -52,7 +52,8 @@ class MoveStraightThread extends RobotWorkerBase {
   }
 
   void shutdownMotors() {
-    this.pilot.stop();
+    if(this.pilot.isMoving())
+      this.pilot.stop();
     this.kill();
   }
 }

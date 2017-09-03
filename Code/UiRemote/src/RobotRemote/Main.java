@@ -54,7 +54,7 @@ public class Main extends Application {
         eventBus
     );
 
-    SensorsService sensorService = new SensorsService(robotConnectionService, appStateRepository.getSensorsState());
+    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository.getSensorsState());
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
 
     // Instantiate service locator

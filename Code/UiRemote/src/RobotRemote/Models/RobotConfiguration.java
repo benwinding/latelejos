@@ -19,4 +19,6 @@ public class RobotConfiguration {
   public String wheelPortRight = "B";
   public int updateIntervalMoving_ms = 100;
   public int updateIntervalUi_ms = 200;
+  public String sensorPortUltra = "S3";
+  public String sensorPortColour = "S4";
 }
