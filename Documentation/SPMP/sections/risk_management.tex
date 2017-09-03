@@ -15,6 +15,7 @@
 
 \renewcommand{\baselinestretch}{1.1}\normalsize
 \setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
 
 \begin{document}
 		\subsection{Introduction}
@@ -44,40 +45,71 @@
 			\textbf{Robot or parts damaged or lost}\\
 			Probability: Low\\
 			Impact: High\\
-			Strategy: If any parts or the whole robot is damaged or lost, the importance of the lost part is assessed by the team as a group. If necessary, the team must seek to collect funds in order to buy replacement parts.\\	
+			Indicators: Unsecure sotrage location.\\
+			Strategy: If any parts or the whole robot is damaged or lost, the importance of the lost part is assessed by the team as a group. If necessary, the team must seek to collect funds in order to buy replacement parts.	\\
 	
 			\textbf{Wifi cannot handle code being sent to robot}\\
 			Probability: Low\\
 			Impact: High\\
+			Indicators: Increase in communication delay\\
 			Strategy: Every week robot must be tested so that it can comply to commands via a wired cconnection
 
 			\subsection*{People Risks}
 			\textbf{Team members get sick at critical times}\\
 			Probability: High\\
 			Impact: Medium\\
+			Indicators: Team members in poor health or mood\\
 			Strategy: Ensure any sick team members are encouraged to stay home in order to avoid spreading to other members. Project manager is to ensure that task assignment has some overlap in order to ensure there is at least one person able to work on critical sections.\\
 			
 			\textbf{Team members leave the course}\\
 			Probability: Low\\
 			Impact: High\\
-			Strategy: Project manager to ensure that there is overlap in task assignment and that all team members have some expereience in every aspect of code.
+			Indicators: self evident\\
+			Strategy: Project manager to ensure that there is overlap in task assignment and that all team members have some expereience in every aspect of code. Ask team members to give as much warning as possible.\\
 
 			\subsection*{Tools}
+
+			\textbf{Final product unable to run on certain OS or environment}\\
+			Probability: Low\\
+			Impact: High\\
+			Indicators:Testing shows intermittent issues on non-standard OS or no testing done on different OS.\\
+			Strategy: Team must ensure that they bring a laptop which is tested to work with the code for final presentation in case the client's hardware is unable to run the software.\\
+
 			\textbf{University Github server no longer supported}\\
 			Probability: Low\\
 			Impact: High\\
-			Strategy: Each team member to ensure that the project is pulled at least once per day on their machine. In the event of Github no longer being available, alternate version control methods such as SVN may be considered.
+			Indicators: public announcement or github GUI/Command line no longer working. \\
+			Strategy: Each team member to ensure that the project is pulled at least once per day on their machine. In the event of Github no longer being available, alternate version control methods such as SVN may be considered.\\
+
+			\textbf{Team members update to different versions of IDE or JDK}\\
+			Probability: Low\\
+			Impact: Low\\
+			Indicators:Compile errors with certain members. Errors after certain members update the code.\\
+			Strategy: Team members are to be informed that unless specified by the project manager, the IDE and JDK are not to be updated and must remain the same accross the length of the project. \\
 
 			\subsection*{Requirements}
-			\textbf{Robot or parts damaged or lost}\\
+			\textbf{Client dictates major changes to requirements}\\
 			Probability: Low\\
 			Impact: High\\
-			Strategy:
+			Indicators:Multiple consecutive change requests. Client complaints. \\
+			Strategy: communications to the client in weekly meetings are to be clear in what the team is working on and how it fits into the current requirements so that any changes the client would like to make can be brought up incrementally. Project manager is to ensure that client is aware that major requirements changes will require significant increase in budget to compensate.\\
+
 			\subsection*{Estimation}
-			\textbf{Robot or parts damaged or lost}\\
+			\textbf{Time required to develop is underestimated}\\
 			Probability: Low\\
-			Impact: High\\
-			Strategy:
+			Impact: Low to High\\
+			Indicators:failure to meet internal milestones.\\
+			Strategy: Team members are to inform the rest of the group if they feel that the assigned task is actually larger than anticipated. Project manager is to ensure that they check on the progress of the team regularly and is not soley reliant on team feedback.
+
+			\textbf{Debugging and testing undersestimated}\\
+			Probability: Medium\\
+			Impact: Low\\
+			Indicators:tests unable to show faults. unable to meet testing milestones.\\
+			Strategy: Testing manager is to inform the group if they feel that testing will fall behind so they may gather additional support from the rest of team. Individual members must ask for help if they feel that they may lag behind while coding their assigned task.\\
+
+
 		
 		\subsection{Monitoring}
+		Additional risks may be added to risk management plan by the risk assessment manager. Documentation of risks should be added to the SPMP document revision history.
+		Current risks may be reassessed in terms of severity or probabilty and this shall be undertaken by the risk manager fortnightly.
 \end{document}
