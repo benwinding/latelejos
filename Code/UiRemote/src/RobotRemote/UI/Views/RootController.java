@@ -2,10 +2,7 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
-import RobotRemote.Models.Events.EventAutoControl;
-import RobotRemote.Models.Events.EventManualControl;
-import RobotRemote.Models.Events.EventUserAddNgz;
-import RobotRemote.Models.Events.EventUserAddWaypoint;
+import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
@@ -125,9 +122,11 @@ public class RootController implements Initializable {
   }
 
   public void onClickSwitch(MouseEvent mouseEvent){
-      if(counter%2==0) this.switchmode.setText("Auto");
-      else this.switchmode.setText("Manual");
-      counter++;
+    if(counter%2==0) this.switchmode.setText("Auto");
+    else this.switchmode.setText("Manual");
+    counter++;
+    eventBus.post(new EventRobotmode());
+
   }
 
   public void onClickDemo(MouseEvent mouseEvent) {

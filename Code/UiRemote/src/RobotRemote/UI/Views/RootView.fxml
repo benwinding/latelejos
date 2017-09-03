@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <GridPane onKeyPressed="#keyPressed" prefHeight="675.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <columnConstraints>
@@ -133,14 +134,18 @@
                       </GridPane>
                     </HBox>
                               <ImageView fitHeight="80.0" fitWidth="71.0" layoutX="300.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true" />
-                              <ToolBar layoutX="333.0" layoutY="-9.0" prefHeight="46.0" prefWidth="59.0">
+                              <ToolBar layoutX="272.0" layoutY="-9.0" prefHeight="66.0" prefWidth="127.0">
                                 <items>
-                                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="30.0">
+                                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="41.0">
                                        <graphic>
-                                          <ImageView fx:id="status" fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="status" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                           </ImageView>
                                        </graphic>
                                     </Button>
+                                    <Label text="System status">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font></Label>
                                 </items>
                               </ToolBar>
                   </children>
@@ -176,11 +181,6 @@
               <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="status">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
         </menus>
       </MenuBar>
   </children>

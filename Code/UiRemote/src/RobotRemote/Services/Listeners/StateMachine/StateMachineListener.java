@@ -2,12 +2,15 @@ package RobotRemote.Services.Listeners.StateMachine;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventChangeOperationMode;
+import RobotRemote.Models.Events.EventRobotmode;
 import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.Events.EventUserAddWaypoint;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 public class StateMachineListener{
   private UiState uiState;
@@ -74,6 +77,12 @@ public class StateMachineListener{
     int r = this.GetCellInRange(mapW, cols, mouseX);
     int c = this.GetCellInRange(mapH, rows, mouseY);
     userNoGoZoneState.switchNgzCell(r,c);
+  }
+
+  @Subscribe
+  public void OnEventRobotmode(EventRobotmode event) {
+    Logger.LogCrossThread("changed");
+
   }
 
   // Get the cell selected in a certain range
