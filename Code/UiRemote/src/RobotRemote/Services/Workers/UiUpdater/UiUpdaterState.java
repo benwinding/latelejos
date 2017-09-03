@@ -20,7 +20,7 @@ public class UiUpdaterState {
     return zoomLevel;
   }
 
-  void setZoomLevel(float zoomLevel) {
+  public synchronized void setZoomLevel(float zoomLevel) {
     this.zoomLevel = zoomLevel;
   }
 
@@ -40,5 +40,13 @@ public class UiUpdaterState {
     pointsMapBorder.add(new MapPoint(0,mapH));
     pointsMapBorder.add(new MapPoint(0,0));
     return pointsMapBorder;
+  }
+
+  public void incrementZoomLevel() {
+    this.zoomLevel = (float) (this.zoomLevel * 1.2);
+  }
+
+  public void decrementZoomLevel() {
+    this.zoomLevel = (float) (this.zoomLevel * 0.8);
   }
 }

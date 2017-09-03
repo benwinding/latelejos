@@ -51,6 +51,11 @@ class MapLayerFactory {
           Color.web("green",0.1)
         )
     );
+    float zoom = uiUpdaterState.getZoomLevel();
+    for (Canvas layer : mapLayers) {
+      layer.setScaleX(zoom);
+      layer.setScaleY(zoom);
+    }
     return mapLayers;
   }
 

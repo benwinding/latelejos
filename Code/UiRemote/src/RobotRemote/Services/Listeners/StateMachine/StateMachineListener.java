@@ -4,6 +4,7 @@ import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventChangeOperationMode;
 import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.Events.EventUserAddWaypoint;
+import RobotRemote.Models.Events.EventUserZoomChanged;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
@@ -74,6 +75,15 @@ public class StateMachineListener{
     int r = this.GetCellInRange(mapW, cols, mouseX);
     int c = this.GetCellInRange(mapH, rows, mouseY);
     userNoGoZoneState.switchNgzCell(r,c);
+  }
+
+  @Subscribe
+  public void OnUserChangeZoom(EventUserZoomChanged event) {
+    Logger.LogCrossThread("Event: Zoom changed");
+    if(event.isIncrementIn())
+      this.appStateRepository.getUiUpdaterState().incrementZoomLevel();
+    else
+      this.appStateRepository.getUiUpdaterState().decrementZoomLevel();
   }
 
   // Get the cell selected in a certain range
