@@ -3,22 +3,25 @@ package RobotRemote.Services.Listeners.Movement;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.MotorsEnum;
 import lejos.robotics.localization.OdometryPoseProvider;
-import lejos.robotics.localization.PoseProvider;
 import lejos.robotics.navigation.*;
 
 public class MovePrecise {
-  private final Navigator navigator;
+  private LocationState locationState;
+  private OdometryPoseProvider poseProvider;
+  private Navigator navigator;
 
-  MovePrecise(ArcRotateMoveController pilot, LocationState uiState, MovementState movementState) {
-    this.navigator = this.CreateNavigator(pilot, uiState, movementState);
+  MovePrecise(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
+    this.locationState = locationState;
+    this.navigator = this.CreateNavigator(pilot, locationState, movementState);
   }
 
   void moveToWaypoint(Waypoint waypoint) {
+    poseProvider.setPose(locationState.GetCurrentPose());
     this.navigator.goTo(waypoint);
   }
 
-  private static Navigator CreateNavigator(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
-    PoseProvider poseProvider = new OdometryPoseProvider(pilot);
+  private Navigator CreateNavigator(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
+    poseProvider = new OdometryPoseProvider(pilot);
     poseProvider.setPose(locationState.GetCurrentPose());
     Navigator navigator = new Navigator(pilot, poseProvider);
     navigator.addNavigationListener(new NavigationListener() {
