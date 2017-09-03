@@ -19,6 +19,14 @@ public class LocationState {
     return this.pointsVisited;
   }
 
+  public Pose GetCurrentPose() {
+    MapPoint current = GetCurrentPosition();
+    Pose newPose = new Pose();
+    newPose.setLocation((float) current.x, (float) current.y);
+    newPose.setHeading((float) current.theta);
+    return newPose;
+  }
+
   public MapPoint GetCurrentPosition() {
     int size = this.pointsVisited.size();
     return this.pointsVisited.get(size - 1);

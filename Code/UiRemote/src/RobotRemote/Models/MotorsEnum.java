@@ -5,5 +5,5 @@ public enum MotorsEnum {
   MovingBackward,
   TurningLeft,
   TurningRight,
-  Stationary
+  PathInterupted, PathComplete, PathAtWayPoint, Stationary
 }
