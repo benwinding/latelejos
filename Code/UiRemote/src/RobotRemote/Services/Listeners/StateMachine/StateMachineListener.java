@@ -3,22 +3,28 @@ package RobotRemote.Services.Listeners.StateMachine;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventChangeOperationMode;
 import RobotRemote.Models.Events.EventUserAddNgz;
+import RobotRemote.Models.Events.EventUserAddWaypoint;
 import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 public class StateMachineListener{
+  private UiState uiState;
   private AppStateRepository appStateRepository;
   private ModeObjectAvoidance modeObjectAvoidance;
   private ModeAutoMapping modeAutomapping;
   private StateMachineState stateMachineState;
   private UserNoGoZoneState userNoGoZoneState;
+  private UserWaypointsState userWaypointsState;
 
   public StateMachineListener(AppStateRepository appStateRepository, EventBus eventBus) {
     eventBus.register(this);
     this.appStateRepository = appStateRepository;
     this.stateMachineState = appStateRepository.getStateMachineState();
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
+    this.userWaypointsState = appStateRepository.getUserWaypointsState();
+    this.uiState = appStateRepository.getUiState();
     this.modeAutomapping = new ModeAutoMapping();
     this.modeObjectAvoidance = new ModeObjectAvoidance();
   }
@@ -45,6 +51,12 @@ public class StateMachineListener{
       default:
         break;
     }
+  }
+
+  @Subscribe
+  public void OnUserAddWaypoint(EventUserAddWaypoint event) {
+    Logger.LogCrossThread("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
+    userWaypointsState.AddWayPoint(event.getX(), event.getY());
   }
 
   @Subscribe

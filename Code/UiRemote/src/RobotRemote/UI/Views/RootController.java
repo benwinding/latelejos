@@ -5,6 +5,7 @@ import RobotRemote.Models.EnumCommandManual;
 import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.Events.EventUserAddNgz;
+import RobotRemote.Models.Events.EventUserAddWaypoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
@@ -168,6 +169,7 @@ public class RootController implements Initializable {
     else if(enterWaypoint.isSelected()) {
       uiState.setCurrentCommand(EnumCommandManual.MoveToPrecise);
       Waypoint gotoOnMap = new Waypoint(mouseEvent.getX(), mouseEvent.getY());
+      eventBus.post(new EventUserAddWaypoint(gotoOnMap));
       eventBus.post(new EventAutoControl(gotoOnMap));
     }
     else {
