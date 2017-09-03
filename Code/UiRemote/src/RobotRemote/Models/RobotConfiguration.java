@@ -6,9 +6,9 @@ public class RobotConfiguration {
   public float initTheta = 90;
   public int ngzRows = 10;
   public int ngzCols = 15;
-  public float mapInitZoom = 1;
-  public float mapW = 300;
-  public float mapH = 500;
+  public float mapInitZoom = 0.5f;
+  public float mapW = 594; // A1 594mm x 841mm
+  public float mapH = 841;
   public double robotLinearSpeed_cms = 5;
   public double robotLinearAcceleration_cms2 = 0;
   public double robotAngularSpeed_degs = 30;
@@ -19,4 +19,6 @@ public class RobotConfiguration {
   public String wheelPortRight = "B";
   public int updateIntervalMoving_ms = 100;
   public int updateIntervalUi_ms = 200;
+  public String sensorPortUltra = "S3";
+  public String sensorPortColour = "S4";
 }

@@ -5,6 +5,7 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.Listeners.StateMachine.UserNoGoZoneState;
 import RobotRemote.Services.Listeners.StateMachine.UserWaypointsState;
+import RobotRemote.Services.Workers.SensorService.SensorsState;
 import com.google.common.eventbus.EventBus;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +20,7 @@ import java.util.List;
 class MapLayerFactory {
   private final float mapH;
   private final float mapW;
+  private SensorsState sensorState;
   private UserWaypointsState userWaypointsState;
   private LocationState locationState;
   private UserNoGoZoneState userNoGoZoneState;
@@ -33,6 +35,7 @@ class MapLayerFactory {
     this.locationState = appStateRepository.getLocationState();
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
+    this.sensorState = appStateRepository.getSensorsState();
   }
 
   List<Canvas> CreateMapLayers() {
@@ -48,6 +51,11 @@ class MapLayerFactory {
           Color.web("green",0.1)
         )
     );
+    float zoom = uiUpdaterState.getZoomLevel();
+    for (Canvas layer : mapLayers) {
+      layer.setScaleX(zoom);
+      layer.setScaleY(zoom);
+    }
     return mapLayers;
   }
 
@@ -136,17 +144,17 @@ class MapLayerFactory {
   }
 
   Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
-    int robotW = 60;
-    int robotH = 180;
+    int sensorFieldW = 60;
+    int sensorFieldH = (int) (Math.abs(sensorState.getUltraReading()) * 1000);
 
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
-    double x = robotLocation.x - robotW/2;
-    double y = robotLocation.y - robotH/2;
+    double x = robotLocation.x - sensorFieldW /2;
+    double y = robotLocation.y - sensorFieldH/2;
 
-    double rotationCenterX = (robotW) / 2;
-    double rotationCenterY = (robotH) / 2;
+    double rotationCenterX = (sensorFieldW) / 2;
+    double rotationCenterY = (sensorFieldH) / 2;
 
     gc.save();
     gc.translate(x, y);
@@ -156,7 +164,7 @@ class MapLayerFactory {
 
     Image imgSensorField = new Image(getClass().getResourceAsStream("./Images/sensor-field.png"));
 
-    gc.drawImage(imgSensorField,0,0, robotW, robotH);
+    gc.drawImage(imgSensorField,0,0, sensorFieldW, sensorFieldH);
     gc.restore();
 
     return layer;

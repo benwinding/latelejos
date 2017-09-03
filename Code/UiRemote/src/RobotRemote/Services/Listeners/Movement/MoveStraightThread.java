@@ -1,5 +1,6 @@
 package RobotRemote.Services.Listeners.Movement;
 
+import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Services.RobotWorkerBase;
 import lejos.robotics.navigation.ArcRotateMoveController;
@@ -19,21 +20,25 @@ class MoveStraightThread extends RobotWorkerBase {
     this.locationState = locationState;
     this.linearDistanceInterval = config.robotLinearSpeed_cms * (config.updateIntervalMoving_ms*1.0 / 1000);
     this.movementState = movementState;
-    // If already moving stop
-    this.pilot.forward();
-    this.pilot.stop();
+    Synchronizer.RunNotConcurrent(() -> {
+      this.pilot.stop(); // If already moving stop
+    });
   }
 
   public void MoveForward() {
     this.movingForwards = true;
-    this.pilot.forward();
+    Synchronizer.RunNotConcurrent(() -> {
+      this.pilot.forward();
+    });
     this.movementState.setMotorState(MovingForward);
     this.start();
   }
 
   public void MoveBackward() {
     this.movingForwards = false;
-    this.pilot.backward();
+    Synchronizer.RunNotConcurrent(() -> {
+      this.pilot.backward();
+    });
     this.movementState.setMotorState(MovingBackward);
     this.start();
   }
@@ -48,13 +53,18 @@ class MoveStraightThread extends RobotWorkerBase {
 
   @Override
   protected void OnShutdown() {
-    if(this.pilot.isMoving())
-      this.pilot.stop();
+    Synchronizer.RunNotConcurrent(() -> {
+      if(this.pilot.isMoving())
+        this.pilot.stop();
+    });
     this.movementState.setMotorState(Stationary);
   }
 
   void shutdownMotors() {
-    this.pilot.stop();
+    Synchronizer.RunNotConcurrent(() -> {
+      if(this.pilot.isMoving())
+        this.pilot.stop();
+    });
     this.kill();
   }
 }

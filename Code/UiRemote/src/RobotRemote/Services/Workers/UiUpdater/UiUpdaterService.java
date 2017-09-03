@@ -4,14 +4,13 @@ import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.RobotWorkerBase;
+import RobotRemote.Services.Workers.SensorService.SensorsState;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -39,9 +38,9 @@ public class UiUpdaterService extends RobotWorkerBase {
   }
 
   private void UpdateGuiThreadSafe() {
-    UpdateSensorsOnGUI();
     UpdateMapOnGUI();
     UpdateLocationOnGUI();
+    UpdateSensorsOnGUI(appStateRepository.getSensorsState());
   }
 
   private void UpdateLocationOnGUI() {
@@ -61,26 +60,10 @@ public class UiUpdaterService extends RobotWorkerBase {
     pane.getChildren().add(newText);
   }
 
-  private void UpdateSensorsOnGUI() {
-    Canvas layer = new Canvas(300,100);
-    GraphicsContext gc = layer.getGraphicsContext2D();
-
-    double sensorValUltra = appStateRepository.getSensorsState().getUltraReading();
-    gc.setFill(Color.YELLOW);
-    gc.fillRect(0,0,sensorValUltra + 80,40);
-
-    double sensorValColourR = appStateRepository.getSensorsState().getColourReadingR()* 100;
-    double sensorValColourG = appStateRepository.getSensorsState().getColourReadingG()* 100;
-    double sensorValColourB = appStateRepository.getSensorsState().getColourReadingB()* 100;
-    gc.setFill(Color.RED);
-    gc.fillRect(0,40,sensorValColourR + 30,20);
-    gc.setFill(Color.GREEN);
-    gc.fillRect(0,60,sensorValColourG + 20,20);
-    gc.setFill(Color.BLUE);
-    gc.fillRect(0,80,sensorValColourB + 70,20);
-
+  private void UpdateSensorsOnGUI(SensorsState sensorsState) {
+    Canvas sensorsGraph = SensorsDisplayFactory.CreateSensorsGraph(sensorsState);
     rootController.sensorDisplay.getChildren().clear();
-    rootController.sensorDisplay.getChildren().add(layer);
+    rootController.sensorDisplay.getChildren().add(sensorsGraph);
   }
 
   private void UpdateMapOnGUI() {

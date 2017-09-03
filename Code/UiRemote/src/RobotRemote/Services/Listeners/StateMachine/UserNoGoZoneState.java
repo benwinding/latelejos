@@ -7,7 +7,6 @@ public class UserNoGoZoneState {
 
   public UserNoGoZoneState(int ngzRows, int ngzCols) {
     ngzMatrix = new Matrix(ngzRows,ngzCols);
-    selectNgzCell(0,0);
   }
 
   public Matrix getNgzMatrix() {

@@ -1,12 +1,13 @@
 package RobotRemote.Services.Listeners.Connection;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Helpers.Synchronizer;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteRequestEV3;
 
 public class RobotConnectionService {
-  public RemoteRequestEV3 BrickInstance;
+  private RemoteRequestEV3 BrickInstance;
 
   public boolean IsConnected() {return BrickInstance != null;}
 
@@ -32,6 +33,8 @@ public class RobotConnectionService {
   public void closeConnection() {
     if(!IsConnected())
       return;
-    this.BrickInstance.disConnect();
+    Synchronizer.RunNotConcurrent(() -> {
+      this.BrickInstance.disConnect();
+    });
   }
 }

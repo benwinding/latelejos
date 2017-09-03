@@ -1,11 +1,11 @@
 package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Helpers.PilotFactory;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.Listeners.Movement.MovementEventListener;
+import RobotRemote.Services.Listeners.Movement.PilotFactory;
 import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
@@ -44,18 +44,20 @@ public class Main extends Application {
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
 
+
+    // Worker threads
+    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository.getSensorsState());
+    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
+
     // Instantiate movement listener
     ArcRotateMoveController pilot = PilotFactory.GetPilot(robotConnectionService, robotConfiguration);
-    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
+    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus, sensorService);
 
     // Instantiate state machine listener
     StateMachineListener stateMachineListener = new StateMachineListener(
         appStateRepository,
         eventBus
     );
-
-    SensorsService sensorService = new SensorsService(robotConnectionService, appStateRepository.getSensorsState());
-    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
 
     // Instantiate service locator
     ServiceLocator serviceLocator = new ServiceLocator(

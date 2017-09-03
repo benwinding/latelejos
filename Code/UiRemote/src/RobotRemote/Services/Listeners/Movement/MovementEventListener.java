@@ -5,6 +5,7 @@ import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Services.Workers.SensorService.SensorsService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lejos.robotics.navigation.ArcRotateMoveController;
@@ -14,8 +15,10 @@ public final class MovementEventListener {
   private final MoveStraightThread moveStraightThread;
   private final MoveTurnSynchronous moveTurnSynchronous;
   private final MovePrecise movePrecise;
+  private SensorsService sensorsService;
 
-  public MovementEventListener(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appStateRepository, EventBus eventBus) {
+  public MovementEventListener(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appStateRepository, EventBus eventBus, SensorsService sensorsService) {
+    this.sensorsService = sensorsService;
     this.moveStraightThread = new MoveStraightThread(config, pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
     this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
     this.movePrecise = new MovePrecise(pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());

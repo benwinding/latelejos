@@ -2,10 +2,7 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
-import RobotRemote.Models.Events.EventAutoControl;
-import RobotRemote.Models.Events.EventManualControl;
-import RobotRemote.Models.Events.EventUserAddNgz;
-import RobotRemote.Models.Events.EventUserAddWaypoint;
+import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
@@ -61,6 +58,12 @@ public class RootController implements Initializable {
 
   @FXML
   RadioButton enterWaypoint;
+
+  @FXML
+  RadioButton zoomMapIn;
+
+  @FXML
+  RadioButton zoomMapOut;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -187,8 +190,11 @@ public class RootController implements Initializable {
       eventBus.post(new EventUserAddWaypoint(gotoOnMap));
       eventBus.post(new EventAutoControl(gotoOnMap));
     }
-    else {
-      // No toggle was selected
+    else if(zoomMapIn.isSelected()) {
+      eventBus.post(new EventUserZoomChanged(true));
+    }
+    else if(zoomMapOut.isSelected()) {
+      eventBus.post(new EventUserZoomChanged(false));
     }
   }
 }

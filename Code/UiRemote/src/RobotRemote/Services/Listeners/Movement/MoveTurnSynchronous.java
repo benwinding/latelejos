@@ -1,5 +1,6 @@
 package RobotRemote.Services.Listeners.Movement;
 
+import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.MotorsEnum;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
@@ -27,7 +28,9 @@ class MoveTurnSynchronous {
   }
 
   private void UpdateTurn(int angle) {
-    this.pilot.rotate(-angle);
-    this.locationState.ChangingHeading(angle);
+    Synchronizer.RunNotConcurrent(() -> {
+      this.pilot.rotate(-angle);
+      this.locationState.ChangingHeading(angle);
+    });
   }
 }

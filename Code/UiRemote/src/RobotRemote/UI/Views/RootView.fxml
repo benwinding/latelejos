@@ -15,7 +15,7 @@
   <children>
     <SplitPane dividerPositions="0.6" GridPane.rowIndex="1">
       <items>
-        <SplitPane dividerPositions="0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <SplitPane dividerPositions="0.7" orientation="HORIZONTAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
           <items>
             <AnchorPane>
               <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -23,18 +23,6 @@
                   <VBox>
                     <children>
                       <Pane fx:id="map" onMouseClicked="#onClickMap" />
-                    </children>
-                  </VBox>
-                  <VBox>
-                    <children>
-                      <Label>Map Interaction</Label>
-                      <RadioButton fx:id="enterNgz" text="Enter NGZ" >
-                        <toggleGroup>
-                           <ToggleGroup fx:id="one" />
-                        </toggleGroup>
-                      </RadioButton>
-                      <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$one" />
-                      <RadioButton text="Zoom Map" toggleGroup="$one" />
                     </children>
                   </VBox>
                 </children>
@@ -45,6 +33,25 @@
                 <children>
                   <VBox>
                     <children>
+                      <VBox>
+                        <children>
+                          <Label>Map Interaction</Label>
+                          <RadioButton fx:id="enterNgz" text="Enter NGZ">
+                            <toggleGroup>
+                              <ToggleGroup fx:id="one" />
+                            </toggleGroup>
+                          </RadioButton>
+                          <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$one" />
+                          <RadioButton fx:id="zoomMapIn" text="Zoom Map +" toggleGroup="$one" />
+                          <RadioButton fx:id="zoomMapOut" text="Zoom Map -" toggleGroup="$one" />
+                        </children>
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
+                        <padding>
+                           <Insets bottom="10.0" />
+                        </padding>
+                      </VBox>
                       <Pane fx:id="locationDetails" />
                       <Pane fx:id="sensorDisplay" />
                     </children>

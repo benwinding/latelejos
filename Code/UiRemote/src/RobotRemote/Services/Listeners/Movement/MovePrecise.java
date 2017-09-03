@@ -1,6 +1,7 @@
 package RobotRemote.Services.Listeners.Movement;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.MotorsEnum;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.*;
@@ -16,8 +17,10 @@ public class MovePrecise {
   }
 
   void moveToWaypoint(Waypoint waypoint) {
-    poseProvider.setPose(locationState.GetCurrentPose());
-    this.navigator.goTo(waypoint);
+    Synchronizer.RunNotConcurrent(() -> {
+      poseProvider.setPose(locationState.GetCurrentPose());
+      this.navigator.goTo(waypoint);
+    });
   }
 
   private Navigator CreateNavigator(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
@@ -59,7 +62,9 @@ public class MovePrecise {
   }
 
   public void stop() {
-    if(this.navigator.isMoving())
-      this.navigator.stop();
+    Synchronizer.RunNotConcurrent(() -> {
+      if(this.navigator.isMoving())
+        this.navigator.stop();
+    });
   }
 }
