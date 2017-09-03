@@ -68,7 +68,7 @@ public class Main extends Application {
     serviceUmpire = new ServiceUmpire(serviceLocator);
     serviceUmpire.StartAllThreads();
 
-    rootController.Init(robotConfiguration, appStateRepository.getUiState(), eventBus);
+    rootController.Init(robotConfiguration, appStateRepository.getUiState(), eventBus, robotConnectionService);
 
     // Show GUI
     primaryStage.setTitle("Robot Remote UI");
