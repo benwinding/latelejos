@@ -11,7 +11,7 @@ class SensorsDisplayFactory {
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double sensorValUltra = sensorsState.getUltraReading()*100;
-    gc.setFill(Color.LIGHTYELLOW);
+    gc.setFill(Color.YELLOW);
     gc.fillRect(0,0,sensorValUltra*10,40);
     gc.strokeText("Value: " + sensorValUltra,0, 25);
 
