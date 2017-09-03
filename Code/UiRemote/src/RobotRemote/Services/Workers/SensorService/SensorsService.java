@@ -16,7 +16,7 @@ public class SensorsService extends RobotWorkerBase {
   private SensorsState sensorsState;
   private EV3ColorSensor colourSensorConnection;
   private SensorMode colourSensorMode;
-  private SensorMode distanceMode;
+  private SensorMode ultrasonicMode;
   private EV3UltrasonicSensor ultrasonicSensorConnection;
 
   public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, SensorsState sensorsState) {
@@ -36,7 +36,7 @@ public class SensorsService extends RobotWorkerBase {
     try {
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortUltra);
       this.ultrasonicSensorConnection = new EV3UltrasonicSensor(port);
-      this.distanceMode = ultrasonicSensorConnection.getMode("Distance");
+      this.ultrasonicMode = ultrasonicSensorConnection.getMode("Distance");
     } catch(RemoteRequestException e) {
       Logger.WarnCrossThread("Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
     }
@@ -60,13 +60,17 @@ public class SensorsService extends RobotWorkerBase {
 
   private void FetchUltrasonicSensor() {
     // Set ultrasonic sensor to state
-    float[] sample2 = new float[distanceMode.sampleSize()];
-    distanceMode.fetchSample(sample2, 0);
+    if(ultrasonicMode == null)
+      return;
+    float[] sample2 = new float[ultrasonicMode.sampleSize()];
+    ultrasonicMode.fetchSample(sample2, 0);
     sensorsState.setUltraReading(sample2[0]);
   }
 
   private void FetchColourSensor() {
     // Set colour sensor to state
+    if(colourSensorMode == null)
+      return;
     float[] sample=new float[colourSensorMode.sampleSize()];
     colourSensorMode.fetchSample(sample, 0);
 
