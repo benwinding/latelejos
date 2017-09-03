@@ -123,7 +123,7 @@ class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(360-robotLocation.theta-90);
+    gc.rotate(360-robotLocation.theta+90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));
@@ -151,7 +151,7 @@ class MapLayerFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(360-robotLocation.theta-90);
+    gc.rotate(360-robotLocation.theta+90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgSensorField = new Image(getClass().getResourceAsStream("./Images/sensor-field.png"));
