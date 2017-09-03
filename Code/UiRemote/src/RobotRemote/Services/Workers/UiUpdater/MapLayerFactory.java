@@ -1,7 +1,5 @@
 package RobotRemote.Services.Workers.UiUpdater;
 
-import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.Listeners.StateMachine.UserNoGoZoneState;
@@ -70,10 +68,6 @@ class MapLayerFactory {
         }
       }
     }
-    layer.setOnMousePressed((mouseEvent) -> {
-      Logger.LogCrossThread("Event: Mouse click being posted");
-      this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
-    });
     return layer;
   }
 
