@@ -92,10 +92,14 @@ public class SensorsService extends RobotWorkerBase {
       try{
         this.colourSensorConnection.close();
       } catch (Exception ignored) {
+        Logger.WarnCrossThread("Something happened: Closing the motor ports");
       }
+    });
+    Synchronizer.RunNotConcurrent(() -> {
       try{
         this.ultrasonicSensorConnection.close();
       } catch (Exception ignored) {
+        Logger.WarnCrossThread("Something happened: Closing the motor ports");
       }
     });
   }
