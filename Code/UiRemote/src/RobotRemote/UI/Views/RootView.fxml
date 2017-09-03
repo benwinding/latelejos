@@ -43,18 +43,6 @@
                       <Pane fx:id="map" onMouseClicked="#onClickMap" />
                     </children>
                   </VBox>
-                  <VBox>
-                    <children>
-                      <Label>Map Interaction</Label>
-                      <RadioButton fx:id="enterNgz" text="Enter NGZ">
-                        <toggleGroup>
-                           <ToggleGroup fx:id="one" />
-                        </toggleGroup>
-                      </RadioButton>
-                      <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$one" />
-                      <RadioButton text="Zoom Map" toggleGroup="$one" />
-                    </children>
-                  </VBox>
                 </children>
               </HBox>
             </AnchorPane>

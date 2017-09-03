@@ -82,7 +82,7 @@ public class SensorsService extends RobotWorkerBase {
 
     sensorsState.setColourReadingR(sample[0]);
     sensorsState.setColourReadingG(sample[1]);
-    sensorsState.setColourReadingB(sample[2]);*/
+    sensorsState.setColourReadingB(sample[2]);
   }
 
   @Override
