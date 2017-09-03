@@ -41,21 +41,6 @@ public class RootController implements Initializable {
   public Pane sensorDisplay;
 
   @FXML
-  ImageView btnMoveLeft;
-
-  @FXML
-  ImageView btnMoveUp;
-
-  @FXML
-  ImageView btnMoveDown;
-
-  @FXML
-  ImageView btnMoveRight;
-
-  @FXML
-  ImageView btnMoveStop;
-
-  @FXML
   RadioButton enterNgz;
 
   @FXML
@@ -91,16 +76,11 @@ public class RootController implements Initializable {
   }
 
   private void initGUI() {
-    this.btnMoveLeft.setImage(new Image("RobotRemote/UI/Images/left.png"));
-    this.btnMoveRight.setImage(new Image("RobotRemote/UI/Images/right.png"));
-    this.btnMoveUp.setImage(new Image("RobotRemote/UI/Images/up.png"));
-    this.btnMoveDown.setImage(new Image("RobotRemote/UI/Images/down.png"));
-    this.btnMoveStop.setImage(new Image("RobotRemote/UI/Images/stop.png"));
     this.switchmode.setText("Manual");
-    if (connectionService.IsConnected()) this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
-    else this.status.setImage(new Image("RobotRemote/UI/Images/status_red.png"));
-
-
+    if (connectionService.IsConnected())
+      this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
+    else
+      this.status.setImage(new Image("RobotRemote/UI/Images/status_red.png"));
   }
 
   public void keyPressed(KeyEvent e) {
@@ -128,25 +108,11 @@ public class RootController implements Initializable {
   }
 
   public void onClickSwitch(MouseEvent mouseEvent){
-    if(counter%2==0) this.switchmode.setText("Auto");
+    if(counter%2==0)
+      this.switchmode.setText("Auto");
     else this.switchmode.setText("Manual");
     counter++;
     eventBus.post(new EventRobotmode());
-
-  }
-
-  public void onClickDemo(MouseEvent mouseEvent) {
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/Demo/DemoSensor.fxml"));
-      Parent root = (Parent) fxmlLoader.load();
-      Scene demo = new Scene(root, 700, 600);
-      Stage stage = new Stage();
-      stage.setTitle("Demo");
-      stage.setScene(demo);
-      stage.show();
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
   }
 
   public void onClickHelp(ActionEvent event) {

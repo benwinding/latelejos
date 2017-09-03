@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -10,6 +9,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
@@ -22,173 +22,110 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.StackPane?>
 <GridPane onKeyPressed="#keyPressed" prefHeight="675.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <columnConstraints>
     <ColumnConstraints percentWidth="100" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="40" />
+    <RowConstraints minHeight="30" prefHeight="30" />
     <RowConstraints percentHeight="100" />
   </rowConstraints>
-  <children>
-    <SplitPane dividerPositions="0.6" GridPane.rowIndex="1">
-      <items>
-        <SplitPane dividerPositions="0.7" orientation="HORIZONTAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-          <items>
-            <AnchorPane>
-              <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                <children>
-                  <VBox>
-                    <children>
-                      <Pane fx:id="map" onMouseClicked="#onClickMap" />
-                    </children>
-                  </VBox>
-                </children>
-              </HBox>
-            </AnchorPane>
-            <AnchorPane>
-              <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                <children>
-                  <VBox>
-                    <children>
-                      <VBox>
-                        <children>
-                          <Label>Map Interaction</Label>
-                          <RadioButton fx:id="enterNgz" text="Enter NGZ">
-                            <toggleGroup>
-                              <ToggleGroup fx:id="one" />
-                            </toggleGroup>
-                          </RadioButton>
-                          <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$one" />
-                          <RadioButton fx:id="zoomMapIn" text="Zoom Map +" toggleGroup="$one" />
-                          <RadioButton fx:id="zoomMapOut" text="Zoom Map -" toggleGroup="$one" />
-                        </children>
-                        <VBox.margin>
-                           <Insets bottom="10.0" />
-                        </VBox.margin>
-                        <padding>
-                           <Insets bottom="10.0" />
-                        </padding>
-                      </VBox>
-                      <Pane fx:id="locationDetails" />
-                      <Pane fx:id="sensorDisplay" />
-                    </children>
-                  </VBox>
-                </children>
-              </HBox>
-            </AnchorPane>
-          </items>
-        </SplitPane>
-        <AnchorPane prefHeight="592.0" prefWidth="497.0">
-          <children>
-            <SplitPane dividerPositions="0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-              <items>
-                <AnchorPane>
-                  <children>
-                    <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                      <GridPane fx:id="Switch" hgap="5" vgap="5">
-                        <columnConstraints>
-                          <ColumnConstraints maxWidth="89.0" minWidth="83.0" prefWidth="83.0" />
-                          <ColumnConstraints halignment="CENTER" maxWidth="105.0" minWidth="52.0" prefWidth="95.0" />
-                          <ColumnConstraints maxWidth="83.0" minWidth="30.0" prefWidth="51.0" />
-                        </columnConstraints>
-                        <rowConstraints>
-                          <RowConstraints />
-                          <RowConstraints />
-                          <RowConstraints />
-                                       <RowConstraints />
-                                       <RowConstraints />
-                                       <RowConstraints />
-                                       <RowConstraints />
-                                       <RowConstraints />
-                                       <RowConstraints />
-                        </rowConstraints>
-                        <Button mnemonicParsing="false" onMouseClicked="#onClickLeft" prefHeight="26.0" prefWidth="66.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                          <graphic>
-                            <ImageView fx:id="btnMoveLeft" fitHeight="68.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
-                            </ImageView>
-                          </graphic>
-                        </Button>
-                        <Button mnemonicParsing="false" onMouseClicked="#onClickRight" prefHeight="59.0" prefWidth="49.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                          <graphic>
-                            <ImageView fx:id="btnMoveRight" fitHeight="63.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                            </ImageView>
-                          </graphic></Button>
-                        <Button mnemonicParsing="false" onMouseClicked="#onClickForward" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                          <graphic>
-                            <ImageView fx:id="btnMoveUp" fitHeight="70.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                            </ImageView>
-                          </graphic>
-                        </Button>
-                        <Button mnemonicParsing="false" onMouseClicked="#onClickBackward" prefHeight="46.0" prefWidth="72.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                          <graphic>
-                            <ImageView fx:id="btnMoveDown" fitHeight="78.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                            </ImageView>
-                          </graphic>
-                        </Button>
-                        <Button mnemonicParsing="false" onMouseClicked="#onClickStop" style="-fx-background-radius: 50;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                          <GridPane.margin>
-                            <Insets />
-                          </GridPane.margin>
-                          <graphic>
-                            <ImageView fx:id="btnMoveStop" fitHeight="78.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                            </ImageView>
-                          </graphic>
-                        </Button>
-                                    <ImageView fitHeight="75.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                                    <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                  <Button fx:id="switchmode" mnemonicParsing="false" onMouseClicked="#onClickSwitch" prefHeight="66.0" prefWidth="132.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                      </GridPane>
-                    </HBox>
-                              <ImageView fitHeight="80.0" fitWidth="71.0" layoutX="300.0" layoutY="-36.0" pickOnBounds="true" preserveRatio="true" />
-                              <ToolBar layoutX="272.0" layoutY="-9.0" prefHeight="66.0" prefWidth="127.0">
-                                <items>
-                                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="41.0">
-                                       <graphic>
-                                          <ImageView fx:id="status" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <Label text="System status">
-                                       <font>
-                                          <Font size="8.0" />
-                                       </font></Label>
-                                </items>
-                              </ToolBar>
-                  </children>
-                </AnchorPane>
-                <AnchorPane>
-                  <children>
-                    <TextArea id="messageDisplayer" fx:id="messageDisplayer" editable="false" wrapText="true" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                  </children>
-                </AnchorPane>
-              </items>
-            </SplitPane>
-          </children>
-        </AnchorPane>
-      </items>
+  <MenuBar GridPane.rowIndex="0">
+    <Menu mnemonicParsing="false" text="File">
+      <MenuItem mnemonicParsing="false" text="Upload XML" />
+      <MenuItem mnemonicParsing="false" text="Export XML" />
+      <MenuItem mnemonicParsing="false" text="Close" />
+    </Menu>
+    <Menu mnemonicParsing="false" text="Edit">
+      <MenuItem mnemonicParsing="false" text="Change NGZ" />
+    </Menu>
+    <Menu mnemonicParsing="false" text="Help">
+      <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
+      <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
+    </Menu>
+  </MenuBar>
+  <SplitPane GridPane.rowIndex="1">
+    <SplitPane fx:id="leftSide" orientation="HORIZONTAL" prefWidth="Infinity">
+      <AnchorPane>
+        <HBox alignment="CENTER" >
+          <VBox>
+            <Pane fx:id="map" onMouseClicked="#onClickMap" />
+          </VBox>
+        </HBox>
+        <TitledPane alignment="TOP_RIGHT" text="Map Options" collapsible="false" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+          <VBox>
+            <VBox.margin>
+              <Insets bottom="10.0" />
+            </VBox.margin>
+            <padding>
+              <Insets bottom="10.0" />
+            </padding>
+            <RadioButton fx:id="enterNgz" text="Enter NGZ">
+              <toggleGroup>
+                <ToggleGroup fx:id="mapOptions"/>
+              </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
+            <RadioButton fx:id="zoomMapIn" text="Zoom Map +" toggleGroup="$mapOptions" />
+            <RadioButton fx:id="zoomMapOut" text="Zoom Map -" toggleGroup="$mapOptions" />
+          </VBox>
+        </TitledPane>
+      </AnchorPane>
+      <AnchorPane maxWidth="150">
+        <VBox>
+          <Pane fx:id="locationDetails" />
+          <Pane fx:id="sensorDisplay" />
+        </VBox>
+      </AnchorPane>
     </SplitPane>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Upload XML" />
-                  <MenuItem mnemonicParsing="false" text="Export XML" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Change NGZ" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
-              <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-  </children>
+    <SplitPane maxWidth="300" orientation="VERTICAL">
+      <AnchorPane maxWidth="300">
+        <SplitPane minWidth="300" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+          <AnchorPane>
+            <TitledPane text="Manual Controls" minHeight="300" collapsible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+              <ToolBar prefHeight="66.0" prefWidth="127.0">
+                <Button prefHeight="42.0" prefWidth="41.0">
+                  <graphic>
+                    <ImageView fx:id="status" />
+                  </graphic>
+                </Button>
+                <Label text="System status">
+                  <font>
+                    <Font size="8.0" />
+                  </font>
+                </Label>
+              </ToolBar>
+              <HBox alignment="CENTER" >
+                <VBox alignment="CENTER">
+                  <Button id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
+                  <HBox alignment="CENTER">
+                    <Button id="btnMoveLeft" onMouseClicked="#onClickLeft" styleClass="moveButton" />
+                    <Button id="btnMoveStop" onMouseClicked="#onClickStop" styleClass="stopButton" />
+                    <Button id="btnMoveRight" onMouseClicked="#onClickRight" styleClass="moveButton" />
+                  </HBox>
+                  <Button id="btnMoveDown" onMouseClicked="#onClickBackward" styleClass="moveButton" />
+                </VBox>
+              </HBox>
+            </TitledPane>
+          </AnchorPane>
+          <AnchorPane>
+            <TitledPane text="Switch Mode" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+              <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox alignment="CENTER">
+                  <Button fx:id="switchmode" mnemonicParsing="false" onMouseClicked="#onClickSwitch" prefHeight="66.0"
+                          prefWidth="132.0"/>
+                </VBox>
+              </HBox>
+            </TitledPane>
+          </AnchorPane>
+        </SplitPane>
+      </AnchorPane>
+      <AnchorPane>
+        <TitledPane text="System Log" collapsible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+          <TextArea id="messageDisplayer" fx:id="messageDisplayer" editable="false" wrapText="true"/>
+        </TitledPane>
+      </AnchorPane>
+    </SplitPane>
+  </SplitPane>
 </GridPane>

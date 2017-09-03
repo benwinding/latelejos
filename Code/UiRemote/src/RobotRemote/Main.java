@@ -32,6 +32,7 @@ public class Main extends Application {
     // Setup controller
     RootController rootController = loader.getController();
     Scene scene = new Scene(root, 1000, 700);
+    scene.getStylesheets().add("/RobotRemote/UI/Views/RootStyle.css");
     Logger.Init(scene);
 
     // Get Application Configuration
