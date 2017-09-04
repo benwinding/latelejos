@@ -1,13 +1,15 @@
 package RobotRemote.Models.Events;
 
-public class EventUserZoomChanged {
-  private boolean incrementIn;
+import RobotRemote.Models.EnumZoomCommand;
 
-  public EventUserZoomChanged(boolean incrementIn) {
-    this.incrementIn = incrementIn;
+public class EventUserZoomChanged {
+  private EnumZoomCommand zoomCommand;
+
+  public EventUserZoomChanged(EnumZoomCommand zoomCommand) {
+    this.zoomCommand = zoomCommand;
   }
 
-  public boolean isIncrementIn() {
-    return incrementIn;
+  public EnumZoomCommand getZoomCommand() {
+    return zoomCommand;
   }
 }

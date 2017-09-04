@@ -3,6 +3,7 @@ package RobotRemote.Services.Listeners.StateMachine;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Services.Workers.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -76,11 +77,19 @@ public class StateMachineListener{
 
   @Subscribe
   public void OnUserChangeZoom(EventUserZoomChanged event) {
-    Logger.LogCrossThread("Event: Zoom changed");
-    if(event.isIncrementIn())
-      this.appStateRepository.getUiUpdaterState().incrementZoomLevel();
-    else
-      this.appStateRepository.getUiUpdaterState().decrementZoomLevel();
+    UiUpdaterState uiUpdaterState = this.appStateRepository.getUiUpdaterState();
+    switch (event.getZoomCommand()){
+      case IncrementZoom:
+        uiUpdaterState.incrementZoomLevel();
+        break;
+      case DecrementZoom:
+        uiUpdaterState.decrementZoomLevel();
+        break;
+      case ZoomReset:
+        uiUpdaterState.zoomReset();
+        break;
+    }
+    Logger.LogCrossThread("Event: Zoom factor changed to: " + uiUpdaterState.getZoomLevel());
   }
 
   @Subscribe

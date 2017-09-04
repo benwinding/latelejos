@@ -2,12 +2,14 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.EnumCommandManual;
+import RobotRemote.Models.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Waypoint;
@@ -47,12 +50,6 @@ public class RootController implements Initializable {
   RadioButton enterWaypoint;
 
   @FXML
-  RadioButton zoomMapIn;
-
-  @FXML
-  RadioButton zoomMapOut;
-
-  @FXML
   ImageView status;
 
   @FXML
@@ -73,6 +70,7 @@ public class RootController implements Initializable {
     this.eventBus = eventBus;
     this.connectionService =connectionService;
     this.initGUI();
+    this.initMap();
   }
 
   private void initGUI() {
@@ -81,6 +79,19 @@ public class RootController implements Initializable {
       this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
     else
       this.status.setImage(new Image("RobotRemote/UI/Images/status_red.png"));
+  }
+
+  private void initMap() {
+    this.map.addEventHandler(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+      @Override
+      public void handle(ScrollEvent event) {
+        double scrollAmount = event.getDeltaY();
+        if(scrollAmount > 0)
+          eventBus.post(new EventUserZoomChanged(EnumZoomCommand.IncrementZoom));
+        else
+          eventBus.post(new EventUserZoomChanged(EnumZoomCommand.DecrementZoom));
+      }
+    });
   }
 
   public void keyPressed(KeyEvent e) {
@@ -180,11 +191,9 @@ public class RootController implements Initializable {
       eventBus.post(new EventUserAddWaypoint(gotoOnMap));
       eventBus.post(new EventAutoControl(gotoOnMap));
     }
-    else if(zoomMapIn.isSelected()) {
-      eventBus.post(new EventUserZoomChanged(true));
-    }
-    else if(zoomMapOut.isSelected()) {
-      eventBus.post(new EventUserZoomChanged(false));
-    }
+  }
+
+  public void onClickZoomReset(MouseEvent mouseEvent) {
+    eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
   }
 }
