@@ -49,4 +49,8 @@ public class UiUpdaterState {
   public void decrementZoomLevel() {
     this.zoomLevel = (float) (this.zoomLevel * 0.8);
   }
+
+  public void zoomReset() {
+    this.zoomLevel = 0.8f;
+  }
 }

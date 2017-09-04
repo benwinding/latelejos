@@ -36,3 +36,9 @@
 #btnMoveDown {
     -fx-background-image: url('/RobotRemote/UI/Images/down.png');
 }
+
+#btnZoomReset {
+    -fx-background-size: 50%;
+    -fx-background-repeat: no-repeat;
+    /*-fx-background-image: url('/RobotRemote/UI/Images/fullscreen_icon.png');*/
+}
