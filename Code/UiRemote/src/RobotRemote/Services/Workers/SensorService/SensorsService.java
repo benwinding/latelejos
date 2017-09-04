@@ -41,8 +41,9 @@ public class SensorsService extends RobotWorkerBase {
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortUltra);
       this.ultrasonicSensorConnection = new EV3UltrasonicSensor(port);
       this.ultrasonicMode = ultrasonicSensorConnection.getMode("Distance");
+      Logger.WarnCrossThread("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
     } catch(DeviceException | RemoteRequestException e) {
-      Logger.WarnCrossThread("Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
+      Logger.WarnCrossThread("Error: Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
     }
   }
 
@@ -51,8 +52,9 @@ public class SensorsService extends RobotWorkerBase {
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortColour);
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
+      Logger.LogCrossThread("Success: opened colour sensor, on port: " + config.sensorPortColour);
     } catch(DeviceException | RemoteRequestException e) {
-      Logger.WarnCrossThread("Unable to open colour sensor, on port: " + config.sensorPortColour);
+      Logger.WarnCrossThread("Error: Unable to open colour sensor, on port: " + config.sensorPortColour);
     }
   }
 
@@ -92,14 +94,14 @@ public class SensorsService extends RobotWorkerBase {
       try{
         this.colourSensorConnection.close();
       } catch (Exception ignored) {
-        Logger.WarnCrossThread("Something happened: Closing the motor ports");
+        Logger.WarnCrossThread("Sensor Service, Error closing the colour sensor port");
       }
     });
     Synchronizer.RunNotConcurrent(() -> {
       try{
         this.ultrasonicSensorConnection.close();
       } catch (Exception ignored) {
-        Logger.WarnCrossThread("Something happened: Closing the motor ports");
+        Logger.WarnCrossThread("Sensor Service, Error closing the ultrasonic sensor port");
       }
     });
   }

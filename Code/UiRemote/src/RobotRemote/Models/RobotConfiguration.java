@@ -6,7 +6,7 @@ public class RobotConfiguration {
   public float initTheta = 90;
   public int ngzRows = 10;
   public int ngzCols = 15;
-  public float mapInitZoom = 0.5f;
+  public float mapInitZoom = 1f;
   public float mapW = 594; // A1 594mm x 841mm
   public float mapH = 841;
   public double robotLinearSpeed_cms = 5;

@@ -6,21 +6,31 @@ import RobotRemote.Models.MotorsEnum;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.*;
 
-public class MovePrecise {
+public class MovePreciseThread {
   private LocationState locationState;
   private OdometryPoseProvider poseProvider;
   private Navigator navigator;
 
-  MovePrecise(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
+  MovePreciseThread(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
     this.locationState = locationState;
     this.navigator = this.CreateNavigator(pilot, locationState, movementState);
   }
 
   void moveToWaypoint(Waypoint waypoint) {
-    Synchronizer.RunNotConcurrent(() -> {
+    // Needs work!
+    Thread moveThread = new Thread(() -> Synchronizer.RunNotConcurrent(() -> {
       poseProvider.setPose(locationState.GetCurrentPose());
-      this.navigator.goTo(waypoint);
-    });
+      navigator.goTo(waypoint);
+      while(navigator.isMoving()) {
+        // This blocks other communication to ev3 during navigator.goTo() call
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }));
+    moveThread.start();
   }
 
   private Navigator CreateNavigator(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {

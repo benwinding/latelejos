@@ -5,7 +5,6 @@ import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Workers.SensorService.SensorsService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lejos.robotics.navigation.ArcRotateMoveController;
@@ -14,21 +13,21 @@ import lejos.robotics.navigation.Waypoint;
 public final class MovementEventListener {
   private final MoveStraightThread moveStraightThread;
   private final MoveTurnSynchronous moveTurnSynchronous;
-  private final MovePrecise movePrecise;
-  private SensorsService sensorsService;
+  private final MovePreciseThread movePreciseThread;
+  private final AppStateRepository appState;
 
-  public MovementEventListener(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appStateRepository, EventBus eventBus, SensorsService sensorsService) {
-    this.sensorsService = sensorsService;
-    this.moveStraightThread = new MoveStraightThread(config, pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
-    this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
-    this.movePrecise = new MovePrecise(pilot, appStateRepository.getLocationState(), appStateRepository.getMovementState());
+  public MovementEventListener(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appState, EventBus eventBus) {
+    this.appState = appState;
+    this.moveStraightThread = new MoveStraightThread(config, pilot, appState.getLocationState(), appState.getMovementState());
+    this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appState.getLocationState(), appState.getMovementState());
+    this.movePreciseThread = new MovePreciseThread(pilot, appState.getLocationState(), appState.getMovementState());
     eventBus.register(this);
   }
 
   @Subscribe
   public void OnManualControl(EventManualControl event) {
     Logger.LogCrossThread("Received Manual Command: " + event.getCommand());
-    this.movePrecise.stop();
+    this.movePreciseThread.stop();
     switch (event.getCommand()) {
       case Forward:
         this.moveStraightThread.MoveForward();
@@ -48,17 +47,31 @@ public final class MovementEventListener {
       case Ignore:
       default:
         this.moveStraightThread.kill();
-        this.movePrecise.stop();
+        this.movePreciseThread.stop();
     }
   }
 
   @Subscribe
   public void OnPreciseControl(EventAutoControl event) {
-    Waypoint nextWayPoint = event.getNextWayPoint();
+    Waypoint eventWayPoint = event.getNextWayPoint();
+    // Account for zoom on map
+    float mapH = this.appState.getUiUpdaterState().getMapH();
+    float mapW = this.appState.getUiUpdaterState().getMapW();
+    float zoomLevel = this.appState.getUiUpdaterState().getZoomLevel();
+
+    // Mouse relative coordinates to scaled map
+    double mouseX = eventWayPoint.getX()-((1-zoomLevel)/2)*mapW;
+    double mouseY = eventWayPoint.getY()-((1-zoomLevel)/2)*mapH;
+
+    // Scale mouse to actual map xy coordinates
+    double scaleX = mouseX / zoomLevel;
+    double scaleY = mouseY / zoomLevel;
+    Waypoint nextWayPoint = new Waypoint(scaleX, scaleY);
+
     Logger.LogCrossThread("Received Precise Point to go to:: x:"+nextWayPoint.getX() + ",y:" + nextWayPoint.getY());
     this.moveStraightThread.kill();
-    this.movePrecise.stop();
-    this.movePrecise.moveToWaypoint(nextWayPoint);
+    this.movePreciseThread.stop();
+    this.movePreciseThread.moveToWaypoint(nextWayPoint);
   }
 
   public void shutdownMotors() {

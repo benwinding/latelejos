@@ -20,10 +20,6 @@ public class UiUpdaterState {
     return zoomLevel;
   }
 
-  public synchronized void setZoomLevel(float zoomLevel) {
-    this.zoomLevel = zoomLevel;
-  }
-
   public float getMapW() {
     return mapW;
   }
@@ -51,6 +47,6 @@ public class UiUpdaterState {
   }
 
   public void zoomReset() {
-    this.zoomLevel = 0.8f;
+    this.zoomLevel = 1f;
   }
 }
