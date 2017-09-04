@@ -1,5 +1,6 @@
 package RobotRemote.Services.Workers.UiUpdater;
 
+import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Movement.LocationState;
@@ -55,6 +56,7 @@ class MapLayerFactory {
     for (Canvas layer : mapLayers) {
       layer.setScaleX(zoom);
       layer.setScaleY(zoom);
+      //layer.setTranslateY(zoom*-100);
     }
     return mapLayers;
   }
