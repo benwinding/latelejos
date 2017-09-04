@@ -4,12 +4,10 @@ import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Workers.UiUpdater.UiUpdaterState;
-import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 public class StateMachineListener{
-  private UiState uiState;
   private AppStateRepository appStateRepository;
   private ModeObjectAvoidance modeObjectAvoidance;
   private ModeAutoMapping modeAutomapping;
@@ -23,7 +21,6 @@ public class StateMachineListener{
     this.stateMachineState = appStateRepository.getStateMachineState();
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
-    this.uiState = appStateRepository.getUiState();
     this.modeAutomapping = new ModeAutoMapping();
     this.modeObjectAvoidance = new ModeObjectAvoidance();
   }
@@ -55,23 +52,43 @@ public class StateMachineListener{
   @Subscribe
   public void OnUserAddWaypoint(EventUserAddWaypoint event) {
     Logger.LogCrossThread("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
-    userWaypointsState.AddWayPoint(event.getX(), event.getY());
+    // Account for zoom on map
+    float mapH = this.appStateRepository.getUiUpdaterState().getMapH();
+    float mapW = this.appStateRepository.getUiUpdaterState().getMapW();
+    float zoomLevel = this.appStateRepository.getUiUpdaterState().getZoomLevel();
+
+    // Mouse relative coordinates to scaled map
+    double mouseX = event.getX()-((1-zoomLevel)/2)*mapW;
+    double mouseY = event.getY()-((1-zoomLevel)/2)*mapH;
+
+    // Scale mouse to actual map xy coordinates
+    double scaleX = mouseX / zoomLevel;
+    double scaleY = mouseY / zoomLevel;
+
+    userWaypointsState.AddWayPoint(scaleX,scaleY);
   }
 
   @Subscribe
   public void OnUserAddNgz(EventUserAddNgz event) {
     Logger.LogCrossThread("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
+    // Account for zoom on map
     float mapH = this.appStateRepository.getUiUpdaterState().getMapH();
     float mapW = this.appStateRepository.getUiUpdaterState().getMapW();
+    float zoomLevel = this.appStateRepository.getUiUpdaterState().getZoomLevel();
 
-    double mouseX = event.getX();
-    double mouseY = event.getY();
+    // Mouse relative coordinates to scaled map
+    double mouseX = event.getX()-((1-zoomLevel)/2)*mapW;
+    double mouseY = event.getY()-((1-zoomLevel)/2)*mapH;
+
+    // Scale mouse to actual map xy coordinates
+    double scaleX = mouseX / zoomLevel;
+    double scaleY = mouseY / zoomLevel;
 
     int cols = this.appStateRepository.getUserNoGoZoneState().countGridRows();
     int rows = this.appStateRepository.getUserNoGoZoneState().countGridCols();
 
-    int r = this.GetCellInRange(mapW, cols, mouseX);
-    int c = this.GetCellInRange(mapH, rows, mouseY);
+    int r = this.GetCellInRange(mapW, cols, scaleX);
+    int c = this.GetCellInRange(mapH, rows, scaleY);
     userNoGoZoneState.switchNgzCell(r,c);
   }
 

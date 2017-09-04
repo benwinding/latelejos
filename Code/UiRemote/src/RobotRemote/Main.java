@@ -52,7 +52,7 @@ public class Main extends Application {
 
     // Instantiate movement listener
     ArcRotateMoveController pilot = PilotFactory.GetPilot(robotConnectionService, robotConfiguration);
-    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus, sensorService);
+    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
 
     // Instantiate state machine listener
     StateMachineListener stateMachineListener = new StateMachineListener(

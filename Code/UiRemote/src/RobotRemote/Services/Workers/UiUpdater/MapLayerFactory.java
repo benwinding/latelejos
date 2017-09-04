@@ -1,6 +1,5 @@
 package RobotRemote.Services.Workers.UiUpdater;
 
-import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Movement.LocationState;
@@ -118,8 +117,8 @@ class MapLayerFactory {
   }
 
   Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
-    int robotW = 60;
-    int robotH = 50;
+    int robotW = 60*2;
+    int robotH = 50*2;
 
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
@@ -146,8 +145,12 @@ class MapLayerFactory {
   }
 
   Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
-    int sensorFieldW = 60;
-    int sensorFieldH = (int) (Math.abs(sensorState.getUltraReading()) * 1000);
+    int sensorFieldW = 60*2;
+    double sensorValUltra = sensorState.getUltraReading()*1000;
+    if(sensorValUltra < 0)
+      sensorValUltra = 0;
+
+    int sensorFieldH = (int) sensorValUltra;
 
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();

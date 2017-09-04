@@ -32,12 +32,7 @@ public class LocationState {
     return this.pointsVisited.get(size - 1);
   }
 
-  public void GoingToPose(Pose pose) {
-    MapPoint newPoint = new MapPoint(pose.getX(), pose.getY(), pose.getHeading());
-    this.pointsVisited.add(newPoint);
-  }
-
-  public void GoingToWayPoint(Waypoint waypoint) {
+  void GoingToWayPoint(Waypoint waypoint) {
     MapPoint newPoint = new MapPoint(waypoint.getX(), waypoint.getY(), waypoint.getHeading());
     this.pointsVisited.add(newPoint);
   }
@@ -58,6 +53,6 @@ public class LocationState {
 
   void ChangingHeading(double angle) {
     MapPoint curr = GetCurrentPosition();
-    GoingToPoint(curr.x,curr.y,curr.theta - angle);
+    GoingToPoint(curr.x,curr.y,curr.theta + angle);
   }
 }
