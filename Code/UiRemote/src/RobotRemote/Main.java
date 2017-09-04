@@ -76,7 +76,7 @@ public class Main extends Application {
     // Show GUI
     primaryStage.setTitle("Robot Remote UI");
     primaryStage.setScene(scene);
-    primaryStage.setMaximized(true);
+//    primaryStage.setMaximized(true);
     primaryStage.show();
   }
 

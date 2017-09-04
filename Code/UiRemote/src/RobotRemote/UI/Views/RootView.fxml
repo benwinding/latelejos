@@ -28,6 +28,15 @@
     <MenuBar minHeight="30" prefHeight="30">
       <Menu mnemonicParsing="false" text="File">
         <MenuItem mnemonicParsing="false" text="Upload XML" />
+        <MenuItem mnemonicParsing="false" text="Export XML" />
+        <MenuItem mnemonicParsing="false" text="Close" />
+      </Menu>
+      <Menu mnemonicParsing="false" text="Edit">
+        <MenuItem mnemonicParsing="false" text="Change NGZ" />
+      </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
+        <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
       </Menu>
     </MenuBar>
     <AnchorPane>
@@ -73,16 +82,16 @@
           <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <TitledPane collapsible="false" text="System Status" >
               <ToolBar prefHeight="66.0" prefWidth="127.0">
-                <Button prefHeight="42.0" maxWidth="41.0">
-                  <graphic>
-                    <ImageView fx:id="status" fitWidth="100" fitHeight="100"/>
-                  </graphic>
-                </Button>
-                <Label text="System status">
+                <Label text="Connection Status: ">
                   <font>
-                    <Font size="8.0" />
+                    <Font size="18.0" />
                   </font>
                 </Label>
+                <Button prefHeight="42.0" maxWidth="41.0">
+                  <graphic>
+                    <ImageView fx:id="status" fitWidth="30" fitHeight="30"/>
+                  </graphic>
+                </Button>
               </ToolBar>
             </TitledPane>
             <TitledPane collapsible="false" minHeight="300" text="Manual Controls" >
