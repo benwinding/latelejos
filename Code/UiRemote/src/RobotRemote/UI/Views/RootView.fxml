@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<?import javafx.scene.layout.StackPane?>
 <GridPane onKeyPressed="#keyPressed" prefHeight="675.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <columnConstraints>
     <ColumnConstraints percentWidth="100" />
@@ -45,16 +28,16 @@
       <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
     </Menu>
   </MenuBar>
-  <SplitPane GridPane.rowIndex="1">
-    <SplitPane fx:id="leftSide" orientation="HORIZONTAL" prefWidth="Infinity">
+  <SplitPane dividerPositions="0.5" GridPane.rowIndex="1">
+    <SplitPane fx:id="leftSide" dividerPositions="0.5" prefWidth="Infinity">
       <AnchorPane>
-        <HBox alignment="CENTER" >
+        <HBox alignment="CENTER">
           <VBox>
             <Pane fx:id="map" onMouseClicked="#onClickMap" />
           </VBox>
         </HBox>
-        <TitledPane alignment="TOP_RIGHT" text="Map Options" collapsible="false" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-          <VBox>
+        <TitledPane alignment="TOP_RIGHT" collapsible="false" text="Map Options" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+          <VBox prefHeight="173.0" prefWidth="120.0">
             <VBox.margin>
               <Insets bottom="10.0" />
             </VBox.margin>
@@ -63,12 +46,20 @@
             </padding>
             <RadioButton fx:id="enterNgz" text="Enter NGZ">
               <toggleGroup>
-                <ToggleGroup fx:id="mapOptions"/>
+                <ToggleGroup fx:id="mapOptions" />
               </toggleGroup>
             </RadioButton>
             <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
-            <RadioButton fx:id="zoomMapIn" text="Zoom Map +" toggleGroup="$mapOptions" />
-            <RadioButton fx:id="zoomMapOut" text="Zoom Map -" toggleGroup="$mapOptions" />
+            <HBox alignment="CENTER">
+              <VBox>
+                <ImageView fitHeight="104.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../Images/zoom_icon.png"/>
+                </ImageView>
+                <Button id="btnZoomReset" onMouseClicked="#onClickZoomReset">
+                  Zoom Reset
+                </Button>
+              </VBox>
+            </HBox>
           </VBox>
         </TitledPane>
       </AnchorPane>
@@ -79,11 +70,11 @@
         </VBox>
       </AnchorPane>
     </SplitPane>
-    <SplitPane maxWidth="300" orientation="VERTICAL">
+    <SplitPane dividerPositions="0.5" maxWidth="300" orientation="VERTICAL">
       <AnchorPane maxWidth="300">
-        <SplitPane minWidth="300" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+        <SplitPane dividerPositions="0.5" minWidth="300" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <AnchorPane>
-            <TitledPane text="Manual Controls" minHeight="300" collapsible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+            <TitledPane collapsible="false" minHeight="300" text="Manual Controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <ToolBar prefHeight="66.0" prefWidth="127.0">
                 <Button prefHeight="42.0" prefWidth="41.0">
                   <graphic>
@@ -96,7 +87,7 @@
                   </font>
                 </Label>
               </ToolBar>
-              <HBox alignment="CENTER" >
+              <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
                   <Button id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
                   <HBox alignment="CENTER">
@@ -110,11 +101,10 @@
             </TitledPane>
           </AnchorPane>
           <AnchorPane>
-            <TitledPane text="Switch Mode" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+            <TitledPane text="Switch Mode" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <VBox alignment="CENTER">
-                  <Button fx:id="switchmode" mnemonicParsing="false" onMouseClicked="#onClickSwitch" prefHeight="66.0"
-                          prefWidth="132.0"/>
+                  <Button fx:id="switchmode" mnemonicParsing="false" onMouseClicked="#onClickSwitch" prefHeight="66.0" prefWidth="132.0" />
                 </VBox>
               </HBox>
             </TitledPane>
@@ -122,8 +112,8 @@
         </SplitPane>
       </AnchorPane>
       <AnchorPane>
-        <TitledPane text="System Log" collapsible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
-          <TextArea id="messageDisplayer" fx:id="messageDisplayer" editable="false" wrapText="true"/>
+        <TitledPane collapsible="false" text="System Log" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <TextArea id="messageDisplayer" fx:id="messageDisplayer" editable="false" wrapText="true" />
         </TitledPane>
       </AnchorPane>
     </SplitPane>
