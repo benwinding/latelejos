@@ -9,7 +9,6 @@ import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Waypoint;
@@ -33,6 +33,9 @@ import java.util.ResourceBundle;
 public class RootController implements Initializable {
   @FXML
   public Pane map;
+
+  @FXML
+  public AnchorPane rightSide;
 
   @FXML
   public TextArea messageDisplayer;
@@ -55,10 +58,10 @@ public class RootController implements Initializable {
   @FXML
   Button switchmode;
 
+  private RobotConfiguration config;
   private UiState uiState;
   private EventBus eventBus;
   private RobotConnectionService connectionService;
-  private int counter=0;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,15 +69,16 @@ public class RootController implements Initializable {
   }
 
   public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus, RobotConnectionService connectionService) {
+    this.config = config;
     this.uiState = uiState;
     this.eventBus = eventBus;
-    this.connectionService =connectionService;
-//    this.initGUI();
-//    this.initMap();
+    this.connectionService = connectionService;
+    this.initStatus();
+    this.initMap();
+    this.initSwitch();
   }
 
-  private void initGUI() {
-    this.switchmode.setText("Manual");
+  private void initStatus() {
     if (connectionService.IsConnected())
       this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
     else
@@ -82,16 +86,17 @@ public class RootController implements Initializable {
   }
 
   private void initMap() {
-    this.map.addEventHandler(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-      @Override
-      public void handle(ScrollEvent event) {
-        double scrollAmount = event.getDeltaY();
-        if(scrollAmount > 0)
-          eventBus.post(new EventUserZoomChanged(EnumZoomCommand.IncrementZoom));
-        else
-          eventBus.post(new EventUserZoomChanged(EnumZoomCommand.DecrementZoom));
-      }
+    this.map.addEventHandler(ScrollEvent.SCROLL, event -> {
+      double scrollAmount = event.getDeltaY();
+      if(scrollAmount > 0)
+        eventBus.post(new EventUserZoomChanged(EnumZoomCommand.IncrementZoom));
+      else
+        eventBus.post(new EventUserZoomChanged(EnumZoomCommand.DecrementZoom));
     });
+  }
+
+  private void initSwitch() {
+    this.switchmode.setText("Manual");
   }
 
   public void keyPressed(KeyEvent e) {
@@ -119,10 +124,10 @@ public class RootController implements Initializable {
   }
 
   public void onClickSwitch(MouseEvent mouseEvent){
-    if(counter%2==0)
+    if(this.switchmode.getText() == "Auto")
+      this.switchmode.setText("Manual");
+    else
       this.switchmode.setText("Auto");
-    else this.switchmode.setText("Manual");
-    counter++;
     eventBus.post(new EventRobotmode());
   }
 
