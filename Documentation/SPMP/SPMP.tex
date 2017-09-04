@@ -11,6 +11,7 @@
 \usepackage{titlesec} % custom section spacings
 \usepackage{multirow} % merge table rows
 \usepackage{vhistory} % revision table package
+\usepackage{pdfpages}
 
 \setlist[itemize]{noitemsep} % No spaces in itemize lists
 \setlist[enumerate]{noitemsep} % No spaces in itemize lists
@@ -51,6 +52,7 @@
 		 
 	\tableofcontents	
 	\listoffigures
+	\listoftables
 	
 	
 	\section*{Revision History}	
@@ -81,7 +83,9 @@
 		\input{sections/work_plan.tex}
 	\newpage
 	\section{Supporting Plans}
-		\input{sections/supporting_plans.tex}
-	
+		\input{sections/supporting_plans.tex}	
+	\newpage
+	\section{Appendices}
+		\input{sections/appendices.tex}
 	
 \end{document}
