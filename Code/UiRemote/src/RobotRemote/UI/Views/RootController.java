@@ -69,8 +69,8 @@ public class RootController implements Initializable {
     this.uiState = uiState;
     this.eventBus = eventBus;
     this.connectionService =connectionService;
-    this.initGUI();
-    this.initMap();
+//    this.initGUI();
+//    this.initMap();
   }
 
   private void initGUI() {
