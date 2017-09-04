@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.ToolBar?>
+
 <AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <MenuBar minHeight="30" prefHeight="30">
@@ -66,7 +66,7 @@
                   <HBox alignment="CENTER">
                     <VBox>
                       <ImageView fitHeight="104.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../Images/zoom_icon.png"/>
+                        <Image url="@../Images/zoom_icon.png" />
                       </ImageView>
                       <Button id="btnZoomReset" onMouseClicked="#onClickZoomReset">
                         Zoom Reset
@@ -80,21 +80,27 @@
         </AnchorPane>
         <AnchorPane minWidth="360" prefWidth="360" SplitPane.resizableWithParent="false">
           <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <TitledPane collapsible="false" text="System Status" >
+            <TitledPane collapsible="false" text="System Status">
               <ToolBar prefHeight="66.0" prefWidth="127.0">
                 <Label text="Connection Status: ">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="12.0" />
                   </font>
                 </Label>
-                <Button prefHeight="42.0" maxWidth="41.0">
+                <Button maxWidth="41.0" prefHeight="42.0" prefWidth="24.0">
                   <graphic>
-                    <ImageView fx:id="status" fitWidth="30" fitHeight="30"/>
+                    <ImageView fx:id="status" fitHeight="30" fitWidth="30" />
                   </graphic>
                 </Button>
+                        <Label prefHeight="37.0" prefWidth="75.0" text="Robot Mode">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="RobotMode" mnemonicParsing="false" prefHeight="39.0" prefWidth="76.0" text="Manual" />
               </ToolBar>
             </TitledPane>
-            <TitledPane collapsible="false" minHeight="300" text="Manual Controls" >
+            <TitledPane collapsible="false" minHeight="300" text="Manual Controls">
               <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
                   <Button id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
@@ -107,7 +113,7 @@
                 </VBox>
               </HBox>
             </TitledPane>
-            <TitledPane collapsible="false" text="Switch Mode" >
+            <TitledPane collapsible="false" text="Switch Mode">
               <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
                   <Button fx:id="switchmode" onMouseClicked="#onClickSwitch" prefHeight="66.0" prefWidth="132.0" />
@@ -116,10 +122,10 @@
             </TitledPane>
             <TabPane>
               <Tab text="System Log">
-                <TextArea fx:id="messageDisplayer" editable="false" wrapText="true"/>
+                <TextArea fx:id="messageDisplayer" editable="false" wrapText="true" />
               </Tab>
               <Tab text="Sensor Graphs">
-                <Pane fx:id="sensorDisplay"/>
+                <Pane fx:id="sensorDisplay" />
               </Tab>
               <Tab text="Location Status">
                 <Pane fx:id="locationDetails" prefHeight="500" />
