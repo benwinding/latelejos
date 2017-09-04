@@ -58,6 +58,9 @@ public class RootController implements Initializable {
   @FXML
   Button switchmode;
 
+  @FXML
+  Button RobotMode;
+
   private RobotConfiguration config;
   private UiState uiState;
   private EventBus eventBus;
@@ -124,10 +127,14 @@ public class RootController implements Initializable {
   }
 
   public void onClickSwitch(MouseEvent mouseEvent){
-    if(this.switchmode.getText() == "Auto")
-      this.switchmode.setText("Manual");
-    else
+    if(this.switchmode.getText() == "Auto") {
+        this.switchmode.setText("Manual");
+        this.RobotMode.setText("Manual");
+    }
+    else{
       this.switchmode.setText("Auto");
+      this.RobotMode.setText("Auto");
+    }
     eventBus.post(new EventRobotmode());
   }
 
