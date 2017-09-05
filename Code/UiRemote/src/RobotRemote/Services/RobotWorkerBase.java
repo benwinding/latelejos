@@ -3,7 +3,7 @@ package RobotRemote.Services;
 import RobotRemote.Helpers.Logger;
 
 public abstract class RobotWorkerBase implements Runnable{
-  private Thread thread;
+  protected Thread thread;
   private String threadName;
   private int msDelay;
 

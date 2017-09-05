@@ -5,6 +5,8 @@ public class SensorsState {
   private double colourReadingR;
   private double colourReadingG;
   private double colourReadingB;
+  private int colourId;
+  private float touchReading;
 
   public double getUltraReading() {
     return ultraReading;
@@ -36,5 +38,21 @@ public class SensorsState {
 
   void setColourReadingB(double colourReadingB) {
     this.colourReadingB = colourReadingB;
+  }
+
+  void setColourId(int colourId) {
+    this.colourId = colourId;
+  }
+
+  public int getColourId() {
+    return colourId;
+  }
+
+  void setTouchReading(float touchReading) {
+    this.touchReading = touchReading;
+  }
+
+  public float getTouchReading() {
+    return touchReading;
   }
 }

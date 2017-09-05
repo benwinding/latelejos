@@ -8,6 +8,7 @@ import RobotRemote.Services.Workers.SensorService.SensorsState;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -61,7 +62,7 @@ public class UiUpdaterService extends RobotWorkerBase {
   }
 
   private void UpdateSensorsOnGUI(SensorsState sensorsState) {
-    Canvas sensorsGraph = SensorsDisplayFactory.CreateSensorsGraph(sensorsState);
+    Node sensorsGraph = SensorsDisplayFactory.CreateSensorsGraph(sensorsState);
     rootController.sensorDisplay.getChildren().clear();
     rootController.sensorDisplay.getChildren().add(sensorsGraph);
   }
