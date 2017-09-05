@@ -9,18 +9,26 @@ import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorMode;
+import lejos.remote.ev3.RMISampleProvider;
+import lejos.remote.ev3.RemoteEV3;
+
+import java.rmi.RemoteException;
 
 public class SensorsService extends RobotWorkerBase {
   private RobotConfiguration config;
   private RobotConnectionService connectionService;
   private SensorsState sensorsState;
+
   private EV3ColorSensor colourSensorConnection;
-  private EV3UltrasonicSensor ultrasonicSensorConnection;
   private SensorMode colourSensorMode;
+
+  private EV3UltrasonicSensor ultrasonicConnection;
   private SensorMode ultrasonicMode;
 
+  private RMISampleProvider rmiTouchMode;
+
   public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, SensorsState sensorsState) {
-    super("Sensors Service", 200);
+    super("Sensors Service", 100);
     this.config = config;
     this.connectionService = connectionService;
     this.sensorsState = sensorsState;
@@ -29,16 +37,31 @@ public class SensorsService extends RobotWorkerBase {
   @Override
   protected void OnStart() {
     Synchronizer.RunNotConcurrent(() -> {
+      InitRmiTouchSensor();
       InitColourSensor();
       InitUltrasonicSensor();
     });
   }
 
+  private void InitRmiTouchSensor() {
+    try {
+      Logger.LogCrossThread("Opening touch sensor, on port: " + config.sensorPortTouch);
+      RemoteEV3 ev3 = this.connectionService.GetBrickeRemoteEv3();
+      this.rmiTouchMode = ev3.createSampleProvider("S1", "lejos.hardware.sensor.EV3TouchSensor", "Touch");
+      Thread.sleep(50);
+      Logger.LogCrossThread("Success: opened touch sensor, on port: " + config.sensorPortTouch);
+    } catch(Exception e) {
+      Logger.WarnCrossThread("Error: Unable to open touch sensor, on port: " + config.sensorPortTouch);
+    }
+  }
+
   private void InitUltrasonicSensor() {
     try {
+      Logger.LogCrossThread("Opening ultrasonic sensor, on port: " + config.sensorPortUltra);
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortUltra);
-      this.ultrasonicSensorConnection = new EV3UltrasonicSensor(port);
-      this.ultrasonicMode = ultrasonicSensorConnection.getMode("Distance");
+      this.ultrasonicConnection = new EV3UltrasonicSensor(port);
+      this.ultrasonicMode = ultrasonicConnection.getMode("Distance");
+      Thread.sleep(50);
       Logger.LogCrossThread("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
     } catch(Exception e) {
       Logger.WarnCrossThread("Error: Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
@@ -47,9 +70,11 @@ public class SensorsService extends RobotWorkerBase {
 
   private void InitColourSensor() {
     try {
+      Logger.LogCrossThread("Opening colour sensor, on port: " + config.sensorPortColour);
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortColour);
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
+      Thread.sleep(50);
       Logger.LogCrossThread("Success: opened colour sensor, on port: " + config.sensorPortColour);
     } catch(Exception e) {
       Logger.WarnCrossThread("Error: Unable to open colour sensor, on port: " + config.sensorPortColour);
@@ -59,9 +84,22 @@ public class SensorsService extends RobotWorkerBase {
   @Override
   protected void Repeat() {
     Synchronizer.RunNotConcurrent(() -> {
+      FetchRmiTouchSensor();
       FetchColourSensor();
       FetchUltrasonicSensor();
     });
+  }
+
+  private void FetchRmiTouchSensor() {
+    if(rmiTouchMode == null)
+      return;
+    float[] sample;
+    try {
+      sample = rmiTouchMode.fetchSample();
+      sensorsState.setTouchReading(sample[0]);
+    } catch (RemoteException e) {
+      Logger.WarnCrossThread("Sensor: unable to read touch sensor");
+    }
   }
 
   private void FetchUltrasonicSensor() {
@@ -91,10 +129,16 @@ public class SensorsService extends RobotWorkerBase {
     // close all sensor ports
     Synchronizer.RunNotConcurrent(() -> {
       try{
-        this.ultrasonicSensorConnection.close();
+        this.ultrasonicConnection.close();
         Thread.sleep(100);
       } catch (Exception ignored) {
         Logger.WarnCrossThread("Sensor Service, Error closing the ultrasonic sensor port");
+      }
+      try{
+        this.rmiTouchMode.close();
+        Thread.sleep(100);
+      } catch (Exception ignored) {
+        Logger.WarnCrossThread("Sensor Service, Error closing the touch sensor port");
       }
       try{
         this.colourSensorConnection.close();

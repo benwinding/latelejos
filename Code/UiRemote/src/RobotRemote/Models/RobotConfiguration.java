@@ -21,4 +21,5 @@ public class RobotConfiguration {
   public int updateIntervalUi_ms = 200;
   public String sensorPortUltra = "S3";
   public String sensorPortColour = "S4";
+  public String sensorPortTouch = "S1";
 }
