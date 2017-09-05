@@ -27,7 +27,7 @@ public final class MovementEventListener {
   @Subscribe
   public void OnManualControl(EventManualControl event) {
     Logger.LogCrossThread("Received Manual Command: " + event.getCommand());
-    this.movePreciseThread.stop();
+    this.movePreciseThread.kill();
     switch (event.getCommand()) {
       case Forward:
         this.moveStraightThread.MoveForward();
@@ -47,7 +47,7 @@ public final class MovementEventListener {
       case Ignore:
       default:
         this.moveStraightThread.kill();
-        this.movePreciseThread.stop();
+        this.movePreciseThread.kill();
     }
   }
 
@@ -70,7 +70,7 @@ public final class MovementEventListener {
 
     Logger.LogCrossThread("Received Precise Point to go to:: x:"+nextWayPoint.getX() + ",y:" + nextWayPoint.getY());
     this.moveStraightThread.kill();
-    this.movePreciseThread.stop();
+    this.movePreciseThread.kill();
     this.movePreciseThread.moveToWaypoint(nextWayPoint);
   }
 
