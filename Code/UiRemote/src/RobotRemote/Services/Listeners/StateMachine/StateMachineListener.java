@@ -111,7 +111,7 @@ public class StateMachineListener{
 
   @Subscribe
   public void OnEventRobotmode(EventRobotmode event) {
-    Logger.LogCrossThread("changed");
+    Logger.LogCrossThread("Robot mode changed");
 
   }
 

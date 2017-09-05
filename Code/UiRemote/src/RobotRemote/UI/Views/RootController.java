@@ -65,6 +65,7 @@ public class RootController implements Initializable {
   private UiState uiState;
   private EventBus eventBus;
   private RobotConnectionService connectionService;
+  private String state;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,6 +77,7 @@ public class RootController implements Initializable {
     this.uiState = uiState;
     this.eventBus = eventBus;
     this.connectionService = connectionService;
+    this.state="Manual";
     this.initStatus();
     this.initMap();
     this.initSwitch();
@@ -99,7 +101,7 @@ public class RootController implements Initializable {
   }
 
   private void initSwitch() {
-    this.switchmode.setText("Manual");
+    this.switchmode.setText("Switch Mode");
   }
 
   public void keyPressed(KeyEvent e) {
@@ -127,12 +129,14 @@ public class RootController implements Initializable {
   }
 
   public void onClickSwitch(MouseEvent mouseEvent){
-    if(this.switchmode.getText() == "Auto") {
-        this.switchmode.setText("Manual");
+    if(state == "Auto") {
+       // this.switchmode.setText("Manual");
+      state="Manual";
         this.RobotMode.setText("Manual");
     }
     else{
-      this.switchmode.setText("Auto");
+      //this.switchmode.setText("Auto");
+      state="Auto";
       this.RobotMode.setText("Auto");
     }
     eventBus.post(new EventRobotmode());
