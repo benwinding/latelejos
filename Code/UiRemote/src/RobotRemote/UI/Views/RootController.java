@@ -72,7 +72,7 @@ public class RootController implements Initializable {
     Logger.log("UI Loaded!");
   }
 
-  public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus, RobotConnectionService connectionService) {
+  public void Init(RobotConfiguration config, EventBus eventBus, UiState uiState, RobotConnectionService connectionService) {
     this.config = config;
     this.uiState = uiState;
     this.eventBus = eventBus;

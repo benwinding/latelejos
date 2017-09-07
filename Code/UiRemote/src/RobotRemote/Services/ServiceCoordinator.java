@@ -19,9 +19,15 @@ public class ServiceCoordinator {
   }
 
   public void StartAllThreads() {
-    this.uiUpdaterService.start();
-    if(robotConnectionService.IsConnected())
-      this.sensorService.start();
+    // Run start up in the background so the GUI can load quicker
+    Thread startUp = new Thread(() -> {
+      this.uiUpdaterService.start();
+      this.robotConnectionService.InitializeBrick();
+      this.movementListener.Initialize();
+      if(this.robotConnectionService.IsConnected())
+        this.sensorService.start();
+    });
+    startUp.start();
   }
 
   public void StopAllThreads() {

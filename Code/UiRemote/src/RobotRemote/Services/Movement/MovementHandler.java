@@ -5,23 +5,32 @@ import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Services.Connection.RobotConnectionService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Waypoint;
 
 public final class MovementHandler {
-  private final MoveStraightThread moveStraightThread;
-  private final MoveTurnSynchronous moveTurnSynchronous;
-  private final MovePreciseThread movePreciseThread;
-  private final AppStateRepository appState;
+  private RobotConfiguration config;
+  private RobotConnectionService connectionService;
+  private AppStateRepository appState;
+  private MoveStraightThread moveStraightThread;
+  private MoveTurnSynchronous moveTurnSynchronous;
+  private MovePreciseThread movePreciseThread;
 
-  public MovementHandler(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appState, EventBus eventBus) {
+  public MovementHandler(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appState, EventBus eventBus) {
+    eventBus.register(this);
+    this.config = config;
+    this.connectionService = connectionService;
     this.appState = appState;
+  }
+
+  public void Initialize() {
+    ArcRotateMoveController pilot = PilotFactory.GetPilot(this.config, this.connectionService);
     this.moveStraightThread = new MoveStraightThread(config, pilot, appState.getLocationState(), appState.getMovementState());
     this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appState.getLocationState(), appState.getMovementState());
     this.movePreciseThread = new MovePreciseThread(pilot, appState.getLocationState(), appState.getMovementState());
-    eventBus.register(this);
   }
 
   @Subscribe
