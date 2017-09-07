@@ -74,7 +74,6 @@ public class Main extends Application {
     rootController.Init(
         robotConfiguration,
         eventBus,
-        robotConnectionService,
         appStateRepository
     );
 

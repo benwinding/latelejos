@@ -87,7 +87,7 @@
                   </ToolBar>
                 </VBox>
               </TitledPane>
-              <TitledPane collapsible="false" prefWidth="180.0" text="Switch Mode" AnchorPane.rightAnchor="0.0">
+              <TitledPane collapsible="false" maxWidth="200" prefWidth="180.0" text="Switch Mode" AnchorPane.rightAnchor="0.0">
                 <HBox alignment="CENTER">
                   <VBox alignment="CENTER">
                     <Button fx:id="switchmode" onMouseClicked="#onClickSwitch" prefHeight="66.0" prefWidth="132.0" />
@@ -96,7 +96,7 @@
               </TitledPane>
             </HBox>
             <TitledPane collapsible="false" minHeight="300" text="Manual Controls">
-              <HBox alignment="CENTER" >
+              <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
                   <Button id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
                   <HBox alignment="CENTER">
@@ -108,7 +108,7 @@
                 </VBox>
               </HBox>
             </TitledPane>
-            <TabPane>
+            <TabPane maxWidth="360">
               <Tab text="System Log">
                 <TextArea fx:id="messageDisplayer" editable="false" wrapText="true" />
               </Tab>

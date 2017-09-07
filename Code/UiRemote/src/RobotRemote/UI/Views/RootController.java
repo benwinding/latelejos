@@ -6,7 +6,6 @@ import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
@@ -38,19 +37,18 @@ public class RootController implements Initializable {
   public Pane locationDetails;
   public Pane sensorDisplay;
 
+  @FXML
   RadioButton enterNgz;
+  @FXML
   RadioButton enterWaypoint;
-
   @FXML
   Button switchmode;
-
   @FXML
   Button RobotMode;
 
   private RobotConfiguration config;
   private UiState uiState;
   private EventBus eventBus;
-  private RobotConnectionService connectionService;
   private String state;
 
   @Override
@@ -58,11 +56,10 @@ public class RootController implements Initializable {
     Logger.log("UI Loaded!");
   }
 
-  public void Init(RobotConfiguration config, EventBus eventBus, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
+  public void Init(RobotConfiguration config, EventBus eventBus, AppStateRepository appStateRepository) {
     this.config = config;
     this.uiState = appStateRepository.getUiState();
     this.eventBus = eventBus;
-    this.connectionService = connectionService;
     this.state="Manual";
     this.initMap();
     this.initSwitch();

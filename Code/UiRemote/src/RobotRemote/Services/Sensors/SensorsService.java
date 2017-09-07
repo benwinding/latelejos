@@ -33,7 +33,7 @@ public class SensorsService extends RobotServiceBase {
   private RMISampleProvider rmiTouchMode;
 
   public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
-    super("Sensors Service", 100);
+    super("Sensors Service", 50);
     this.config = config;
     this.connectionService = connectionService;
     this.sensorsState = appStateRepository.getSensorsState();
