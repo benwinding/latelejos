@@ -26,12 +26,12 @@ public class AppStateRepository {
   public AppStateRepository(RobotConfiguration config) {
     sensorsState = new SensorsState();
     movementState = new MovementState();
-    locationState = new LocationState(config.initX,config.initY,config.initTheta);
+    locationState = new LocationState(config.initX, config.initY, config.initTheta);
     discoveredColoursState = new DiscoveredColoursState();
     uiUpdaterState = new UiUpdaterState(config.mapInitZoom, config.mapH, config.mapW);
     stateMachineState = new StateMachineState();
     uiState = new UiState(EnumCommandManual.Ignore);
-    userNoGoZoneState = new UserNoGoZoneState(config.ngzRows,config.ngzCols);
+    userNoGoZoneState = new UserNoGoZoneState(config.ngzRows, config.ngzCols);
     userWaypointsState = new UserWaypointsState();
   }
 

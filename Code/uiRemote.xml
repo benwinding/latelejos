@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="code" default="all">
+  
+  
+  <property file="uiRemote.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.ane"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.ev3classes.classpath">
+    <pathelement location="${basedir}/Robot/UiRemote/lib/ev3classes.jar"/>
+  </path>
+  
+  <path id="library.lib.classpath">
+    <pathelement location="${basedir}/UiRemote/lib/ev3classes.jar"/>
+    <pathelement location="${basedir}/UiRemote/lib/guava-21.0.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module UiRemote -->
+  
+  <dirname property="module.uiremote.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.uiremote" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.uiremote" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.uiremote" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.uiremote" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="uiremote.output.dir" value="${module.uiremote.basedir}/out/production/UiRemote"/>
+  <property name="uiremote.testoutput.dir" value="${module.uiremote.basedir}/out/test/UiRemote"/>
+  
+  <path id="uiremote.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="uiremote.module.production.classpath">
+    <path refid="${module.jdk.classpath.uiremote}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+  </path>
+  
+  <path id="uiremote.runtime.production.module.classpath">
+    <pathelement location="${uiremote.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+  </path>
+  
+  <path id="uiremote.module.classpath">
+    <path refid="${module.jdk.classpath.uiremote}"/>
+    <pathelement location="${uiremote.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+  </path>
+  
+  <path id="uiremote.runtime.module.classpath">
+    <pathelement location="${uiremote.testoutput.dir}"/>
+    <pathelement location="${uiremote.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.uiremote">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.uiremote">
+    <patternset refid="excluded.from.module.uiremote"/>
+  </patternset>
+  
+  <path id="uiremote.module.sourcepath">
+    <dirset dir="${module.uiremote.basedir}/UiRemote">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.uiremote" depends="compile.module.uiremote.production,compile.module.uiremote.tests" description="Compile module UiRemote"/>
+  
+  <target name="compile.module.uiremote.production" description="Compile module UiRemote; production classes">
+    <mkdir dir="${uiremote.output.dir}"/>
+    <javac destdir="${uiremote.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.uiremote}/javac">
+      <compilerarg line="${compiler.args.uiremote}"/>
+      <bootclasspath refid="uiremote.module.bootclasspath"/>
+      <classpath refid="uiremote.module.production.classpath"/>
+      <src refid="uiremote.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.uiremote"/>
+    </javac>
+    
+    <copy todir="${uiremote.output.dir}">
+      <fileset dir="${module.uiremote.basedir}/UiRemote/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.uiremote.tests" depends="compile.module.uiremote.production" description="compile module UiRemote; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.uiremote" description="cleanup module">
+    <delete dir="${uiremote.output.dir}"/>
+    <delete dir="${uiremote.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module Code -->
+  
+  <dirname property="module.code.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.code" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.code" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.code" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.code" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="code.output.dir" value="${module.code.basedir}/out/production/Code"/>
+  <property name="code.testoutput.dir" value="${module.code.basedir}/out/test/Code"/>
+  
+  <path id="code.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="code.module.production.classpath">
+    <path refid="${module.jdk.classpath.code}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+    <pathelement location="${uiremote.output.dir}"/>
+  </path>
+  
+  <path id="code.runtime.production.module.classpath">
+    <pathelement location="${code.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+    <path refid="uiremote.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="code.module.classpath">
+    <path refid="${module.jdk.classpath.code}"/>
+    <pathelement location="${code.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+    <pathelement location="${uiremote.testoutput.dir}"/>
+    <pathelement location="${uiremote.output.dir}"/>
+  </path>
+  
+  <path id="code.runtime.module.classpath">
+    <pathelement location="${code.testoutput.dir}"/>
+    <pathelement location="${code.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.ev3classes.classpath"/>
+    <path refid="uiremote.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.code">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.code">
+    <patternset refid="excluded.from.module.code"/>
+  </patternset>
+  
+  <path id="code.module.sourcepath">
+    <dirset dir="${module.code.basedir}">
+      <include name="Robot"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.code" depends="compile.module.code.production,compile.module.code.tests" description="Compile module Code"/>
+  
+  <target name="compile.module.code.production" depends="compile.module.uiremote" description="Compile module Code; production classes">
+    <mkdir dir="${code.output.dir}"/>
+    <javac destdir="${code.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.code}/javac">
+      <compilerarg line="${compiler.args.code}"/>
+      <bootclasspath refid="code.module.bootclasspath"/>
+      <classpath refid="code.module.production.classpath"/>
+      <src refid="code.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.code"/>
+    </javac>
+    
+    <copy todir="${code.output.dir}">
+      <fileset dir="${module.code.basedir}/Robot">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.code.tests" depends="compile.module.code.production" description="compile module Code; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.code" description="cleanup module">
+    <delete dir="${code.output.dir}"/>
+    <delete dir="${code.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.uiremote, clean.module.code" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.uiremote, compile.module.code" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
