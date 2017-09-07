@@ -1,4 +1,4 @@
-package RobotRemote.Services.Listeners.Movement;
+package RobotRemote.Services.Movement;
 
 import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.MotorsEnum;

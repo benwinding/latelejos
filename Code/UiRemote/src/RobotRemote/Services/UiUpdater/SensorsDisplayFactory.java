@@ -1,7 +1,7 @@
 package RobotRemote.Services.UiUpdater;
 
 import RobotRemote.Helpers.ColourTranslator;
-import RobotRemote.Services.SensorService.SensorsState;
+import RobotRemote.Services.Sensors.SensorsState;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

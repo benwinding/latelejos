@@ -1,4 +1,4 @@
-package RobotRemote.Services.Listeners.Connection;
+package RobotRemote.Services.Connection;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.Synchronizer;

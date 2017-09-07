@@ -1,4 +1,4 @@
-package RobotRemote.Services.Mocks;
+package RobotRemote.Services.Movement.Mocks;
 
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Move;

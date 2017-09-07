@@ -1,4 +1,4 @@
-package RobotRemote.Services.SensorService;
+package RobotRemote.Services.Sensors;
 
 import RobotRemote.Models.MapPoint;
 

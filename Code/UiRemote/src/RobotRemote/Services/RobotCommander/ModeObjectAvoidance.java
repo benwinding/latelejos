@@ -1,8 +1,8 @@
-package RobotRemote.Services.Listeners.StateMachine;
+package RobotRemote.Services.RobotCommander;
 
-import RobotRemote.Services.RobotWorkerBase;
+import RobotRemote.Services.RobotServiceBase;
 
-public class ModeObjectAvoidance extends RobotWorkerBase {
+public class ModeObjectAvoidance extends RobotServiceBase {
   public ModeObjectAvoidance() {
     super("Mode Object Avoidance", 80);
   }

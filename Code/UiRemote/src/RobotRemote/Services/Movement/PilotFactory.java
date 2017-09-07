@@ -1,9 +1,9 @@
-package RobotRemote.Services.Listeners.Movement;
+package RobotRemote.Services.Movement;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
-import RobotRemote.Services.Mocks.TestArcPilot;
+import RobotRemote.Services.Connection.RobotConnectionService;
+import RobotRemote.Services.Movement.Mocks.TestArcPilot;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
 public class PilotFactory {

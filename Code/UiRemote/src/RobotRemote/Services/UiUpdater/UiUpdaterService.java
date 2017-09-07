@@ -3,8 +3,8 @@ package RobotRemote.Services.UiUpdater;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.RobotWorkerBase;
-import RobotRemote.Services.SensorService.SensorsState;
+import RobotRemote.Services.RobotServiceBase;
+import RobotRemote.Services.Sensors.SensorsState;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Platform;
@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
-public class UiUpdaterService extends RobotWorkerBase {
+public class UiUpdaterService extends RobotServiceBase {
   private AppStateRepository appStateRepository;
   private RootController rootController;
   private EventBus eventBus;
@@ -71,7 +71,7 @@ public class UiUpdaterService extends RobotWorkerBase {
     rootController.map.getChildren().clear();
     MapLayerFactory mapFactory =
         new MapLayerFactory(
-        appStateRepository);
+            appStateRepository);
     List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
     // Add to GUI
     rootController.map.getChildren().clear();

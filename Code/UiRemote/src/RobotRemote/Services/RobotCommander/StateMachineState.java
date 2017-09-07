@@ -1,6 +1,6 @@
-package RobotRemote.Services.Listeners.StateMachine;
+package RobotRemote.Services.RobotCommander;
 
-import RobotRemote.Models.EnumOperationMode;
+import RobotRemote.Models.Enums.EnumOperationMode;
 
 public class StateMachineState {
   private EnumOperationMode currentState;

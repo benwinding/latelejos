@@ -1,13 +1,13 @@
-package RobotRemote.Services.Listeners.Movement;
+package RobotRemote.Services.Movement;
 
 import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Services.RobotWorkerBase;
+import RobotRemote.Services.RobotServiceBase;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
 import static RobotRemote.Models.MotorsEnum.*;
 
-class MoveStraightThread extends RobotWorkerBase {
+class MoveStraightThread extends RobotServiceBase {
   private double linearDistanceInterval;
   private MovementState movementState;
   private ArcRotateMoveController pilot;

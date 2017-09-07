@@ -1,12 +1,12 @@
-package RobotRemote.Services.Listeners.Movement;
+package RobotRemote.Services.Movement;
 
 import RobotRemote.Helpers.Synchronizer;
-import RobotRemote.Services.RobotWorkerBase;
+import RobotRemote.Services.RobotServiceBase;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Navigator;
 import lejos.robotics.navigation.Waypoint;
 
-public class MovePreciseThread extends RobotWorkerBase{
+public class MovePreciseThread extends RobotServiceBase {
   private LocationState locationState;
   private Navigator navigator;
   private Waypoint waypoint;

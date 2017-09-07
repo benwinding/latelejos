@@ -1,4 +1,4 @@
-package RobotRemote.Models;
+package RobotRemote.Models.Enums;
 
 public enum EnumCommandManual {
   Ignore,

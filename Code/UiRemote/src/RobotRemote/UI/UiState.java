@@ -1,6 +1,6 @@
 package RobotRemote.UI;
 
-import RobotRemote.Models.EnumCommandManual;
+import RobotRemote.Models.Enums.EnumCommandManual;
 
 public class UiState {
   private EnumCommandManual currentCommand;

@@ -1,11 +1,11 @@
 package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.EnumCommandManual;
-import RobotRemote.Models.EnumZoomCommand;
+import RobotRemote.Models.Enums.EnumCommandManual;
+import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;

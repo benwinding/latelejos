@@ -1,14 +1,14 @@
 package RobotRemote.Repositories;
 
-import RobotRemote.Models.EnumCommandManual;
+import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Services.Listeners.Movement.LocationState;
-import RobotRemote.Services.Listeners.Movement.MovementState;
-import RobotRemote.Services.Listeners.StateMachine.StateMachineState;
 import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
 import RobotRemote.Services.MapHandlers.UserWaypointsState;
-import RobotRemote.Services.SensorService.DiscoveredColoursState;
-import RobotRemote.Services.SensorService.SensorsState;
+import RobotRemote.Services.Movement.LocationState;
+import RobotRemote.Services.Movement.MovementState;
+import RobotRemote.Services.RobotCommander.StateMachineState;
+import RobotRemote.Services.Sensors.DiscoveredColoursState;
+import RobotRemote.Services.Sensors.SensorsState;
 import RobotRemote.Services.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
 

@@ -3,14 +3,14 @@ package RobotRemote;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
-import RobotRemote.Services.Listeners.Movement.MovementEventListener;
-import RobotRemote.Services.Listeners.Movement.PilotFactory;
-import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
+import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
-import RobotRemote.Services.SensorService.SensorsService;
+import RobotRemote.Services.Movement.MovementEventListener;
+import RobotRemote.Services.Movement.PilotFactory;
+import RobotRemote.Services.RobotCommander.StateMachineListener;
+import RobotRemote.Services.Sensors.SensorsService;
+import RobotRemote.Services.ServiceCoordinator;
 import RobotRemote.Services.ServiceLocator;
-import RobotRemote.Services.ServiceUmpire;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
@@ -23,7 +23,7 @@ import lejos.robotics.navigation.ArcRotateMoveController;
 
 public class Main extends Application {
 
-  private ServiceUmpire serviceUmpire;
+  private ServiceCoordinator serviceCoordinator;
 
   @Override
   public void start(Stage primaryStage) throws Exception{
@@ -71,8 +71,8 @@ public class Main extends Application {
         movementListener
     );
     // Spin up threads
-    serviceUmpire = new ServiceUmpire(serviceLocator);
-    serviceUmpire.StartAllThreads();
+    serviceCoordinator = new ServiceCoordinator(serviceLocator);
+    serviceCoordinator.StartAllThreads();
 
     rootController.Init(robotConfiguration, appStateRepository.getUiState(), eventBus, robotConnectionService);
 
@@ -86,7 +86,7 @@ public class Main extends Application {
   @Override
   public void stop(){
     System.out.println("Stage is closing");
-    serviceUmpire.StopAllThreads();
+    serviceCoordinator.StopAllThreads();
   }
 
   public static void main(String[] args) {

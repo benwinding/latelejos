@@ -1,8 +1,8 @@
 package RobotRemote.Services;
 
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
-import RobotRemote.Services.Listeners.Movement.MovementEventListener;
-import RobotRemote.Services.SensorService.SensorsService;
+import RobotRemote.Services.Connection.RobotConnectionService;
+import RobotRemote.Services.Movement.MovementEventListener;
+import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
 
 public class ServiceLocator {

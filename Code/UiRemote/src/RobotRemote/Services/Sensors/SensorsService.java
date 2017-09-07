@@ -1,13 +1,13 @@
-package RobotRemote.Services.SensorService;
+package RobotRemote.Services.Sensors;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
-import RobotRemote.Services.Listeners.Movement.LocationState;
-import RobotRemote.Services.RobotWorkerBase;
+import RobotRemote.Services.Connection.RobotConnectionService;
+import RobotRemote.Services.Movement.LocationState;
+import RobotRemote.Services.RobotServiceBase;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -17,7 +17,7 @@ import lejos.remote.ev3.RemoteEV3;
 
 import java.rmi.RemoteException;
 
-public class SensorsService extends RobotWorkerBase {
+public class SensorsService extends RobotServiceBase {
   private DiscoveredColoursState discoveredColoursState;
   private LocationState locationState;
   private RobotConfiguration config;

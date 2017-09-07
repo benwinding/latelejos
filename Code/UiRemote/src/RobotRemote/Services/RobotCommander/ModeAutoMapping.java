@@ -1,8 +1,8 @@
-package RobotRemote.Services.Listeners.StateMachine;
+package RobotRemote.Services.RobotCommander;
 
-import RobotRemote.Services.RobotWorkerBase;
+import RobotRemote.Services.RobotServiceBase;
 
-public class ModeAutoMapping extends RobotWorkerBase {
+public class ModeAutoMapping extends RobotServiceBase {
   public ModeAutoMapping() {
     super("Mode Automatic", 80);
   }
