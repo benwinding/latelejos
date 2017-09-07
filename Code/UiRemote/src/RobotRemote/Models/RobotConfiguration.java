@@ -17,7 +17,7 @@ public class RobotConfiguration {
   public float robotTrackWidth = 13f; // Tested on hard surface, Will not be accurate on carpet
   public String wheelPortLeft = "A";
   public String wheelPortRight = "B";
-  public int updateIntervalMoving_ms = 100;
+  public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 200;
   public String sensorPortUltra = "S3";
   public String sensorPortColour = "S4";

@@ -23,7 +23,6 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnUserAddWaypoint(EventUserAddWaypoint event) {
-    Logger.log("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
     // Account for zoom on map
     float mapH = uiUpdaterState.getMapH();
     float mapW = uiUpdaterState.getMapW();
@@ -36,13 +35,13 @@ public class MapInputEventHandlers {
     // Scale mouse to actual map xy coordinates
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
+    Logger.log("Received UserAddNgz, x:" + scaleX + ", y:" + scaleY);
 
     userWaypointsState.AddWayPoint(scaleX,scaleY);
   }
 
   @Subscribe
   public void OnUserAddNgz(EventUserAddNgz event) {
-    Logger.log("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
     // Account for zoom on map
     float mapH = uiUpdaterState.getMapH();
     float mapW = uiUpdaterState.getMapW();
@@ -56,6 +55,7 @@ public class MapInputEventHandlers {
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
 
+    Logger.log("Received UserAddNgz, x:" + scaleX + ", y:" + scaleY);
     int cols = userNoGoZoneState.countGridRows();
     int rows = userNoGoZoneState.countGridCols();
 

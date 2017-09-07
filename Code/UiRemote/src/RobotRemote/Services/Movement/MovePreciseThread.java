@@ -12,7 +12,7 @@ public class MovePreciseThread extends RobotServiceBase {
   private Waypoint waypoint;
 
   MovePreciseThread(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
-    super("Move Precisely", 100);
+    super("Move Precisely", 50);
     this.locationState = locationState;
     this.navigator = NavigatorFactory.CreateNavigator(pilot, locationState, movementState);
   }
@@ -30,7 +30,7 @@ public class MovePreciseThread extends RobotServiceBase {
       while(!thread.isInterrupted() && navigator.isMoving()) {
         // This blocks other communication to ev3 during navigator.goTo() call
         try {
-          Thread.sleep(100);
+          Thread.sleep(50);
         } catch (Exception ignored) {
         }
       }

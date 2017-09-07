@@ -67,4 +67,11 @@ class MoveStraightThread extends RobotServiceBase {
     });
     this.kill();
   }
+
+  void MoveDistance(int distance) {
+    Synchronizer.RunNotConcurrent(() -> {
+      pilot.travel(distance, true);
+      this.locationState.GoingStraight(distance);
+    });
+  }
 }
