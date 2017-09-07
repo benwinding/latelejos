@@ -22,7 +22,7 @@ public class UiUpdaterService extends RobotServiceBase {
   private EventBus eventBus;
 
   public UiUpdaterService(RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController, EventBus eventBus) {
-    super("GUI Updater Service", robotConfiguration.updateIntervalUi_ms);
+    super("UI Updater Service", robotConfiguration.updateIntervalUi_ms);
     this.appStateRepository = appStateRepository;
     this.rootController = rootController;
     this.eventBus = eventBus;
@@ -33,18 +33,18 @@ public class UiUpdaterService extends RobotServiceBase {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        UpdateGuiThreadSafe();
+        UpdateUiThreadSafe();
       }
     });
   }
 
-  private void UpdateGuiThreadSafe() {
-    UpdateMapOnGUI();
-    UpdateLocationOnGUI();
-    UpdateSensorsOnGUI(appStateRepository.getSensorsState());
+  private void UpdateUiThreadSafe() {
+    UpdateMapOnUi();
+    UpdateLocationOnUi();
+    UpdateSensorsOnUi(appStateRepository.getSensorsState());
   }
 
-  private void UpdateLocationOnGUI() {
+  private void UpdateLocationOnUi() {
     Pane vbox = new VBox();
     MapPoint pos = appStateRepository.getLocationState().GetCurrentPosition();
     AddTextToPane(vbox, String.format("x: %d, y: %d, rot: %d", Math.round(pos.x), Math.round(pos.y), Math.round(pos.theta)));
@@ -61,13 +61,13 @@ public class UiUpdaterService extends RobotServiceBase {
     pane.getChildren().add(newText);
   }
 
-  private void UpdateSensorsOnGUI(SensorsState sensorsState) {
+  private void UpdateSensorsOnUi(SensorsState sensorsState) {
     Node sensorsGraph = SensorsDisplayLayerFactory.CreateSensorsGraph(sensorsState);
     rootController.sensorDisplay.getChildren().clear();
     rootController.sensorDisplay.getChildren().add(sensorsGraph);
   }
 
-  private void UpdateMapOnGUI() {
+  private void UpdateMapOnUi() {
     MapLocationsLayersFactory mapLocationLayersFactory = new MapLocationsLayersFactory(appStateRepository);
     List<Canvas> mapLocationLayers = mapLocationLayersFactory.CreateMapLayers();
 

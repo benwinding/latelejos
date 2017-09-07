@@ -12,17 +12,17 @@ import javafx.scene.paint.Color;
 class SensorsDisplayLayerFactory {
   static Node CreateSensorsGraph(SensorsState sensorsState) {
     VBox vbox = new VBox();
-    Canvas graphUltra = CreateGuiSensorUltra(sensorsState.getUltraReading());
-    Canvas graphColourR = CreateGuiSensorColour("Red", sensorsState.getColourReadingR(), Color.RED);
-    Canvas graphColourG = CreateGuiSensorColour("Green", sensorsState.getColourReadingG(), Color.GREEN);
-    Canvas graphColourB = CreateGuiSensorColour("Blue", sensorsState.getColourReadingB(), Color.BLUE);
-    Canvas outputColourId = CreateGuiColourId(sensorsState.getColourId());
-    Canvas touchGui = CreateGuiTouch(sensorsState.getTouchReading() == 1.0f);
+    Canvas graphUltra = CreateUiSensorUltra(sensorsState.getUltraReading());
+    Canvas graphColourR = CreateUiSensorColour("Red", sensorsState.getColourReadingR(), Color.RED);
+    Canvas graphColourG = CreateUiSensorColour("Green", sensorsState.getColourReadingG(), Color.GREEN);
+    Canvas graphColourB = CreateUiSensorColour("Blue", sensorsState.getColourReadingB(), Color.BLUE);
+    Canvas outputColourId = CreateUiColourId(sensorsState.getColourId());
+    Canvas touchUi = CreateUiTouch(sensorsState.getTouchReading() == 1.0f);
 
     vbox.getChildren().add(graphUltra);
     FlowPane fp = new FlowPane();
     fp.getChildren().add(outputColourId);
-    fp.getChildren().add(touchGui);
+    fp.getChildren().add(touchUi);
     vbox.getChildren().add(fp);
     vbox.getChildren().add(graphColourR);
     vbox.getChildren().add(graphColourG);
@@ -30,7 +30,7 @@ class SensorsDisplayLayerFactory {
     return vbox;
   }
 
-  private static Canvas CreateGuiTouch(boolean isTouched) {
+  private static Canvas CreateUiTouch(boolean isTouched) {
     Canvas layer = new Canvas(110,50);
     GraphicsContext gc = layer.getGraphicsContext2D();
     if(isTouched) {
@@ -46,7 +46,7 @@ class SensorsDisplayLayerFactory {
     return layer;
   }
 
-  private static Canvas CreateGuiColourId(int colourId) {
+  private static Canvas CreateUiColourId(int colourId) {
     Canvas layer = new Canvas(180,50);
     GraphicsContext gc = layer.getGraphicsContext2D();
     String colourName = ColourTranslator.GetColourName(colourId);
@@ -56,7 +56,7 @@ class SensorsDisplayLayerFactory {
     return layer;
   }
 
-  private static Canvas CreateGuiSensorColour(String colourSensorName, double colourReadingR, Color barColour) {
+  private static Canvas CreateUiSensorColour(String colourSensorName, double colourReadingR, Color barColour) {
     Canvas layer = new Canvas(300,30);
     GraphicsContext gc = layer.getGraphicsContext2D();
     double sensorValColourR = colourReadingR * 1000;
@@ -66,7 +66,7 @@ class SensorsDisplayLayerFactory {
     return layer;
   }
 
-  private static Canvas CreateGuiSensorUltra(double ultraReading) {
+  private static Canvas CreateUiSensorUltra(double ultraReading) {
     Canvas layer = new Canvas(400,50);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
