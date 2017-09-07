@@ -17,7 +17,7 @@ class SensorsDisplayLayerFactory {
     Canvas graphColourG = CreateUiSensorColour("Green", sensorsState.getColourReadingG(), Color.GREEN);
     Canvas graphColourB = CreateUiSensorColour("Blue", sensorsState.getColourReadingB(), Color.BLUE);
     Canvas outputColourId = CreateUiColourId(sensorsState.getColourId());
-    Canvas touchUi = CreateUiTouch(sensorsState.getTouchReading() == 1.0f);
+    Canvas touchUi = CreateUiSensorTouch(sensorsState.getTouchReading() == 1.0f);
 
     vbox.getChildren().add(graphUltra);
     FlowPane fp = new FlowPane();
@@ -30,52 +30,52 @@ class SensorsDisplayLayerFactory {
     return vbox;
   }
 
-  private static Canvas CreateUiTouch(boolean isTouched) {
+  private static Canvas CreateUiSensorTouch(boolean isTouched) {
     Canvas layer = new Canvas(110,50);
     GraphicsContext gc = layer.getGraphicsContext2D();
     if(isTouched) {
       gc.setFill(Color.LIGHTGREEN);
-      gc.fillRect(0,0,60,30);
-      gc.strokeText(("Pressed!"),10, 15);
+      gc.fillRect(0,0,110,40);
+      gc.strokeText(("Touch Sensor \nPressed!"),10, 18);
     }
     else {
       gc.setFill(Color.LIGHTGRAY);
-      gc.fillRect(0,0,60,30);
-      gc.strokeText(("Inactive"),10, 15);
+      gc.fillRect(0,0,110,40);
+      gc.strokeText(("Touch Sensor \nInactive"),10, 16);
     }
     return layer;
   }
 
   private static Canvas CreateUiColourId(int colourId) {
-    Canvas layer = new Canvas(180,50);
+    Canvas layer = new Canvas(210,50);
     GraphicsContext gc = layer.getGraphicsContext2D();
     String colourName = ColourTranslator.GetColourName(colourId);
     gc.setFill(Color.web(colourName));
-    gc.fillRect(0,0,30,30);
-    gc.strokeText(("Detecting Colour: " + colourName),40, 15);
+    gc.fillRect(10,0,40,40);
+    gc.strokeText(("Colour ID: " + colourName),60, 25);
     return layer;
   }
 
   private static Canvas CreateUiSensorColour(String colourSensorName, double colourReadingR, Color barColour) {
-    Canvas layer = new Canvas(300,30);
+    Canvas layer = new Canvas(300,31);
     GraphicsContext gc = layer.getGraphicsContext2D();
     double sensorValColourR = colourReadingR * 1000;
     gc.setFill(barColour);
-    gc.fillRect(0,0,sensorValColourR,20);
-    gc.strokeText(String.format("%s Value: %.2f", colourSensorName, sensorValColourR),10, 15);
+    gc.strokeText(String.format("%s: %.2f", colourSensorName, sensorValColourR),10, 10);
+    gc.fillRect(10,11,sensorValColourR,15);
     return layer;
   }
 
   private static Canvas CreateUiSensorUltra(double ultraReading) {
-    Canvas layer = new Canvas(400,50);
+    Canvas layer = new Canvas(400,60);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     double sensorValUltra = ultraReading*100;
     if(sensorValUltra < 0)
       sensorValUltra = 0;
     gc.setFill(Color.YELLOW);
-    gc.fillRect(0,0,sensorValUltra*30,40);
-    gc.strokeText(String.format("Ultransonic Value: %.2f", sensorValUltra),10, 25);
+    gc.fillRect(10,20,sensorValUltra*25,30);
+    gc.strokeText(String.format("Ultransonic Value: %.1f cm", sensorValUltra),10, 20);
     return layer;
   }
 }

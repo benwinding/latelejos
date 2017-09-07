@@ -142,18 +142,19 @@ public class SensorsService extends RobotServiceBase {
     Synchronizer.RunNotConcurrent(() -> {
       try{
         this.ultrasonicConnection.close();
-        Thread.sleep(100);
+        Thread.sleep(200);
       } catch (Exception ignored) {
         Logger.warn("Sensor Service, Error closing the ultrasonic sensor port");
       }
       try{
         this.rmiTouchMode.close();
-        Thread.sleep(100);
+        Thread.sleep(200);
       } catch (Exception ignored) {
         Logger.warn("Sensor Service, Error closing the touch sensor port");
       }
       try{
         this.colourSensorConnection.close();
+        Thread.sleep(200);
       } catch (Exception ignored) {
         Logger.warn("Sensor Service, Error closing the colour sensor port");
       }
