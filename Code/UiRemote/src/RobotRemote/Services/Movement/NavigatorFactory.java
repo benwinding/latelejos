@@ -25,7 +25,9 @@ public class NavigatorFactory {
       public void pathComplete(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathComplete);
         Logger.log("NAV: complete, way point , x:" + waypoint.getX() + ", y:" + waypoint.getY());
-        locationState.GoingToWayPoint(waypoint);
+        Pose currentPose = locationState.GetCurrentPose();
+        pose.angleTo(waypoint);
+        locationState.GoingToPose(currentPose);
         pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
         pose.setHeading((float) waypoint.getHeading());
         poseProvider.setPose(pose);

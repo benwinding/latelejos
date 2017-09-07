@@ -4,7 +4,6 @@ import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Services.RobotServiceBase;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Navigator;
-import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
 
 public class MovePreciseThread extends RobotServiceBase {
@@ -27,9 +26,7 @@ public class MovePreciseThread extends RobotServiceBase {
   protected void Repeat() {
     Synchronizer.RunNotConcurrent(() -> {
       navigator.getPoseProvider().setPose(locationState.GetCurrentPose());
-      locationState.GoingStraight(30);
-      Pose c = locationState.GetCurrentPose();
-      navigator.goTo(new Waypoint(c.getX(),c.getY(),c.getHeading()));
+      navigator.goTo(waypoint);
       while(!thread.isInterrupted() && navigator.isMoving()) {
         // This blocks other communication to ev3 during navigator.goTo() call
         try {

@@ -19,6 +19,21 @@ public class LocationState {
     return this.pointsVisited;
   }
 
+  public MapPoint GetCurrentPosition() {
+    int size = this.pointsVisited.size();
+    return this.pointsVisited.get(size - 1);
+  }
+
+  public MapPoint GetCurrentColourSensorPosition() {
+    MapPoint curr = GetCurrentPosition();
+    Pose sensorPose = new Pose();
+    sensorPose.setLocation((float) curr.x, (float) curr.y);
+    sensorPose.setHeading((float) curr.theta);
+    // Sensor offset from from of robot
+    sensorPose.moveUpdate((float) -40);
+    return new MapPoint(sensorPose.getX(), sensorPose.getY(), sensorPose.getHeading());
+  }
+
   Pose GetCurrentPose() {
     MapPoint current = GetCurrentPosition();
     Pose newPose = new Pose();
@@ -27,13 +42,13 @@ public class LocationState {
     return newPose;
   }
 
-  public MapPoint GetCurrentPosition() {
-    int size = this.pointsVisited.size();
-    return this.pointsVisited.get(size - 1);
-  }
-
   void GoingToWayPoint(Waypoint waypoint) {
     MapPoint newPoint = new MapPoint(waypoint.getX(), waypoint.getY(), waypoint.getHeading());
+    this.pointsVisited.add(newPoint);
+  }
+
+  void GoingToPose(Pose pose) {
+    MapPoint newPoint = new MapPoint(pose.getX(), pose.getY(), pose.getHeading());
     this.pointsVisited.add(newPoint);
   }
 
@@ -49,16 +64,6 @@ public class LocationState {
     pose.setHeading((float) curr.theta);
     pose.moveUpdate((float) distance);
     GoingToPoint(pose.getX(),pose.getY(),pose.getHeading());
-  }
-
-  public MapPoint GetCurrentColourSensorPosition() {
-    MapPoint curr = GetCurrentPosition();
-    Pose sensorPose = new Pose();
-    sensorPose.setLocation((float) curr.x, (float) curr.y);
-    sensorPose.setHeading((float) curr.theta);
-    // Sensor offset from from of robot
-    sensorPose.moveUpdate((float) -40);
-    return new MapPoint(sensorPose.getX(), sensorPose.getY(), sensorPose.getHeading());
   }
 
   void ChangingHeading(double angle) {
