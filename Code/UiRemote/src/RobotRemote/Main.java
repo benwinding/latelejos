@@ -7,6 +7,7 @@ import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.Listeners.Movement.MovementEventListener;
 import RobotRemote.Services.Listeners.Movement.PilotFactory;
 import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
+import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
 import RobotRemote.Services.Workers.SensorService.SensorsService;
@@ -49,6 +50,9 @@ public class Main extends Application {
     // Worker threads
     SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository.getSensorsState());
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
+
+    // Ui Event Listener
+    MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(appStateRepository, eventBus);
 
     // Instantiate movement listener
     ArcRotateMoveController pilot = PilotFactory.GetPilot(robotConnectionService, robotConfiguration);

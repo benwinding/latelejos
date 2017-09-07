@@ -1,4 +1,4 @@
-package RobotRemote.Services.Listeners.StateMachine;
+package RobotRemote.Services.MapHandlers;
 
 import lejos.robotics.navigation.Waypoint;
 
