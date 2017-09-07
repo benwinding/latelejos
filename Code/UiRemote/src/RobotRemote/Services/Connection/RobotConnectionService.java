@@ -19,11 +19,11 @@ public class RobotConnectionService {
       BrickInfo firstEv3 = bricks[0];
       BrickInstanceRequest = new RemoteRequestEV3(firstEv3.getIPAddress());
       BrickInstanceRemoteEv3 = new RemoteEV3(firstEv3.getIPAddress());
-      Logger.Log("Found ev3!");
-      Logger.Log("Ip address: " + firstEv3.getIPAddress());
+      Logger.log("Found ev3!");
+      Logger.log("Ip address: " + firstEv3.getIPAddress());
     }
     catch (Exception e) {
-      Logger.Log("No ev3 robots detected in network");
+      Logger.log("No ev3 robots detected in network");
     }
   }
 

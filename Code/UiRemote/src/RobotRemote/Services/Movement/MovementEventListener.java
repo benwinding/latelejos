@@ -26,7 +26,7 @@ public final class MovementEventListener {
 
   @Subscribe
   public void OnManualControl(EventManualControl event) {
-    Logger.LogCrossThread("Received Manual Command: " + event.getCommand());
+    Logger.log("Received Manual Command: " + event.getCommand());
     this.movePreciseThread.kill();
     switch (event.getCommand()) {
       case Forward:
@@ -68,7 +68,7 @@ public final class MovementEventListener {
     double scaleY = mouseY / zoomLevel;
     Waypoint nextWayPoint = new Waypoint(scaleX, scaleY);
 
-    Logger.LogCrossThread("Received Precise Point to go to:: x:"+nextWayPoint.getX() + ",y:" + nextWayPoint.getY());
+    Logger.log("Received Precise Point to go to:: x:"+nextWayPoint.getX() + ",y:" + nextWayPoint.getY());
     this.moveStraightThread.kill();
     this.movePreciseThread.kill();
     this.movePreciseThread.moveToWaypoint(nextWayPoint);

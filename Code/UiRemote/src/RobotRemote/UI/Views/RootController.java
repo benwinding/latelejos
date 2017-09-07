@@ -69,7 +69,7 @@ public class RootController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    Logger.Log("UI Loaded!");
+    Logger.log("UI Loaded!");
   }
 
   public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus, RobotConnectionService connectionService) {
@@ -124,7 +124,7 @@ public class RootController implements Initializable {
         MoveMotors(EnumCommandManual.Stop);
         break;
       default:
-        Logger.Log("Key press:" + e.getCode() + " is not implemented");
+        Logger.log("Key press:" + e.getCode() + " is not implemented");
     }
   }
 
@@ -198,7 +198,7 @@ public class RootController implements Initializable {
 
   public void onClickMap(MouseEvent mouseEvent) {
     if(enterNgz.isSelected()) {
-      Logger.LogCrossThread("Event: Mouse click being posted");
+      Logger.log("Event: Mouse click being posted");
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
     }
     else if(enterWaypoint.isSelected()) {

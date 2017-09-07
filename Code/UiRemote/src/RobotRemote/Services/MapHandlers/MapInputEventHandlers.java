@@ -23,7 +23,7 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnUserAddWaypoint(EventUserAddWaypoint event) {
-    Logger.LogCrossThread("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
+    Logger.log("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
     // Account for zoom on map
     float mapH = uiUpdaterState.getMapH();
     float mapW = uiUpdaterState.getMapW();
@@ -42,7 +42,7 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnUserAddNgz(EventUserAddNgz event) {
-    Logger.LogCrossThread("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
+    Logger.log("Received UserAddNgz, x:" + event.getX() + ", y:" + event.getY());
     // Account for zoom on map
     float mapH = uiUpdaterState.getMapH();
     float mapW = uiUpdaterState.getMapW();
@@ -77,7 +77,7 @@ public class MapInputEventHandlers {
         uiUpdaterState.zoomReset();
         break;
     }
-    Logger.LogCrossThread("Event: Zoom factor changed to: " + uiUpdaterState.getZoomLevel());
+    Logger.log("Event: Zoom factor changed to: " + uiUpdaterState.getZoomLevel());
   }
 
   // Get the cell selected in a certain range

@@ -52,39 +52,39 @@ public class SensorsService extends RobotServiceBase {
 
   private void InitRmiTouchSensor() {
     try {
-      Logger.LogCrossThread("Opening touch sensor, on port: " + config.sensorPortTouch);
+      Logger.log("Opening touch sensor, on port: " + config.sensorPortTouch);
       RemoteEV3 ev3 = this.connectionService.GetBrickeRemoteEv3();
       this.rmiTouchMode = ev3.createSampleProvider("S1", "lejos.hardware.sensor.EV3TouchSensor", "Touch");
       Thread.sleep(50);
-      Logger.LogCrossThread("Success: opened touch sensor, on port: " + config.sensorPortTouch);
+      Logger.log("Success: opened touch sensor, on port: " + config.sensorPortTouch);
     } catch(Exception e) {
-      Logger.WarnCrossThread("Error: Unable to open touch sensor, on port: " + config.sensorPortTouch);
+      Logger.warn("Error: Unable to open touch sensor, on port: " + config.sensorPortTouch);
     }
   }
 
   private void InitUltrasonicSensor() {
     try {
-      Logger.LogCrossThread("Opening ultrasonic sensor, on port: " + config.sensorPortUltra);
+      Logger.log("Opening ultrasonic sensor, on port: " + config.sensorPortUltra);
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortUltra);
       this.ultrasonicConnection = new EV3UltrasonicSensor(port);
       this.ultrasonicMode = ultrasonicConnection.getMode("Distance");
       Thread.sleep(50);
-      Logger.LogCrossThread("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
+      Logger.log("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
     } catch(Exception e) {
-      Logger.WarnCrossThread("Error: Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
+      Logger.warn("Error: Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
     }
   }
 
   private void InitColourSensor() {
     try {
-      Logger.LogCrossThread("Opening colour sensor, on port: " + config.sensorPortColour);
+      Logger.log("Opening colour sensor, on port: " + config.sensorPortColour);
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortColour);
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
       Thread.sleep(50);
-      Logger.LogCrossThread("Success: opened colour sensor, on port: " + config.sensorPortColour);
+      Logger.log("Success: opened colour sensor, on port: " + config.sensorPortColour);
     } catch(Exception e) {
-      Logger.WarnCrossThread("Error: Unable to open colour sensor, on port: " + config.sensorPortColour);
+      Logger.warn("Error: Unable to open colour sensor, on port: " + config.sensorPortColour);
     }
   }
 
@@ -105,7 +105,7 @@ public class SensorsService extends RobotServiceBase {
       sample = rmiTouchMode.fetchSample();
       sensorsState.setTouchReading(sample[0]);
     } catch (RemoteException e) {
-      Logger.WarnCrossThread("Sensor: unable to read touch sensor");
+      Logger.warn("Sensor: unable to read touch sensor");
     }
   }
 
@@ -144,18 +144,18 @@ public class SensorsService extends RobotServiceBase {
         this.ultrasonicConnection.close();
         Thread.sleep(100);
       } catch (Exception ignored) {
-        Logger.WarnCrossThread("Sensor Service, Error closing the ultrasonic sensor port");
+        Logger.warn("Sensor Service, Error closing the ultrasonic sensor port");
       }
       try{
         this.rmiTouchMode.close();
         Thread.sleep(100);
       } catch (Exception ignored) {
-        Logger.WarnCrossThread("Sensor Service, Error closing the touch sensor port");
+        Logger.warn("Sensor Service, Error closing the touch sensor port");
       }
       try{
         this.colourSensorConnection.close();
       } catch (Exception ignored) {
-        Logger.WarnCrossThread("Sensor Service, Error closing the colour sensor port");
+        Logger.warn("Sensor Service, Error closing the colour sensor port");
       }
     });
   }

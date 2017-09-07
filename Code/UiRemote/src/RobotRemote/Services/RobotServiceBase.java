@@ -20,7 +20,7 @@ public abstract class RobotServiceBase implements Runnable{
         Repeat();
         Thread.sleep(msDelay);
       } catch (InterruptedException e) {
-        Logger.LogCrossThread("THREAD: "+threadName+": Interupted... terminating thread");
+        Logger.log("THREAD: "+threadName+": Interupted... terminating thread");
         break;
       }
     }
@@ -36,10 +36,10 @@ public abstract class RobotServiceBase implements Runnable{
 
   public void start() {
     if (thread != null) {
-      Logger.WarnCrossThread("THREAD: "+threadName+": Already Started");
+      Logger.warn("THREAD: "+threadName+": Already Started");
       return;
     }
-    Logger.LogCrossThread("THREAD: "+threadName+": Started");
+    Logger.log("THREAD: "+threadName+": Started");
     thread = new Thread (this, threadName);
     thread.start ();
   }
@@ -47,7 +47,7 @@ public abstract class RobotServiceBase implements Runnable{
   public void kill() {
     if (thread == null)
       return;
-    Logger.LogCrossThread("THREAD: "+threadName+": About to kill");
+    Logger.log("THREAD: "+threadName+": About to kill");
     thread.interrupt();
   }
 }

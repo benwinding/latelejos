@@ -29,7 +29,7 @@ public class StateMachineListener{
 
   @Subscribe
   public void OnChangeMode(EventChangeOperationMode event) {
-    Logger.LogCrossThread("Received EventChangeOperationMode: " + event.getOperationMode());
+    Logger.log("Received EventChangeOperationMode: " + event.getOperationMode());
     stateMachineState.setCurrentState(event.getOperationMode());
     switch (event.getOperationMode()) {
       case ManualMode:
@@ -53,7 +53,7 @@ public class StateMachineListener{
 
   @Subscribe
   public void OnEventRobotmode(EventRobotmode event) {
-    Logger.LogCrossThread("Robot mode changed");
+    Logger.log("Robot mode changed");
 
   }
 }
