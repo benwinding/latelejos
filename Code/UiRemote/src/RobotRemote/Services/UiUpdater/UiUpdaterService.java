@@ -62,19 +62,20 @@ public class UiUpdaterService extends RobotServiceBase {
   }
 
   private void UpdateSensorsOnGUI(SensorsState sensorsState) {
-    Node sensorsGraph = SensorsDisplayFactory.CreateSensorsGraph(sensorsState);
+    Node sensorsGraph = SensorsDisplayLayerFactory.CreateSensorsGraph(sensorsState);
     rootController.sensorDisplay.getChildren().clear();
     rootController.sensorDisplay.getChildren().add(sensorsGraph);
   }
 
   private void UpdateMapOnGUI() {
+    MapLocationsLayersFactory mapLocationLayersFactory = new MapLocationsLayersFactory(appStateRepository);
+    List<Canvas> mapLocationLayers = mapLocationLayersFactory.CreateMapLayers();
+
+    MapSelectedLayersFactory mapSelectedLayersFactory = new MapSelectedLayersFactory(appStateRepository);
+    List<Canvas> mapSelectedLayers = mapSelectedLayersFactory.CreateMapLayers();
+
     rootController.map.getChildren().clear();
-    MapLayerFactory mapFactory =
-        new MapLayerFactory(
-            appStateRepository);
-    List<Canvas> allMapLayers = mapFactory.CreateMapLayers();
-    // Add to GUI
-    rootController.map.getChildren().clear();
-    rootController.map.getChildren().addAll(allMapLayers);
+    rootController.map.getChildren().addAll(mapLocationLayers);
+    rootController.map.getChildren().addAll(mapSelectedLayers);
   }
 }

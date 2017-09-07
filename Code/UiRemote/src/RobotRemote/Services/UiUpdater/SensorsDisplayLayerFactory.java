@@ -9,7 +9,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-class SensorsDisplayFactory {
+class SensorsDisplayLayerFactory {
   static Node CreateSensorsGraph(SensorsState sensorsState) {
     VBox vbox = new VBox();
     Canvas graphUltra = CreateGuiSensorUltra(sensorsState.getUltraReading());

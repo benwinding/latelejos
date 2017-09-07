@@ -11,11 +11,11 @@ public class ServiceCoordinator {
   private final SensorsService sensorService;
   private final MovementEventListener movementListener;
 
-  public ServiceCoordinator(ServiceLocator serviceLocator) {
-    this.sensorService = serviceLocator.getSensorService();
-    this.uiUpdaterService = serviceLocator.getUiUpdaterService();
-    this.robotConnectionService = serviceLocator.getRobotConnectionService();
-    this.movementListener = serviceLocator.getMovementListener();
+  public ServiceCoordinator(RobotConnectionService robotConnectionService, SensorsService sensorService, UiUpdaterService uiUpdaterService, MovementEventListener movementListener) {
+    this.sensorService = sensorService;
+    this.movementListener = movementListener;
+    this.uiUpdaterService = uiUpdaterService;
+    this.robotConnectionService = robotConnectionService;
   }
 
   public void StartAllThreads() {

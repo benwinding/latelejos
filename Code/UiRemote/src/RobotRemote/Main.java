@@ -10,7 +10,6 @@ import RobotRemote.Services.Movement.PilotFactory;
 import RobotRemote.Services.RobotCommander.StateMachineListener;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
-import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
@@ -63,15 +62,13 @@ public class Main extends Application {
         eventBus
     );
 
-    // Instantiate service locator
-    ServiceLocator serviceLocator = new ServiceLocator(
+    // Spin up threads
+    serviceCoordinator = new ServiceCoordinator(
         robotConnectionService,
         sensorService,
         uiUpdaterService,
         movementListener
     );
-    // Spin up threads
-    serviceCoordinator = new ServiceCoordinator(serviceLocator);
     serviceCoordinator.StartAllThreads();
 
     rootController.Init(robotConfiguration, appStateRepository.getUiState(), eventBus, robotConnectionService);
