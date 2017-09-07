@@ -56,6 +56,7 @@ public class SensorsService extends RobotServiceBase {
       RemoteEV3 ev3 = this.connectionService.GetBrickeRemoteEv3();
       this.rmiTouchMode = ev3.createSampleProvider("S1", "lejos.hardware.sensor.EV3TouchSensor", "Touch");
       Thread.sleep(50);
+      sensorsState.setStatusTouch(true);
       Logger.log("Success: opened touch sensor, on port: " + config.sensorPortTouch);
     } catch(Exception e) {
       Logger.warn("Error: Unable to open touch sensor, on port: " + config.sensorPortTouch);
@@ -69,6 +70,7 @@ public class SensorsService extends RobotServiceBase {
       this.ultrasonicConnection = new EV3UltrasonicSensor(port);
       this.ultrasonicMode = ultrasonicConnection.getMode("Distance");
       Thread.sleep(50);
+      sensorsState.setStatusUltra(true);
       Logger.log("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
     } catch(Exception e) {
       Logger.warn("Error: Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
@@ -82,6 +84,7 @@ public class SensorsService extends RobotServiceBase {
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
       Thread.sleep(50);
+      sensorsState.setStatusColour(true);
       Logger.log("Success: opened colour sensor, on port: " + config.sensorPortColour);
     } catch(Exception e) {
       Logger.warn("Error: Unable to open colour sensor, on port: " + config.sensorPortColour);

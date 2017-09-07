@@ -30,18 +30,14 @@ public class UiUpdaterService extends RobotServiceBase {
 
   @Override
   public void Repeat() {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        UpdateUiThreadSafe();
-      }
-    });
+    Platform.runLater(() -> UpdateUiThreadSafe());
   }
 
   private void UpdateUiThreadSafe() {
     UpdateMapOnUi();
     UpdateLocationOnUi();
-    UpdateSensorsOnUi(appStateRepository.getSensorsState());
+    UpdateSensorsOnUi();
+    UpdateStatusDisplay();
   }
 
   private void UpdateLocationOnUi() {
@@ -61,8 +57,8 @@ public class UiUpdaterService extends RobotServiceBase {
     pane.getChildren().add(newText);
   }
 
-  private void UpdateSensorsOnUi(SensorsState sensorsState) {
-    Node sensorsGraph = SensorsDisplayLayerFactory.CreateSensorsGraph(sensorsState);
+  private void UpdateSensorsOnUi() {
+    Node sensorsGraph = SensorsDisplayLayerFactory.CreateSensorsGraph(appStateRepository.getSensorsState());
     rootController.sensorDisplay.getChildren().clear();
     rootController.sensorDisplay.getChildren().add(sensorsGraph);
   }
@@ -77,5 +73,19 @@ public class UiUpdaterService extends RobotServiceBase {
     rootController.map.getChildren().clear();
     rootController.map.getChildren().addAll(mapLocationLayers);
     rootController.map.getChildren().addAll(mapSelectedLayers);
+  }
+
+  private void UpdateStatusDisplay() {
+    SensorsState sensorsState = appStateRepository.getSensorsState();
+    UpdateStatusOnElement(rootController.statusSensorUltra, sensorsState.getStatusUltra());
+    UpdateStatusOnElement(rootController.statusSensorColour, sensorsState.getStatusColour());
+    UpdateStatusOnElement(rootController.statusSensorTouch, sensorsState.getStatusTouch());
+    UpdateStatusOnElement(rootController.statusIsConnected, appStateRepository.getRobotConnectionState().isConnected());
+  }
+
+  private void UpdateStatusOnElement(Pane element, boolean status) {
+    Canvas statusSensorUltra = StatusDisplayFactory.CreateStatusGreen(status, 15);
+    element.getChildren().clear();
+    element.getChildren().addAll(statusSensorUltra);
   }
 }

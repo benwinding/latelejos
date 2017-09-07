@@ -7,6 +7,9 @@ public class SensorsState {
   private double colourReadingB;
   private int colourId;
   private float touchReading;
+  private boolean statusUltra;
+  private boolean statusColour;
+  private boolean statusTouch;
 
   public double getUltraReading() {
     return ultraReading;
@@ -54,5 +57,33 @@ public class SensorsState {
 
   public float getTouchReading() {
     return touchReading;
+  }
+
+  public boolean getStatusUltra() {
+    return statusUltra;
+  }
+
+  void setStatusUltra(boolean statusUltra) {
+    this.statusUltra = statusUltra;
+  }
+
+  public boolean getStatusTouch() {
+    return statusTouch;
+  }
+
+  public boolean getStatusColour() {
+    return statusColour;
+  }
+
+  public boolean isStatusColour() {
+    return statusColour;
+  }
+
+  public void setStatusColour(boolean statusColour) {
+    this.statusColour = statusColour;
+  }
+
+  public void setStatusTouch(boolean statusTouch) {
+    this.statusTouch = statusTouch;
   }
 }

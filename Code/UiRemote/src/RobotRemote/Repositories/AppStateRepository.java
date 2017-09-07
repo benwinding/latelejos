@@ -2,6 +2,7 @@ package RobotRemote.Repositories;
 
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Services.Connection.RobotConnectionState;
 import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
 import RobotRemote.Services.MapHandlers.UserWaypointsState;
 import RobotRemote.Services.Movement.LocationState;
@@ -22,6 +23,7 @@ public class AppStateRepository {
   private RobotCommandState robotCommandState;
   private UserNoGoZoneState userNoGoZoneState;
   private UserWaypointsState userWaypointsState;
+  private RobotConnectionState robotConnectionState;
 
   public AppStateRepository(RobotConfiguration config) {
     sensorsState = new SensorsState();
@@ -33,6 +35,7 @@ public class AppStateRepository {
     uiState = new UiState(EnumCommandManual.Ignore);
     userNoGoZoneState = new UserNoGoZoneState(config.ngzRows,config.ngzCols);
     userWaypointsState = new UserWaypointsState();
+    robotConnectionState = new RobotConnectionState();
   }
 
   public SensorsState getSensorsState() {
@@ -69,5 +72,9 @@ public class AppStateRepository {
 
   public UserWaypointsState getUserWaypointsState() {
     return userWaypointsState;
+  }
+
+  public RobotConnectionState getRobotConnectionState() {
+    return robotConnectionState;
   }
 }

@@ -5,6 +5,7 @@ import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
@@ -17,12 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Waypoint;
@@ -31,29 +29,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RootController implements Initializable {
-  @FXML
   public Pane map;
-
-  @FXML
-  public AnchorPane rightSide;
-
-  @FXML
   public TextArea messageDisplayer;
-
-  @FXML
+  public Pane statusSensorUltra;
+  public Pane statusSensorColour;
+  public Pane statusSensorTouch;
+  public Pane statusIsConnected;
   public Pane locationDetails;
-
-  @FXML
   public Pane sensorDisplay;
 
-  @FXML
   RadioButton enterNgz;
-
-  @FXML
   RadioButton enterWaypoint;
-
-  @FXML
-  ImageView status;
 
   @FXML
   Button switchmode;
@@ -72,22 +58,14 @@ public class RootController implements Initializable {
     Logger.log("UI Loaded!");
   }
 
-  public void Init(RobotConfiguration config, EventBus eventBus, UiState uiState, RobotConnectionService connectionService) {
+  public void Init(RobotConfiguration config, EventBus eventBus, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
     this.config = config;
-    this.uiState = uiState;
+    this.uiState = appStateRepository.getUiState();
     this.eventBus = eventBus;
     this.connectionService = connectionService;
     this.state="Manual";
-    this.initStatus();
     this.initMap();
     this.initSwitch();
-  }
-
-  private void initStatus() {
-    if (connectionService.IsConnected())
-      this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
-    else
-      this.status.setImage(new Image("RobotRemote/UI/Images/status_red.png"));
   }
 
   private void initMap() {

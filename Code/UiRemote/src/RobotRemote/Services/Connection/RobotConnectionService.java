@@ -2,14 +2,20 @@ package RobotRemote.Services.Connection;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.Synchronizer;
+import RobotRemote.Repositories.AppStateRepository;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.BrickInfo;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RemoteRequestEV3;
 
 public class RobotConnectionService {
+  private final RobotConnectionState robotConnectionState;
   private RemoteRequestEV3 BrickInstanceRequest;
   private RemoteEV3 BrickInstanceRemoteEv3;
+
+  public RobotConnectionService(AppStateRepository appStateRepository) {
+    this.robotConnectionState = appStateRepository.getRobotConnectionState();
+  }
 
   public boolean IsConnected() {return BrickInstanceRequest != null;}
 
@@ -21,9 +27,11 @@ public class RobotConnectionService {
       BrickInstanceRemoteEv3 = new RemoteEV3(firstEv3.getIPAddress());
       Logger.log("Found ev3!");
       Logger.log("Ip address: " + firstEv3.getIPAddress());
+      this.robotConnectionState.setConnected(true);
     }
     catch (Exception e) {
       Logger.log("No ev3 robots detected in network");
+      this.robotConnectionState.setConnected(false);
     }
   }
 

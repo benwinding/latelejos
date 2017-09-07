@@ -42,7 +42,7 @@ public class Main extends Application {
     AppStateRepository appStateRepository = new AppStateRepository(robotConfiguration);
 
     // Connection to the robot
-    RobotConnectionService robotConnectionService = new RobotConnectionService();
+    RobotConnectionService robotConnectionService = new RobotConnectionService(appStateRepository);
 
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
@@ -71,7 +71,12 @@ public class Main extends Application {
     serviceCoordinator.StartAllThreads();
 
     // Initialize the
-    rootController.Init(robotConfiguration, eventBus, appStateRepository.getUiState(), robotConnectionService);
+    rootController.Init(
+        robotConfiguration,
+        eventBus,
+        robotConnectionService,
+        appStateRepository
+    );
 
     // Show GUI
     primaryStage.setTitle("Robot Remote UI");

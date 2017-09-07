@@ -48,7 +48,6 @@ class MapSelectedLayersFactory {
     for (Canvas layer : mapLayers) {
       layer.setScaleX(zoom);
       layer.setScaleY(zoom);
-      //layer.setTranslateY(zoom*-100);
     }
     return mapLayers;
   }
