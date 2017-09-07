@@ -37,6 +37,7 @@ public final class MovementHandler {
   public void OnManualControl(EventManualControl event) {
     Logger.log("Received Manual Command: " + event.getCommand());
     this.movePreciseThread.kill();
+    this.moveStraightThread.kill();
     switch (event.getCommand()) {
       case Forward:
         this.moveStraightThread.MoveForward();
@@ -45,18 +46,14 @@ public final class MovementHandler {
         this.moveStraightThread.MoveBackward();
         break;
       case Left:
-        this.moveStraightThread.kill();
         this.moveTurnSynchronous.TurnLeft();
         break;
       case Right:
-        this.moveStraightThread.kill();
         this.moveTurnSynchronous.TurnRight();
         break;
       case Stop:
       case Ignore:
       default:
-        this.moveStraightThread.kill();
-        this.movePreciseThread.kill();
     }
   }
 
@@ -78,8 +75,8 @@ public final class MovementHandler {
     Waypoint nextWayPoint = new Waypoint(scaleX, scaleY);
 
     Logger.log("Received Precise Point to go to:: x:"+nextWayPoint.getX() + ",y:" + nextWayPoint.getY());
-    this.moveStraightThread.kill();
     this.movePreciseThread.kill();
+    this.moveStraightThread.kill();
     this.movePreciseThread.moveToWaypoint(nextWayPoint);
   }
 
