@@ -46,11 +46,11 @@
                   </RadioButton>
                   <RadioButton fx:id="enterWaypoint" disable="true" text="Enter Waypoint" toggleGroup="$mapOptions" />
                   <HBox alignment="CENTER">
-                    <VBox>
+                    <VBox alignment="CENTER">
                       <ImageView fitHeight="104.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../Images/zoom_icon.png" />
                       </ImageView>
-                      <Button id="btnZoomReset" onMouseClicked="#onClickZoomReset">
+                      <Button id="btnZoomReset" onMouseClicked="#onClickZoomReset" prefHeight="115.0" minWidth="130.0">
                         Zoom Reset
                       </Button>
                     </VBox>

@@ -173,7 +173,6 @@ public class RootController implements Initializable {
 
   public void onClickMap(MouseEvent mouseEvent) {
     if(enterNgz.isSelected()) {
-      Logger.log("Event: Mouse click being posted");
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
     }
     else if(enterWaypoint.isSelected()) {
