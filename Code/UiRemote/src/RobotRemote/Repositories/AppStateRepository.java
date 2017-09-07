@@ -4,12 +4,12 @@ import RobotRemote.Models.EnumCommandManual;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.Listeners.Movement.MovementState;
-import RobotRemote.Services.Listeners.StateMachine.DiscoveredColoursState;
 import RobotRemote.Services.Listeners.StateMachine.StateMachineState;
 import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
 import RobotRemote.Services.MapHandlers.UserWaypointsState;
-import RobotRemote.Services.Workers.SensorService.SensorsState;
-import RobotRemote.Services.Workers.UiUpdater.UiUpdaterState;
+import RobotRemote.Services.SensorService.DiscoveredColoursState;
+import RobotRemote.Services.SensorService.SensorsState;
+import RobotRemote.Services.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
 
 public class AppStateRepository {

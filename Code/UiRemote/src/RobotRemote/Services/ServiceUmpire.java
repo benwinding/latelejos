@@ -2,8 +2,8 @@ package RobotRemote.Services;
 
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
 import RobotRemote.Services.Listeners.Movement.MovementEventListener;
-import RobotRemote.Services.Workers.SensorService.SensorsService;
-import RobotRemote.Services.Workers.UiUpdater.UiUpdaterService;
+import RobotRemote.Services.SensorService.SensorsService;
+import RobotRemote.Services.UiUpdater.UiUpdaterService;
 
 public class ServiceUmpire {
   private final UiUpdaterService uiUpdaterService;

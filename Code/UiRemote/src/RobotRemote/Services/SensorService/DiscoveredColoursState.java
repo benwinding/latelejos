@@ -1,27 +1,26 @@
-package RobotRemote.Services.Listeners.StateMachine;
+package RobotRemote.Services.SensorService;
 
 import RobotRemote.Models.MapPoint;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class DiscoveredColoursState {
-  private HashMap<Color, List<MapPoint>> colouredPointsSeen;
+  private HashMap<Integer, ArrayList<MapPoint>> colouredPointsSeen;
 
   public DiscoveredColoursState() {
     colouredPointsSeen = new HashMap<>();
   }
 
-  public List<MapPoint> GetPointsMatching(Color colour) {
+  public List<MapPoint> GetPointsMatching(int colour) {
     if(!colouredPointsSeen.containsKey(colour)) {
       colouredPointsSeen.put(colour, new ArrayList<MapPoint>());
     }
     return colouredPointsSeen.get(colour);
   }
 
-  void AddColouredPoint(Color colour, MapPoint newColouredPoint) {
+  void AddColouredPoint(int colour, MapPoint newColouredPoint) {
     if(!colouredPointsSeen.containsKey(colour)) {
       colouredPointsSeen.put(colour, new ArrayList<MapPoint>());
     }

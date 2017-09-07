@@ -1,4 +1,4 @@
-package RobotRemote.Services.Workers.UiUpdater;
+package RobotRemote.Services.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
 

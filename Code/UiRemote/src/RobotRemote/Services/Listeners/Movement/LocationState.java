@@ -19,7 +19,7 @@ public class LocationState {
     return this.pointsVisited;
   }
 
-  public Pose GetCurrentPose() {
+  Pose GetCurrentPose() {
     MapPoint current = GetCurrentPosition();
     Pose newPose = new Pose();
     newPose.setLocation((float) current.x, (float) current.y);
@@ -49,6 +49,16 @@ public class LocationState {
     pose.setHeading((float) curr.theta);
     pose.moveUpdate((float) distance);
     GoingToPoint(pose.getX(),pose.getY(),pose.getHeading());
+  }
+
+  public MapPoint GetCurrentColourSensorPosition() {
+    MapPoint curr = GetCurrentPosition();
+    Pose sensorPose = new Pose();
+    sensorPose.setLocation((float) curr.x, (float) curr.y);
+    sensorPose.setHeading((float) curr.theta);
+    // Sensor offset from from of robot
+    sensorPose.moveUpdate((float) -40);
+    return new MapPoint(sensorPose.getX(), sensorPose.getY(), sensorPose.getHeading());
   }
 
   void ChangingHeading(double angle) {

@@ -1,9 +1,12 @@
-package RobotRemote.Services.Workers.SensorService;
+package RobotRemote.Services.SensorService;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.Synchronizer;
+import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.RobotWorkerBase;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
@@ -15,6 +18,8 @@ import lejos.remote.ev3.RemoteEV3;
 import java.rmi.RemoteException;
 
 public class SensorsService extends RobotWorkerBase {
+  private DiscoveredColoursState discoveredColoursState;
+  private LocationState locationState;
   private RobotConfiguration config;
   private RobotConnectionService connectionService;
   private SensorsState sensorsState;
@@ -27,11 +32,13 @@ public class SensorsService extends RobotWorkerBase {
 
   private RMISampleProvider rmiTouchMode;
 
-  public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, SensorsState sensorsState) {
+  public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
     super("Sensors Service", 100);
     this.config = config;
     this.connectionService = connectionService;
-    this.sensorsState = sensorsState;
+    this.sensorsState = appStateRepository.getSensorsState();
+    this.locationState = appStateRepository.getLocationState();
+    this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
   }
 
   @Override
@@ -118,10 +125,15 @@ public class SensorsService extends RobotWorkerBase {
     float[] sample=new float[colourSensorMode.sampleSize()];
     colourSensorMode.fetchSample(sample, 0);
 
-    sensorsState.setColourId(colourSensorConnection.getColorID());
     sensorsState.setColourReadingR(sample[0]);
     sensorsState.setColourReadingG(sample[1]);
     sensorsState.setColourReadingB(sample[2]);
+
+    int currentColor = colourSensorConnection.getColorID();
+    sensorsState.setColourId(currentColor);
+
+    MapPoint currentPosition = locationState.GetCurrentColourSensorPosition();
+    discoveredColoursState.AddColouredPoint(currentColor, currentPosition);
   }
 
   @Override

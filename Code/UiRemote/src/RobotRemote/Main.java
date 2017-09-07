@@ -8,10 +8,10 @@ import RobotRemote.Services.Listeners.Movement.MovementEventListener;
 import RobotRemote.Services.Listeners.Movement.PilotFactory;
 import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
+import RobotRemote.Services.SensorService.SensorsService;
 import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.ServiceUmpire;
-import RobotRemote.Services.Workers.SensorService.SensorsService;
-import RobotRemote.Services.Workers.UiUpdater.UiUpdaterService;
+import RobotRemote.Services.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
@@ -46,9 +46,8 @@ public class Main extends Application {
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
 
-
     // Worker threads
-    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository.getSensorsState());
+    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
 
     // Ui Event Listener

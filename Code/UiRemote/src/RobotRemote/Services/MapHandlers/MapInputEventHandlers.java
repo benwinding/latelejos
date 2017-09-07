@@ -5,7 +5,7 @@ import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.Events.EventUserAddWaypoint;
 import RobotRemote.Models.Events.EventUserZoomChanged;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Workers.UiUpdater.UiUpdaterState;
+import RobotRemote.Services.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 

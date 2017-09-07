@@ -1,12 +1,13 @@
-package RobotRemote.Services.Workers.UiUpdater;
+package RobotRemote.Services.UiUpdater;
 
+import RobotRemote.Helpers.ColourTranslator;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Listeners.Movement.LocationState;
 import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
 import RobotRemote.Services.MapHandlers.UserWaypointsState;
-import RobotRemote.Services.Workers.SensorService.SensorsState;
-import com.google.common.eventbus.EventBus;
+import RobotRemote.Services.SensorService.DiscoveredColoursState;
+import RobotRemote.Services.SensorService.SensorsState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,20 +16,20 @@ import lejos.robotics.navigation.Waypoint;
 import lejos.utility.Matrix;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 class MapLayerFactory {
   private final float mapH;
   private final float mapW;
+  private DiscoveredColoursState discoveredColoursState;
   private SensorsState sensorState;
   private UserWaypointsState userWaypointsState;
   private LocationState locationState;
   private UserNoGoZoneState userNoGoZoneState;
-  private EventBus eventBus;
   private UiUpdaterState uiUpdaterState;
 
-  MapLayerFactory(EventBus eventBus, AppStateRepository appStateRepository) {
-    this.eventBus = eventBus;
+  MapLayerFactory(AppStateRepository appStateRepository) {
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
     this.mapH = uiUpdaterState.getMapH();
     this.mapW = uiUpdaterState.getMapW();
@@ -36,6 +37,7 @@ class MapLayerFactory {
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
     this.sensorState = appStateRepository.getSensorsState();
+    this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
   }
 
   List<Canvas> CreateMapLayers() {
@@ -45,6 +47,7 @@ class MapLayerFactory {
         this.CreateSensorFieldLayer(locationState.GetCurrentPosition()),
         this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedWayPoints(), Color.BLUE),
+        this.CreateDiscoveredColoursLayer(discoveredColoursState),
         this.CreateGridLayer(
           userNoGoZoneState.getNgzMatrix(),
           Color.web("red",0.2),
@@ -86,7 +89,7 @@ class MapLayerFactory {
     return layer;
   }
 
-  Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
+  private Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
@@ -98,7 +101,7 @@ class MapLayerFactory {
     return layer;
   }
 
-  public Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
+  private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
@@ -116,7 +119,25 @@ class MapLayerFactory {
     return layer;
   }
 
-  Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
+  private Canvas CreateDiscoveredColoursLayer(DiscoveredColoursState discoveredColoursState) {
+    Canvas layer = new Canvas(mapW,mapH);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+    int circleSize = 10;
+    for(int colourInt = 0; colourInt<10;colourInt++) {
+      List<MapPoint> points = discoveredColoursState.GetPointsMatching(colourInt);
+      Collections.reverse(points);
+      String colourName = ColourTranslator.GetColourName(colourInt);
+      Color pointColour = Color.web(colourName, 0.5);
+      gc.setStroke(pointColour);
+      gc.setFill(pointColour);
+      for (MapPoint point: points) {
+        gc.fillOval(point.x-circleSize/2, point.y-circleSize/2, circleSize, circleSize);
+      }
+    }
+    return layer;
+  }
+
+  private Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
     int robotW = 60*2;
     int robotH = 50*2;
 
@@ -138,13 +159,12 @@ class MapLayerFactory {
     Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));
 
     gc.drawImage(imgRobot,0,0, robotW, robotH);
-
     gc.restore();
 
     return layer;
   }
 
-  Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
+  private Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
     int sensorFieldW = 60*2;
     double sensorValUltra = sensorState.getUltraReading()*1000;
     if(sensorValUltra < 0)
