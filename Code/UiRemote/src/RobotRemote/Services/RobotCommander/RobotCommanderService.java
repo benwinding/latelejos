@@ -4,25 +4,17 @@ import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventChangeOperationMode;
 import RobotRemote.Models.Events.EventRobotmode;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
-import RobotRemote.Services.MapHandlers.UserWaypointsState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class StateMachineListener{
-  private AppStateRepository appStateRepository;
+public class RobotCommanderService {
   private ModeObjectAvoidance modeObjectAvoidance;
   private ModeAutoMapping modeAutomapping;
-  private StateMachineState stateMachineState;
-  private UserNoGoZoneState userNoGoZoneState;
-  private UserWaypointsState userWaypointsState;
+  private RobotCommandState robotCommandState;
 
-  public StateMachineListener(AppStateRepository appStateRepository, EventBus eventBus) {
+  public RobotCommanderService(AppStateRepository appStateRepository, EventBus eventBus) {
     eventBus.register(this);
-    this.appStateRepository = appStateRepository;
-    this.stateMachineState = appStateRepository.getStateMachineState();
-    this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
-    this.userWaypointsState = appStateRepository.getUserWaypointsState();
+    this.robotCommandState = appStateRepository.getStateMachineState();
     this.modeAutomapping = new ModeAutoMapping();
     this.modeObjectAvoidance = new ModeObjectAvoidance();
   }
@@ -30,7 +22,7 @@ public class StateMachineListener{
   @Subscribe
   public void OnChangeMode(EventChangeOperationMode event) {
     Logger.log("Received EventChangeOperationMode: " + event.getOperationMode());
-    stateMachineState.setCurrentState(event.getOperationMode());
+    robotCommandState.setCurrentState(event.getOperationMode());
     switch (event.getOperationMode()) {
       case ManualMode:
         this.modeObjectAvoidance.kill();
@@ -54,6 +46,5 @@ public class StateMachineListener{
   @Subscribe
   public void OnEventRobotmode(EventRobotmode event) {
     Logger.log("Robot mode changed");
-
   }
 }

@@ -5,9 +5,9 @@ import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
-import RobotRemote.Services.Movement.MovementEventListener;
+import RobotRemote.Services.Movement.MovementHandler;
 import RobotRemote.Services.Movement.PilotFactory;
-import RobotRemote.Services.RobotCommander.StateMachineListener;
+import RobotRemote.Services.RobotCommander.RobotCommanderService;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
@@ -54,10 +54,10 @@ public class Main extends Application {
 
     // Instantiate movement listener
     ArcRotateMoveController pilot = PilotFactory.GetPilot(robotConnectionService, robotConfiguration);
-    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
+    MovementHandler movementListener = new MovementHandler(robotConfiguration, pilot, appStateRepository, eventBus);
 
     // Instantiate state machine listener
-    StateMachineListener stateMachineListener = new StateMachineListener(
+    RobotCommanderService robotCommanderService = new RobotCommanderService(
         appStateRepository,
         eventBus
     );

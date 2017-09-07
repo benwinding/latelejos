@@ -2,7 +2,7 @@ package RobotRemote.Services.RobotCommander;
 
 import RobotRemote.Models.Enums.EnumOperationMode;
 
-public class StateMachineState {
+public class RobotCommandState {
   private EnumOperationMode currentState;
 
   public EnumOperationMode getCurrentState() {

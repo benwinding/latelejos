@@ -1,7 +1,7 @@
 package RobotRemote.Services;
 
 import RobotRemote.Services.Connection.RobotConnectionService;
-import RobotRemote.Services.Movement.MovementEventListener;
+import RobotRemote.Services.Movement.MovementHandler;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
 
@@ -9,9 +9,9 @@ public class ServiceCoordinator {
   private final UiUpdaterService uiUpdaterService;
   private final RobotConnectionService robotConnectionService;
   private final SensorsService sensorService;
-  private final MovementEventListener movementListener;
+  private final MovementHandler movementListener;
 
-  public ServiceCoordinator(RobotConnectionService robotConnectionService, SensorsService sensorService, UiUpdaterService uiUpdaterService, MovementEventListener movementListener) {
+  public ServiceCoordinator(RobotConnectionService robotConnectionService, SensorsService sensorService, UiUpdaterService uiUpdaterService, MovementHandler movementListener) {
     this.sensorService = sensorService;
     this.movementListener = movementListener;
     this.uiUpdaterService = uiUpdaterService;

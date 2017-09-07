@@ -10,13 +10,13 @@ import com.google.common.eventbus.Subscribe;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Waypoint;
 
-public final class MovementEventListener {
+public final class MovementHandler {
   private final MoveStraightThread moveStraightThread;
   private final MoveTurnSynchronous moveTurnSynchronous;
   private final MovePreciseThread movePreciseThread;
   private final AppStateRepository appState;
 
-  public MovementEventListener(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appState, EventBus eventBus) {
+  public MovementHandler(RobotConfiguration config, ArcRotateMoveController pilot, AppStateRepository appState, EventBus eventBus) {
     this.appState = appState;
     this.moveStraightThread = new MoveStraightThread(config, pilot, appState.getLocationState(), appState.getMovementState());
     this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appState.getLocationState(), appState.getMovementState());
