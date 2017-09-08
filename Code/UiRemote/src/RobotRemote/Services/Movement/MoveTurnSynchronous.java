@@ -17,20 +17,20 @@ class MoveTurnSynchronous {
 
   public void TurnLeft() {
     this.movementState.setMotorState(MotorsEnum.TurningLeft);
-    this.UpdateTurn(90);
+    this.UpdateTurn(-90);
     this.movementState.setMotorState(MotorsEnum.Stationary);
   }
 
   public void TurnRight() {
     this.movementState.setMotorState(MotorsEnum.TurningRight);
-    this.UpdateTurn(-90);
+    this.UpdateTurn(90);
     this.movementState.setMotorState(MotorsEnum.Stationary);
   }
 
   private void UpdateTurn(int angle) {
     Synchronizer.RunNotConcurrent(() -> {
-      this.pilot.rotate(-angle);
-      this.locationState.ChangingHeading(-angle);
+      this.pilot.rotate(angle);
+      this.locationState.ChangingHeading(angle);
     });
   }
 }

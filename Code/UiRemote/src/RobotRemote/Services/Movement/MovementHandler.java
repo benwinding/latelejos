@@ -74,7 +74,7 @@ public final class MovementHandler {
     double scaleY = mouseY / zoomLevel;
     Waypoint nextWayPoint = new Waypoint(scaleX, scaleY);
 
-    Logger.log(String.format("Received Precise Point to go to:: x:%.1f ,y:%.1f", nextWayPoint.getX(), nextWayPoint.getY()));
+    Logger.log(String.format("Received Precise Point to go to:: x:%.1f, y:%.1f", nextWayPoint.getX(), nextWayPoint.getY()));
     this.movePreciseThread.kill();
     this.moveStraightThread.kill();
     this.movePreciseThread.moveToWaypoint(nextWayPoint);

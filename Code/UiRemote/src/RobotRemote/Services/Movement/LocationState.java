@@ -30,7 +30,7 @@ public class LocationState {
     sensorPose.setLocation((float) curr.x, (float) curr.y);
     sensorPose.setHeading((float) curr.theta);
     // Sensor offset from from of robot
-    sensorPose.moveUpdate((float) -3);
+    sensorPose.moveUpdate((float) 3);
     return new MapPoint(sensorPose.getX(), sensorPose.getY(), sensorPose.getHeading());
   }
 

@@ -14,29 +14,23 @@ public class NavigatorFactory {
       @Override
       public void atWaypoint(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathAtWayPoint);
-        Logger.log(String.format("NAV: At way point:: x:%.1f ,y:%.1f", waypoint.getX(), waypoint.getY()));
-        locationState.GoingToWayPoint(waypoint);
-        pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
-        pose.setHeading((float) waypoint.getHeading());
-        poseProvider.setPose(pose);
+        Logger.log(String.format("NAV: At way point:: x:%.1f, y:%.1f, θ:%.0f", waypoint.getX(), waypoint.getY(), waypoint.getHeading()));
       }
 
       @Override
       public void pathComplete(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathComplete);
-        Logger.log(String.format("NAV: complete, way point:: x:%.1f ,y:%.1f", waypoint.getX(), waypoint.getY()));
-        Pose currentPose = locationState.GetCurrentPose();
-        pose.angleTo(waypoint);
-        locationState.GoingToPose(currentPose);
-        pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
-        pose.setHeading((float) waypoint.getHeading());
-        poseProvider.setPose(pose);
+        float heading = pose.angleTo(waypoint);
+        Pose newPose = new Pose((float)waypoint.getX(), (float)waypoint.getY(), heading);
+        Logger.log(String.format("NAV: complete, way point:: x:%.1f, y:%.1f, θ:%.0f", newPose.getX(), newPose.getY(), newPose.getHeading()));
+        poseProvider.setPose(newPose);
+        locationState.GoingToPose(newPose);
       }
 
       @Override
       public void pathInterrupted(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathInterupted);
-        Logger.log(String.format("NAV: Interrupt at way point:: x:%.1f ,y:%.1f", waypoint.getX(), waypoint.getY()));
+        Logger.log(String.format("NAV: Interrupt at way point:: x:%.1f, y:%.1f, θ:%.0f", waypoint.getX(), waypoint.getY(), waypoint.getHeading()));
         locationState.GoingToWayPoint(waypoint);
         pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
         pose.setHeading((float) waypoint.getHeading());
