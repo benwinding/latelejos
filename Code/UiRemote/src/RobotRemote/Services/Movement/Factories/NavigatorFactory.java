@@ -1,12 +1,14 @@
-package RobotRemote.Services.Movement;
+package RobotRemote.Services.Movement.Factories;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.MotorsEnum;
+import RobotRemote.Services.Movement.MoveThreads.LocationState;
+import RobotRemote.Services.Movement.MoveThreads.MovementState;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.*;
 
 public class NavigatorFactory {
-  static Navigator CreateNavigator(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
+  public static Navigator CreateNavigator(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
     OdometryPoseProvider poseProvider = new OdometryPoseProvider(pilot);
     poseProvider.setPose(locationState.GetCurrentPose());
     Navigator navigator = new Navigator(pilot, poseProvider);
@@ -31,10 +33,10 @@ public class NavigatorFactory {
       public void pathInterrupted(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathInterupted);
         Logger.log(String.format("NAV: Interrupt at way point:: x:%.1f, y:%.1f, θ:%.0f", waypoint.getX(), waypoint.getY(), waypoint.getHeading()));
-        locationState.GoingToWayPoint(waypoint);
-        pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
-        pose.setHeading((float) waypoint.getHeading());
-        poseProvider.setPose(pose);
+        float heading = pose.angleTo(waypoint);
+        Pose newPose = new Pose((float)waypoint.getX(), (float)waypoint.getY(), heading);
+        poseProvider.setPose(newPose);
+        locationState.GoingToPose(newPose);
       }
     });
     return navigator;

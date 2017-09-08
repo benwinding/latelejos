@@ -1,4 +1,4 @@
-package RobotRemote.Services.Movement;
+package RobotRemote.Services.Movement.MoveThreads;
 
 import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.RobotConfiguration;
@@ -7,14 +7,14 @@ import lejos.robotics.navigation.ArcRotateMoveController;
 
 import static RobotRemote.Models.MotorsEnum.*;
 
-class MoveStraightThread extends RobotServiceBase {
+public class MoveStraightThread extends RobotServiceBase {
   private double linearDistanceInterval;
   private MovementState movementState;
   private ArcRotateMoveController pilot;
   private LocationState locationState;
   private boolean movingForwards;
 
-  MoveStraightThread(RobotConfiguration config, ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
+  public MoveStraightThread(RobotConfiguration config, ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
     super("Move Straight", config.updateIntervalMoving_ms);
     this.pilot = pilot;
     this.locationState = locationState;
@@ -60,7 +60,7 @@ class MoveStraightThread extends RobotServiceBase {
     this.movementState.setMotorState(Stationary);
   }
 
-  void shutdownMotors() {
+  public void shutdownMotors() {
     Synchronizer.RunNotConcurrent(() -> {
       if(this.pilot.isMoving())
         this.pilot.stop();

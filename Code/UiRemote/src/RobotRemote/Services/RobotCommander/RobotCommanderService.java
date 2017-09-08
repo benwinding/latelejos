@@ -10,11 +10,11 @@ import com.google.common.eventbus.Subscribe;
 public class RobotCommanderService {
   private ModeObjectAvoidance modeObjectAvoidance;
   private ModeAutoMapping modeAutomapping;
-  private RobotCommandState robotCommandState;
+  private RobotCommanderState robotCommanderState;
 
   public RobotCommanderService(AppStateRepository appStateRepository, EventBus eventBus) {
     eventBus.register(this);
-    this.robotCommandState = appStateRepository.getStateMachineState();
+    this.robotCommanderState = appStateRepository.getStateMachineState();
     this.modeAutomapping = new ModeAutoMapping();
     this.modeObjectAvoidance = new ModeObjectAvoidance();
   }
@@ -22,7 +22,7 @@ public class RobotCommanderService {
   @Subscribe
   public void OnChangeMode(EventChangeOperationMode event) {
     Logger.log("Received EventChangeOperationMode: " + event.getOperationMode());
-    robotCommandState.setCurrentState(event.getOperationMode());
+    robotCommanderState.setCurrentState(event.getOperationMode());
     switch (event.getOperationMode()) {
       case ManualMode:
         this.modeObjectAvoidance.kill();

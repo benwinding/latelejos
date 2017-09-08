@@ -3,7 +3,7 @@ package RobotRemote.Services.UiUpdater;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Movement.LocationState;
+import RobotRemote.Services.Movement.MoveThreads.LocationState;
 import RobotRemote.Services.Sensors.SensorsState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
