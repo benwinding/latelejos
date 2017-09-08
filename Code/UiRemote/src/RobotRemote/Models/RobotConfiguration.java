@@ -1,24 +1,26 @@
 package RobotRemote.Models;
 
 public class RobotConfiguration {
-  public float initX = 100;
-  public float initY = 100;
-  public float initTheta = -90;
+  public float initX = 20; // cm
+  public float initY = 20; // cm
+  public float initTheta = 90;
   public int ngzRows = 10;
   public int ngzCols = 15;
   public float mapInitZoom = 1f;
-  public float mapW = 594; // A1 594mm x 841mm
-  public float mapH = 841;
+  // A1 594mm x 841mm
+  public float mapW = 59.4f; // cm
+  public float mapH = 84.1f; // cm
+  public float mapPixelsPerCm = 10; // Define pixel density of map
   public double robotLinearSpeed_cms = 5;
   public double robotLinearAcceleration_cms2 = 0;
   public double robotAngularSpeed_degs = 30;
   public double robotAngularAcceleration_degs2 = 10;
   public float robotWheelDia = 5.6f;  // Tested on hard surface, Will not be accurate on carpet
-  public float robotTrackWidth = 13f; // Tested on hard surface, Will not be accurate on carpet
+  public float robotTrackWidth = 12.5f; // Tested on hard surface, Will not be accurate on carpet
   public String wheelPortLeft = "B";
   public String wheelPortRight = "A";
   public int updateIntervalMoving_ms = 50;
-  public int updateIntervalUi_ms = 200;
+  public int updateIntervalUi_ms = 100;
   public String sensorPortUltra = "S3";
   public String sensorPortColour = "S4";
   public String sensorPortTouch = "S1";

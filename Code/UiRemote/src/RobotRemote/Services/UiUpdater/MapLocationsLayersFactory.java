@@ -1,6 +1,7 @@
 package RobotRemote.Services.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Movement.LocationState;
 import RobotRemote.Services.Sensors.SensorsState;
@@ -15,14 +16,16 @@ import java.util.List;
 class MapLocationsLayersFactory {
   private final float mapH;
   private final float mapW;
+  private final float mapPixelsPerCm;
   private SensorsState sensorState;
   private LocationState locationState;
   private UiUpdaterState uiUpdaterState;
 
-  MapLocationsLayersFactory(AppStateRepository appStateRepository) {
+  MapLocationsLayersFactory(RobotConfiguration config, AppStateRepository appStateRepository) {
+    this.mapPixelsPerCm = config.mapPixelsPerCm;
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
-    this.mapH = uiUpdaterState.getMapH();
-    this.mapW = uiUpdaterState.getMapW();
+    this.mapH = uiUpdaterState.getMapH() * mapPixelsPerCm;
+    this.mapW = uiUpdaterState.getMapW() * mapPixelsPerCm;
     this.locationState = appStateRepository.getLocationState();
     this.sensorState = appStateRepository.getSensorsState();
   }
@@ -37,7 +40,6 @@ class MapLocationsLayersFactory {
     for (Canvas layer : mapLayers) {
       layer.setScaleX(zoom);
       layer.setScaleY(zoom);
-      //layer.setTranslateY(zoom*-100);
     }
     return mapLayers;
   }
@@ -51,32 +53,32 @@ class MapLocationsLayersFactory {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
 
-      double x1 = p1.x;
-      double x2 = p2.x;
-      double y1 = p1.y;
-      double y2 = p2.y;
+      double x1 = p1.x * mapPixelsPerCm;
+      double x2 = p2.x * mapPixelsPerCm;
+      double y1 = p1.y * mapPixelsPerCm;
+      double y2 = p2.y * mapPixelsPerCm;
       gc.strokeLine(x1,y1,x2,y2);
     }
     return layer;
   }
 
   private Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
-    int robotW = 60*2;
-    int robotH = 50*2;
+    double robotW = 12 * mapPixelsPerCm;
+    double robotH = 10 * mapPixelsPerCm;
 
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
-    double x = robotLocation.x - robotW/2;
-    double y = robotLocation.y - robotH/2;
+    double x = (robotLocation.x * mapPixelsPerCm - robotW/2);
+    double y = (robotLocation.y * mapPixelsPerCm - robotH/2);
 
-    double rotationCenterX = (robotW) / 2;
-    double rotationCenterY = (robotH) / 2;
+    double rotationCenterX = ((robotW) / 2);
+    double rotationCenterY = ((robotH) / 2);
 
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(-(90+robotLocation.theta));
+    gc.rotate(robotLocation.theta-90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));
@@ -88,7 +90,7 @@ class MapLocationsLayersFactory {
   }
 
   private Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
-    int sensorFieldW = 60*2;
+    double sensorFieldW = 12 * mapPixelsPerCm;
     double sensorValUltra = sensorState.getUltraReading()*1000;
     if(sensorValUltra < 0)
       sensorValUltra = 0;
@@ -98,16 +100,16 @@ class MapLocationsLayersFactory {
     Canvas layer = new Canvas(mapW,mapH);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
-    double x = robotLocation.x - sensorFieldW /2;
-    double y = robotLocation.y - sensorFieldH/2;
+    double x = (robotLocation.x - sensorFieldW/2) * mapPixelsPerCm;
+    double y = (robotLocation.y - sensorFieldH/2) * mapPixelsPerCm;
 
-    double rotationCenterX = (sensorFieldW) / 2;
-    double rotationCenterY = (sensorFieldH) / 2;
+    double rotationCenterX = ((sensorFieldW) / 2) * mapPixelsPerCm;
+    double rotationCenterY = ((sensorFieldH) / 2) * mapPixelsPerCm;
 
     gc.save();
-    gc.translate(x, y);
+    gc.translate(x, y );
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(-(90-robotLocation.theta)+180);
+    gc.rotate(robotLocation.theta-90);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgSensorField = new Image(getClass().getResourceAsStream("./Images/sensor-field.png"));

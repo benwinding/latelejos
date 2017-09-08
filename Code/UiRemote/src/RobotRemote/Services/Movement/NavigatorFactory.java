@@ -14,7 +14,7 @@ public class NavigatorFactory {
       @Override
       public void atWaypoint(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathAtWayPoint);
-        Logger.log("NAV: At waypoint, x:" + waypoint.getX() + ", y:" + waypoint.getY());
+        Logger.log(String.format("NAV: At way point:: x:%.1f ,y:%.1f", waypoint.getX(), waypoint.getY()));
         locationState.GoingToWayPoint(waypoint);
         pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
         pose.setHeading((float) waypoint.getHeading());
@@ -24,7 +24,7 @@ public class NavigatorFactory {
       @Override
       public void pathComplete(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathComplete);
-        Logger.log("NAV: complete, way point , x:" + waypoint.getX() + ", y:" + waypoint.getY());
+        Logger.log(String.format("NAV: complete, way point:: x:%.1f ,y:%.1f", waypoint.getX(), waypoint.getY()));
         Pose currentPose = locationState.GetCurrentPose();
         pose.angleTo(waypoint);
         locationState.GoingToPose(currentPose);
@@ -36,7 +36,7 @@ public class NavigatorFactory {
       @Override
       public void pathInterrupted(Waypoint waypoint, Pose pose, int i) {
         movementState.setMotorState(MotorsEnum.PathInterupted);
-        Logger.log("NAV: interrupt at waypoint, x:" + waypoint.getX() + ", y:" + waypoint.getY());
+        Logger.log(String.format("NAV: Interrupt at way point:: x:%.1f ,y:%.1f", waypoint.getX(), waypoint.getY()));
         locationState.GoingToWayPoint(waypoint);
         pose.setLocation((float) waypoint.getX(), (float) waypoint.getY());
         pose.setHeading((float) waypoint.getHeading());

@@ -49,11 +49,11 @@ public class Main extends Application {
 
     // Daemons
     SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
-    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
+    UiUpdaterService uiUpdaterService = new UiUpdaterService(eventBus, robotConfiguration, appStateRepository, rootController);
 
     // Handler classes
-    MovementHandler movementHandler = new MovementHandler(robotConfiguration, robotConnectionService, appStateRepository, eventBus);
-    MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(appStateRepository, eventBus);
+    MovementHandler movementHandler = new MovementHandler(eventBus, robotConfiguration, appStateRepository, robotConnectionService);
+    MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
 
     // Instantiate robot commander
     RobotCommanderService robotCommanderService = new RobotCommanderService(

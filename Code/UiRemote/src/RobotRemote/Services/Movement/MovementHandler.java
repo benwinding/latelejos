@@ -19,7 +19,7 @@ public final class MovementHandler {
   private MoveTurnSynchronous moveTurnSynchronous;
   private MovePreciseThread movePreciseThread;
 
-  public MovementHandler(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appState, EventBus eventBus) {
+  public MovementHandler(EventBus eventBus, RobotConfiguration config, AppStateRepository appState, RobotConnectionService connectionService) {
     eventBus.register(this);
     this.config = config;
     this.connectionService = connectionService;
@@ -66,15 +66,15 @@ public final class MovementHandler {
     float zoomLevel = this.appState.getUiUpdaterState().getZoomLevel();
 
     // Mouse relative coordinates to scaled map
-    double mouseX = eventWayPoint.getX()-((1-zoomLevel)/2)*mapW;
-    double mouseY = eventWayPoint.getY()-((1-zoomLevel)/2)*mapH;
+    double mouseX = eventWayPoint.getX()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapW;
+    double mouseY = eventWayPoint.getY()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapH;
 
     // Scale mouse to actual map xy coordinates
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
     Waypoint nextWayPoint = new Waypoint(scaleX, scaleY);
 
-    Logger.log("Received Precise Point to go to:: x:"+nextWayPoint.getX() + ",y:" + nextWayPoint.getY());
+    Logger.log(String.format("Received Precise Point to go to:: x:%.1f ,y:%.1f", nextWayPoint.getX(), nextWayPoint.getY()));
     this.movePreciseThread.kill();
     this.moveStraightThread.kill();
     this.movePreciseThread.moveToWaypoint(nextWayPoint);

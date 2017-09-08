@@ -17,12 +17,14 @@ import javafx.scene.text.Text;
 import java.util.List;
 
 public class UiUpdaterService extends RobotServiceBase {
+  private RobotConfiguration robotConfiguration;
   private AppStateRepository appStateRepository;
   private RootController rootController;
   private EventBus eventBus;
 
-  public UiUpdaterService(RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController, EventBus eventBus) {
+  public UiUpdaterService(EventBus eventBus, RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController) {
     super("UI Updater Service", robotConfiguration.updateIntervalUi_ms);
+    this.robotConfiguration = robotConfiguration;
     this.appStateRepository = appStateRepository;
     this.rootController = rootController;
     this.eventBus = eventBus;
@@ -64,10 +66,10 @@ public class UiUpdaterService extends RobotServiceBase {
   }
 
   private void UpdateMapOnUi() {
-    MapLocationsLayersFactory mapLocationLayersFactory = new MapLocationsLayersFactory(appStateRepository);
+    MapLocationsLayersFactory mapLocationLayersFactory = new MapLocationsLayersFactory(robotConfiguration, appStateRepository);
     List<Canvas> mapLocationLayers = mapLocationLayersFactory.CreateMapLayers();
 
-    MapSelectedLayersFactory mapSelectedLayersFactory = new MapSelectedLayersFactory(appStateRepository);
+    MapSelectedLayersFactory mapSelectedLayersFactory = new MapSelectedLayersFactory(robotConfiguration, appStateRepository);
     List<Canvas> mapSelectedLayers = mapSelectedLayersFactory.CreateMapLayers();
 
     rootController.map.getChildren().clear();

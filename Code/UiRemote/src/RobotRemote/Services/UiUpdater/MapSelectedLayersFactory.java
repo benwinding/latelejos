@@ -2,6 +2,7 @@ package RobotRemote.Services.UiUpdater;
 
 import RobotRemote.Helpers.ColourTranslator;
 import RobotRemote.Models.MapPoint;
+import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
 import RobotRemote.Services.MapHandlers.UserWaypointsState;
@@ -19,15 +20,17 @@ import java.util.List;
 class MapSelectedLayersFactory {
   private final float mapH;
   private final float mapW;
+  private final float mapPixelsPerCm;
   private DiscoveredColoursState discoveredColoursState;
   private UserWaypointsState userWaypointsState;
   private UserNoGoZoneState userNoGoZoneState;
   private UiUpdaterState uiUpdaterState;
 
-  MapSelectedLayersFactory(AppStateRepository appStateRepository) {
+  MapSelectedLayersFactory(RobotConfiguration config, AppStateRepository appStateRepository) {
+    this.mapPixelsPerCm = config.mapPixelsPerCm;
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
-    this.mapH = uiUpdaterState.getMapH();
-    this.mapW = uiUpdaterState.getMapW();
+    this.mapH = uiUpdaterState.getMapH()*mapPixelsPerCm;
+    this.mapW = uiUpdaterState.getMapW()*mapPixelsPerCm;
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
     this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
@@ -85,7 +88,12 @@ class MapSelectedLayersFactory {
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
-      gc.strokeLine(p1.x,p1.y,p2.x,p2.y);
+
+      double p1x = p1.x * mapPixelsPerCm;
+      double p2x = p2.x * mapPixelsPerCm;
+      double p1y = p1.y * mapPixelsPerCm;
+      double p2y = p2.y * mapPixelsPerCm;
+      gc.strokeLine(p1x,p1y,p2x,p2y);
     }
     return layer;
   }
@@ -102,7 +110,9 @@ class MapSelectedLayersFactory {
       gc.setStroke(pointColour);
       gc.setFill(pointColour);
       for (MapPoint point: points) {
-        gc.fillOval(point.x-circleSize/2, point.y-circleSize/2, circleSize, circleSize);
+        double p1x = (point.x * mapPixelsPerCm)-circleSize/2;
+        double p1y = (point.y * mapPixelsPerCm)-circleSize/2;
+        gc.fillOval(p1x, p1y, circleSize, circleSize);
       }
     }
     return layer;
@@ -115,7 +125,9 @@ class MapSelectedLayersFactory {
     int circleSize = 30;
     gc.setStroke(color);
     for (Waypoint point : waypoints) {
-      gc.strokeOval(point.x-circleSize/2, point.y-circleSize/2, circleSize, circleSize);
+      double p1x = (point.x * mapPixelsPerCm)-circleSize/2;
+      double p1y = (point.y * mapPixelsPerCm)-circleSize/2;
+      gc.strokeOval(p1x, p1y, circleSize, circleSize);
     }
 
     return layer;

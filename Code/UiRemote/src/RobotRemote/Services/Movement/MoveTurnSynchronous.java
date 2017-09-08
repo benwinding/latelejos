@@ -30,7 +30,7 @@ class MoveTurnSynchronous {
   private void UpdateTurn(int angle) {
     Synchronizer.RunNotConcurrent(() -> {
       this.pilot.rotate(-angle);
-      this.locationState.ChangingHeading(angle);
+      this.locationState.ChangingHeading(-angle);
     });
   }
 }

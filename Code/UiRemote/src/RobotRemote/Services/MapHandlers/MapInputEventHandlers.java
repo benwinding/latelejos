@@ -4,6 +4,7 @@ import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.Events.EventUserAddWaypoint;
 import RobotRemote.Models.Events.EventUserZoomChanged;
+import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.EventBus;
@@ -13,9 +14,11 @@ public class MapInputEventHandlers {
   private final UserWaypointsState userWaypointsState;
   private final UserNoGoZoneState userNoGoZoneState;
   private final UiUpdaterState uiUpdaterState;
+  private RobotConfiguration config;
 
-  public MapInputEventHandlers(AppStateRepository appStateRepository, EventBus eventBus) {
+  public MapInputEventHandlers(EventBus eventBus, RobotConfiguration config, AppStateRepository appStateRepository) {
     eventBus.register(this);
+    this.config = config;
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
@@ -29,13 +32,13 @@ public class MapInputEventHandlers {
     float zoomLevel = uiUpdaterState.getZoomLevel();
 
     // Mouse relative coordinates to scaled map
-    double mouseX = event.getX()-((1-zoomLevel)/2)*mapW;
-    double mouseY = event.getY()-((1-zoomLevel)/2)*mapH;
+    double mouseX = event.getX()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapW;
+    double mouseY = event.getY()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapH;
 
     // Scale mouse to actual map xy coordinates
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
-    Logger.log("Received UserAddNgz, x:" + scaleX + ", y:" + scaleY);
+    Logger.log(String.format("Received UserAddWaypoint:: x:%.1f ,y:%.1f", scaleX, scaleY));
 
     userWaypointsState.AddWayPoint(scaleX,scaleY);
   }
@@ -48,14 +51,14 @@ public class MapInputEventHandlers {
     float zoomLevel = uiUpdaterState.getZoomLevel();
 
     // Mouse relative coordinates to scaled map
-    double mouseX = event.getX()-((1-zoomLevel)/2)*mapW;
-    double mouseY = event.getY()-((1-zoomLevel)/2)*mapH;
+    double mouseX = event.getX()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapW;
+    double mouseY = event.getY()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapH;
 
     // Scale mouse to actual map xy coordinates
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
 
-    Logger.log("Received UserAddNgz, x:" + scaleX + ", y:" + scaleY);
+    Logger.log(String.format("Received UserAddNGZ:: x:%.1f ,y:%.1f", scaleX, scaleY));
     int cols = userNoGoZoneState.countGridRows();
     int rows = userNoGoZoneState.countGridCols();
 
