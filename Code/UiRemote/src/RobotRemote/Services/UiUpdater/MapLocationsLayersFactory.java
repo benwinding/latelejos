@@ -78,7 +78,7 @@ class MapLocationsLayersFactory {
     gc.save();
     gc.translate(x, y);
     gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate(robotLocation.theta-90);
+    gc.rotate((robotLocation.theta-90)+180);
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("./Images/robot-map.png"));

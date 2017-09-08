@@ -46,9 +46,9 @@ class MoveStraightThread extends RobotServiceBase {
   @Override
   protected void Repeat() {
     if(this.movingForwards)
-      this.locationState.GoingStraight(-this.linearDistanceInterval);
-    else
       this.locationState.GoingStraight(this.linearDistanceInterval);
+    else
+      this.locationState.GoingStraight(-this.linearDistanceInterval);
   }
 
   @Override
