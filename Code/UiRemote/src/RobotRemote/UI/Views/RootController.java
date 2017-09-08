@@ -1,11 +1,11 @@
 package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.EnumCommandManual;
-import RobotRemote.Models.EnumZoomCommand;
+import RobotRemote.Models.Enums.EnumCommandManual;
+import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
+import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
@@ -17,12 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Waypoint;
@@ -31,63 +28,41 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RootController implements Initializable {
-  @FXML
   public Pane map;
-
-  @FXML
-  public AnchorPane rightSide;
-
-  @FXML
   public TextArea messageDisplayer;
-
-  @FXML
+  public Pane statusSensorUltra;
+  public Pane statusSensorColour;
+  public Pane statusSensorTouch;
+  public Pane statusIsConnected;
   public Pane locationDetails;
-
-  @FXML
   public Pane sensorDisplay;
 
   @FXML
   RadioButton enterNgz;
-
   @FXML
   RadioButton enterWaypoint;
-
-  @FXML
-  ImageView status;
-
   @FXML
   Button switchmode;
-
   @FXML
   Button RobotMode;
 
   private RobotConfiguration config;
   private UiState uiState;
   private EventBus eventBus;
-  private RobotConnectionService connectionService;
   private String state;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    Logger.Log("UI Loaded!");
+    Logger.log("UI Loaded!");
   }
 
-  public void Init(RobotConfiguration config, UiState uiState, EventBus eventBus, RobotConnectionService connectionService) {
+  public void Init(RobotConfiguration config, EventBus eventBus, AppStateRepository appStateRepository) {
     this.config = config;
-    this.uiState = uiState;
+    this.uiState = appStateRepository.getUiState();
     this.eventBus = eventBus;
-    this.connectionService = connectionService;
     this.state="Manual";
-    this.initStatus();
     this.initMap();
     this.initSwitch();
-  }
-
-  private void initStatus() {
-    if (connectionService.IsConnected())
-      this.status.setImage(new Image("RobotRemote/UI/Images/status_green.png"));
-    else
-      this.status.setImage(new Image("RobotRemote/UI/Images/status_red.png"));
   }
 
   private void initMap() {
@@ -124,7 +99,7 @@ public class RootController implements Initializable {
         MoveMotors(EnumCommandManual.Stop);
         break;
       default:
-        Logger.Log("Key press:" + e.getCode() + " is not implemented");
+        Logger.log("Key press:" + e.getCode() + " is not implemented");
     }
   }
 
@@ -198,7 +173,6 @@ public class RootController implements Initializable {
 
   public void onClickMap(MouseEvent mouseEvent) {
     if(enterNgz.isSelected()) {
-      Logger.LogCrossThread("Event: Mouse click being posted");
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
     }
     else if(enterWaypoint.isSelected()) {

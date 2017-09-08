@@ -1,6 +1,6 @@
 package RobotRemote.Models.Events;
 
-import RobotRemote.Models.EnumZoomCommand;
+import RobotRemote.Models.Enums.EnumZoomCommand;
 
 public class EventUserZoomChanged {
   private EnumZoomCommand zoomCommand;

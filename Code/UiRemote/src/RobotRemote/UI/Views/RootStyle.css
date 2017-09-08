@@ -1,13 +1,14 @@
 .stopButton {
     -fx-background-radius: 60;
     -fx-background-size: 100%;
+    -fx-background-position: 90%;
     -fx-background-repeat: no-repeat;
     -fx-pref-width: 120px;
     -fx-pref-height: 120px;
 }
 
 .moveButton {
-    -fx-background-size: 100%;
+    -fx-background-size: 90%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%;
     -fx-pref-width: 80px;
@@ -38,7 +39,12 @@
 }
 
 #btnZoomReset {
+    -fx-background-position: 90%;
+    -fx-pref-width: 80px;
+    -fx-pref-height: 80px;
+    -fx-padding: 10 10 10 10;
+
     -fx-background-size: 50%;
     -fx-background-repeat: no-repeat;
-    /*-fx-background-image: url('/RobotRemote/UI/Images/fullscreen_icon.png');*/
+    -background-image: url('/RobotRemote/UI/Images/fullscreen_icon.png');
 }

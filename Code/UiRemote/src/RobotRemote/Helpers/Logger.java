@@ -11,22 +11,17 @@ public class Logger {
     uiScene = scene;
   }
 
-  public static void Log(String msg) {
+  public static void log(String msg) {
     TryToLogConsole(msg);
     TryToWriteToUi(msg);
   }
 
-  public static void LogCrossThread(String msg) {
-    TryToLogConsole(msg);
-    TryToWriteToUi(msg);
-  }
-
-  public static void WarnCrossThread(String msg) {
+  public static void warn(String msg) {
     TryToWarnConsole(msg);
     TryToWriteToUi(msg);
   }
 
-  public static void TryToLogConsole(final String msg) {
+  private static void TryToLogConsole(final String msg) {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
@@ -49,7 +44,7 @@ public class Logger {
       }
     });
   }
-  public static void TryToWriteToUi(String msg) {
+  private static void TryToWriteToUi(String msg) {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
