@@ -2,10 +2,10 @@ package RobotRemote.Models.Events;
 
 import RobotRemote.Models.Enums.EnumOperationMode;
 
-public class EventChangeOperationMode {
+public class EventChangeRobotCommand {
   private EnumOperationMode enumOperationMode;
 
-  EventChangeOperationMode(EnumOperationMode enumOperationMode) {
+  public EventChangeRobotCommand(EnumOperationMode enumOperationMode) {
     this.enumOperationMode = enumOperationMode;
   }
 
