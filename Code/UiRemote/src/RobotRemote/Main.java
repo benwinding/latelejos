@@ -3,14 +3,13 @@ package RobotRemote;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Services.Listeners.Connection.RobotConnectionService;
-import RobotRemote.Services.Listeners.Movement.MovementEventListener;
-import RobotRemote.Services.Listeners.Movement.PilotFactory;
-import RobotRemote.Services.Listeners.StateMachine.StateMachineListener;
-import RobotRemote.Services.ServiceLocator;
-import RobotRemote.Services.ServiceUmpire;
-import RobotRemote.Services.Workers.SensorService.SensorsService;
-import RobotRemote.Services.Workers.UiUpdater.UiUpdaterService;
+import RobotRemote.Services.Connection.RobotConnectionService;
+import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
+import RobotRemote.Services.Movement.MovementHandler;
+import RobotRemote.Services.RobotCommander.RobotCommandListener;
+import RobotRemote.Services.Sensors.SensorsService;
+import RobotRemote.Services.ServiceCoordinator;
+import RobotRemote.Services.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
@@ -18,60 +17,65 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lejos.robotics.navigation.ArcRotateMoveController;
 
 public class Main extends Application {
 
-  private ServiceUmpire serviceUmpire;
+  private ServiceCoordinator serviceCoordinator;
 
   @Override
   public void start(Stage primaryStage) throws Exception{
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/RootView.fxml"));
     Parent root = (Parent) loader.load();
 
-    // Setup controller
+    // Setup root view controller
     RootController rootController = loader.getController();
     Scene scene = new Scene(root, 1000, 700);
     scene.getStylesheets().add("/RobotRemote/UI/Views/RootStyle.css");
+
+    // Link logger tot the root view, messageDisplay component
     Logger.Init(scene);
 
     // Get Application Configuration
     RobotConfiguration robotConfiguration = new RobotConfiguration();
-    // Instantiate repository
+
+    // Instantiate all app state
     AppStateRepository appStateRepository = new AppStateRepository(robotConfiguration);
-    // robotConnection Service
-    RobotConnectionService robotConnectionService = new RobotConnectionService();
+
+    // Connection to the robot
+    RobotConnectionService robotConnectionService = new RobotConnectionService(appStateRepository);
 
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
 
+    // Daemons
+    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
+    UiUpdaterService uiUpdaterService = new UiUpdaterService(eventBus, robotConfiguration, appStateRepository, rootController);
 
-    // Worker threads
-    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository.getSensorsState());
-    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController, eventBus);
+    // Handler classes
+    MovementHandler movementHandler = new MovementHandler(eventBus, robotConfiguration, appStateRepository, robotConnectionService);
+    MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
 
-    // Instantiate movement listener
-    ArcRotateMoveController pilot = PilotFactory.GetPilot(robotConnectionService, robotConfiguration);
-    MovementEventListener movementListener = new MovementEventListener(robotConfiguration, pilot, appStateRepository, eventBus);
-
-    // Instantiate state machine listener
-    StateMachineListener stateMachineListener = new StateMachineListener(
+    // Instantiate robot commander
+    RobotCommandListener robotCommanderService = new RobotCommandListener(
         appStateRepository,
         eventBus
     );
 
-    // Instantiate service locator
-    ServiceLocator serviceLocator = new ServiceLocator(
+    // Coordinate and spin up services
+    serviceCoordinator = new ServiceCoordinator(
         robotConnectionService,
         sensorService,
         uiUpdaterService,
-        movementListener
+        movementHandler
     );
-    // Spin up threads
-    serviceUmpire = new ServiceUmpire(serviceLocator);
-    serviceUmpire.StartAllThreads();
+    serviceCoordinator.StartAllThreads();
 
-    rootController.Init(robotConfiguration, appStateRepository.getUiState(), eventBus, robotConnectionService);
+    // Initialize the
+    rootController.Init(
+        robotConfiguration,
+        eventBus,
+        appStateRepository
+    );
 
     // Show GUI
     primaryStage.setTitle("Robot Remote UI");
@@ -83,7 +87,7 @@ public class Main extends Application {
   @Override
   public void stop(){
     System.out.println("Stage is closing");
-    serviceUmpire.StopAllThreads();
+    serviceCoordinator.StopAllThreads();
   }
 
   public static void main(String[] args) {
