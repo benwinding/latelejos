@@ -6,7 +6,7 @@ import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
-import RobotRemote.Services.Movement.LocationState;
+import RobotRemote.Services.Movement.MoveThreads.LocationState;
 import RobotRemote.Services.RobotServiceBase;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;

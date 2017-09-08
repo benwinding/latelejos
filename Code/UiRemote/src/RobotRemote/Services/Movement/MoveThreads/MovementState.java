@@ -1,4 +1,4 @@
-package RobotRemote.Services.Movement;
+package RobotRemote.Services.Movement.MoveThreads;
 
 import RobotRemote.Models.MotorsEnum;
 
@@ -20,7 +20,7 @@ public class MovementState {
     return motorState;
   }
 
-  void setMotorState(MotorsEnum motorState) {
+  public synchronized void setMotorState(MotorsEnum motorState) {
     this.motorState = motorState;
   }
 }

@@ -6,7 +6,7 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
 import RobotRemote.Services.Movement.MovementHandler;
-import RobotRemote.Services.RobotCommander.RobotCommanderService;
+import RobotRemote.Services.RobotCommander.RobotCommandListener;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
@@ -56,7 +56,7 @@ public class Main extends Application {
     MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
 
     // Instantiate robot commander
-    RobotCommanderService robotCommanderService = new RobotCommanderService(
+    RobotCommandListener robotCommanderService = new RobotCommandListener(
         appStateRepository,
         eventBus
     );

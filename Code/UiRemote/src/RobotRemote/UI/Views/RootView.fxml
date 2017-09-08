@@ -81,16 +81,13 @@
                     <Pane fx:id="statusSensorUltra" />
                     <Label text="Ultrasonic Status" />
                   </ToolBar>
-                  <ToolBar prefHeight="66.0" visible="false">
-                    <Button fx:id="RobotMode" prefHeight="39.0" prefWidth="76.0" text="Manual" />
-                    <Label prefHeight="37.0" prefWidth="75.0" text="Robot Mode" />
-                  </ToolBar>
                 </VBox>
               </TitledPane>
               <TitledPane collapsible="false" maxWidth="200" prefWidth="180.0" text="Switch Mode" AnchorPane.rightAnchor="0.0">
                 <HBox alignment="CENTER">
                   <VBox alignment="CENTER">
-                    <Button fx:id="switchmode" onMouseClicked="#onClickSwitch" prefHeight="66.0" prefWidth="132.0" />
+                    <Button fx:id="btnSwitchRobotMode" onMouseClicked="#onClickSwitchRobotMode" prefHeight="50.0" prefWidth="166.0" text="Switch Robot Mode" />
+                    <Label fx:id="lblSwitchRobotMode" />
                   </VBox>
                 </HBox>
               </TitledPane>

@@ -1,15 +1,15 @@
-package RobotRemote.Services.Movement;
+package RobotRemote.Services.Movement.MoveThreads;
 
 import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.MotorsEnum;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
-class MoveTurnSynchronous {
+public class MoveTurnSynchronous {
   private ArcRotateMoveController pilot;
   private LocationState locationState;
   private MovementState movementState;
 
-  MoveTurnSynchronous(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
+  public MoveTurnSynchronous(ArcRotateMoveController pilot, LocationState locationState, MovementState movementState) {
     this.pilot = pilot;
     this.locationState = locationState;
     this.movementState = movementState;

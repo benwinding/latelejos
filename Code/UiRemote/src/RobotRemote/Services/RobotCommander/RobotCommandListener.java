@@ -1,18 +1,17 @@
 package RobotRemote.Services.RobotCommander;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.Models.Events.EventChangeOperationMode;
-import RobotRemote.Models.Events.EventRobotmode;
+import RobotRemote.Models.Events.EventChangeRobotCommand;
 import RobotRemote.Repositories.AppStateRepository;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class RobotCommanderService {
+public class RobotCommandListener {
   private ModeObjectAvoidance modeObjectAvoidance;
   private ModeAutoMapping modeAutomapping;
   private RobotCommandState robotCommandState;
 
-  public RobotCommanderService(AppStateRepository appStateRepository, EventBus eventBus) {
+  public RobotCommandListener(AppStateRepository appStateRepository, EventBus eventBus) {
     eventBus.register(this);
     this.robotCommandState = appStateRepository.getStateMachineState();
     this.modeAutomapping = new ModeAutoMapping();
@@ -20,8 +19,8 @@ public class RobotCommanderService {
   }
 
   @Subscribe
-  public void OnChangeMode(EventChangeOperationMode event) {
-    Logger.log("Received EventChangeOperationMode: " + event.getOperationMode());
+  public void OnChangeMode(EventChangeRobotCommand event) {
+    Logger.log("Received EventChangeRobotCommand: " + event.getOperationMode());
     robotCommandState.setCurrentState(event.getOperationMode());
     switch (event.getOperationMode()) {
       case ManualMode:
@@ -41,10 +40,5 @@ public class RobotCommanderService {
       default:
         break;
     }
-  }
-
-  @Subscribe
-  public void OnEventRobotmode(EventRobotmode event) {
-    Logger.log("Robot mode changed");
   }
 }

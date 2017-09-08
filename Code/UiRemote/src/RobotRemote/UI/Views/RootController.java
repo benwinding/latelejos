@@ -2,6 +2,7 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
+import RobotRemote.Models.Enums.EnumOperationMode;
 import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.RobotConfiguration;
@@ -14,7 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
@@ -42,14 +43,11 @@ public class RootController implements Initializable {
   @FXML
   RadioButton enterWaypoint;
   @FXML
-  Button switchmode;
-  @FXML
-  Button RobotMode;
+  Label lblSwitchRobotMode;
 
-  private RobotConfiguration config;
   private UiState uiState;
   private EventBus eventBus;
-  private String state;
+  private boolean isAutoMode;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,10 +55,9 @@ public class RootController implements Initializable {
   }
 
   public void Init(RobotConfiguration config, EventBus eventBus, AppStateRepository appStateRepository) {
-    this.config = config;
     this.uiState = appStateRepository.getUiState();
     this.eventBus = eventBus;
-    this.state="Manual";
+    this.isAutoMode = false;
     this.initMap();
     this.initSwitch();
   }
@@ -68,15 +65,13 @@ public class RootController implements Initializable {
   private void initMap() {
     this.map.addEventHandler(ScrollEvent.SCROLL, event -> {
       double scrollAmount = event.getDeltaY();
-      if(scrollAmount > 0)
-        eventBus.post(new EventUserZoomChanged(EnumZoomCommand.IncrementZoom));
-      else
-        eventBus.post(new EventUserZoomChanged(EnumZoomCommand.DecrementZoom));
+      boolean isZoomIn = (scrollAmount > 0);
+      eventBus.post(new EventUserZoomChanged(isZoomIn));
     });
   }
 
   private void initSwitch() {
-    this.switchmode.setText("Switch Mode");
+    this.lblSwitchRobotMode.setText("Current Mode: Manual");
   }
 
   public void keyPressed(KeyEvent e) {
@@ -103,18 +98,17 @@ public class RootController implements Initializable {
     }
   }
 
-  public void onClickSwitch(MouseEvent mouseEvent){
-    if(state == "Auto") {
-       // this.switchmode.setText("Manual");
-      state="Manual";
-        this.RobotMode.setText("Manual");
+  public void onClickSwitchRobotMode(MouseEvent mouseEvent){
+    if(isAutoMode) {
+      isAutoMode = false;
+      this.lblSwitchRobotMode.setText("Current Mode: Manual");
+      eventBus.post(new EventChangeRobotCommand(EnumOperationMode.ManualMode));
     }
     else{
-      //this.switchmode.setText("Auto");
-      state="Auto";
-      this.RobotMode.setText("Auto");
+      isAutoMode = true;
+      this.lblSwitchRobotMode.setText("Current Mode: Auto");
+      eventBus.post(new EventChangeRobotCommand(EnumOperationMode.AutoMode));
     }
-    eventBus.post(new EventRobotmode());
   }
 
   public void onClickHelp(ActionEvent event) {

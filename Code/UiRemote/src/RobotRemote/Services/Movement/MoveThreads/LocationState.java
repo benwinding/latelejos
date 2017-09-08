@@ -1,4 +1,4 @@
-package RobotRemote.Services.Movement;
+package RobotRemote.Services.Movement.MoveThreads;
 
 import RobotRemote.Models.MapPoint;
 import lejos.robotics.navigation.Pose;
@@ -34,7 +34,7 @@ public class LocationState {
     return new MapPoint(sensorPose.getX(), sensorPose.getY(), sensorPose.getHeading());
   }
 
-  Pose GetCurrentPose() {
+  public Pose GetCurrentPose() {
     MapPoint current = GetCurrentPosition();
     Pose newPose = new Pose();
     newPose.setLocation((float) current.x, (float) current.y);
@@ -47,12 +47,12 @@ public class LocationState {
     this.pointsVisited.add(newPoint);
   }
 
-  void GoingToPose(Pose pose) {
+  public synchronized void GoingToPose(Pose pose) {
     MapPoint newPoint = new MapPoint(pose.getX(), pose.getY(), pose.getHeading());
     this.pointsVisited.add(newPoint);
   }
 
-  void GoingToPoint(double x, double y, double theta) {
+  private void GoingToPoint(double x, double y, double theta) {
     MapPoint newPoint = new MapPoint(x, y, theta);
     this.pointsVisited.add(newPoint);
   }

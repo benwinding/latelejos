@@ -1,4 +1,4 @@
-package RobotRemote.Services.Movement;
+package RobotRemote.Services.Movement.Factories;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.RobotConfiguration;
