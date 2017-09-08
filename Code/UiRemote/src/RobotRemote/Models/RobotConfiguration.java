@@ -16,11 +16,11 @@ public class RobotConfiguration {
   public double robotAngularSpeed_degs = 30;
   public double robotAngularAcceleration_degs2 = 10;
   public float robotWheelDia = 5.6f;  // Tested on hard surface, Will not be accurate on carpet
-  public float robotTrackWidth = 12.5f; // Tested on hard surface, Will not be accurate on carpet
+  public float robotTrackWidth = 13f; // Tested on hard surface, Will not be accurate on carpet
   public String wheelPortLeft = "B";
   public String wheelPortRight = "A";
   public int updateIntervalMoving_ms = 50;
-  public int updateIntervalUi_ms = 100;
+  public int updateIntervalUi_ms = 50;
   public String sensorPortUltra = "S3";
   public String sensorPortColour = "S4";
   public String sensorPortTouch = "S1";
