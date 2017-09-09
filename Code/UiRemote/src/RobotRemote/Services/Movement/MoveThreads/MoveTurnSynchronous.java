@@ -29,7 +29,8 @@ public class MoveTurnSynchronous {
 
   private void UpdateTurn(int angle) {
     Synchronizer.RunNotConcurrent(() -> {
-      this.pilot.rotate(angle);
+        double adjustAngle = angle<0? angle*0.88: angle*0.93;
+      this.pilot.rotate((int)adjustAngle );
       this.locationState.ChangingHeading(angle);
     });
   }

@@ -1,8 +1,8 @@
 package RobotRemote.Models;
 
 public class RobotConfiguration {
-  public float initX = 20; // cm
-  public float initY = 20; // cm
+  public float initX = 30; // cm
+  public float initY = 65; // cm
   public float initTheta = -90;
   public int ngzRows = 10;
   public int ngzCols = 15;
@@ -11,7 +11,7 @@ public class RobotConfiguration {
   public float mapW = 59.4f; // cm
   public float mapH = 84.1f; // cm
   public float mapPixelsPerCm = 10; // Define pixel density of map
-  public double robotLinearSpeed_cms = 5;
+  public double robotLinearSpeed_cms = 3;
   public double robotLinearAcceleration_cms2 = 0;
   public double robotAngularSpeed_degs = 30;
   public double robotAngularAcceleration_degs2 = 10;

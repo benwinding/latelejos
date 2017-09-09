@@ -14,7 +14,7 @@ public class RobotCommandListener {
   public RobotCommandListener(AppStateRepository appStateRepository, EventBus eventBus) {
     eventBus.register(this);
     this.robotCommandState = appStateRepository.getStateMachineState();
-    this.modeAutomapping = new ModeAutoMapping();
+    this.modeAutomapping = new ModeAutoMapping(eventBus,appStateRepository);
     this.modeObjectAvoidance = new ModeObjectAvoidance();
   }
 

@@ -12,6 +12,7 @@ import RobotRemote.Services.Sensors.DiscoveredColoursState;
 import RobotRemote.Services.Sensors.SensorsState;
 import RobotRemote.Services.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
+import lejos.robotics.navigation.ArcRotateMoveController;
 
 public class AppStateRepository {
   private UiState uiState;
@@ -77,4 +78,13 @@ public class AppStateRepository {
   public RobotConnectionState getRobotConnectionState() {
     return robotConnectionState;
   }
+
+    private ArcRotateMoveController pilot;
+    public void setPilot(ArcRotateMoveController pilot) {
+      this.pilot = pilot;
+    }
+    public ArcRotateMoveController getPilot()
+    {
+        return  pilot;
+    }
 }

@@ -21,8 +21,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   private ServiceCoordinator serviceCoordinator;
-
-  @Override
+  public static AppStateRepository appStateRepository;
+    @Override
   public void start(Stage primaryStage) throws Exception{
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/RootView.fxml"));
     Parent root = (Parent) loader.load();
@@ -39,7 +39,7 @@ public class Main extends Application {
     RobotConfiguration robotConfiguration = new RobotConfiguration();
 
     // Instantiate all app state
-    AppStateRepository appStateRepository = new AppStateRepository(robotConfiguration);
+    appStateRepository = new AppStateRepository(robotConfiguration);
 
     // Connection to the robot
     RobotConnectionService robotConnectionService = new RobotConnectionService(appStateRepository);

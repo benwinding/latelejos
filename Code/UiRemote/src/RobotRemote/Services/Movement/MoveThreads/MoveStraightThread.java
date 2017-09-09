@@ -2,6 +2,7 @@ package RobotRemote.Services.Movement.MoveThreads;
 
 import RobotRemote.Helpers.Synchronizer;
 import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.RobotServiceBase;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
@@ -24,6 +25,11 @@ public class MoveStraightThread extends RobotServiceBase {
       this.pilot.stop(); // If already moving stop
     });
   }
+
+ public boolean IsMoving()
+ {
+     return pilot.isMoving();
+ }
 
   public void MoveForward() {
     this.movingForwards = true;
@@ -68,9 +74,9 @@ public class MoveStraightThread extends RobotServiceBase {
     this.kill();
   }
 
-  void MoveDistance(int distance) {
+  public void MoveDistance(int distance) {
     Synchronizer.RunNotConcurrent(() -> {
-      pilot.travel(distance, true);
+      pilot.travel(distance);
       this.locationState.GoingStraight(distance);
     });
   }
