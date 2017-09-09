@@ -9,6 +9,8 @@ public class UiUpdaterState {
   private float zoomLevel;
   private float mapH;
   private float mapW;
+  private double mapDragDeltax;
+  private double mapDragDeltay;
 
   public UiUpdaterState(float zoomLevel, float mapH, float mapW) {
     this.zoomLevel = zoomLevel;
@@ -48,5 +50,18 @@ public class UiUpdaterState {
 
   public void zoomReset() {
     this.zoomLevel = 1f;
+  }
+
+  public void setMapDraggedDelta(double x, double y) {
+    this.mapDragDeltax = x;
+    this.mapDragDeltay = y;
+  }
+
+  public double getMapDragDeltaX() {
+    return mapDragDeltax;
+  }
+
+  public double getMapDragDeltaY() {
+    return mapDragDeltay;
   }
 }

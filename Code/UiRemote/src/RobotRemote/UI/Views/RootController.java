@@ -5,6 +5,7 @@ import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumOperationMode;
 import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
+import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.UI.UiState;
@@ -19,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -165,8 +167,15 @@ public class RootController implements Initializable {
     eventBus.post(new EventManualControl(command));
   }
 
+  private MapPoint mapDragInitial = new MapPoint(0,0);
+
   public void onClickMap(MouseEvent mouseEvent) {
-    if(enterNgz.isSelected()) {
+    if(mouseEvent.getButton() == MouseButton.SECONDARY) {
+      mapDragInitial.x = mouseEvent.getX();
+      mapDragInitial.y = mouseEvent.getY();
+      Logger.log("UI: Map being dragged...");
+    }
+    else if(enterNgz.isSelected()) {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
     }
     else if(enterWaypoint.isSelected()) {
@@ -179,5 +188,25 @@ public class RootController implements Initializable {
 
   public void onClickZoomReset(MouseEvent mouseEvent) {
     eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
+  }
+
+  public void onDragMap(MouseEvent dragEvent) {
+    if(dragEvent.getButton() != MouseButton.SECONDARY)
+      return;
+
+    MapPoint dragDelta = new MapPoint(
+        mapDragInitial.x + dragEvent.getX(),
+        mapDragInitial.y + dragEvent.getY()
+    );
+//    Logger.log(String.format("dragged x:%.1f, y:%.1f",dragDelta.x,dragDelta.x));
+    eventBus.post(new EventUserMapDragged(dragDelta.x,dragDelta.y));
+  }
+
+  public void onReleaseMap(MouseEvent mouseEvent) {
+    MapPoint dragNew = new MapPoint(
+        mouseEvent.getX(),
+        mouseEvent.getY()
+    );
+    this.mapDragInitial = dragNew;
   }
 }

@@ -28,7 +28,7 @@
             <StackPane alignment="TOP_RIGHT">
               <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
-                  <Pane fx:id="map" onMouseClicked="#onClickMap" />
+                  <Pane fx:id="map" onMouseClicked="#onClickMap" onMouseDragged="#onDragMap" onMouseReleased="#onReleaseMap"/>
                 </VBox>
               </HBox>
               <TitledPane collapsible="false" maxWidth="160.0" prefHeight="173.0" text="Map Options">
