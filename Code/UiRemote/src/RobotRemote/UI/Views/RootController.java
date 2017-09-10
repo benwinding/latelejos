@@ -49,7 +49,10 @@ public class RootController implements Initializable {
 
   private UiState uiState;
   private EventBus eventBus;
+
+  // Variables for UI logic
   private boolean isAutoMode;
+  private MapPoint mapDragInitial = new MapPoint(0,0);
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -167,8 +170,6 @@ public class RootController implements Initializable {
     eventBus.post(new EventManualControl(command));
   }
 
-  private MapPoint mapDragInitial = new MapPoint(0,0);
-
   public void onClickMap(MouseEvent mouseEvent) {
     if(mouseEvent.getButton() == MouseButton.SECONDARY) {
       mapDragInitial.x = mouseEvent.getX();
@@ -188,6 +189,8 @@ public class RootController implements Initializable {
 
   public void onClickZoomReset(MouseEvent mouseEvent) {
     eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
+    mapDragInitial = new MapPoint(0,0);
+    eventBus.post(new EventUserMapDragged(mapDragInitial.x,mapDragInitial.y));
   }
 
   public void onDragMap(MouseEvent dragEvent) {
