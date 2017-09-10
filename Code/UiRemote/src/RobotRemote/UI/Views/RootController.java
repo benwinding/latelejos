@@ -170,11 +170,17 @@ public class RootController implements Initializable {
     eventBus.post(new EventManualControl(command));
   }
 
+  public void onClickZoomReset(MouseEvent mouseEvent) {
+    eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
+    mapDragInitial = new MapPoint(0,0);
+    eventBus.post(new EventUserMapDragged(mapDragInitial.x,mapDragInitial.y));
+  }
+
   public void onClickMap(MouseEvent mouseEvent) {
     if(mouseEvent.getButton() == MouseButton.SECONDARY) {
-      mapDragInitial.x = mouseEvent.getX();
-      mapDragInitial.y = mouseEvent.getY();
-      Logger.log("UI: Map begin dragged...");
+      mapDragInitial.x = mouseEvent.getX() - mapDragInitial.x;
+      mapDragInitial.y = mouseEvent.getY() - mapDragInitial.y;
+      Logger.log("UI: map drag start...");
     }
     else if(enterNgz.isSelected()) {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
@@ -187,26 +193,13 @@ public class RootController implements Initializable {
     }
   }
 
-  public void onClickZoomReset(MouseEvent mouseEvent) {
-    eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
-    mapDragInitial = new MapPoint(0,0);
-    eventBus.post(new EventUserMapDragged(mapDragInitial.x,mapDragInitial.y));
-  }
-
   public void onDragMap(MouseEvent dragEvent) {
     if(dragEvent.getButton() != MouseButton.SECONDARY)
       return;
-
-    double xi = mapDragInitial.x;
-    double yi = mapDragInitial.y;
     MapPoint dragDelta = new MapPoint(
         dragEvent.getX() - mapDragInitial.x,
         dragEvent.getY() - mapDragInitial.y
     );
-    double x = dragEvent.getX();
-    double y = dragEvent.getY();
-//    Logger.log(String.format("dragged x:%.1f, y:%.1f",dragDelta.x,dragDelta.x));
-//    Logger.log(String.format("dragged x:%.1f, y:%.1f",mapDragInitial.x,mapDragInitial.x));
     eventBus.post(new EventUserMapDragged(dragDelta.x,dragDelta.y));
   }
 
@@ -216,6 +209,6 @@ public class RootController implements Initializable {
         mouseEvent.getY() - mapDragInitial.y
     );
     this.mapDragInitial = dragNew;
-    Logger.log("UI: Map end dragged...");
+    Logger.log("UI: map drag end...");
   }
 }
