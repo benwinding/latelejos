@@ -173,7 +173,7 @@ public class RootController implements Initializable {
     if(mouseEvent.getButton() == MouseButton.SECONDARY) {
       mapDragInitial.x = mouseEvent.getX();
       mapDragInitial.y = mouseEvent.getY();
-      Logger.log("UI: Map being dragged...");
+      Logger.log("UI: Map begin dragged...");
     }
     else if(enterNgz.isSelected()) {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
@@ -194,19 +194,25 @@ public class RootController implements Initializable {
     if(dragEvent.getButton() != MouseButton.SECONDARY)
       return;
 
+    double xi = mapDragInitial.x;
+    double yi = mapDragInitial.y;
     MapPoint dragDelta = new MapPoint(
-        mapDragInitial.x + dragEvent.getX(),
-        mapDragInitial.y + dragEvent.getY()
+        dragEvent.getX() - mapDragInitial.x,
+        dragEvent.getY() - mapDragInitial.y
     );
+    double x = dragEvent.getX();
+    double y = dragEvent.getY();
 //    Logger.log(String.format("dragged x:%.1f, y:%.1f",dragDelta.x,dragDelta.x));
+//    Logger.log(String.format("dragged x:%.1f, y:%.1f",mapDragInitial.x,mapDragInitial.x));
     eventBus.post(new EventUserMapDragged(dragDelta.x,dragDelta.y));
   }
 
   public void onReleaseMap(MouseEvent mouseEvent) {
     MapPoint dragNew = new MapPoint(
-        mouseEvent.getX(),
-        mouseEvent.getY()
+        mouseEvent.getX() - mapDragInitial.x,
+        mouseEvent.getY() - mapDragInitial.y
     );
     this.mapDragInitial = dragNew;
+    Logger.log("UI: Map end dragged...");
   }
 }
