@@ -3,10 +3,10 @@ package RobotRemote;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
 import RobotRemote.Services.Movement.MovementHandler;
-import RobotRemote.RobotStateMachine.RStateWaiting;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
@@ -47,6 +47,9 @@ public class Main extends Application {
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
 
+    // State Machine Builder
+    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(eventBus);
+
     // Daemons
     SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
@@ -54,14 +57,6 @@ public class Main extends Application {
     // Handler classes
     MovementHandler movementHandler = new MovementHandler(eventBus, robotConfiguration, appStateRepository, robotConnectionService);
     MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
-
-    // Instantiate robot commander
-    RStateWaiting robotCommanderService = new RStateWaiting(
-        appStateRepository,
-        eventBus
-    );
-
-    // State
 
     // Coordinate and spin up services
     serviceCoordinator = new ServiceCoordinator(
