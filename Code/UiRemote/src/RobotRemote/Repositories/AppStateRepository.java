@@ -78,13 +78,4 @@ public class AppStateRepository {
   public RobotConnectionState getRobotConnectionState() {
     return robotConnectionState;
   }
-
-    private ArcRotateMoveController pilot;
-    public void setPilot(ArcRotateMoveController pilot) {
-      this.pilot = pilot;
-    }
-    public ArcRotateMoveController getPilot()
-    {
-        return  pilot;
-    }
 }

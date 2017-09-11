@@ -2,8 +2,8 @@ package RobotRemote.RobotStateMachine;
 
 import RobotRemote.Services.RobotServiceBase;
 
-public class ModeObjectAvoidance extends RobotServiceBase {
-  public ModeObjectAvoidance() {
+public class RStateObjectAvoidance extends RobotServiceBase {
+  public RStateObjectAvoidance() {
     super("Mode Object Avoidance", 80);
   }
 

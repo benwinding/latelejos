@@ -2,10 +2,10 @@ package RobotRemote.Models.Events;
 
 import RobotRemote.Models.Enums.EnumCommandManual;
 
-public class EventManualControl {
+public class EventManualCommand {
   private EnumCommandManual command;
 
-  public EventManualControl(EnumCommandManual command) {
+  public EventManualCommand(EnumCommandManual command) {
     this.command = command;
   }
 

@@ -8,6 +8,7 @@ import RobotRemote.Models.Events.*;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Models.Events.EventManualCommand;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
@@ -167,7 +168,7 @@ public class RootController implements Initializable {
 
   private void MoveMotors(EnumCommandManual command) {
     uiState.setCurrentCommand(command);
-    eventBus.post(new EventManualControl(command));
+    eventBus.post(new EventManualCommand(command));
   }
 
   public void onClickZoomReset(MouseEvent mouseEvent) {

@@ -7,15 +7,15 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 public class RobotCommandListener {
-  private ModeObjectAvoidance modeObjectAvoidance;
-  private ModeAutoMapping modeAutomapping;
+  private RStateObjectAvoidance RStateObjectAvoidance;
+  private RStateAutoMapping RStateAutomapping;
   private RobotCommandState robotCommandState;
 
   public RobotCommandListener(AppStateRepository appStateRepository, EventBus eventBus) {
     eventBus.register(this);
     this.robotCommandState = appStateRepository.getStateMachineState();
-    this.modeAutomapping = new ModeAutoMapping(eventBus,appStateRepository);
-    this.modeObjectAvoidance = new ModeObjectAvoidance();
+    this.RStateAutomapping = new RStateAutoMapping(eventBus,appStateRepository);
+    this.RStateObjectAvoidance = new RStateObjectAvoidance();
   }
 
   @Subscribe
@@ -24,19 +24,19 @@ public class RobotCommandListener {
     robotCommandState.setCurrentState(event.getOperationMode());
     switch (event.getOperationMode()) {
       case ManualMode:
-        this.modeObjectAvoidance.kill();
-        this.modeAutomapping.kill();
+        this.RStateObjectAvoidance.kill();
+        this.RStateAutomapping.kill();
         break;
       case AutoMode:
-        this.modeAutomapping.start();
+        this.RStateAutomapping.start();
         break;
       case AvoidanceMode:
-        this.modeAutomapping.kill();
-        this.modeObjectAvoidance.start();
+        this.RStateAutomapping.kill();
+        this.RStateObjectAvoidance.start();
         break;
       case Waiting:
-        this.modeAutomapping.kill();
-        this.modeObjectAvoidance.start();
+        this.RStateAutomapping.kill();
+        this.RStateObjectAvoidance.start();
       default:
         break;
     }

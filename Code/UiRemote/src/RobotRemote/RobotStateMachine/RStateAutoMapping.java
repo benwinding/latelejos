@@ -3,25 +3,27 @@ package RobotRemote.RobotStateMachine;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Events.EventAutonomousControl;
-import RobotRemote.Models.Events.EventManualControl;
+import RobotRemote.Models.Events.EventManualCommand;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.RobotServiceBase;
 import com.google.common.collect.EvictingQueue;
 import com.google.common.eventbus.EventBus;
 
-public class ModeAutoMapping extends RobotServiceBase {
+public class RStateAutoMapping extends RobotServiceBase {
     enum AutonomousState{
         Moving,
         Stop,
         ObstacleDetected,
         AvoidObstacle
     }
+
     private AutonomousState currentState;
     private EventBus eventBus;
     private EvictingQueue<Double> obstacleDistanceValue;
-    private EvictingQueue<EventManualControl> movementQueue;
+    private EvictingQueue<EventManualCommand> movementQueue;
     private AppStateRepository appStateRepository;
-    public ModeAutoMapping(EventBus eventBus,AppStateRepository appStateRepository) {
+
+    public RStateAutoMapping(EventBus eventBus, AppStateRepository appStateRepository) {
         super("Mode Automatic", 100);
         this.eventBus = eventBus;
         this.appStateRepository = appStateRepository;
@@ -32,13 +34,13 @@ public class ModeAutoMapping extends RobotServiceBase {
     private boolean DetectObstacle()
     {
         double distanceValue =this.appStateRepository.getSensorsState().getUltraReading() ;
-            if(!Double.isInfinite(distanceValue) && distanceValue*100 < 6)
-                return  true;
+        if(!Double.isInfinite(distanceValue) && distanceValue*100 < 6)
+            return  true;
         return  false;
     }
     @Override
     protected void OnStart() {
-        eventBus.post(new EventManualControl(EnumCommandManual.Stop));
+        eventBus.post(new EventManualCommand(EnumCommandManual.Stop));
         currentState =AutonomousState.Stop;
         Logger.log("Mode: Auto Mapping Started ...");
     }
@@ -48,13 +50,13 @@ public class ModeAutoMapping extends RobotServiceBase {
         switch (currentState)
         {
             case Stop:
-                eventBus.post(new EventManualControl(EnumCommandManual.Forward));
+                eventBus.post(new EventManualCommand(EnumCommandManual.Forward));
                 currentState = AutonomousState.Moving;
                 break;
             case Moving:
                 if(DetectObstacle())
                 {
-                    eventBus.post(new EventManualControl(EnumCommandManual.Stop));
+                    eventBus.post(new EventManualCommand(EnumCommandManual.Stop));
                     currentState = AutonomousState.ObstacleDetected;
                 }
                 break;
@@ -78,7 +80,7 @@ public class ModeAutoMapping extends RobotServiceBase {
     @Override
     protected void OnShutdown() {
         currentState = AutonomousState.Stop;
-        eventBus.post(new EventManualControl(EnumCommandManual.Stop));
+        eventBus.post(new EventManualCommand(EnumCommandManual.Stop));
         Logger.log("Mode: Auto Mapping ending ...");
     }
 }
