@@ -5,6 +5,7 @@ import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumOperationMode;
 import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
+import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.UI.UiState;
@@ -19,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -47,7 +49,10 @@ public class RootController implements Initializable {
 
   private UiState uiState;
   private EventBus eventBus;
+
+  // Variables for UI logic
   private boolean isAutoMode;
+  private MapPoint mapDragInitial = new MapPoint(0,0);
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -165,8 +170,19 @@ public class RootController implements Initializable {
     eventBus.post(new EventManualControl(command));
   }
 
+  public void onClickZoomReset(MouseEvent mouseEvent) {
+    eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
+    mapDragInitial = new MapPoint(0,0);
+    eventBus.post(new EventUserMapDragged(mapDragInitial.x,mapDragInitial.y));
+  }
+
   public void onClickMap(MouseEvent mouseEvent) {
-    if(enterNgz.isSelected()) {
+    if(mouseEvent.getButton() == MouseButton.SECONDARY) {
+      mapDragInitial.x = mouseEvent.getX() - mapDragInitial.x;
+      mapDragInitial.y = mouseEvent.getY() - mapDragInitial.y;
+      Logger.log("UI: map drag start...");
+    }
+    else if(enterNgz.isSelected()) {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
     }
     else if(enterWaypoint.isSelected()) {
@@ -177,7 +193,22 @@ public class RootController implements Initializable {
     }
   }
 
-  public void onClickZoomReset(MouseEvent mouseEvent) {
-    eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
+  public void onDragMap(MouseEvent dragEvent) {
+    if(dragEvent.getButton() != MouseButton.SECONDARY)
+      return;
+    MapPoint dragDelta = new MapPoint(
+        dragEvent.getX() - mapDragInitial.x,
+        dragEvent.getY() - mapDragInitial.y
+    );
+    eventBus.post(new EventUserMapDragged(dragDelta.x,dragDelta.y));
+  }
+
+  public void onReleaseMap(MouseEvent mouseEvent) {
+    MapPoint dragNew = new MapPoint(
+        mouseEvent.getX() - mapDragInitial.x,
+        mouseEvent.getY() - mapDragInitial.y
+    );
+    this.mapDragInitial = dragNew;
+    Logger.log("UI: map drag end...");
   }
 }

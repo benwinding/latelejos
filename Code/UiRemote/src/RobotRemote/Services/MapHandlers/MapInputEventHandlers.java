@@ -3,6 +3,7 @@ package RobotRemote.Services.MapHandlers;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventUserAddNgz;
 import RobotRemote.Models.Events.EventUserAddWaypoint;
+import RobotRemote.Models.Events.EventUserMapDragged;
 import RobotRemote.Models.Events.EventUserZoomChanged;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
@@ -65,6 +66,11 @@ public class MapInputEventHandlers {
     int r = this.GetCellInRange(mapW, cols, scaleX);
     int c = this.GetCellInRange(mapH, rows, scaleY);
     userNoGoZoneState.switchNgzCell(r,c);
+  }
+
+  @Subscribe
+  public void OnUserMapDragged(EventUserMapDragged event) {
+    uiUpdaterState.setMapDraggedDelta(event.getX(), event.getY());
   }
 
   @Subscribe

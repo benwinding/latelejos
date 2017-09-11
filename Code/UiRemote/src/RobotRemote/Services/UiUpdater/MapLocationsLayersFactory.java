@@ -40,6 +40,8 @@ class MapLocationsLayersFactory {
     for (Canvas layer : mapLayers) {
       layer.setScaleX(zoom);
       layer.setScaleY(zoom);
+      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX());
+      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY());
     }
     return mapLayers;
   }
