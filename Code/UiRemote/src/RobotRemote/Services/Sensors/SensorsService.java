@@ -29,12 +29,9 @@ public class SensorsService extends RobotServiceBase {
   private EV3ColorSensor colourSensorConnection;
   private SensorMode colourSensorMode;
 
-  private EV3UltrasonicSensor ultrasonicConnection;
-  private SensorMode ultrasonicMode;
-
   private RMISampleProvider rmiTouchMode;
   private RMISampleProvider ultraSampleProvider;
-  private boolean useRemoveConnectUltraSensor;
+
   public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
     super("Sensors Service", 50);
     this.config = config;
@@ -42,7 +39,6 @@ public class SensorsService extends RobotServiceBase {
     this.sensorsState = appStateRepository.getSensorsState();
     this.locationState = appStateRepository.getLocationState();
     this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
-      useRemoveConnectUltraSensor  = false;
   }
 
   @Override
@@ -59,7 +55,7 @@ public class SensorsService extends RobotServiceBase {
       Logger.log("Opening touch sensor, on port: " + config.sensorPortTouch);
       RemoteEV3 ev3 = this.connectionService.GetBrickeRemoteEv3();
       this.rmiTouchMode = ev3.createSampleProvider("S1", "lejos.hardware.sensor.EV3TouchSensor", "Touch");
-      Thread.sleep(50);
+      Thread.sleep(100);
       sensorsState.setStatusTouch(true);
       Logger.log("Success: opened touch sensor, on port: " + config.sensorPortTouch);
     } catch(Exception e) {
@@ -70,16 +66,8 @@ public class SensorsService extends RobotServiceBase {
   private void InitUltrasonicSensor() {
     try {
       Logger.log("Opening ultrasonic sensor, on port: " + config.sensorPortUltra);
-      if(useRemoveConnectUltraSensor) {
-          Port port = this.connectionService.GetBrick().getPort(config.sensorPortUltra);
-          this.ultrasonicConnection = new EV3UltrasonicSensor(port);
-          this.ultrasonicMode = ultrasonicConnection.getMode("Distance");
-      }
-      else {
-          ultraSampleProvider =  this.connectionService.GetBrickeRemoteEv3().createSampleProvider(config.sensorPortUltra,"lejos.hardware.sensor.EV3UltrasonicSensor","Distance");
-      }
-
-      Thread.sleep(50);
+      ultraSampleProvider =  this.connectionService.GetBrickeRemoteEv3().createSampleProvider(config.sensorPortUltra,"lejos.hardware.sensor.EV3UltrasonicSensor","Distance");
+      Thread.sleep(100);
       sensorsState.setStatusUltra(true);
       Logger.log("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
     } catch(Exception e) {
@@ -93,7 +81,7 @@ public class SensorsService extends RobotServiceBase {
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortColour);
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
-      Thread.sleep(50);
+      Thread.sleep(100);
       sensorsState.setStatusColour(true);
       Logger.log("Success: opened colour sensor, on port: " + config.sensorPortColour);
     } catch(Exception e) {
@@ -124,23 +112,14 @@ public class SensorsService extends RobotServiceBase {
 
   private void FetchUltrasonicSensor() {
     // Set ultrasonic sensor to state
-      if(useRemoveConnectUltraSensor) {
-          if (ultrasonicMode == null)
-              return;
-          float[] sample2 = new float[ultrasonicMode.sampleSize()];
-          ultrasonicMode.fetchSample(sample2, 0);
-          sensorsState.setUltraReading(sample2[0]);
-      }
-      else {
-          if(ultraSampleProvider==null)
-              return;
-          try {
-              float[] sample = ultraSampleProvider.fetchSample();
-              sensorsState.setUltraReading(sample[0]);
-          } catch (RemoteException e) {
-              e.printStackTrace();
-          }
-      }
+    if(ultraSampleProvider==null)
+      return;
+    try {
+      float[] sample = ultraSampleProvider.fetchSample();
+      sensorsState.setUltraReading(sample[0]);
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
   }
 
   private void FetchColourSensor() {
@@ -166,10 +145,7 @@ public class SensorsService extends RobotServiceBase {
     // close all sensor ports
     Synchronizer.RunNotConcurrent(() -> {
       try{
-          if(useRemoveConnectUltraSensor)
-            this.ultrasonicConnection.close();
-          else
-              this.ultraSampleProvider.close();
+        this.ultraSampleProvider.close();
         Thread.sleep(200);
       } catch (Exception ignored) {
         Logger.warn("Sensor Service, Error closing the ultrasonic sensor port");

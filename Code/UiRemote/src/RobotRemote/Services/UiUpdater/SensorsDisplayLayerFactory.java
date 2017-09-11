@@ -74,7 +74,7 @@ class SensorsDisplayLayerFactory {
     if(sensorValUltra < 0)
       sensorValUltra = 0;
     gc.setFill(Color.YELLOW);
-    gc.fillRect(10,20,sensorValUltra*25,30);
+    gc.fillRect(10,20,sensorValUltra*5,30);
     gc.strokeText(String.format("Ultransonic Value: %.1f cm", sensorValUltra),10, 20);
     return layer;
   }
