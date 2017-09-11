@@ -101,10 +101,6 @@
                     <Label text="Connected Status" />
                   </ToolBar>
                   <ToolBar>
-                    <Pane fx:id="statusSensorTouch" />
-                    <Label text="Touch Status" />
-                  </ToolBar>
-                  <ToolBar>
                     <Pane fx:id="statusSensorColour" />
                     <Label text="Colour Status" />
                   </ToolBar>
