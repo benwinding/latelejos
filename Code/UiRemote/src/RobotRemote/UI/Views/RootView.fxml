@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
 <AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <MenuBar minHeight="30" prefHeight="30">
@@ -31,7 +48,7 @@
                   <Pane fx:id="map" onMousePressed="#onClickMap" onMouseDragged="#onDragMap" onMouseReleased="#onReleaseMap"/>
                 </VBox>
               </HBox>
-              <TitledPane collapsible="false" maxWidth="160.0" prefHeight="173.0" text="Map Options">
+              <TitledPane collapsible="false" maxWidth="160.0" prefHeight="180.0" prefWidth="152.0" text="Map Options">
                 <VBox prefHeight="173.0" prefWidth="120.0">
                   <VBox.margin>
                     <Insets bottom="10.0" />
@@ -56,6 +73,20 @@
                     </VBox>
                   </HBox>
                 </VBox>
+              </TitledPane>
+              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
+                <HBox alignment="BOTTOM_RIGHT">
+                  <VBox prefHeight="120.0" prefWidth="120.0">
+                    <children>
+                      <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                          <Image url="@../Images/Map%20Legend.png" />
+                        </image>
+                      </ImageView>
+                    </children>
+
+                  </VBox>
+                </HBox>
               </TitledPane>
             </StackPane>
           </TitledPane>
