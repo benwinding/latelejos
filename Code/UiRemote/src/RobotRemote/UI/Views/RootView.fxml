@@ -24,20 +24,20 @@
 
 <AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
   <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <MenuBar minHeight="30" prefHeight="30">
+    <MenuBar minHeight="30" prefHeight="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
       <Menu mnemonicParsing="false" text="File">
         <MenuItem mnemonicParsing="false" text="Upload XML" />
         <MenuItem mnemonicParsing="false" text="Export XML" />
         <MenuItem mnemonicParsing="false" text="Close" />
-      </Menu>
-      <Menu mnemonicParsing="false" text="Edit">
-        <MenuItem mnemonicParsing="false" text="Change NGZ" />
       </Menu>
       <Menu mnemonicParsing="false" text="Help">
         <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
         <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
       </Menu>
     </MenuBar>
+    <HBox alignment="CENTER_RIGHT">
+      <Label text="version: 0.8.1" textAlignment="RIGHT"/>
+    </HBox>
     <AnchorPane>
       <SplitPane dividerPositions="0.8" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <AnchorPane minWidth="0" prefWidth="Infinity">
@@ -45,7 +45,7 @@
             <StackPane alignment="TOP_RIGHT">
               <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
-                  <Pane fx:id="map" onMouseClicked="#onClickMap" />
+                  <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap" />
                 </VBox>
               </HBox>
               <TitledPane collapsible="false" maxWidth="160.0" prefHeight="180.0" prefWidth="152.0" text="Map Options">
