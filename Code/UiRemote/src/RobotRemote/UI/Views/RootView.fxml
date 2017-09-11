@@ -74,7 +74,7 @@
                   </HBox>
                 </VBox>
               </TitledPane>
-              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legend" StackPane.alignment="BOTTOM_RIGHT">
+              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
                 <HBox alignment="BOTTOM_RIGHT">
                   <VBox prefHeight="120.0" prefWidth="120.0">
                     <children>
