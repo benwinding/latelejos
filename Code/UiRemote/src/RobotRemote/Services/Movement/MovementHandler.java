@@ -2,6 +2,7 @@ package RobotRemote.Services.Movement;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventAutoControl;
+import RobotRemote.Models.Events.EventAutonomousControl;
 import RobotRemote.Models.Events.EventManualControl;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
@@ -22,7 +23,6 @@ public final class MovementHandler {
   private MoveStraightThread moveStraightThread;
   private MoveTurnSynchronous moveTurnSynchronous;
   private MovePreciseThread movePreciseThread;
-
   public MovementHandler(EventBus eventBus, RobotConfiguration config, AppStateRepository appState, RobotConnectionService connectionService) {
     eventBus.register(this);
     this.config = config;
@@ -35,6 +35,7 @@ public final class MovementHandler {
     this.moveStraightThread = new MoveStraightThread(config, pilot, appState.getLocationState(), appState.getMovementState());
     this.moveTurnSynchronous = new MoveTurnSynchronous(pilot, appState.getLocationState(), appState.getMovementState());
     this.movePreciseThread = new MovePreciseThread(pilot, appState.getLocationState(), appState.getMovementState());
+    appState.setPilot(pilot);
   }
 
   @Subscribe
@@ -61,6 +62,30 @@ public final class MovementHandler {
     }
   }
 
+
+    @Subscribe
+    public void OnAutonomousControl(EventAutonomousControl event) {
+        Logger.log("Received Manual Command: " + event.getCommand());
+        this.movePreciseThread.kill();
+        this.moveStraightThread.kill();
+        switch (event.getCommand()) {
+            case Forward:
+                this.moveStraightThread.MoveDistance(event.getDistance());
+                break;
+            case Backward:
+                this.moveStraightThread.MoveDistance(-event.getDistance());
+                break;
+            case Left:
+                this.moveTurnSynchronous.TurnLeft();
+                break;
+            case Right:
+                this.moveTurnSynchronous.TurnRight();
+                break;
+            case Stop:
+            case Ignore:
+            default:
+        }
+    }
   @Subscribe
   public void OnPreciseControl(EventAutoControl event) {
     Waypoint eventWayPoint = event.getNextWayPoint();
