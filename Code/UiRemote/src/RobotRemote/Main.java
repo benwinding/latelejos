@@ -6,7 +6,7 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
 import RobotRemote.Services.Movement.MovementHandler;
-import RobotRemote.RobotStateMachine.RobotCommandListener;
+import RobotRemote.RobotStateMachine.RStateWaiting;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
@@ -49,17 +49,19 @@ public class Main extends Application {
 
     // Daemons
     SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
-    UiUpdaterService uiUpdaterService = new UiUpdaterService(eventBus, robotConfiguration, appStateRepository, rootController);
+    UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     // Handler classes
     MovementHandler movementHandler = new MovementHandler(eventBus, robotConfiguration, appStateRepository, robotConnectionService);
     MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
 
     // Instantiate robot commander
-    RobotCommandListener robotCommanderService = new RobotCommandListener(
+    RStateWaiting robotCommanderService = new RStateWaiting(
         appStateRepository,
         eventBus
     );
+
+    // State
 
     // Coordinate and spin up services
     serviceCoordinator = new ServiceCoordinator(
@@ -70,7 +72,7 @@ public class Main extends Application {
     );
     serviceCoordinator.StartAllThreads();
 
-    // Initialize the
+    // Initialize the UI controller
     rootController.Init(
         robotConfiguration,
         eventBus,

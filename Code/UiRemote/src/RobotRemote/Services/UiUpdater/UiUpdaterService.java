@@ -6,7 +6,6 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.RobotServiceBase;
 import RobotRemote.Services.Sensors.SensorsState;
 import RobotRemote.UI.Views.RootController;
-import com.google.common.eventbus.EventBus;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -20,14 +19,12 @@ public class UiUpdaterService extends RobotServiceBase {
   private RobotConfiguration robotConfiguration;
   private AppStateRepository appStateRepository;
   private RootController rootController;
-  private EventBus eventBus;
 
-  public UiUpdaterService(EventBus eventBus, RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController) {
+  public UiUpdaterService(RobotConfiguration robotConfiguration, AppStateRepository appStateRepository, RootController rootController) {
     super("UI Updater Service", robotConfiguration.updateIntervalUi_ms);
     this.robotConfiguration = robotConfiguration;
     this.appStateRepository = appStateRepository;
     this.rootController = rootController;
-    this.eventBus = eventBus;
   }
 
   @Override

@@ -23,7 +23,7 @@ public class RStateAutoMapping extends RobotServiceBase {
     private EvictingQueue<EventManualCommand> movementQueue;
     private AppStateRepository appStateRepository;
 
-    public RStateAutoMapping(EventBus eventBus, AppStateRepository appStateRepository) {
+    RStateAutoMapping(EventBus eventBus, AppStateRepository appStateRepository) {
         super("Mode Automatic", 100);
         this.eventBus = eventBus;
         this.appStateRepository = appStateRepository;
@@ -33,11 +33,12 @@ public class RStateAutoMapping extends RobotServiceBase {
 
     private boolean DetectObstacle()
     {
-        double distanceValue =this.appStateRepository.getSensorsState().getUltraReading() ;
+        double distanceValue =this.appStateRepository.getSensorsState().getUltraReading();
         if(!Double.isInfinite(distanceValue) && distanceValue*100 < 6)
             return  true;
         return  false;
     }
+
     @Override
     protected void OnStart() {
         eventBus.post(new EventManualCommand(EnumCommandManual.Stop));
