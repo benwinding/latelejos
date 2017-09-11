@@ -6,7 +6,7 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
 import RobotRemote.Services.Movement.MovementHandler;
-import RobotRemote.Services.RobotCommander.RobotCommandListener;
+import RobotRemote.RobotStateMachine.RobotCommandListener;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;

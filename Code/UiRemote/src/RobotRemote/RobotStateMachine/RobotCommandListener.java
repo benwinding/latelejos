@@ -1,4 +1,4 @@
-package RobotRemote.Services.RobotCommander;
+package RobotRemote.RobotStateMachine;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Events.EventChangeRobotCommand;

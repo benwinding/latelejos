@@ -7,7 +7,7 @@ import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
 import RobotRemote.Services.MapHandlers.UserWaypointsState;
 import RobotRemote.Services.Movement.MoveThreads.LocationState;
 import RobotRemote.Services.Movement.MoveThreads.MovementState;
-import RobotRemote.Services.RobotCommander.RobotCommandState;
+import RobotRemote.RobotStateMachine.RobotCommandState;
 import RobotRemote.Services.Sensors.DiscoveredColoursState;
 import RobotRemote.Services.Sensors.SensorsState;
 import RobotRemote.Services.UiUpdater.UiUpdaterState;

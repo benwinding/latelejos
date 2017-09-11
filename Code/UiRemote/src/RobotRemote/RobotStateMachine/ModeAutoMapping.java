@@ -1,22 +1,13 @@
-package RobotRemote.Services.RobotCommander;
+package RobotRemote.RobotStateMachine;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
-import RobotRemote.Models.Events.EventAutoControl;
 import RobotRemote.Models.Events.EventAutonomousControl;
 import RobotRemote.Models.Events.EventManualControl;
-import RobotRemote.Models.MapPoint;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.RobotServiceBase;
-import RobotRemote.Services.Sensors.SensorsState;
 import com.google.common.collect.EvictingQueue;
 import com.google.common.eventbus.EventBus;
-
-import com.google.common.collect.Queues;
-import lejos.robotics.navigation.Waypoint;
-
-import java.util.Iterator;
-import java.util.Map;
 
 public class ModeAutoMapping extends RobotServiceBase {
     enum AutonomousState{
