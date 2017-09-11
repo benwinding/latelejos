@@ -1,7 +1,12 @@
 package RobotRemote.RobotStateMachine.States;
 
+import RobotRemote.Helpers.Logger;
+import RobotRemote.RobotStateMachine.Events.EventAutomapDetectedObject;
+import RobotRemote.RobotStateMachine.Events.EventDetectedLineToFollow;
+import RobotRemote.RobotStateMachine.Events.EventSTOP;
 import RobotRemote.RobotStateMachine.IModeBase;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class StateAutoMapping implements IModeBase {
   private StateWaiting state_waiting;
@@ -20,25 +25,24 @@ public class StateAutoMapping implements IModeBase {
   }
 
   public void EnterState() {
+    Logger.log("STATE: StateAutoMapping...");
     this.eventBus.register(this);
-    this.WaitForEvents();
   }
 
-  private void WaitForEvents() {
-    // Wait for events
-  }
-
-  private void OnSTOP() {
+  @Subscribe
+  private void OnSTOP(EventSTOP event) {
     this.eventBus.unregister(this);
     this.state_waiting.EnterState();
   }
 
-  private void OnDetectTrail() {
+  @Subscribe
+  private void OnDetectTrail(EventDetectedLineToFollow event) {
     this.eventBus.unregister(this);
     this.state_lineFollow.EnterState();
   }
 
-  private void OnDetectObject() {
+  @Subscribe
+  private void OnDetectObject(EventAutomapDetectedObject event) {
     this.eventBus.unregister(this);
     this.state_objectAvoidance.EnterState();
   }

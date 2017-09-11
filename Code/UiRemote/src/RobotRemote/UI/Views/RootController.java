@@ -2,13 +2,14 @@ package RobotRemote.UI.Views;
 
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
-import RobotRemote.Models.Enums.EnumOperationMode;
 import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Models.Events.*;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.Models.Events.EventManualCommand;
+import RobotRemote.RobotStateMachine.Events.EventSTOP;
+import RobotRemote.RobotStateMachine.Events.EventSwitchToAuto;
+import RobotRemote.RobotStateMachine.Events.EventSwitchToManual;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
@@ -108,12 +109,12 @@ public class RootController implements Initializable {
     if(isAutoMode) {
       isAutoMode = false;
       this.lblSwitchRobotMode.setText("Current Mode: Manual");
-      eventBus.post(new EventChangeRobotCommand(EnumOperationMode.ManualMode));
+      eventBus.post(new EventSwitchToManual());
     }
     else{
       isAutoMode = true;
       this.lblSwitchRobotMode.setText("Current Mode: Auto");
-      eventBus.post(new EventChangeRobotCommand(EnumOperationMode.AutoMode));
+      eventBus.post(new EventSwitchToAuto());
     }
   }
 
@@ -148,6 +149,7 @@ public class RootController implements Initializable {
 
   public void onClickStop(MouseEvent mouseEvent) {
     MoveMotors(EnumCommandManual.Stop);
+    eventBus.post(new EventSTOP());
   }
 
   public void onClickForward(MouseEvent mouseEvent) {

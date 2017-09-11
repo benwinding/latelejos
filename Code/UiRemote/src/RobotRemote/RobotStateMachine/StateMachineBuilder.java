@@ -16,7 +16,7 @@ public class StateMachineBuilder {
     // Link states with references
     state_waiting.linkStates(state_manual, state_autoMapping);
     state_manual.linkStates(state_waiting, state_warn);
-    state_warn.linkStates(state_manual);
+    state_warn.linkStates(state_waiting, state_manual);
     state_autoMapping.linkStates(state_waiting, state_lineFollow, state_objectAvoidance);
     state_lineFollow.linkStates(state_waiting, state_autoMapping);
     state_objectAvoidance.linkStates(state_waiting, state_autoMapping);

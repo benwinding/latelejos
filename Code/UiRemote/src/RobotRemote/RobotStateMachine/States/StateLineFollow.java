@@ -1,7 +1,11 @@
 package RobotRemote.RobotStateMachine.States;
 
+import RobotRemote.Helpers.Logger;
+import RobotRemote.RobotStateMachine.Events.EventFinishedLine;
+import RobotRemote.RobotStateMachine.Events.EventSTOP;
 import RobotRemote.RobotStateMachine.IModeBase;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class StateLineFollow implements IModeBase {
   private StateWaiting state_waiting;
@@ -18,21 +22,19 @@ public class StateLineFollow implements IModeBase {
   }
 
   public void EnterState() {
+    Logger.log("STATE: StateLineFollow...");
     this.eventBus.register(this);
-    this.WaitForEvents();
   }
 
-  private void WaitForEvents() {
-    // Wait for events
-  }
-
-  private void OnFinishedLine() {
-    this.eventBus.unregister(this);
-    this.state_autoMapping.EnterState();
-  }
-
-  private void OnSTOP() {
+  @Subscribe
+  private void OnSTOP(EventSTOP event) {
     this.eventBus.unregister(this);
     this.state_waiting.EnterState();
+  }
+
+  @Subscribe
+  private void OnFinishedLine(EventFinishedLine event) {
+    this.eventBus.unregister(this);
+    this.state_autoMapping.EnterState();
   }
 }
