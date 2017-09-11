@@ -81,7 +81,6 @@ public class UiUpdaterService extends RobotServiceBase {
     SensorsState sensorsState = appStateRepository.getSensorsState();
     UpdateStatusOnElement(rootController.statusSensorUltra, sensorsState.getStatusUltra());
     UpdateStatusOnElement(rootController.statusSensorColour, sensorsState.getStatusColour());
-    UpdateStatusOnElement(rootController.statusSensorTouch, sensorsState.getStatusTouch());
     UpdateStatusOnElement(rootController.statusIsConnected, appStateRepository.getRobotConnectionState().isConnected());
   }
 
