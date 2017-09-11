@@ -36,7 +36,7 @@
       </Menu>
     </MenuBar>
     <HBox alignment="CENTER_RIGHT">
-      <Label text="version: 0.8.1" textAlignment="RIGHT"/>
+      <Label text="version: 0.8.1" textAlignment="RIGHT" />
     </HBox>
     <AnchorPane>
       <SplitPane dividerPositions="0.8" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -48,13 +48,13 @@
                   <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap" />
                 </VBox>
               </HBox>
-              <TitledPane collapsible="false" maxWidth="160.0" prefHeight="180.0" prefWidth="152.0" text="Map Options">
-                <VBox prefHeight="173.0" prefWidth="120.0">
+              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options">
+                <VBox prefHeight="61.0" prefWidth="158.0">
                   <VBox.margin>
                     <Insets bottom="10.0" />
                   </VBox.margin>
                   <padding>
-                    <Insets bottom="10.0" />
+                    <Insets bottom="10.0" left="10" right="10" top="10" />
                   </padding>
                   <RadioButton fx:id="enterNgz" text="Enter NGZ">
                     <toggleGroup>
@@ -62,16 +62,12 @@
                     </toggleGroup>
                   </RadioButton>
                   <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
-                  <HBox alignment="CENTER">
-                    <VBox alignment="CENTER">
-                      <ImageView fitHeight="104.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../Images/zoom_icon.png" />
-                      </ImageView>
-                      <Button id="btnZoomReset" minWidth="130.0" onMouseClicked="#onClickZoomReset" prefHeight="115.0">
-                        Zoom Reset
-                      </Button>
-                    </VBox>
-                  </HBox>
+                  <Button id="btnZoomReset" minWidth="130.0" onMouseClicked="#onClickZoomReset" maxHeight="30.0">
+                    Zoom Reset
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Button>
                 </VBox>
               </TitledPane>
               <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
