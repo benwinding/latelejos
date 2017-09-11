@@ -80,7 +80,7 @@
                     <children>
                       <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                          <Image url="@../Images/Map%20Legend.png" />
+                          <Image url="@../Images/Map_legend.png" />
                         </image>
                       </ImageView>
                     </children>
