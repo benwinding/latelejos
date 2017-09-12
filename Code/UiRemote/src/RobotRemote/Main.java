@@ -6,9 +6,10 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
-import RobotRemote.Services.Movement.MovementHandler;
+import RobotRemote.Services.Movement.MoveThreads.MoveThread;
 import RobotRemote.Services.Sensors.SensorsService;
 import RobotRemote.Services.ServiceCoordinator;
+import RobotRemote.Services.ServiceLocator;
 import RobotRemote.Services.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
@@ -47,25 +48,32 @@ public class Main extends Application {
     // Instantiate EventBus
     EventBus eventBus = new EventBus();
 
-    // State Machine Builder
-    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(eventBus);
-
     // Daemons
     SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     // Handler classes
-    MovementHandler movementHandler = new MovementHandler(eventBus, robotConfiguration, appStateRepository, robotConnectionService);
     MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
 
+    MoveThread moveThread = new MoveThread();
     // Coordinate and spin up services
     serviceCoordinator = new ServiceCoordinator(
+        robotConfiguration,
+        appStateRepository,
         robotConnectionService,
         sensorService,
         uiUpdaterService,
-        movementHandler
+        moveThread
     );
     serviceCoordinator.StartAllThreads();
+
+    // Service locator
+    ServiceLocator serviceLocator = new ServiceLocator(
+        moveThread
+    );
+
+    // State Machine Builder
+    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(eventBus, serviceLocator);
 
     // Initialize the UI controller
     rootController.Init(

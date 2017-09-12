@@ -3,11 +3,15 @@ package RobotRemote.UI.Views;
 import RobotRemote.Helpers.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumZoomCommand;
-import RobotRemote.Models.Events.*;
+import RobotRemote.Models.Events.EventUserAddNgz;
+import RobotRemote.Models.Events.EventUserAddWaypoint;
+import RobotRemote.Models.Events.EventUserMapDragged;
+import RobotRemote.Models.Events.EventUserZoomChanged;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.RobotStateMachine.Events.EventSTOP;
+import RobotRemote.RobotStateMachine.Events.EventAutoControl;
+import RobotRemote.RobotStateMachine.Events.EventManualCommand;
 import RobotRemote.RobotStateMachine.Events.EventSwitchToAuto;
 import RobotRemote.RobotStateMachine.Events.EventSwitchToManual;
 import RobotRemote.UI.UiState;
@@ -37,7 +41,6 @@ public class RootController implements Initializable {
   public TextArea messageDisplayer;
   public Pane statusSensorUltra;
   public Pane statusSensorColour;
-  public Pane statusSensorTouch;
   public Pane statusIsConnected;
   public Pane locationDetails;
   public Pane sensorDisplay;
@@ -98,7 +101,7 @@ public class RootController implements Initializable {
       case ENTER:
       case SPACE:
       case Q:
-        MoveMotors(EnumCommandManual.Stop);
+        StopMotors();
         break;
       default:
         Logger.log("Key press:" + e.getCode() + " is not implemented");
@@ -148,8 +151,7 @@ public class RootController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    MoveMotors(EnumCommandManual.Stop);
-    eventBus.post(new EventSTOP());
+    StopMotors();
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
@@ -173,6 +175,10 @@ public class RootController implements Initializable {
     eventBus.post(new EventManualCommand(command));
   }
 
+  private void StopMotors() {
+    eventBus.post(new EventManualCommand(EnumCommandManual.Halt));
+  }
+
   public void onClickZoomReset(MouseEvent mouseEvent) {
     eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
     mapDragInitial = new MapPoint(0,0);
@@ -189,7 +195,6 @@ public class RootController implements Initializable {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
     }
     else if(enterWaypoint.isSelected()) {
-      uiState.setCurrentCommand(EnumCommandManual.MoveToPrecise);
       Waypoint gotoOnMap = new Waypoint(mouseEvent.getX(), mouseEvent.getY());
       eventBus.post(new EventUserAddWaypoint(gotoOnMap));
       eventBus.post(new EventAutoControl(gotoOnMap));

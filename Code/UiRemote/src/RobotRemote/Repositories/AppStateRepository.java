@@ -1,6 +1,5 @@
 package RobotRemote.Repositories;
 
-import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Services.Connection.RobotConnectionState;
 import RobotRemote.Services.MapHandlers.UserNoGoZoneState;
@@ -29,7 +28,7 @@ public class AppStateRepository {
     locationState = new LocationState(config.initX, config.initY, config.initTheta);
     discoveredColoursState = new DiscoveredColoursState();
     uiUpdaterState = new UiUpdaterState(config.mapInitZoom, config.mapH, config.mapW);
-    uiState = new UiState(EnumCommandManual.Ignore);
+    uiState = new UiState();
     userNoGoZoneState = new UserNoGoZoneState(config.ngzRows, config.ngzCols);
     userWaypointsState = new UserWaypointsState();
     robotConnectionState = new RobotConnectionState();

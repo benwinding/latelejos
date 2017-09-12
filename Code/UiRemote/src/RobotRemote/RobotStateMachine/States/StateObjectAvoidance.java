@@ -1,18 +1,19 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.Events.EventFinishedAvoiding;
-import RobotRemote.RobotStateMachine.Events.EventSTOP;
-import RobotRemote.RobotStateMachine.IModeBase;
+import RobotRemote.RobotStateMachine.IModeState;
+import RobotRemote.Services.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class StateObjectAvoidance implements IModeBase {
+public class StateObjectAvoidance implements IModeState {
   private StateWaiting state_waiting;
   private StateAutoMapping state_autoMapping;
   private EventBus eventBus;
 
-  public StateObjectAvoidance(EventBus eventBus) {
+  public StateObjectAvoidance(EventBus eventBus, ServiceLocator serviceLocator) {
     this.eventBus = eventBus;
   }
 
@@ -27,7 +28,7 @@ public class StateObjectAvoidance implements IModeBase {
   }
 
   @Subscribe
-  private void OnSTOP(EventSTOP event) {
+  private void OnSTOP(EventEmergencySTOP event) {
     this.eventBus.unregister(this);
     this.state_waiting.EnterState();
   }

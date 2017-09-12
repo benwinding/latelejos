@@ -1,17 +1,18 @@
 package RobotRemote.RobotStateMachine;
 
 import RobotRemote.RobotStateMachine.States.*;
+import RobotRemote.Services.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 
 public class StateMachineBuilder {
-  public StateMachineBuilder(EventBus eventBus) {
+  public StateMachineBuilder(EventBus eventBus, ServiceLocator serviceLocator) {
     // Create State Instances
-    StateWaiting state_waiting = new StateWaiting(eventBus);
-    StateManualControl state_manual = new StateManualControl(eventBus);
-    StateAutoMapping state_autoMapping = new StateAutoMapping(eventBus);
-    StateObjectAvoidance state_objectAvoidance = new StateObjectAvoidance(eventBus);
-    StateManualWarn state_warn = new StateManualWarn(eventBus);
-    StateLineFollow state_lineFollow = new StateLineFollow(eventBus);
+    StateWaiting state_waiting = new StateWaiting(eventBus, serviceLocator);
+    StateManualControl state_manual = new StateManualControl(eventBus, serviceLocator);
+    StateAutoMapping state_autoMapping = new StateAutoMapping(eventBus, serviceLocator);
+    StateObjectAvoidance state_objectAvoidance = new StateObjectAvoidance(eventBus, serviceLocator);
+    StateManualWarn state_warn = new StateManualWarn(eventBus, serviceLocator);
+    StateLineFollow state_lineFollow = new StateLineFollow(eventBus, serviceLocator);
 
     // Link states with references
     state_waiting.linkStates(state_manual, state_autoMapping);
@@ -21,6 +22,6 @@ public class StateMachineBuilder {
     state_lineFollow.linkStates(state_waiting, state_autoMapping);
     state_objectAvoidance.linkStates(state_waiting, state_autoMapping);
 
-    state_waiting.EnterState();
+    state_manual.EnterState();
   }
 }

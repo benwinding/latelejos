@@ -1,4 +1,4 @@
-package RobotRemote.Models.Events;
+package RobotRemote.RobotStateMachine.Events;
 
 import lejos.robotics.navigation.Waypoint;
 

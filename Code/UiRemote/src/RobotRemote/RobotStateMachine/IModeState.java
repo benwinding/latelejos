@@ -1,5 +1,5 @@
 package RobotRemote.RobotStateMachine;
 
-public interface IModeBase {
+public interface IModeState {
   void EnterState();
 }

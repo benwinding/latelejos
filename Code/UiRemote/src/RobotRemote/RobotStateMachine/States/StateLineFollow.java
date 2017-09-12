@@ -1,18 +1,19 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.Events.EventFinishedLine;
-import RobotRemote.RobotStateMachine.Events.EventSTOP;
-import RobotRemote.RobotStateMachine.IModeBase;
+import RobotRemote.RobotStateMachine.IModeState;
+import RobotRemote.Services.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class StateLineFollow implements IModeBase {
+public class StateLineFollow implements IModeState {
   private StateWaiting state_waiting;
   private StateAutoMapping state_autoMapping;
   private EventBus eventBus;
 
-  public StateLineFollow(EventBus eventBus) {
+  public StateLineFollow(EventBus eventBus, ServiceLocator serviceLocator) {
     this.eventBus = eventBus;
   }
 
@@ -27,7 +28,7 @@ public class StateLineFollow implements IModeBase {
   }
 
   @Subscribe
-  private void OnSTOP(EventSTOP event) {
+  private void OnSTOP(EventEmergencySTOP event) {
     this.eventBus.unregister(this);
     this.state_waiting.EnterState();
   }
