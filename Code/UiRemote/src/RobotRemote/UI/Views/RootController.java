@@ -104,15 +104,15 @@ public class RootController implements Initializable {
   }
 
   public void onClickAutoMapMode(MouseEvent mouseEvent) {
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Begin Automatic Survey of the Area?", ButtonType.YES, ButtonType.NO);
-    alert.showAndWait();
-    if (alert.getResult() == ButtonType.YES) {
+//    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Begin Automatic Survey of the Area?", ButtonType.YES, ButtonType.NO);
+//    alert.showAndWait();
+//    if (alert.getResult() == ButtonType.YES)
       eventBus.post(new EventSwitchToAutoMap());
-    }
   }
 
   public void onClickExitMode(MouseEvent mouseEvent) {
-    eventBus.post(new EventExitManualControl());
+//    eventBus.post(new EventExitManualControl());
+    eventBus.post(new EventEmergencySTOP());
   }
 
   public void onClickHelp(ActionEvent event) {

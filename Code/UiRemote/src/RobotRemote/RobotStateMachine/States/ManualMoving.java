@@ -13,7 +13,7 @@ public class ManualMoving implements IModeState {
   private ServiceManager sm;
   private SensorsState sensorState;
 
-  private ThreadLoop threadLoop = new ThreadLoop();
+  private ThreadLoop threadLoop;
 
   private ManualStopped state_manualstopped;
 
