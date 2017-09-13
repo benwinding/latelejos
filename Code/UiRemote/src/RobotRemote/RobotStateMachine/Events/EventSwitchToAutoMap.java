@@ -1,4 +1,4 @@
 package RobotRemote.RobotStateMachine.Events;
 
-public class EventSwitchToAuto {
+public class EventSwitchToAutoMap {
 }

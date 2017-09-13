@@ -86,7 +86,7 @@ public class MapInputEventHandlers {
         uiUpdaterState.zoomReset();
         break;
     }
-    Logger.log("Event: Zoom factor changed to: " + uiUpdaterState.getZoomLevel());
+    Logger.log("Received UserZoomChanged: " + uiUpdaterState.getZoomLevel());
   }
 
   // Get the cell selected in a certain range

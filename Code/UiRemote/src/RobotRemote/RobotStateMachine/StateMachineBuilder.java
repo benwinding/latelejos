@@ -1,27 +1,32 @@
 package RobotRemote.RobotStateMachine;
 
+import RobotRemote.Helpers.Logger;
+import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.RobotStateMachine.States.*;
 import RobotRemote.Services.ServiceLocator;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class StateMachineBuilder {
-  public StateMachineBuilder(EventBus eventBus, ServiceLocator serviceLocator) {
+  public StateMachineBuilder(EventBus eventBus, ServiceLocator serviceLocator, AppStateRepository appStateRepository) {
+    eventBus.register(this);
     // Create State Instances
-    StateWaiting state_waiting = new StateWaiting(eventBus, serviceLocator);
-    StateManualControl state_manual = new StateManualControl(eventBus, serviceLocator);
-    StateAutoMapping state_autoMapping = new StateAutoMapping(eventBus, serviceLocator);
-    StateObjectAvoidance state_objectAvoidance = new StateObjectAvoidance(eventBus, serviceLocator);
-    StateManualWarn state_warn = new StateManualWarn(eventBus, serviceLocator);
-    StateLineFollow state_lineFollow = new StateLineFollow(eventBus, serviceLocator);
+    ManualStopped state_stopped = new ManualStopped(eventBus, serviceLocator);
+    ManualMoving state_manual = new ManualMoving(eventBus, serviceLocator, appStateRepository);
+    AutoWaiting state_autowaiting = new AutoWaiting(eventBus, serviceLocator);
+    AutoSurveyZigZag state_autoSurveyZigZag = new AutoSurveyZigZag(eventBus, serviceLocator);
 
     // Link states with references
-    state_waiting.linkStates(state_manual, state_autoMapping);
-    state_manual.linkStates(state_waiting, state_warn);
-    state_warn.linkStates(state_waiting, state_manual);
-    state_autoMapping.linkStates(state_waiting, state_lineFollow, state_objectAvoidance);
-    state_lineFollow.linkStates(state_waiting, state_autoMapping);
-    state_objectAvoidance.linkStates(state_waiting, state_autoMapping);
+    state_stopped.linkStates(state_manual, state_autowaiting);
+    state_manual.linkStates(state_stopped);
+    state_autowaiting.linkStates(state_stopped, state_autoSurveyZigZag);
+    state_autoSurveyZigZag.linkStates(state_autowaiting);
 
-    state_manual.EnterState();
+    state_stopped.EnterState();
+  }
+
+  @Subscribe
+  private void OnEverything(Object event) {
+    Logger.log("EVENT:: " + event.getClass().getSimpleName());
   }
 }

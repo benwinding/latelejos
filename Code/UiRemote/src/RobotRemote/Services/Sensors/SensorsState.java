@@ -2,17 +2,15 @@ package RobotRemote.Services.Sensors;
 
 public class SensorsState {
   private double ultraReading;
+  private int colourId;
   private double colourReadingR;
   private double colourReadingG;
   private double colourReadingB;
-  private int colourId;
-  private float touchReading;
   private boolean statusUltra;
   private boolean statusColour;
-  private boolean statusTouch;
 
-  public double getUltraReading() {
-    return ultraReading;
+  public double getUltraReadingCm() {
+    return ultraReading * 100;
   }
 
   void setUltraReading(double ultraReading) {
@@ -51,14 +49,6 @@ public class SensorsState {
     return colourId;
   }
 
-  void setTouchReading(float touchReading) {
-    this.touchReading = touchReading;
-  }
-
-  public float getTouchReading() {
-    return touchReading;
-  }
-
   public boolean getStatusUltra() {
     return statusUltra;
   }
@@ -67,23 +57,11 @@ public class SensorsState {
     this.statusUltra = statusUltra;
   }
 
-  public boolean getStatusTouch() {
-    return statusTouch;
-  }
-
   public boolean getStatusColour() {
     return statusColour;
   }
 
-  public boolean isStatusColour() {
-    return statusColour;
-  }
-
-  public void setStatusColour(boolean statusColour) {
+  void setStatusColour(boolean statusColour) {
     this.statusColour = statusColour;
-  }
-
-  public void setStatusTouch(boolean statusTouch) {
-    this.statusTouch = statusTouch;
   }
 }

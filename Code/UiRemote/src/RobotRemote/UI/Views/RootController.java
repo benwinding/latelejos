@@ -10,10 +10,7 @@ import RobotRemote.Models.Events.EventUserZoomChanged;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
-import RobotRemote.RobotStateMachine.Events.EventAutoControl;
-import RobotRemote.RobotStateMachine.Events.EventManualCommand;
-import RobotRemote.RobotStateMachine.Events.EventSwitchToAuto;
-import RobotRemote.RobotStateMachine.Events.EventSwitchToManual;
+import RobotRemote.RobotStateMachine.Events.*;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
@@ -22,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -50,13 +48,14 @@ public class RootController implements Initializable {
   @FXML
   RadioButton enterWaypoint;
   @FXML
-  Label lblSwitchRobotMode;
+  Button btnManualMode;
+  @FXML
+  Button btnAutoSurveyMode;
 
   private UiState uiState;
   private EventBus eventBus;
 
   // Variables for UI logic
-  private boolean isAutoMode;
   private MapPoint mapDragInitial = new MapPoint(0,0);
 
   @Override
@@ -67,9 +66,7 @@ public class RootController implements Initializable {
   public void Init(RobotConfiguration config, EventBus eventBus, AppStateRepository appStateRepository) {
     this.uiState = appStateRepository.getUiState();
     this.eventBus = eventBus;
-    this.isAutoMode = false;
     this.initMap();
-    this.initSwitch();
   }
 
   private void initMap() {
@@ -78,10 +75,6 @@ public class RootController implements Initializable {
       boolean isZoomIn = (scrollAmount > 0);
       eventBus.post(new EventUserZoomChanged(isZoomIn));
     });
-  }
-
-  private void initSwitch() {
-    this.lblSwitchRobotMode.setText("Current Mode: Manual");
   }
 
   public void keyPressed(KeyEvent e) {
@@ -108,17 +101,16 @@ public class RootController implements Initializable {
     }
   }
 
-  public void onClickSwitchRobotMode(MouseEvent mouseEvent){
-    if(isAutoMode) {
-      isAutoMode = false;
-      this.lblSwitchRobotMode.setText("Current Mode: Manual");
-      eventBus.post(new EventSwitchToManual());
-    }
-    else{
-      isAutoMode = true;
-      this.lblSwitchRobotMode.setText("Current Mode: Auto");
-      eventBus.post(new EventSwitchToAuto());
-    }
+  public void onClickManualMode(MouseEvent mouseEvent) {
+    eventBus.post(new EventSwitchToManual());
+  }
+
+  public void onClickAutoMapMode(MouseEvent mouseEvent) {
+    eventBus.post(new EventSwitchToAutoMap());
+  }
+
+  public void onClickExitMode(MouseEvent mouseEvent) {
+    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickHelp(ActionEvent event) {

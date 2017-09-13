@@ -49,7 +49,7 @@ public class Main extends Application {
     EventBus eventBus = new EventBus();
 
     // Daemons
-    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
+    SensorsService sensorService = new SensorsService(eventBus, robotConfiguration, robotConnectionService, appStateRepository);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     // Handler classes
@@ -73,7 +73,7 @@ public class Main extends Application {
     );
 
     // State Machine Builder
-    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(eventBus, serviceLocator);
+    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(eventBus, serviceLocator, appStateRepository);
 
     // Initialize the UI controller
     rootController.Init(

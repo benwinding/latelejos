@@ -12,17 +12,15 @@ import javafx.scene.paint.Color;
 class SensorsDisplayLayerFactory {
   static Node CreateSensorsGraph(SensorsState sensorsState) {
     VBox vbox = new VBox();
-    Canvas graphUltra = CreateUiSensorUltra(sensorsState.getUltraReading());
+    Canvas graphUltra = CreateUiSensorUltra(sensorsState.getUltraReadingCm());
     Canvas graphColourR = CreateUiSensorColour("Red", sensorsState.getColourReadingR(), Color.RED);
     Canvas graphColourG = CreateUiSensorColour("Green", sensorsState.getColourReadingG(), Color.GREEN);
     Canvas graphColourB = CreateUiSensorColour("Blue", sensorsState.getColourReadingB(), Color.BLUE);
     Canvas outputColourId = CreateUiColourId(sensorsState.getColourId());
-    Canvas touchUi = CreateUiSensorTouch(sensorsState.getTouchReading() == 1.0f);
 
     vbox.getChildren().add(graphUltra);
     FlowPane fp = new FlowPane();
     fp.getChildren().add(outputColourId);
-    fp.getChildren().add(touchUi);
     vbox.getChildren().add(fp);
     vbox.getChildren().add(graphColourR);
     vbox.getChildren().add(graphColourG);
@@ -70,7 +68,7 @@ class SensorsDisplayLayerFactory {
     Canvas layer = new Canvas(400,60);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
-    double sensorValUltra = ultraReading*100;
+    double sensorValUltra = ultraReading;
     if(sensorValUltra < 0)
       sensorValUltra = 0;
     gc.setFill(Color.YELLOW);

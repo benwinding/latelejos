@@ -93,7 +93,7 @@ class MapLocationsLayersFactory {
 
   private Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
     double sensorFieldW = 12 * mapPixelsPerCm;
-    double sensorValUltra = sensorState.getUltraReading()*1000;
+    double sensorValUltra = sensorState.getUltraReadingCm();
     if(sensorValUltra < 0)
       sensorValUltra = 0;
 

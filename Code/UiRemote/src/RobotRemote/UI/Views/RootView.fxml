@@ -109,8 +109,9 @@
               <TitledPane collapsible="false" maxWidth="200" prefWidth="180.0" text="Switch Mode" AnchorPane.rightAnchor="0.0">
                 <HBox alignment="CENTER">
                   <VBox alignment="CENTER">
-                    <Button fx:id="btnSwitchRobotMode" onMouseClicked="#onClickSwitchRobotMode" prefHeight="50.0" prefWidth="166.0" text="Switch Robot Mode" />
-                    <Label fx:id="lblSwitchRobotMode" />
+                    <Button fx:id="btnManualMode" onMouseClicked="#onClickManualMode" prefHeight="20.0" prefWidth="200" text="Manual Mode" />
+                    <Button fx:id="btnAutoSurveyMode" onMouseClicked="#onClickAutoMapMode" prefHeight="20.0" prefWidth="200" text="Auto Survey Mode" />
+                    <Button fx:id="btnExitMode" onMouseClicked="#onClickExitMode" prefHeight="20.0" prefWidth="200" text="Exit Mode" />
                   </VBox>
                 </HBox>
               </TitledPane>

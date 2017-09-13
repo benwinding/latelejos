@@ -8,6 +8,7 @@ import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.Movement.MoveThreads.LocationState;
 import RobotRemote.Services.RobotServiceBase;
+import com.google.common.eventbus.EventBus;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -22,6 +23,7 @@ import java.rmi.RemoteException;
 public class SensorsService extends RobotServiceBase {
   private DiscoveredColoursState discoveredColoursState;
   private LocationState locationState;
+  private EventBus eventBus;
   private RobotConfiguration config;
   private RobotConnectionService connectionService;
   private SensorsState sensorsState;
@@ -29,11 +31,11 @@ public class SensorsService extends RobotServiceBase {
   private EV3ColorSensor colourSensorConnection;
   private SensorMode colourSensorMode;
 
-  private RMISampleProvider rmiTouchMode;
   private RMISampleProvider ultraSampleProvider;
 
-  public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
+  public SensorsService(EventBus eventBus, RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
     super("Sensors Service", 50);
+    this.eventBus = eventBus;
     this.config = config;
     this.connectionService = connectionService;
     this.sensorsState = appStateRepository.getSensorsState();
@@ -44,23 +46,9 @@ public class SensorsService extends RobotServiceBase {
   @Override
   protected void OnStart() {
     Synchronizer.RunNotConcurrent(() -> {
-      InitRmiTouchSensor();
       InitColourSensor();
       InitUltrasonicSensor();
     });
-  }
-
-  private void InitRmiTouchSensor() {
-    try {
-      Logger.log("Opening touch sensor, on port: " + config.sensorPortTouch);
-      RemoteEV3 ev3 = this.connectionService.GetBrickeRemoteEv3();
-      this.rmiTouchMode = ev3.createSampleProvider("S1", "lejos.hardware.sensor.EV3TouchSensor", "Touch");
-      Thread.sleep(100);
-      sensorsState.setStatusTouch(true);
-      Logger.log("Success: opened touch sensor, on port: " + config.sensorPortTouch);
-    } catch(Exception e) {
-      Logger.warn("Error: Unable to open touch sensor, on port: " + config.sensorPortTouch);
-    }
   }
 
   private void InitUltrasonicSensor() {
@@ -92,22 +80,9 @@ public class SensorsService extends RobotServiceBase {
   @Override
   protected void Repeat() {
     Synchronizer.RunNotConcurrent(() -> {
-      //FetchRmiTouchSensor();
       FetchColourSensor();
       FetchUltrasonicSensor();
     });
-  }
-
-  private void FetchRmiTouchSensor() {
-    if(rmiTouchMode == null)
-      return;
-    float[] sample;
-    try {
-      sample = rmiTouchMode.fetchSample();
-      sensorsState.setTouchReading(sample[0]);
-    } catch (RemoteException e) {
-      Logger.warn("Sensor: unable to read touch sensor");
-    }
   }
 
   private void FetchUltrasonicSensor() {
@@ -149,12 +124,6 @@ public class SensorsService extends RobotServiceBase {
         Thread.sleep(200);
       } catch (Exception ignored) {
         Logger.warn("Sensor Service, Error closing the ultrasonic sensor port");
-      }
-      try{
-        this.rmiTouchMode.close();
-        Thread.sleep(200);
-      } catch (Exception ignored) {
-        Logger.warn("Sensor Service, Error closing the touch sensor port");
       }
       try{
         this.colourSensorConnection.close();

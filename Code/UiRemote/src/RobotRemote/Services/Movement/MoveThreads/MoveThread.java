@@ -1,7 +1,7 @@
 package RobotRemote.Services.Movement.MoveThreads;
 
-import RobotRemote.Helpers.Logger;
 import RobotRemote.Helpers.Synchronizer;
+import RobotRemote.Helpers.ThreadLoop;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
@@ -129,48 +129,26 @@ public class MoveThread implements IMoveThread {
       this.pilot.stop();
     });
     // Set location-tracking stopped
-    StopThreads();
+    threadLoop.StopThread();
   }
 
-  private Thread moveThread;
+  private ThreadLoop threadLoop = new ThreadLoop();
   private Timer timer;
 
   private void RepeatFor(Runnable thing, int loopDelay, long timeTillStopThread) {
-    StopThreads();
+    threadLoop.StopThread();
     timer = new Timer();
     timer.schedule(new TimerTask() {
       @Override
       public void run() {
-        if(moveThread != null && !moveThread.isInterrupted())
-          moveThread.interrupt();
+        threadLoop.StopThread();
       }
     }, timeTillStopThread);
-    StartThread(thing, loopDelay);
+    threadLoop.StartThread(thing, loopDelay);
   }
 
   private void RepeatForever(Runnable thing, int loopDelay) {
-    StopThreads();
-    StartThread(thing, loopDelay);
-  }
-
-  private void StartThread(Runnable runThis, int loopDelay) {
-    moveThread = new Thread(() -> {
-      while(!moveThread.isInterrupted()) {
-        runThis.run();
-        try {
-          Thread.sleep(loopDelay);
-        } catch (InterruptedException e) {
-          break;
-        }
-      }
-    });
-    moveThread.start();
-  }
-
-  private void StopThreads() {
-    if(this.moveThread != null)
-      this.moveThread.interrupt();
-    if(this.timer != null)
-      this.timer.cancel();
+    threadLoop.StopThread();
+    threadLoop.StartThread(thing, loopDelay);
   }
 }

@@ -1,44 +1,45 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.Helpers.Logger;
-import RobotRemote.RobotStateMachine.Events.EventSwitchToAuto;
+import RobotRemote.RobotStateMachine.Events.EventManualCommand;
+import RobotRemote.RobotStateMachine.Events.EventSwitchToAutoMap;
 import RobotRemote.RobotStateMachine.Events.EventSwitchToManual;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.Services.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-public class StateWaiting implements IModeState {
+public class ManualStopped implements IModeState {
   private EventBus eventBus;
   private ServiceLocator serviceLocator;
 
-  private StateManualControl state_manual;
-  private StateAutoMapping state_autoMapping;
+  private ManualMoving state_manualmoving;
+  private AutoWaiting state_autoWaiting;
 
-  public StateWaiting(EventBus eventBus, ServiceLocator serviceLocator) {
+  public ManualStopped(EventBus eventBus, ServiceLocator serviceLocator) {
     this.eventBus = eventBus;
     this.serviceLocator = serviceLocator;
   }
 
-  public void linkStates(StateManualControl state_manual, StateAutoMapping state_autoMapping) {
-    this.state_manual = state_manual;
-    this.state_autoMapping = state_autoMapping;
+  public void linkStates(ManualMoving state_manualmoving, AutoWaiting state_autoWaiting) {
+    this.state_manualmoving = state_manualmoving;
+    this.state_autoWaiting = state_autoWaiting;
   }
 
   public void EnterState() {
-    Logger.log("STATE: StateWaiting...");
+    Logger.log("STATE: ManualStopped...");
     this.eventBus.register(this);
   }
 
   @Subscribe
   private void OnSwitchToManual(EventSwitchToManual event) {
     this.eventBus.unregister(this);
-    this.state_manual.EnterState();
+    this.state_manualmoving.EnterState();
   }
 
   @Subscribe
-  private void OnSwitchToAutoMapping(EventSwitchToAuto event) {
+  private void OnSwitchToAutoMap(EventSwitchToAutoMap event) {
     this.eventBus.unregister(this);
-    this.state_autoMapping.EnterState();
+    this.state_autoWaiting.EnterState();
   }
 }
