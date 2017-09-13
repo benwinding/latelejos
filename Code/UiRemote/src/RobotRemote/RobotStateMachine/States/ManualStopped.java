@@ -1,11 +1,10 @@
 package RobotRemote.RobotStateMachine.States;
 
-import RobotRemote.Helpers.Logger;
-import RobotRemote.RobotStateMachine.Events.EventManualCommand;
+import RobotRemote.Shared.Logger;
 import RobotRemote.RobotStateMachine.Events.EventSwitchToAutoMap;
 import RobotRemote.RobotStateMachine.Events.EventSwitchToManual;
 import RobotRemote.RobotStateMachine.IModeState;
-import RobotRemote.Services.ServiceLocator;
+import RobotRemote.UIServices.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 

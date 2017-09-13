@@ -1,9 +1,9 @@
 package RobotRemote.RobotStateMachine;
 
-import RobotRemote.Helpers.Logger;
-import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Shared.Logger;
+import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotStateMachine.States.*;
-import RobotRemote.Services.ServiceLocator;
+import RobotRemote.UIServices.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 

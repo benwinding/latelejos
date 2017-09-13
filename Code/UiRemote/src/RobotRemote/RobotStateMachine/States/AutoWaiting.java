@@ -2,7 +2,7 @@ package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotStateMachine.Events.EventUserStartAuto;
 import RobotRemote.RobotStateMachine.IModeState;
-import RobotRemote.Services.ServiceLocator;
+import RobotRemote.UIServices.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 

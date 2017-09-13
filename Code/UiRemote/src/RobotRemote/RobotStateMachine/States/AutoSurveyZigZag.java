@@ -1,7 +1,7 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotStateMachine.IModeState;
-import RobotRemote.Services.ServiceLocator;
+import RobotRemote.UIServices.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 
 public class AutoSurveyZigZag implements IModeState{

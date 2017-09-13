@@ -1,16 +1,16 @@
 package RobotRemote;
 
-import RobotRemote.Helpers.Logger;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotStateMachine.StateMachineBuilder;
-import RobotRemote.Services.Connection.RobotConnectionService;
-import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
-import RobotRemote.Services.Movement.MoveThreads.MoveThread;
-import RobotRemote.Services.Sensors.SensorsService;
-import RobotRemote.Services.ServiceCoordinator;
-import RobotRemote.Services.ServiceLocator;
-import RobotRemote.Services.UiUpdater.UiUpdaterService;
+import RobotRemote.RobotServices.Connection.RobotConnectionService;
+import RobotRemote.Shared.ServiceManager;
+import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
+import RobotRemote.RobotServices.Movement.MoveThread;
+import RobotRemote.RobotServices.Sensors.SensorsService;
+import RobotRemote.UIServices.ServiceLocator;
+import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  private ServiceCoordinator serviceCoordinator;
+  private ServiceManager serviceManager;
   public static AppStateRepository appStateRepository;
     @Override
   public void start(Stage primaryStage) throws Exception{
@@ -49,7 +49,7 @@ public class Main extends Application {
     EventBus eventBus = new EventBus();
 
     // Daemons
-    SensorsService sensorService = new SensorsService(eventBus, robotConfiguration, robotConnectionService, appStateRepository);
+    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     // Handler classes
@@ -57,7 +57,7 @@ public class Main extends Application {
 
     MoveThread moveThread = new MoveThread();
     // Coordinate and spin up services
-    serviceCoordinator = new ServiceCoordinator(
+    serviceManager = new ServiceManager(
         robotConfiguration,
         appStateRepository,
         robotConnectionService,
@@ -65,7 +65,7 @@ public class Main extends Application {
         uiUpdaterService,
         moveThread
     );
-    serviceCoordinator.StartAllThreads();
+    serviceManager.StartAllThreads();
 
     // Service locator
     ServiceLocator serviceLocator = new ServiceLocator(
@@ -92,7 +92,7 @@ public class Main extends Application {
   @Override
   public void stop(){
     System.out.println("Stage is closing");
-    serviceCoordinator.StopAllThreads();
+    serviceManager.StopAllThreads();
   }
 
   public static void main(String[] args) {

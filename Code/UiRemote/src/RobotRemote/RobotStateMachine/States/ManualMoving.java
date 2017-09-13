@@ -1,14 +1,14 @@
 package RobotRemote.RobotStateMachine.States;
 
-import RobotRemote.Helpers.ColourTranslator;
-import RobotRemote.Helpers.Logger;
-import RobotRemote.Repositories.AppStateRepository;
+import RobotRemote.Shared.ColourTranslator;
+import RobotRemote.Shared.Logger;
+import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotStateMachine.Events.*;
 import RobotRemote.RobotStateMachine.IModeState;
-import RobotRemote.Helpers.ThreadLoop;
-import RobotRemote.Services.Movement.MoveThreads.IMoveThread;
-import RobotRemote.Services.Sensors.SensorsState;
-import RobotRemote.Services.ServiceLocator;
+import RobotRemote.Shared.ThreadLoop;
+import RobotRemote.RobotServices.Movement.IMoveThread;
+import RobotRemote.RobotServices.Sensors.SensorsState;
+import RobotRemote.UIServices.ServiceLocator;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
