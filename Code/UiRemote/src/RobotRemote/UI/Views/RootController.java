@@ -3,6 +3,7 @@ package RobotRemote.UI.Views;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumZoomCommand;
+import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.Events.EventUserAddNgz;
 import RobotRemote.UIServices.Events.EventUserAddWaypoint;
 import RobotRemote.UIServices.Events.EventUserMapDragged;
@@ -19,9 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -62,9 +61,9 @@ public class RootController implements Initializable {
     Logger.log("UI Loaded!");
   }
 
-  public void Init(RobotConfiguration config, EventBus eventBus, AppStateRepository appStateRepository) {
-    this.uiState = appStateRepository.getUiState();
-    this.eventBus = eventBus;
+  public void Init(ServiceManager sm) {
+    this.uiState = sm.getAppState().getUiState();
+    this.eventBus = sm.getEventBus();
     this.initMap();
   }
 
@@ -105,7 +104,11 @@ public class RootController implements Initializable {
   }
 
   public void onClickAutoMapMode(MouseEvent mouseEvent) {
-    eventBus.post(new EventSwitchToAutoMap());
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Begin Automatic Survey of the Area?", ButtonType.YES, ButtonType.NO);
+    alert.showAndWait();
+    if (alert.getResult() == ButtonType.YES) {
+      eventBus.post(new EventSwitchToAutoMap());
+    }
   }
 
   public void onClickExitMode(MouseEvent mouseEvent) {

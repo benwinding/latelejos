@@ -1,15 +1,16 @@
 package RobotRemote;
 
+import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.Shared.ServiceManager;
+import RobotRemote.Shared.ThreadLoop;
 import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
-import RobotRemote.RobotServices.Movement.MoveThread;
+import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
-import RobotRemote.UIServices.ServiceLocator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
@@ -20,10 +21,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
   private ServiceManager serviceManager;
-  public static AppStateRepository appStateRepository;
-    @Override
+
+  @Override
   public void start(Stage primaryStage) throws Exception{
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/RootView.fxml"));
     Parent root = (Parent) loader.load();
@@ -40,7 +40,7 @@ public class Main extends Application {
     RobotConfiguration robotConfiguration = new RobotConfiguration();
 
     // Instantiate all app state
-    appStateRepository = new AppStateRepository(robotConfiguration);
+    AppStateRepository appStateRepository = new AppStateRepository(robotConfiguration);
 
     // Connection to the robot
     RobotConnectionService robotConnectionService = new RobotConnectionService(appStateRepository);
@@ -52,35 +52,30 @@ public class Main extends Application {
     SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
-    // Handler classes
-    MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(eventBus, robotConfiguration, appStateRepository);
+    IMovementService movementService = new MovementService();
+    ThreadLoop stateMachineThreadLoop = new ThreadLoop();
 
-    MoveThread moveThread = new MoveThread();
     // Coordinate and spin up services
     serviceManager = new ServiceManager(
+        eventBus,
         robotConfiguration,
         appStateRepository,
         robotConnectionService,
         sensorService,
         uiUpdaterService,
-        moveThread
+        movementService,
+        stateMachineThreadLoop
     );
     serviceManager.StartAllThreads();
 
-    // Service locator
-    ServiceLocator serviceLocator = new ServiceLocator(
-        moveThread
-    );
+    // Handler classes
+    MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(serviceManager);
 
-    // State Machine Builder
-    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(eventBus, serviceLocator, appStateRepository);
+      // State Machine Builder
+    StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(serviceManager);
 
     // Initialize the UI controller
-    rootController.Init(
-        robotConfiguration,
-        eventBus,
-        appStateRepository
-    );
+    rootController.Init(serviceManager);
 
     // Show GUI
     primaryStage.setTitle("Robot Remote UI");

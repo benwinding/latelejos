@@ -14,10 +14,12 @@ public class ThreadLoop {
         }
       }
     });
+    loopThread.setName("Loop Thread");
     loopThread.start();
   }
 
   public void StopThread() {
+    Logger.log("THREAD: Stopping Thread Loop");
     if(loopThread != null)
       loopThread.interrupt();
   }

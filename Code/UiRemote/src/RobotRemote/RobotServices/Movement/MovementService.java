@@ -11,7 +11,7 @@ import lejos.robotics.navigation.ArcRotateMoveController;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MoveThread implements IMoveThread {
+public class MovementService implements IMovementService {
   private ArcRotateMoveController pilot;
   private LocationState locationState;
   private int loopDelay = 50;
@@ -113,6 +113,11 @@ public class MoveThread implements IMoveThread {
     this.RepeatFor(() -> {
       this.locationState.ChangingHeading(degreesPerLoop);
     }, loopDelay, timeToTravel);
+  }
+
+  @Override
+  public boolean IsMoving() {
+    return this.pilot.isMoving();
   }
 
   private void Sleep(long millis) {
