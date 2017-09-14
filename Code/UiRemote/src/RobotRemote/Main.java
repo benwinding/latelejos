@@ -93,7 +93,12 @@ public class Main extends Application {
       Lunarovermap map1 = new Lunarovermap();
       RobotMapTranslator translator = new RobotMapTranslator();
       map1=translator.createMapObject("Code/UiRemote/src/RobotRemote/Services/MapHandlers/samplexml.xml");
-     
+
+      System.out.println("Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
+      map1.roverLandingSite.point.setX(100);
+      map1.roverLandingSite.point.setY(100);
+      //System.out.println("New Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
+      translator.createXml(map1);
 
   }
 

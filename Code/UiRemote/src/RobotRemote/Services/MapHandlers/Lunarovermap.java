@@ -111,7 +111,7 @@ public class Lunarovermap {
     })
     public static class ApolloLandingSite {
         @XmlElement(required = true)
-        protected Lunarovermap.ApolloLandingSite.Point point;
+        public Lunarovermap.ApolloLandingSite.Point point;
         public Lunarovermap.ApolloLandingSite.Point getPoint() {
             return point;
         }
@@ -122,9 +122,9 @@ public class Lunarovermap {
         @XmlType(name = "")
         public static class Point {
             @XmlAttribute(name = "x")
-            protected Integer x;
+            public Integer x;
             @XmlAttribute(name = "y")
-            protected Integer y;
+            public Integer y;
             public Integer getX() {
                 return x;
             }
@@ -147,9 +147,9 @@ public class Lunarovermap {
     public static class Attribute {
 
         @XmlElement(required = true)
-        protected String key;
+        public String key;
         @XmlElement(required = true)
-        protected String value;
+        public String value;
         public String getKey() {
             return key;
         }
@@ -172,7 +172,7 @@ public class Lunarovermap {
     public static class Boundary {
 
         @XmlElement(required = true)
-        protected Lunarovermap.Boundary.Area area;
+        public Lunarovermap.Boundary.Area area;
         public Lunarovermap.Boundary.Area getArea() {
             return area;
         }
@@ -187,7 +187,7 @@ public class Lunarovermap {
         public static class Area {
 
             @XmlElement(required = true)
-            protected List<Lunarovermap.Boundary.Area.Point> point;
+            public List<Lunarovermap.Boundary.Area.Point> point;
             public List<Lunarovermap.Boundary.Area.Point> getPoint() {
                 if (point == null) {
                     point = new ArrayList<Lunarovermap.Boundary.Area.Point>();
@@ -200,9 +200,9 @@ public class Lunarovermap {
             public static class Point {
 
                 @XmlAttribute(name = "x")
-                protected Integer x;
+                public Integer x;
                 @XmlAttribute(name = "y")
-                protected Integer y;
+                public Integer y;
                 public Integer getX() {
                     return x;
                 }
@@ -228,7 +228,7 @@ public class Lunarovermap {
     public static class Obstacle {
 
         @XmlElement(required = true)
-        protected List<Lunarovermap.Obstacle.Point> point;
+        public List<Lunarovermap.Obstacle.Point> point;
 
         public List<Lunarovermap.Obstacle.Point> getPoint() {
             if (point == null) {
@@ -242,9 +242,9 @@ public class Lunarovermap {
         public static class Point {
 
             @XmlAttribute(name = "x")
-            protected Integer x;
+            public Integer x;
             @XmlAttribute(name = "y")
-            protected Integer y;
+            public Integer y;
 
             public Integer getX() {
                 return x;
@@ -272,7 +272,7 @@ public class Lunarovermap {
     })
     public static class RoverLandingSite {
         @XmlElement(required = true)
-        protected Lunarovermap.RoverLandingSite.Point point;
+        public Lunarovermap.RoverLandingSite.Point point;
         public Lunarovermap.RoverLandingSite.Point getPoint() {
             return point;
         }
@@ -283,9 +283,9 @@ public class Lunarovermap {
         @XmlType(name = "")
         public static class Point {
             @XmlAttribute(name = "x")
-            protected Integer x;
+            public Integer x;
             @XmlAttribute(name = "y")
-            protected Integer y;
+            public Integer y;
             public Integer getX() {
                 return x;
             }
@@ -309,9 +309,9 @@ public class Lunarovermap {
     public static class Track {
 
         @XmlElement(required = true)
-        protected List<Lunarovermap.Track.Point> point;
+        public List<Lunarovermap.Track.Point> point;
         @XmlAttribute(name = "type")
-        protected String type;
+        public String type;
 
 
         public List<Lunarovermap.Track.Point> getPoint() {
@@ -335,9 +335,9 @@ public class Lunarovermap {
         public static class Point {
 
             @XmlAttribute(name = "x")
-            protected Integer x;
+            public Integer x;
             @XmlAttribute(name = "y")
-            protected Integer y;
+            public Integer y;
 
 
             public Integer getX() {
@@ -370,7 +370,7 @@ public class Lunarovermap {
     public static class TrackToColor {
 
         @XmlElement(required = true)
-        protected List<Lunarovermap.TrackToColor.Attribute> attribute;
+        public List<Lunarovermap.TrackToColor.Attribute> attribute;
 
         public List<Lunarovermap.TrackToColor.Attribute> getAttribute() {
             if (attribute == null) {
@@ -387,9 +387,9 @@ public class Lunarovermap {
         public static class Attribute {
 
             @XmlElement(required = true)
-            protected String key;
+            public String key;
             @XmlElement(required = true)
-            protected String value;
+            public String value;
 
             public String getKey() {
                 return key;
@@ -420,9 +420,9 @@ public class Lunarovermap {
     public static class VehicleStatus {
 
         @XmlElement(required = true)
-        protected Lunarovermap.VehicleStatus.Point point;
+        public Lunarovermap.VehicleStatus.Point point;
         @XmlElement(required = true)
-        protected Lunarovermap.VehicleStatus.Attribute attribute;
+        public Lunarovermap.VehicleStatus.Attribute attribute;
 
 
         public Lunarovermap.VehicleStatus.Point getPoint() {
@@ -451,8 +451,8 @@ public class Lunarovermap {
         public static class Attribute {
 
             @XmlElement(required = true)
-            protected String key;
-            protected int value;
+            public String key;
+            public int value;
 
             public String getKey() {
                 return key;
@@ -481,9 +481,9 @@ public class Lunarovermap {
         public static class Point {
 
             @XmlAttribute(name = "x")
-            protected Integer x;
+            public Integer x;
             @XmlAttribute(name = "y")
-            protected Integer y;
+            public Integer y;
             public Integer getX() {
                 return x;
             }
@@ -507,9 +507,9 @@ public class Lunarovermap {
     public static class Zone {
 
         @XmlElement(required = true)
-        protected Lunarovermap.Zone.Area area;
+        public Lunarovermap.Zone.Area area;
         @XmlAttribute(name = "state")
-        protected String state;
+        public String state;
 
         public Lunarovermap.Zone.Area getArea() {
             return area;
@@ -534,7 +534,7 @@ public class Lunarovermap {
         })
         public static class Area {
             @XmlElement(required = true)
-            protected List<Lunarovermap.Zone.Area.Point> point;
+            public List<Lunarovermap.Zone.Area.Point> point;
             public List<Lunarovermap.Zone.Area.Point> getPoint() {
                 if (point == null) {
                     point = new ArrayList<Lunarovermap.Zone.Area.Point>();
@@ -545,9 +545,9 @@ public class Lunarovermap {
             @XmlType(name = "")
             public static class Point {
                 @XmlAttribute(name = "x")
-                protected Integer x;
+                public Integer x;
                 @XmlAttribute(name = "y")
-                protected Integer y;
+                public Integer y;
                 public Integer getX() {
                     return x;
                 }
