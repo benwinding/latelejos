@@ -4,6 +4,7 @@ import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
+import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import com.google.common.eventbus.EventBus;
 
@@ -48,12 +49,13 @@ public class ServiceManager {
   }
 
   public void StopAllThreads() {
+    this.getEventBus().post(new EventEmergencySTOP());
     this.movementService.stop();
-    Sleep(900);
     this.robotStateMachineThread.StopThread();
+    Sleep(100);
     this.sensorService.kill();
+    Sleep(100);
     this.uiUpdaterService.kill();
-    Sleep(900);
     this.robotConnectionService.closeConnection();
   }
 

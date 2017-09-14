@@ -113,12 +113,14 @@ public class SensorsService extends ServiceBase {
     // close all sensor ports
     Synchronizer.SerializeRobotCalls(() -> {
       try{
+        Thread.sleep(200);
         this.ultraSampleProvider.close();
         Thread.sleep(200);
       } catch (Exception ignored) {
         Logger.warn("Sensor Service, Error closing the ultrasonic sensor port");
       }
       try{
+        Thread.sleep(200);
         this.colourSensorConnection.close();
         Thread.sleep(200);
       } catch (Exception ignored) {

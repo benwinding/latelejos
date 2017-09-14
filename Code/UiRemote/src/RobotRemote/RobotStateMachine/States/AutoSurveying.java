@@ -1,7 +1,7 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotServices.Movement.IMovementService;
-import RobotRemote.RobotServices.Movement.MovementService;
+import RobotRemote.RobotServices.Movement.MoveCallback;
 import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.IModeState;
@@ -13,6 +13,7 @@ import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
 
 public class AutoSurveying implements IModeState{
+  private IMovementService moveThread;
   private ServiceManager sm;
   private EventBus eventBus;
   private SensorsState sensorState;
@@ -26,6 +27,7 @@ public class AutoSurveying implements IModeState{
     this.eventBus = sm.getEventBus();
     this.sensorState = sm.getAppState().getSensorsState();
     this.threadLoop = sm.getRobotStateMachineThread();
+    this.moveThread = sm.getMovementService();
   }
 
   public void linkStates(ManualStopped state_manualstopped, AutoObjectAvoiding state_autoObjectAvoiding) {
@@ -40,61 +42,26 @@ public class AutoSurveying implements IModeState{
   }
 
   private void LoopThis() {
-    IMovementService moveThread = sm.getMovementService();
-    moveThread.forward(10);
+    GoForwardTillBorder();
+  }
+
+  private void GoForwardTillBorder() {
+    moveThread.forward();
     moveThread.doWhileMoving(new MoveCallback() {
       @Override
       public void movingLoop() {
-        if (isThereATrail()) {
-          HandleDetectedTrail();
+        if (isThereABorder()) {
+          HandleDetectedBorderRight();
         }
       }
 
       @Override
-      public void onCancel() {
+      public void onInterrupted() {
         threadLoop.StopThread();
-      }
-    });
-    moveThread.turn(90);
-    moveThread.doWhileMoving(new MoveCallback() {
-      @Override
-      public void movingLoop() {
-        if (isThereATrail()) {
-          HandleDetectedTrail();
-        }
       }
 
       @Override
-      public void onCancel() {
-        threadLoop.StopThread();
-      }
-    });
-    moveThread.forward(10);
-    moveThread.doWhileMoving(new MoveCallback() {
-      @Override
-      public void movingLoop() {
-        if (isThereATrail()) {
-          HandleDetectedTrail();
-        }
-      }
-
-      @Override
-      public void onCancel() {
-        threadLoop.StopThread();
-      }
-    });
-    moveThread.turn(90);
-    moveThread.doWhileMoving(new MoveCallback() {
-      @Override
-      public void movingLoop() {
-        if (isThereATrail()) {
-          HandleDetectedTrail();
-        }
-      }
-
-      @Override
-      public void onCancel() {
-        threadLoop.StopThread();
+      public void onFinished() {
       }
     });
   }
@@ -111,8 +78,51 @@ public class AutoSurveying implements IModeState{
     Logger.log("Handling Detected Trail");
   }
 
-  private void HandleDetectedBorder() {
-    Logger.log("Handling Detected Border");
+  private void HandleDetectedBorderLeft() {
+    Logger.log("Handling Detected Border going left");
+    moveThread.backward(5);
+    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
+    moveThread.turn(-90);
+    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
+    moveThread.forward(10);
+    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
+    moveThread.turn(-90);
+    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
+  }
+
+  private void HandleDetectedBorderRight() {
+    Logger.log("Handling Detected Border going left");
+    moveThread.backward(5);
+    moveThread.doWhileMoving(new MoveCallback() {
+      @Override
+      public void movingLoop() {
+      }
+
+      @Override
+      public void onInterrupted() {
+        threadLoop.StopThread();
+      }
+
+      @Override
+      public void onFinished() {
+        moveThread.turn(90);
+        moveThread.doWhileMoving(new MoveCallback() {
+          @Override
+          public void movingLoop() {
+          }
+
+          @Override
+          public void onInterrupted() {
+            threadLoop.StopThread();
+          }
+
+          @Override
+          public void onFinished() {
+            moveThread.turn(90);
+          }
+        });
+      }
+    });
   }
 
   private boolean isThereAnObject() {
@@ -120,7 +130,7 @@ public class AutoSurveying implements IModeState{
   }
 
   private boolean isThereABorder() {
-    return sensorState.getColourEnum() == Color.RED;
+    return sensorState.getColourEnum() == Color.BLACK;
   }
 
   private boolean isThereACrater() {

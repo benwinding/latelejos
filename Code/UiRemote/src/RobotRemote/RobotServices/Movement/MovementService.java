@@ -3,7 +3,6 @@ package RobotRemote.RobotServices.Movement;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
-import RobotRemote.RobotStateMachine.States.MoveCallback;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.Synchronizer;
@@ -131,7 +130,23 @@ public class MovementService implements IMovementService {
       } catch (InterruptedException ignored) {
         Logger.log("MOVE: Thread Interrupted... Stopping");
         stop();
-        moveCallback.onCancel();
+        moveCallback.onInterrupted();
+        return;
+      }
+    }
+    moveCallback.onFinished();
+    Logger.log("MOVE: Finished doWhileMoving");
+  }
+
+  @Override
+  public void waitWhileMoving(Runnable onCancelMethod) {
+    while (isMoving() && !Thread.interrupted()) {
+      try {
+        Thread.sleep(50);
+      } catch (InterruptedException ignored) {
+        Logger.log("MOVE: Thread Interrupted... Stopping");
+        stop();
+        onCancelMethod.run();
       }
     }
     Logger.log("MOVE: Leaving doWhileMoving");
