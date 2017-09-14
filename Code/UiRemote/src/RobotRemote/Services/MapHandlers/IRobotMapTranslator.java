@@ -1,6 +1,10 @@
 package RobotRemote.Services.MapHandlers;
 
+
+
+import javax.xml.bind.JAXBException;
+
 public interface IRobotMapTranslator {
-  public String createXml(MapTransferObject mapTransferObject);
-  public MapTransferObject createMapObject(String mapXml);
+  public String createXml(Lunarovermap mapTransferObject);
+  public Lunarovermap createMapObject(String mapXml) throws JAXBException;
 }
