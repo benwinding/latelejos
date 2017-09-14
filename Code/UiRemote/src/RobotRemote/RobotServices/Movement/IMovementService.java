@@ -5,12 +5,12 @@ import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.Shared.AppStateRepository;
 
 public interface IMovementService {
-  void Stop();
-  void Forward();
-  void Forward(float dist_cm);
-  void Backward();
-  void Backward(float dist_cm);
-  void Turn(float degrees);
-  boolean IsMoving();
+  void stop();
+  void forward();
+  void forward(float dist_cm);
+  void backward();
+  void backward(float dist_cm);
+  void turn(float degrees);
+  boolean isMoving();
   void Initialize(RobotConfiguration configuration, RobotConnectionService robotConnectionService, AppStateRepository appStateRepository);
 }

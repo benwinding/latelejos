@@ -8,7 +8,6 @@ import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.Shared.ServiceBase;
-import com.google.common.eventbus.EventBus;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
@@ -39,7 +38,7 @@ public class SensorsService extends ServiceBase {
 
   @Override
   protected void OnStart() {
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       InitColourSensor();
       InitUltrasonicSensor();
     });
@@ -73,7 +72,7 @@ public class SensorsService extends ServiceBase {
 
   @Override
   protected void Repeat() {
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       FetchColourSensor();
       FetchUltrasonicSensor();
     });
@@ -112,7 +111,7 @@ public class SensorsService extends ServiceBase {
   @Override
   protected void OnShutdown() {
     // close all sensor ports
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       try{
         this.ultraSampleProvider.close();
         Thread.sleep(200);

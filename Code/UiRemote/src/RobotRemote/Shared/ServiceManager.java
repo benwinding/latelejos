@@ -49,9 +49,14 @@ public class ServiceManager {
 
   public void StopAllThreads() {
     this.robotStateMachineThread.StopThread();
-    this.movementService.Stop();
+    this.movementService.stop();
     this.sensorService.kill();
     this.uiUpdaterService.kill();
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     this.robotConnectionService.closeConnection();
   }
 

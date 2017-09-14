@@ -4,6 +4,8 @@ public class ThreadLoop {
   private Thread loopThread;
 
   public void StartThread(Runnable runThis, int msLoopDelay) {
+    StopThread();
+    Logger.log("THREAD: Starting Thread Loop");
     loopThread = new Thread(() -> {
       while(!loopThread.isInterrupted()) {
         runThis.run();
@@ -14,7 +16,7 @@ public class ThreadLoop {
         }
       }
     });
-    loopThread.setName("Loop Thread");
+    loopThread.setName("Thread Loop");
     loopThread.start();
   }
 

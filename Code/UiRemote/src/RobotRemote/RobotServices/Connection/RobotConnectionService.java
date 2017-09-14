@@ -44,7 +44,7 @@ public class RobotConnectionService {
   public void closeConnection() {
     if(!IsConnected())
       return;
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       this.BrickInstanceRequest.disConnect();
     });
   }

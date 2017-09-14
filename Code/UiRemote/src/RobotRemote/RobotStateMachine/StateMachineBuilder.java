@@ -1,6 +1,7 @@
 package RobotRemote.RobotStateMachine;
 
-import RobotRemote.RobotStateMachine.States.AutoSurveyZigZag;
+import RobotRemote.RobotStateMachine.States.AutoObjectAvoiding;
+import RobotRemote.RobotStateMachine.States.AutoSurveying;
 import RobotRemote.RobotStateMachine.States.ManualMoving;
 import RobotRemote.RobotStateMachine.States.ManualStopped;
 import RobotRemote.Shared.Logger;
@@ -13,18 +14,19 @@ public class StateMachineBuilder {
     // Create State Instances
     ManualStopped state_manualStopped = new ManualStopped(sm);
     ManualMoving state_manualMoving = new ManualMoving(sm);
-    AutoSurveyZigZag state_autoSurveyZigZag = new AutoSurveyZigZag(sm);
+    AutoSurveying state_autoSurveying = new AutoSurveying(sm);
+    AutoObjectAvoiding state_autoObjectAvoiding = new AutoObjectAvoiding(sm);
 
     // Link states with references
-    state_manualStopped.linkStates(state_manualMoving, state_autoSurveyZigZag);
+    state_manualStopped.linkStates(state_manualMoving, state_autoSurveying);
     state_manualMoving.linkStates(state_manualStopped);
-    state_autoSurveyZigZag.linkStates(state_manualStopped);
+    state_autoSurveying.linkStates(state_manualStopped, state_autoObjectAvoiding);
 
     state_manualStopped.EnterState();
   }
 
   @Subscribe
-  private void OnEverything(Object event) {
+  private void OnEveryEvent(Object event) {
     Logger.log("EVENT:: " + event.getClass().getSimpleName());
   }
 }

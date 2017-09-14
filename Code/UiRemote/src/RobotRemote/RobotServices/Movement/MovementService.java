@@ -1,11 +1,13 @@
 package RobotRemote.RobotServices.Movement;
 
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.Synchronizer;
 import RobotRemote.Shared.ThreadLoop;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
+import lejos.remote.ev3.RemoteRequestException;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.util.Timer;
@@ -22,19 +24,19 @@ public class MovementService implements IMovementService {
     this.pilot = PilotFactory.GetPilot(config, robotConnectionService);
     this.locationState = app.getLocationState();
 
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       linearSpeed = this.pilot.getLinearSpeed();
       angularSpeed = this.pilot.getAngularSpeed();
     });
 
-    this.Stop();
+    this.stop();
   }
 
   @Override
-  public void Forward() {
-    Stop();
+  public void forward() {
+    stop();
     // Set pilot moving forward async
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       this.pilot.forward();
     });
     // Set location-tracking forward async
@@ -47,10 +49,10 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void Backward() {
-    Stop();
+  public void backward() {
+    stop();
     // Set pilot backward async dist
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       this.pilot.backward();
     });
     // Set location-tracking backward async dist
@@ -63,14 +65,14 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void Forward(float dist_cm) {
-    Stop();
+  public void forward(float dist_cm) {
+    stop();
     // Set pilot forward async dist, will stop
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       this.pilot.forward();
     });
     // Set location-tracking forward async dist, will stop
-    long timeToTravel = (long)(dist_cm/ linearSpeed)*1000;
+    long timeToTravel = (long)(dist_cm / linearSpeed)*1000;
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = dist_cm / numLoops;
 
@@ -80,10 +82,10 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void Backward(float dist_cm) {
-    Stop();
+  public void backward(float dist_cm) {
+    stop();
     // Set pilot backward async dist, will stop
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       this.pilot.backward();
     });
     // Set location-tracking backward async dist, will stop
@@ -98,10 +100,10 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void Turn(float degrees) {
-    Stop();
+  public void turn(float degrees) {
+    stop();
     // Set pilot turning forward async degrees, will stop
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       pilot.rotate(degrees, true  );
     });
     // Set location-tracking turning async degrees, will stop
@@ -115,9 +117,13 @@ public class MovementService implements IMovementService {
     }, loopDelay, timeToTravel);
   }
 
+  boolean isMoving;
   @Override
-  public boolean IsMoving() {
-    return this.pilot.isMoving();
+  public boolean isMoving() {
+    Synchronizer.SerializeRobotCalls(() -> {
+      isMoving = this.pilot.isMoving();
+    });
+    return isMoving;
   }
 
   private void Sleep(long millis) {
@@ -128,9 +134,9 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void Stop() {
+  public void stop() {
     // Set pilot stopped
-    Synchronizer.RunNotConcurrent(() -> {
+    Synchronizer.SerializeRobotCalls(() -> {
       this.pilot.stop();
     });
     // Set location-tracking stopped
@@ -138,15 +144,14 @@ public class MovementService implements IMovementService {
   }
 
   private ThreadLoop threadLoop = new ThreadLoop();
-  private Timer timer;
 
   private void RepeatFor(Runnable thing, int loopDelay, long timeTillStopThread) {
     threadLoop.StopThread();
-    timer = new Timer();
+    Timer timer = new Timer();
     timer.schedule(new TimerTask() {
       @Override
       public void run() {
-        threadLoop.StopThread();
+        stop();
       }
     }, timeTillStopThread);
     threadLoop.StartThread(thing, loopDelay);

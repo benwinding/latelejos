@@ -1,5 +1,8 @@
 package RobotRemote.RobotServices.Sensors;
 
+import RobotRemote.Shared.ColourTranslator;
+import javafx.scene.paint.Color;
+
 public class SensorsState {
   private double ultraReading;
   private int colourId;
@@ -64,4 +67,6 @@ public class SensorsState {
   void setStatusColour(boolean statusColour) {
     this.statusColour = statusColour;
   }
+
+  public Color getColourEnum() { return ColourTranslator.GetColourEnum(this.colourId); }
 }

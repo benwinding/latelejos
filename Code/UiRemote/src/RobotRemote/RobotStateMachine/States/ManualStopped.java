@@ -12,15 +12,15 @@ public class ManualStopped implements IModeState {
   private EventBus eventBus;
 
   private ManualMoving state_manualmoving;
-  private AutoSurveyZigZag state_autoSurveyZigZag;
+  private AutoSurveying state_autoSurveying;
 
   public ManualStopped(ServiceManager sm) {
     this.eventBus = sm.getEventBus();
   }
 
-  public void linkStates(ManualMoving state_manualmoving, AutoSurveyZigZag state_autoSurveyZigZag) {
+  public void linkStates(ManualMoving state_manualmoving, AutoSurveying state_autoSurveying) {
     this.state_manualmoving = state_manualmoving;
-    this.state_autoSurveyZigZag = state_autoSurveyZigZag;
+    this.state_autoSurveying = state_autoSurveying;
   }
 
   public void EnterState() {
@@ -37,6 +37,6 @@ public class ManualStopped implements IModeState {
   @Subscribe
   private void OnSwitchToAutoMap(EventSwitchToAutoMap event) {
     this.eventBus.unregister(this);
-    this.state_autoSurveyZigZag.EnterState();
+    this.state_autoSurveying.EnterState();
   }
 }

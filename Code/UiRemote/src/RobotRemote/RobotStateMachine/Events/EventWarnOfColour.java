@@ -1,13 +1,15 @@
 package RobotRemote.RobotStateMachine.Events;
 
-public class EventWarnOfColour {
-  private int colourId;
+import javafx.scene.paint.Color;
 
-  public EventWarnOfColour(int colourId) {
-    this.colourId = colourId;
+public class EventWarnOfColour {
+  private Color colourEnum;
+
+  public EventWarnOfColour(Color colourEnum) {
+    this.colourEnum = colourEnum;
   }
 
-  public int getColourId() {
-    return colourId;
+  public Color getColourEnum() {
+    return colourEnum;
   }
 }

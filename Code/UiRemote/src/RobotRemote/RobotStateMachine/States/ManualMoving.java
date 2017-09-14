@@ -7,6 +7,7 @@ import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import javafx.scene.paint.Color;
 
 public class ManualMoving implements IModeState {
   private EventBus eventBus;
@@ -36,14 +37,14 @@ public class ManualMoving implements IModeState {
 
   private void LoopThis() {
     double ultraDist = sensorState.getUltraReadingCm();
-    int colourId = sensorState.getColourId();
+    Color colourEnum = sensorState.getColourEnum();
     if(ultraDist < 10) {
       Logger.log("Close to Object: " + ultraDist + " cm");
       this.eventBus.post(new EventWarnOfObject(ultraDist));
     }
-    if(ColourTranslator.GetColourName(colourId) == "RED") {
-      Logger.log("Crater Detected, ColourId: " + colourId);
-      this.eventBus.post(new EventWarnOfColour(colourId));
+    if(colourEnum == Color.RED) {
+      Logger.log("Crater Detected, ColourId: " + colourEnum);
+      this.eventBus.post(new EventWarnOfColour(colourEnum));
     }
   }
 
@@ -52,19 +53,19 @@ public class ManualMoving implements IModeState {
     IMovementService moveThread = this.sm.getMovementService();
     switch (event.getCommand()) {
       case Left:
-        moveThread.Turn(-90);
+        moveThread.turn(-90);
         break;
       case Right:
-        moveThread.Turn(90);
+        moveThread.turn(90);
         break;
       case Forward:
-        moveThread.Forward();
+        moveThread.forward();
         break;
       case Backward:
-        moveThread.Backward();
+        moveThread.backward();
         break;
       case Halt:
-        moveThread.Stop();
+        moveThread.stop();
         break;
     }
   }
@@ -72,7 +73,7 @@ public class ManualMoving implements IModeState {
   @Subscribe
   private void OnExitManualControl(EventExitManualControl event) {
     this.eventBus.unregister(this);
-    this.sm.getMovementService().Stop();
+    this.sm.getMovementService().stop();
     this.threadLoop.StopThread();
     state_manualstopped.EnterState();
   }
@@ -80,7 +81,7 @@ public class ManualMoving implements IModeState {
   @Subscribe
   private void OnSTOP(EventEmergencySTOP event) {
     this.eventBus.unregister(this);
-    this.sm.getMovementService().Stop();
+    this.sm.getMovementService().stop();
     this.threadLoop.StopThread();
     state_manualstopped.EnterState();
   }
