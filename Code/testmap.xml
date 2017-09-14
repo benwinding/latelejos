@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapTransferObject units="millimetres">
+    <currentPosition>
+        <x>0.0</x>
+        <y>0.0</y>
+        <theta>0.0</theta>
+    </currentPosition>
+</mapTransferObject>

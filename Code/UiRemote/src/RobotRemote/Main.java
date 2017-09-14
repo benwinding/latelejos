@@ -1,10 +1,14 @@
 package RobotRemote;
 
 import RobotRemote.Helpers.Logger;
+import RobotRemote.Models.MapPoint;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.Repositories.AppStateRepository;
 import RobotRemote.Services.Connection.RobotConnectionService;
 import RobotRemote.Services.MapHandlers.MapInputEventHandlers;
+import RobotRemote.Services.MapHandlers.MapTransferObject;
+import RobotRemote.Services.MapHandlers.RobotMapTranslator;
+import RobotRemote.Services.Movement.MoveThreads.LocationState;
 import RobotRemote.Services.Movement.MovementHandler;
 import RobotRemote.Services.RobotCommander.RobotCommandListener;
 import RobotRemote.Services.Sensors.SensorsService;
@@ -17,6 +21,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -82,6 +88,16 @@ public class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
     primaryStage.show();
+
+
+    MapPoint currentPosition=new MapPoint(0,0,0);
+    ArrayList<MapPoint> noGoZones=new ArrayList<>();
+    ArrayList<MapPoint> tracks=new ArrayList<>();
+    ArrayList<MapPoint> radiation=new ArrayList<>();
+    ArrayList<MapPoint> craters=new ArrayList<>();
+    MapTransferObject map1 = new MapTransferObject(currentPosition,noGoZones,tracks,radiation, craters);
+    RobotMapTranslator translator = new RobotMapTranslator();
+    translator.createXml(map1);
   }
 
   @Override

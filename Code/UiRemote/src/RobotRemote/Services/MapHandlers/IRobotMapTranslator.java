@@ -1,6 +1,6 @@
 package RobotRemote.Services.MapHandlers;
 
 public interface IRobotMapTranslator {
-  String createXml(MapTransferObject mapTransferObject);
-  MapTransferObject createMapObject(String mapXml);
+  public String createXml(MapTransferObject mapTransferObject);
+  public MapTransferObject createMapObject(String mapXml);
 }
