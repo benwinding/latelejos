@@ -48,16 +48,21 @@ public class ServiceManager {
   }
 
   public void StopAllThreads() {
-    this.robotStateMachineThread.StopThread();
     this.movementService.stop();
+    Sleep(900);
+    this.robotStateMachineThread.StopThread();
     this.sensorService.kill();
     this.uiUpdaterService.kill();
+    Sleep(900);
+    this.robotConnectionService.closeConnection();
+  }
+
+  private void Sleep(int i) {
     try {
-      Thread.sleep(500);
+      Thread.sleep(i);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    this.robotConnectionService.closeConnection();
   }
 
   public UiUpdaterService getUiUpdaterService() {

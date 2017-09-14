@@ -1,6 +1,7 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotServices.Movement.IMovementService;
+import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.IModeState;
@@ -12,18 +13,19 @@ import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
 
 public class AutoSurveying implements IModeState{
-  private SensorsState sensorState;
+  private ServiceManager sm;
   private EventBus eventBus;
-  private ThreadLoop loopThread;
-  private IMovementService moveThread;
+  private SensorsState sensorState;
+  private ThreadLoop threadLoop;
+
   private ManualStopped state_manualstopped;
   private AutoObjectAvoiding state_autoObjectAvoiding;
 
   public AutoSurveying(ServiceManager sm) {
+    this.sm = sm;
     this.eventBus = sm.getEventBus();
-    this.loopThread = sm.getRobotStateMachineThread();
-    this.moveThread = sm.getMovementService();
     this.sensorState = sm.getAppState().getSensorsState();
+    this.threadLoop = sm.getRobotStateMachineThread();
   }
 
   public void linkStates(ManualStopped state_manualstopped, AutoObjectAvoiding state_autoObjectAvoiding) {
@@ -34,110 +36,67 @@ public class AutoSurveying implements IModeState{
   @Override
   public void EnterState() {
     this.eventBus.register(this);
-    this.loopThread.StopThread();
-    this.loopThread.StartThread(this::LoopThis, 100);
+    this.threadLoop.StartThread(this::LoopThis, 100);
   }
 
   private void LoopThis() {
+    IMovementService moveThread = sm.getMovementService();
     moveThread.forward(10);
-    moveThread.doWhileMoving(() -> {
-      if (isThereABorder()) {
-        HandleDetectedBorder();
+    moveThread.doWhileMoving(new MoveCallback() {
+      @Override
+      public void movingLoop() {
+        if (isThereATrail()) {
+          HandleDetectedTrail();
+        }
       }
-      else if (isThereATrail()) {
-        HandleDetectedTrail();
-      }
-      else if (isThereACrater()) {
-        HandleDetectedCrater();
-      }
-      else if (isThereAnObject()) {
-        HandleDetectedObject();
+
+      @Override
+      public void onCancel() {
+        threadLoop.StopThread();
       }
     });
     moveThread.turn(90);
-    moveThread.doWhileMoving(() -> {
-      if (isThereABorder()) {
-        HandleDetectedBorder();
+    moveThread.doWhileMoving(new MoveCallback() {
+      @Override
+      public void movingLoop() {
+        if (isThereATrail()) {
+          HandleDetectedTrail();
+        }
       }
-      else if (isThereATrail()) {
-        HandleDetectedTrail();
-      }
-      else if (isThereACrater()) {
-        HandleDetectedCrater();
-      }
-      else if (isThereAnObject()) {
-        HandleDetectedObject();
+
+      @Override
+      public void onCancel() {
+        threadLoop.StopThread();
       }
     });
-//    while(moveThread.isMoving()) {
-//      if (isThereABorder()) {
-//        HandleDetectedBorder();
-//      }
-//      else if (isThereATrail()) {
-//        HandleDetectedTrail();
-//      }
-//      else if (isThereACrater()) {
-//        HandleDetectedCrater();
-//      }
-//      else if (isThereAnObject()) {
-//        HandleDetectedObject();
-//      }
-//      Sleep(50);
-//    }
-//    DoUTurnLeft();
-//    moveThread.forward(10);
-//    while(moveThread.isMoving()) {
-//      if (isThereABorder()) {
-//        HandleDetectedBorder();
-//      }
-//      else if (isThereATrail()) {
-//        HandleDetectedTrail();
-//      }
-//      else if (isThereACrater()) {
-//        HandleDetectedCrater();
-//      }
-//      else if (isThereAnObject()) {
-//        HandleDetectedObject();
-//      }
-//      Sleep(50);
-//    }
-//    DoUTurnRight();
-  }
-
-  private void DoUTurnLeft() {
-    moveThread.turn(-90);
-    while(moveThread.isMoving()) {
-      // Detect sensors here?
-      Sleep(50);
-    }
     moveThread.forward(10);
-    while(moveThread.isMoving()) {
-      // Detect sensors here?
-      Sleep(50);
-    }
-    moveThread.turn(-90);
-    while(moveThread.isMoving()) {
-      // Detect sensors here?
-      Sleep(50);
-    }
-  }
+    moveThread.doWhileMoving(new MoveCallback() {
+      @Override
+      public void movingLoop() {
+        if (isThereATrail()) {
+          HandleDetectedTrail();
+        }
+      }
 
-  private void DoUTurnRight() {
+      @Override
+      public void onCancel() {
+        threadLoop.StopThread();
+      }
+    });
     moveThread.turn(90);
-    while(moveThread.isMoving()) {
-      // Detect sensors here?
-      Sleep(50);
-    }
-    moveThread.forward(10);
-    while(moveThread.isMoving()) {
-      // Detect sensors here?
-      Sleep(50);
-    }
-    moveThread.turn(90);
-    while(moveThread.isMoving()) {
-      // Detect sensors here?
-      Sleep(50);
-    }
+    moveThread.doWhileMoving(new MoveCallback() {
+      @Override
+      public void movingLoop() {
+        if (isThereATrail()) {
+          HandleDetectedTrail();
+        }
+      }
+
+      @Override
+      public void onCancel() {
+        threadLoop.StopThread();
+      }
+    });
   }
 
   private void HandleDetectedObject() {
@@ -175,17 +134,8 @@ public class AutoSurveying implements IModeState{
   @Subscribe
   private void OnSTOP(EventEmergencySTOP event) {
     this.eventBus.unregister(this);
-    this.moveThread.stop();
-    this.loopThread.StopThread();
+    this.sm.getMovementService().stop();
+    this.threadLoop.StopThread();
     state_manualstopped.EnterState();
-  }
-
-  private void Sleep(long millis) {
-    try {
-      Thread.sleep(millis);
-    } catch (InterruptedException ignored) {
-      this.moveThread.stop();
-      this.loopThread.StopThread();
-    }
   }
 }

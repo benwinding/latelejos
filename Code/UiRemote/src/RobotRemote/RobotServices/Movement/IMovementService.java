@@ -2,6 +2,7 @@ package RobotRemote.RobotServices.Movement;
 
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
+import RobotRemote.RobotStateMachine.States.MoveCallback;
 import RobotRemote.Shared.AppStateRepository;
 
 public interface IMovementService {
@@ -14,5 +15,5 @@ public interface IMovementService {
   boolean isMoving();
   void Initialize(RobotConfiguration configuration, RobotConnectionService robotConnectionService, AppStateRepository appStateRepository);
 
-  void doWhileMoving(Runnable runnable);
+  void doWhileMoving(MoveCallback moveCallback);
 }

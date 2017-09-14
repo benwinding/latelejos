@@ -1,11 +1,15 @@
 package RobotRemote.Shared;
 
 public class ThreadLoop {
-  private Thread loopThread;
+  private Thread loopThread = new Thread();
+  private String threadName;
+
+  public ThreadLoop(String threadName) {
+    this.threadName = threadName;
+  }
 
   public void StartThread(Runnable runThis, int msLoopDelay) {
     StopThread();
-    Logger.log("THREAD: Starting Thread Loop");
     loopThread = new Thread(() -> {
       while(!loopThread.isInterrupted()) {
         runThis.run();
@@ -16,13 +20,11 @@ public class ThreadLoop {
         }
       }
     });
-    loopThread.setName("Thread Loop");
+    loopThread.setName(this.threadName);
     loopThread.start();
   }
 
   public void StopThread() {
-    Logger.log("THREAD: Stopping Thread Loop");
-    if(loopThread != null)
-      loopThread.interrupt();
+    loopThread.interrupt();
   }
 }

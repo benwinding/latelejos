@@ -3,7 +3,9 @@ package RobotRemote.RobotServices.Movement;
 import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
+import RobotRemote.RobotStateMachine.States.MoveCallback;
 import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.Synchronizer;
 import RobotRemote.Shared.ThreadLoop;
 import lejos.robotics.navigation.ArcRotateMoveController;
@@ -35,6 +37,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot moving forward async
     Synchronizer.SerializeRobotCalls(() -> {
+      Logger.log("MOVE: Start forward");
       this.pilot.forward();
     });
     // Set location-tracking forward async
@@ -51,6 +54,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot backward async dist
     Synchronizer.SerializeRobotCalls(() -> {
+      Logger.log("MOVE: Start backward");
       this.pilot.backward();
     });
     // Set location-tracking backward async dist
@@ -67,6 +71,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot forward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
+      Logger.log("MOVE: Start forward: " + dist_cm);
       this.pilot.forward();
     });
     // Set location-tracking forward async dist, will stop
@@ -84,6 +89,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot backward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
+      Logger.log("MOVE: Start backward: " + dist_cm);
       this.pilot.backward();
     });
     // Set location-tracking backward async dist, will stop
@@ -102,6 +108,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
+      Logger.log("MOVE: Start rotate: " + degrees);
       pilot.rotate(degrees, true  );
     });
     // Set location-tracking turning async degrees, will stop
@@ -116,14 +123,21 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void doWhileMoving(Runnable runnable) {
-    while (isMoving()) {
-      runnable.run();
-      Sleep(50);
+  public void doWhileMoving(MoveCallback moveCallback) {
+    while (isMoving() && !Thread.interrupted()) {
+      moveCallback.movingLoop();
+      try {
+        Thread.sleep(50);
+      } catch (InterruptedException ignored) {
+        Logger.log("MOVE: Thread Interrupted... Stopping");
+        stop();
+        moveCallback.onCancel();
+      }
     }
+    Logger.log("MOVE: Leaving doWhileMoving");
   }
 
-  boolean isMoving;
+  private boolean isMoving;
   @Override
   public boolean isMoving() {
     Synchronizer.SerializeRobotCalls(() -> {
@@ -136,6 +150,10 @@ public class MovementService implements IMovementService {
     try {
       Thread.sleep(millis);
     } catch (InterruptedException ignored) {
+      Logger.log("MOVE: Thread Interrupted... Stopping");
+      Synchronizer.SerializeRobotCalls(() -> {
+        this.pilot.stop();
+      });
       stop();
     }
   }
@@ -144,6 +162,7 @@ public class MovementService implements IMovementService {
   public void stop() {
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
+      Logger.log("MOVE: Stopping");
       this.pilot.stop();
     });
     // Set location-tracking stopped
@@ -151,7 +170,7 @@ public class MovementService implements IMovementService {
     timer.cancel();
   }
 
-  private ThreadLoop threadLoop = new ThreadLoop();
+  private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");
   private Timer timer = new Timer();
 
   private void RepeatFor(Runnable thing, int loopDelay, long timeTillStopThread) {
