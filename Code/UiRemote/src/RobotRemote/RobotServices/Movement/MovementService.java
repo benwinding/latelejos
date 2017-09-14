@@ -1,13 +1,11 @@
 package RobotRemote.RobotServices.Movement;
 
-import RobotRemote.Shared.Logger;
-import RobotRemote.Shared.Synchronizer;
-import RobotRemote.Shared.ThreadLoop;
 import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
-import lejos.remote.ev3.RemoteRequestException;
+import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.Synchronizer;
+import RobotRemote.Shared.ThreadLoop;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.util.Timer;
@@ -117,6 +115,14 @@ public class MovementService implements IMovementService {
     }, loopDelay, timeToTravel);
   }
 
+  @Override
+  public void doWhileMoving(Runnable runnable) {
+    while (isMoving()) {
+      runnable.run();
+      Sleep(50);
+    }
+  }
+
   boolean isMoving;
   @Override
   public boolean isMoving() {
@@ -130,6 +136,7 @@ public class MovementService implements IMovementService {
     try {
       Thread.sleep(millis);
     } catch (InterruptedException ignored) {
+      stop();
     }
   }
 
@@ -141,13 +148,15 @@ public class MovementService implements IMovementService {
     });
     // Set location-tracking stopped
     threadLoop.StopThread();
+    timer.cancel();
   }
 
   private ThreadLoop threadLoop = new ThreadLoop();
+  private Timer timer = new Timer();
 
   private void RepeatFor(Runnable thing, int loopDelay, long timeTillStopThread) {
     threadLoop.StopThread();
-    Timer timer = new Timer();
+    timer = new Timer();
     timer.schedule(new TimerTask() {
       @Override
       public void run() {

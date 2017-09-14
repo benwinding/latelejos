@@ -13,4 +13,6 @@ public interface IMovementService {
   void turn(float degrees);
   boolean isMoving();
   void Initialize(RobotConfiguration configuration, RobotConnectionService robotConnectionService, AppStateRepository appStateRepository);
+
+  void doWhileMoving(Runnable runnable);
 }

@@ -40,7 +40,7 @@ public class AutoSurveying implements IModeState{
 
   private void LoopThis() {
     moveThread.forward(10);
-    while(moveThread.isMoving()) {
+    moveThread.doWhileMoving(() -> {
       if (isThereABorder()) {
         HandleDetectedBorder();
       }
@@ -53,11 +53,9 @@ public class AutoSurveying implements IModeState{
       else if (isThereAnObject()) {
         HandleDetectedObject();
       }
-      Sleep(50);
-    }
-    DoUTurnLeft();
-    moveThread.forward(10);
-    while(moveThread.isMoving()) {
+    });
+    moveThread.turn(90);
+    moveThread.doWhileMoving(() -> {
       if (isThereABorder()) {
         HandleDetectedBorder();
       }
@@ -70,9 +68,40 @@ public class AutoSurveying implements IModeState{
       else if (isThereAnObject()) {
         HandleDetectedObject();
       }
-      Sleep(50);
-    }
-    DoUTurnRight();
+    });
+//    while(moveThread.isMoving()) {
+//      if (isThereABorder()) {
+//        HandleDetectedBorder();
+//      }
+//      else if (isThereATrail()) {
+//        HandleDetectedTrail();
+//      }
+//      else if (isThereACrater()) {
+//        HandleDetectedCrater();
+//      }
+//      else if (isThereAnObject()) {
+//        HandleDetectedObject();
+//      }
+//      Sleep(50);
+//    }
+//    DoUTurnLeft();
+//    moveThread.forward(10);
+//    while(moveThread.isMoving()) {
+//      if (isThereABorder()) {
+//        HandleDetectedBorder();
+//      }
+//      else if (isThereATrail()) {
+//        HandleDetectedTrail();
+//      }
+//      else if (isThereACrater()) {
+//        HandleDetectedCrater();
+//      }
+//      else if (isThereAnObject()) {
+//        HandleDetectedObject();
+//      }
+//      Sleep(50);
+//    }
+//    DoUTurnRight();
   }
 
   private void DoUTurnLeft() {
