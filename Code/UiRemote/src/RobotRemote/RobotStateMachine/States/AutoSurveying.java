@@ -1,7 +1,6 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotServices.Movement.IMovementService;
-import RobotRemote.RobotServices.Movement.MoveCallback;
 import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.IModeState;
@@ -11,6 +10,7 @@ import RobotRemote.Shared.ThreadLoop;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
+import sun.rmi.runtime.Log;
 
 public class AutoSurveying implements IModeState{
   private IMovementService moveThread;
@@ -20,7 +20,6 @@ public class AutoSurveying implements IModeState{
   private ThreadLoop threadLoop;
 
   private ManualStopped state_manualstopped;
-  private AutoObjectAvoiding state_autoObjectAvoiding;
 
   public AutoSurveying(ServiceManager sm) {
     this.sm = sm;
@@ -30,9 +29,8 @@ public class AutoSurveying implements IModeState{
     this.moveThread = sm.getMovementService();
   }
 
-  public void linkStates(ManualStopped state_manualstopped, AutoObjectAvoiding state_autoObjectAvoiding) {
+  public void linkStates(ManualStopped state_manualstopped) {
     this.state_manualstopped = state_manualstopped;
-    this.state_autoObjectAvoiding = state_autoObjectAvoiding;
   }
 
   @Override
@@ -46,24 +44,23 @@ public class AutoSurveying implements IModeState{
   }
 
   private void GoForwardTillBorder() {
-    moveThread.forward();
-    moveThread.doWhileMoving(new MoveCallback() {
-      @Override
-      public void movingLoop() {
+    try {
+      moveThread.forward();
+      moveThread.repeatWhileMoving(() -> {
         if (isThereABorder()) {
-          HandleDetectedBorderRight();
+          Logger.log("Detected Border");
+          HandleDetectedBorderLeft();
         }
-      }
-
-      @Override
-      public void onInterrupted() {
-        threadLoop.StopThread();
-      }
-
-      @Override
-      public void onFinished() {
-      }
-    });
+        if (isThereAnObject()) {
+          Logger.log("Detected Object");
+          HandleDetectedBorderLeft();
+        }
+      });
+    } catch (InterruptedException e) {
+      Logger.log("Mo");
+      this.sm.getMovementService().stop();
+      this.threadLoop.StopThread();
+    }
   }
 
   private void HandleDetectedObject() {
@@ -80,51 +77,22 @@ public class AutoSurveying implements IModeState{
 
   private void HandleDetectedBorderLeft() {
     Logger.log("Handling Detected Border going left");
-    moveThread.backward(5);
-    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
-    moveThread.turn(-90);
-    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
-    moveThread.forward(10);
-    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
-    moveThread.turn(-90);
-    moveThread.waitWhileMoving(() -> threadLoop.StopThread());
+    try {
+      moveThread.backward(5);
+      moveThread.waitWhileMoving();
+      moveThread.turn(-90);
+      moveThread.waitWhileMoving();
+      moveThread.forward(10);
+      moveThread.waitWhileMoving();
+      moveThread.turn(-90);
+      moveThread.waitWhileMoving();
+    } catch (InterruptedException e) {
+      Logger.log("Handle Detected Border Left: Interrupted");
+      this.sm.getMovementService().stop();
+      this.threadLoop.StopThread();
+    }
   }
-
-  private void HandleDetectedBorderRight() {
-    Logger.log("Handling Detected Border going left");
-    moveThread.backward(5);
-    moveThread.doWhileMoving(new MoveCallback() {
-      @Override
-      public void movingLoop() {
-      }
-
-      @Override
-      public void onInterrupted() {
-        threadLoop.StopThread();
-      }
-
-      @Override
-      public void onFinished() {
-        moveThread.turn(90);
-        moveThread.doWhileMoving(new MoveCallback() {
-          @Override
-          public void movingLoop() {
-          }
-
-          @Override
-          public void onInterrupted() {
-            threadLoop.StopThread();
-          }
-
-          @Override
-          public void onFinished() {
-            moveThread.turn(90);
-          }
-        });
-      }
-    });
-  }
-
+  
   private boolean isThereAnObject() {
     return sensorState.getUltraReadingCm() < 10;
   }

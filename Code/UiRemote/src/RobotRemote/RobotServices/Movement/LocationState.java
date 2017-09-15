@@ -70,4 +70,9 @@ public class LocationState {
     MapPoint curr = GetCurrentPosition();
     GoingToPoint(curr.x,curr.y,curr.theta + angle);
   }
+
+  void SetHeading(float degrees) {
+    MapPoint curr = GetCurrentPosition();
+    GoingToPoint(curr.x,curr.y,degrees);
+  }
 }

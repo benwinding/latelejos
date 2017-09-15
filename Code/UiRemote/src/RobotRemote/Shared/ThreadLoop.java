@@ -8,11 +8,11 @@ public class ThreadLoop {
     this.threadName = threadName;
   }
 
-  public void StartThread(Runnable runThis, int msLoopDelay) {
+  public void StartThread(Runnable repeatThis, int msLoopDelay) {
     StopThread();
     loopThread = new Thread(() -> {
       while(!loopThread.isInterrupted()) {
-        runThis.run();
+        repeatThis.run();
         try {
           Thread.sleep(msLoopDelay);
         } catch (InterruptedException e) {
@@ -26,5 +26,22 @@ public class ThreadLoop {
 
   public void StopThread() {
     loopThread.interrupt();
+  }
+
+  public void StartThread(Runnable repeatThis, Runnable onFinish, long msLoopDelay) {
+    StopThread();
+    loopThread = new Thread(() -> {
+      while(!loopThread.isInterrupted()) {
+        repeatThis.run();
+        try {
+          Thread.sleep(msLoopDelay);
+        } catch (InterruptedException e) {
+          return;
+        }
+      }
+      onFinish.run();
+    });
+    loopThread.setName(this.threadName);
+    loopThread.start();
   }
 }

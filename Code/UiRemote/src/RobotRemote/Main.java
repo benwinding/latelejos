@@ -49,7 +49,7 @@ public class Main extends Application {
     EventBus eventBus = new EventBus();
 
     // Daemons
-    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository);
+    SensorsService sensorService = new SensorsService(robotConfiguration, robotConnectionService, appStateRepository, eventBus);
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     IMovementService movementService = new MovementService();

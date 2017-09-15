@@ -115,41 +115,29 @@ public class MovementService implements IMovementService {
     long timeToTravel = (long)(degreesAbs/ angularSpeed)*1000;
     double numLoops = timeToTravel / loopDelay;
     double degreesPerLoop = degrees / numLoops;
+    float degreesFin = (float) (locationState.GetCurrentPosition().theta + degrees);
     Sleep(300);
-    this.RepeatFor(() -> {
-      this.locationState.ChangingHeading(degreesPerLoop);
-    }, loopDelay, timeToTravel);
+    this.RepeatFor(
+        () -> locationState.ChangingHeading(degreesPerLoop),
+        () -> locationState.SetHeading(degreesFin),
+      loopDelay, timeToTravel);
   }
 
   @Override
-  public void doWhileMoving(MoveCallback moveCallback) {
+  public void repeatWhileMoving(Runnable repeatThis) throws InterruptedException {
     while (isMoving() && !Thread.interrupted()) {
-      moveCallback.movingLoop();
-      try {
-        Thread.sleep(50);
-      } catch (InterruptedException ignored) {
-        Logger.log("MOVE: Thread Interrupted... Stopping");
-        stop();
-        moveCallback.onInterrupted();
-        return;
-      }
+      repeatThis.run();
+      Thread.sleep(20);
     }
-    moveCallback.onFinished();
-    Logger.log("MOVE: Finished doWhileMoving");
+    Logger.log("MOVE: Finished repeatWhileMoving");
   }
 
   @Override
-  public void waitWhileMoving(Runnable onCancelMethod) {
+  public void waitWhileMoving() throws InterruptedException {
     while (isMoving() && !Thread.interrupted()) {
-      try {
-        Thread.sleep(50);
-      } catch (InterruptedException ignored) {
-        Logger.log("MOVE: Thread Interrupted... Stopping");
-        stop();
-        onCancelMethod.run();
-      }
+      Thread.sleep(50);
     }
-    Logger.log("MOVE: Leaving doWhileMoving");
+    Logger.log("MOVE: Leaving repeatWhileMoving");
   }
 
   private boolean isMoving;
@@ -188,7 +176,7 @@ public class MovementService implements IMovementService {
   private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");
   private Timer timer = new Timer();
 
-  private void RepeatFor(Runnable thing, int loopDelay, long timeTillStopThread) {
+  private void RepeatFor(Runnable repeatThis, Runnable onFinish, int loopDelay, long timeTillStopThread) {
     threadLoop.StopThread();
     timer = new Timer();
     timer.schedule(new TimerTask() {
@@ -197,7 +185,19 @@ public class MovementService implements IMovementService {
         stop();
       }
     }, timeTillStopThread);
-    threadLoop.StartThread(thing, loopDelay);
+    threadLoop.StartThread(repeatThis, onFinish, loopDelay);
+  }
+
+  private void RepeatFor(Runnable repeatThis, int loopDelay, long timeTillStopThread) {
+    threadLoop.StopThread();
+    timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        stop();
+      }
+    }, timeTillStopThread);
+    threadLoop.StartThread(repeatThis, loopDelay);
   }
 
   private void RepeatForever(Runnable thing, int loopDelay) {

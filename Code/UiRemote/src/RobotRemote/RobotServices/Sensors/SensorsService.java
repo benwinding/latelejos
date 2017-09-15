@@ -8,6 +8,8 @@ import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.Shared.ServiceBase;
+import com.google.common.eventbus.EventBus;
+import javafx.scene.paint.Color;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorMode;
@@ -17,6 +19,7 @@ import java.rmi.RemoteException;
 
 public class SensorsService extends ServiceBase {
   private DiscoveredColoursState discoveredColoursState;
+  private EventBus eventBus;
   private LocationState locationState;
   private RobotConfiguration config;
   private RobotConnectionService connectionService;
@@ -27,13 +30,14 @@ public class SensorsService extends ServiceBase {
 
   private RMISampleProvider ultraSampleProvider;
 
-  public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository) {
+  public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository, EventBus eventBus) {
     super("Sensors Service", 50);
     this.config = config;
     this.connectionService = connectionService;
     this.sensorsState = appStateRepository.getSensorsState();
     this.locationState = appStateRepository.getLocationState();
     this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
+    this.eventBus = eventBus;
   }
 
   @Override

@@ -14,6 +14,6 @@ public interface IMovementService {
   boolean isMoving();
   void Initialize(RobotConfiguration configuration, RobotConnectionService robotConnectionService, AppStateRepository appStateRepository);
 
-  void doWhileMoving(MoveCallback moveCallback);
-  void waitWhileMoving(Runnable onCancelMethod);
+  void repeatWhileMoving(Runnable repeatThis) throws InterruptedException;
+  void waitWhileMoving() throws InterruptedException;
 }

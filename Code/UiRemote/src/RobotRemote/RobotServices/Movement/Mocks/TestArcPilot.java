@@ -5,6 +5,9 @@ import lejos.robotics.navigation.Move;
 import lejos.robotics.navigation.MoveListener;
 
 public class TestArcPilot implements ArcRotateMoveController {
+  private double linearSpeed;
+  private double angularSpeed;
+
   @Override
   public double getMinRadius() {
     return 0;
@@ -61,12 +64,12 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public void setAngularSpeed(double v) {
-
+    this.angularSpeed = v;
   }
 
   @Override
   public double getAngularSpeed() {
-    return 0;
+    return this.angularSpeed;
   }
 
   @Override
@@ -126,12 +129,12 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public void setLinearSpeed(double v) {
-
+    this.linearSpeed = v;
   }
 
   @Override
   public double getLinearSpeed() {
-    return 0;
+    return this.linearSpeed;
   }
 
   @Override
