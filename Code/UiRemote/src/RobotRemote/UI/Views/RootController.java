@@ -111,7 +111,6 @@ public class RootController implements Initializable {
   }
 
   public void onClickExitMode(MouseEvent mouseEvent) {
-//    eventBus.post(new EventExitManualControl());
     eventBus.post(new EventEmergencySTOP());
   }
 
@@ -167,6 +166,10 @@ public class RootController implements Initializable {
   private void MoveMotors(EnumCommandManual command) {
     uiState.setCurrentCommand(command);
     eventBus.post(new EventManualCommand(command));
+    if(command == EnumCommandManual.Halt) {
+      eventBus.post(new EventEmergencySTOP());
+      eventBus.post(new EventExitManualControl());
+    }
   }
 
   private void StopMotors() {

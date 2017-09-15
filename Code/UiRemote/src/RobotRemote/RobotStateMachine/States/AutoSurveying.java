@@ -10,7 +10,6 @@ import RobotRemote.Shared.ThreadLoop;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
-import sun.rmi.runtime.Log;
 
 public class AutoSurveying implements IModeState{
   private IMovementService moveThread;
@@ -40,11 +39,12 @@ public class AutoSurveying implements IModeState{
   }
 
   private void LoopThis() {
-    GoForwardTillBorder();
+    ZigZagAcrossMap();
   }
 
-  private void GoForwardTillBorder() {
+  private void ZigZagAcrossMap() {
     try {
+      // Move leftwards across the map
       moveThread.forward();
       moveThread.repeatWhileMoving(() -> {
         if (isThereABorder()) {
@@ -56,14 +56,30 @@ public class AutoSurveying implements IModeState{
           HandleDetectedBorderLeft();
         }
       });
+      // Move rightwards across the map
+      moveThread.forward();
+      moveThread.repeatWhileMoving(() -> {
+        if (isThereABorder()) {
+          Logger.log("Detected Border");
+          HandleDetectedBorderRight();
+        }
+        if (isThereAnObject()) {
+          Logger.log("Detected Object");
+          HandleDetectedBorderRight();
+        }
+      });
     } catch (InterruptedException e) {
-      Logger.log("Mo");
+      Logger.log("- Interrupt: AutoSurveying");
       this.sm.getMovementService().stop();
       this.threadLoop.StopThread();
     }
   }
 
-  private void HandleDetectedObject() {
+  private void HandleDetectedObjectRight() {
+    Logger.log("Handling Detected Object");
+  }
+
+  private void HandleDetectedObjectLeft() {
     Logger.log("Handling Detected Object");
   }
 
@@ -78,21 +94,39 @@ public class AutoSurveying implements IModeState{
   private void HandleDetectedBorderLeft() {
     Logger.log("Handling Detected Border going left");
     try {
-      moveThread.backward(5);
-      moveThread.waitWhileMoving();
-      moveThread.turn(-90);
-      moveThread.waitWhileMoving();
-      moveThread.forward(10);
-      moveThread.waitWhileMoving();
-      moveThread.turn(-90);
-      moveThread.waitWhileMoving();
+      TurnRobotAround(true);
     } catch (InterruptedException e) {
-      Logger.log("Handle Detected Border Left: Interrupted");
+      Logger.log("- Interrupt: AutoSurveying, Handle detected border left");
       this.sm.getMovementService().stop();
       this.threadLoop.StopThread();
     }
   }
-  
+
+  private void HandleDetectedBorderRight() {
+    Logger.log("Handling Detected Border going right");
+    try {
+      TurnRobotAround(false);
+    } catch (InterruptedException e) {
+      Logger.log("- Interrupt: AutoSurveying, Handle detected border right");
+      this.sm.getMovementService().stop();
+      this.threadLoop.StopThread();
+    }
+  }
+
+  private void TurnRobotAround(boolean rightTurn) throws InterruptedException {
+    int turnAngle = 90;
+    if(rightTurn)
+      turnAngle = -90;
+    moveThread.backward(5);
+    moveThread.waitWhileMoving();
+    moveThread.turn(-turnAngle);
+    moveThread.waitWhileMoving();
+    moveThread.forward(10);
+    moveThread.waitWhileMoving();
+    moveThread.turn(-turnAngle);
+    moveThread.waitWhileMoving();
+  }
+
   private boolean isThereAnObject() {
     return sensorState.getUltraReadingCm() < 10;
   }
@@ -111,8 +145,9 @@ public class AutoSurveying implements IModeState{
 
   @Subscribe
   private void OnSTOP(EventEmergencySTOP event) {
+    Logger.log("Autosurveying:  EventEmergencyStop");
     this.eventBus.unregister(this);
-    this.sm.getMovementService().stop();
+    this.moveThread.stop();
     this.threadLoop.StopThread();
     state_manualstopped.EnterState();
   }
