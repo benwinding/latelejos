@@ -2,7 +2,7 @@ package RobotRemote;
 
 import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.Shared.Logger;
-import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;

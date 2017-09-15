@@ -9,8 +9,6 @@ import RobotRemote.UIServices.Events.EventUserAddWaypoint;
 import RobotRemote.UIServices.Events.EventUserMapDragged;
 import RobotRemote.UIServices.Events.EventUserZoomChanged;
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Models.RobotConfiguration;
-import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotStateMachine.Events.*;
 import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
@@ -76,7 +74,7 @@ public class RootController implements Initializable {
     this.uiState = sm.getAppState().getUiState();
     this.eventBus = sm.getEventBus();
     this.initMap();
-    this.initManualMode();
+    //this.initManualMode();
   }
 
   private void initManualMode() {

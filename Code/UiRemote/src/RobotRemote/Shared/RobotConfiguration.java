@@ -1,4 +1,4 @@
-package RobotRemote.Models;
+package RobotRemote.Shared;
 
 public class RobotConfiguration {
   public float initX = 30; // cm

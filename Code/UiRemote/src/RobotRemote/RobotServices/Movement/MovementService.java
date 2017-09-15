@@ -1,6 +1,6 @@
 package RobotRemote.RobotServices.Movement;
 
-import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
 import RobotRemote.Shared.AppStateRepository;
@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class MovementService implements IMovementService {
   private ArcRotateMoveController pilot;
   private LocationState locationState;
-  private int loopDelay = 50;
+  private int loopDelay = 33;
   private double linearSpeed;
   private double angularSpeed;
 
@@ -97,13 +97,11 @@ public class MovementService implements IMovementService {
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = distAbs / numLoops;
 
-    this.RepeatFor(() -> {
-      this.locationState.GoingStraight(-distancePerLoop);
-    }, loopDelay, timeToTravel);
+    this.RepeatFor(() -> this.locationState.GoingStraight(-distancePerLoop), loopDelay, timeToTravel);
   }
 
   @Override
-  public void turn(float degrees) {
+  public void turn(int degrees) {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -118,9 +116,11 @@ public class MovementService implements IMovementService {
     float degreesFin = (float) (locationState.GetCurrentPosition().theta + degrees);
     Sleep(300);
     this.RepeatFor(
-        () -> locationState.ChangingHeading(degreesPerLoop),
-        () -> locationState.SetHeading(degreesFin),
-      loopDelay, timeToTravel);
+      () -> locationState.ChangingHeading(degreesPerLoop),
+      () -> locationState.SetHeading(degreesFin),
+      loopDelay,
+      timeToTravel
+    );
   }
 
   @Override
@@ -183,9 +183,10 @@ public class MovementService implements IMovementService {
       @Override
       public void run() {
         stop();
+        onFinish.run();
       }
     }, timeTillStopThread);
-    threadLoop.StartThread(repeatThis, onFinish, loopDelay);
+    threadLoop.StartThread(repeatThis, loopDelay);
   }
 
   private void RepeatFor(Runnable repeatThis, int loopDelay, long timeTillStopThread) {

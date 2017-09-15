@@ -1,7 +1,7 @@
 package RobotRemote.UIServices.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.RobotServices.Sensors.SensorsState;

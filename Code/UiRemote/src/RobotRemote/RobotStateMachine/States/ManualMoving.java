@@ -39,12 +39,12 @@ public class ManualMoving implements IModeState {
     double ultraDist = sensorState.getUltraReadingCm();
     Color colourEnum = sensorState.getColourEnum();
     if(ultraDist < 10) {
-      Logger.log("Close to Object: " + ultraDist + " cm");
-      this.eventBus.post(new EventWarnOfObject(ultraDist));
+      //Logger.log("Close to Object: " + ultraDist + " cm");
+//      this.eventBus.post(new EventWarnOfObject(ultraDist));
     }
     if(colourEnum == Color.RED) {
-      Logger.log("Crater Detected, ColourId: " + colourEnum);
-      this.eventBus.post(new EventWarnOfColour(colourEnum));
+      //Logger.log("Crater Detected, ColourId: " + colourEnum);
+//      this.eventBus.post(new EventWarnOfColour(colourEnum));
     }
   }
 

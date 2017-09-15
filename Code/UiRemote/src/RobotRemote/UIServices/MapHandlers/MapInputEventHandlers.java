@@ -6,7 +6,7 @@ import RobotRemote.UIServices.Events.EventUserAddNgz;
 import RobotRemote.UIServices.Events.EventUserAddWaypoint;
 import RobotRemote.UIServices.Events.EventUserMapDragged;
 import RobotRemote.UIServices.Events.EventUserZoomChanged;
-import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
 

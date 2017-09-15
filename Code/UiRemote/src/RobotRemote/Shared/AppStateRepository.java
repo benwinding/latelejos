@@ -1,6 +1,5 @@
 package RobotRemote.Shared;
 
-import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionState;
 import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import RobotRemote.UIServices.MapHandlers.UserWaypointsState;

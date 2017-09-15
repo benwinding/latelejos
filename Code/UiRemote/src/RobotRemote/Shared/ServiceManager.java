@@ -1,6 +1,5 @@
 package RobotRemote.Shared;
 
-import RobotRemote.Models.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;

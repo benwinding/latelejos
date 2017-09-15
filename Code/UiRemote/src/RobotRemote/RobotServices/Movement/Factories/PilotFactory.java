@@ -1,7 +1,7 @@
 package RobotRemote.RobotServices.Movement.Factories;
 
 import RobotRemote.Shared.Logger;
-import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Mocks.TestArcPilot;
 import lejos.robotics.navigation.ArcRotateMoveController;

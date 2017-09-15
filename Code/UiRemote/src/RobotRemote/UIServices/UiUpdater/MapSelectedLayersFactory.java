@@ -2,7 +2,7 @@ package RobotRemote.UIServices.UiUpdater;
 
 import RobotRemote.Shared.ColourTranslator;
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Models.RobotConfiguration;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import RobotRemote.UIServices.MapHandlers.UserWaypointsState;
