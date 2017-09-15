@@ -50,6 +50,17 @@ public class RootController implements Initializable {
   @FXML
   Button btnAutoSurveyMode;
 
+  @FXML
+  Button btnMoveUp;
+  @FXML
+  Button btnMoveDown;
+  @FXML
+  Button btnMoveLeft;
+  @FXML
+  Button btnMoveRight;
+  @FXML
+  Button btnMoveStop;
+
   private UiState uiState;
   private EventBus eventBus;
 
@@ -65,6 +76,11 @@ public class RootController implements Initializable {
     this.uiState = sm.getAppState().getUiState();
     this.eventBus = sm.getEventBus();
     this.initMap();
+    this.initManualMode();
+  }
+
+  private void initManualMode() {
+    this.onClickManualMode(null);
   }
 
   private void initMap() {
@@ -100,18 +116,28 @@ public class RootController implements Initializable {
   }
 
   public void onClickManualMode(MouseEvent mouseEvent) {
+    btnManualMode.setDisable(true);
+    btnManualMode.setDisable(false);
+    eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToManual());
+    btnMoveUp.setDisable(false);
+    btnMoveDown.setDisable(false);
+    btnMoveLeft.setDisable(false);
+    btnMoveRight.setDisable(false);
   }
 
   public void onClickAutoMapMode(MouseEvent mouseEvent) {
 //    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Begin Automatic Survey of the Area?", ButtonType.YES, ButtonType.NO);
 //    alert.showAndWait();
 //    if (alert.getResult() == ButtonType.YES)
-      eventBus.post(new EventSwitchToAutoMap());
-  }
-
-  public void onClickExitMode(MouseEvent mouseEvent) {
+    btnManualMode.setDisable(false);
+    btnAutoSurveyMode.setDisable(true);
     eventBus.post(new EventEmergencySTOP());
+    eventBus.post(new EventSwitchToAutoMap());
+    btnMoveUp.setDisable(true);
+    btnMoveDown.setDisable(true);
+    btnMoveLeft.setDisable(true);
+    btnMoveRight.setDisable(true);
   }
 
   public void onClickHelp(ActionEvent event) {
@@ -129,7 +155,6 @@ public class RootController implements Initializable {
   }
 
   public void onClickAbout(ActionEvent event) {
-
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/About/About.fxml"));
       Parent root = (Parent) fxmlLoader.load();
@@ -167,13 +192,13 @@ public class RootController implements Initializable {
     uiState.setCurrentCommand(command);
     eventBus.post(new EventManualCommand(command));
     if(command == EnumCommandManual.Halt) {
-      eventBus.post(new EventEmergencySTOP());
-      eventBus.post(new EventExitManualControl());
+      StopMotors();
     }
   }
 
   private void StopMotors() {
-    eventBus.post(new EventManualCommand(EnumCommandManual.Halt));
+    eventBus.post(new EventEmergencySTOP());
+    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickZoomReset(MouseEvent mouseEvent) {
