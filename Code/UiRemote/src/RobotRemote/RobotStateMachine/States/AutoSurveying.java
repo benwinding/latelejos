@@ -53,7 +53,7 @@ public class AutoSurveying implements IModeState{
         }
         if (isThereAnObject()) {
           Logger.log("Detected Object");
-          HandleDetectedBorderLeft();
+          HandleDetectedObjectLeft();
         }
       });
       // Move rightwards across the map
@@ -80,7 +80,28 @@ public class AutoSurveying implements IModeState{
   }
 
   private void HandleDetectedObjectLeft() {
-    Logger.log("Handling Detected Object");
+    Logger.log("Handling Detected Object going left");
+    try {
+      moveThread.turn(-90);
+      moveThread.waitWhileMoving();
+      moveThread.forward(15);
+      moveThread.waitWhileMoving();
+      moveThread.turn(90);
+      moveThread.repeatWhileMoving(()->{
+        if (isThereABorder()) {
+          Logger.log("Detected Border");
+          HandleDetectedBorderLeft();
+        }
+        if (isThereAnObject()) {
+          Logger.log("Detected Object");
+          HandleDetectedBorderLeft();
+        }
+      });
+    } catch (InterruptedException e) {
+      Logger.log("- Interrupt: AutoSurveying, Handle detected border left");
+      this.sm.getMovementService().stop();
+      this.threadLoop.StopThread();
+    }
   }
 
   private void HandleDetectedCrater() {
@@ -117,11 +138,11 @@ public class AutoSurveying implements IModeState{
     int turnAngle = 90;
     if(rightTurn)
       turnAngle = -90;
-    moveThread.backward(5);
+    moveThread.backward(10);
     moveThread.waitWhileMoving();
     moveThread.turn(-turnAngle);
     moveThread.waitWhileMoving();
-    moveThread.forward(10);
+    moveThread.forward(15);
     moveThread.waitWhileMoving();
     moveThread.turn(-turnAngle);
     moveThread.waitWhileMoving();
@@ -132,7 +153,7 @@ public class AutoSurveying implements IModeState{
   }
 
   private boolean isThereABorder() {
-    return sensorState.getColourEnum() == Color.BLACK;
+    return sensorState.getColourEnum() == Color.RED;
   }
 
   private boolean isThereACrater() {
