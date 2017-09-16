@@ -31,7 +31,6 @@ public class Main extends Application {
     // Setup root view controller
     RootController rootController = loader.getController();
     Scene scene = new Scene(root, 1000, 700);
-    scene.getStylesheets().add("/RobotRemote/UI/Views/RootStyle.css");
 
     // Link logger tot the root view, messageDisplay component
     Logger.Init(scene);
