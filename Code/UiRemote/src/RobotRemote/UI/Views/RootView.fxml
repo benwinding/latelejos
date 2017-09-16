@@ -22,7 +22,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
+<AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900"
+            xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="RobotRemote.UI.Views.RootController"
+            stylesheets="@RootStyle.css"
+>
   <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <MenuBar minHeight="30" prefHeight="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
       <Menu mnemonicParsing="false" text="File">
@@ -42,13 +47,14 @@
       <SplitPane dividerPositions="0.8" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <AnchorPane minWidth="0" prefWidth="Infinity">
           <TitledPane collapsible="false" text="Map" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-            <StackPane alignment="TOP_RIGHT">
-              <HBox alignment="CENTER">
-                <VBox alignment="CENTER">
-                  <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap" />
-                </VBox>
+            <StackPane>
+              <HBox alignment="CENTER" StackPane.alignment="CENTER">
+                <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap"
+                      prefHeight="2000"
+                      prefWidth="2000"
+                />
               </HBox>
-              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options">
+              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options" StackPane.alignment="TOP_RIGHT">
                 <VBox prefHeight="61.0" prefWidth="158.0">
                   <VBox.margin>
                     <Insets bottom="10.0" />
@@ -71,18 +77,13 @@
                 </VBox>
               </TitledPane>
               <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
-                <HBox alignment="BOTTOM_RIGHT">
-                  <VBox prefHeight="120.0" prefWidth="120.0">
-                    <children>
-                      <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                          <Image url="@../Images/Map_legend.png" />
-                        </image>
-                      </ImageView>
-                    </children>
-
-                  </VBox>
-                </HBox>
+                <VBox prefHeight="120.0" prefWidth="120.0">
+                  <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                      <Image url="@../Images/Map_legend.png" />
+                    </image>
+                  </ImageView>
+                </VBox>
               </TitledPane>
             </StackPane>
           </TitledPane>
