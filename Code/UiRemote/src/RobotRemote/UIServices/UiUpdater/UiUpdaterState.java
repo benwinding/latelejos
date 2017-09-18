@@ -49,7 +49,7 @@ public class UiUpdaterState {
   }
 
   public void zoomReset() {
-    this.zoomLevel = 1f;
+    this.zoomLevel = 0.7f;
   }
 
   public void setMapDraggedDelta(double x, double y) {
