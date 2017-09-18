@@ -24,7 +24,7 @@ public class RobotConfiguration {
   public String sensorPortColour = "S4";
   // Robot physical attributes
   public float robotWheelDia = 5.6f;  // Tested on hard surface, Will not be accurate on carpet
-  public float robotTrackWidth = 10.95f; // Tested on hard surface, Will not be accurate on carpet
+  public float robotTrackWidth = 10.75f; // Tested on hard surface, Will not be accurate on carpet
   // Update intervals
   public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 50;

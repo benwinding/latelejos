@@ -30,7 +30,7 @@ public class SensorsService extends ServiceBase {
   private RMISampleProvider ultraSampleProvider;
 
   public SensorsService(RobotConfiguration config, RobotConnectionService connectionService, AppStateRepository appStateRepository, EventBus eventBus) {
-    super("Sensors Service", 50);
+    super("Sensors Service", 20);
     this.config = config;
     this.connectionService = connectionService;
     this.sensorsState = appStateRepository.getSensorsState();

@@ -49,11 +49,11 @@ public class ServiceManager {
 
   public void StopAllThreads() {
     this.getEventBus().post(new EventEmergencySTOP());
+    Sleep(1000);
+    this.sensorService.kill();
+    Sleep(1000);
     this.movementService.stop();
     this.robotStateMachineThread.StopThread();
-    Sleep(100);
-    this.sensorService.kill();
-    Sleep(100);
     this.uiUpdaterService.kill();
     this.robotConnectionService.closeConnection();
   }
