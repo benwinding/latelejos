@@ -33,21 +33,20 @@ class MapLocationsLayersFactory {
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
-        this.CreateSensorFieldLayer(locationState.GetCurrentPosition()),
         this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN)
     );
     float zoom = uiUpdaterState.getZoomLevel();
     for (Canvas layer : mapLayers) {
       layer.setScaleX(zoom);
       layer.setScaleY(zoom);
-      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX());
-      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY());
+      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX()-mapW*3/2);
+      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY()-mapH*3/2);
     }
     return mapLayers;
   }
 
   private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     gc.setLineWidth(5);
@@ -55,10 +54,10 @@ class MapLocationsLayersFactory {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
 
-      double x1 = p1.x * mapPixelsPerCm;
-      double x2 = p2.x * mapPixelsPerCm;
-      double y1 = p1.y * mapPixelsPerCm;
-      double y2 = p2.y * mapPixelsPerCm;
+      double x1 = p1.x * mapPixelsPerCm + mapW;
+      double x2 = p2.x * mapPixelsPerCm + mapW;
+      double y1 = p1.y * mapPixelsPerCm + mapH;
+      double y2 = p2.y * mapPixelsPerCm + mapH;
       gc.strokeLine(x1,y1,x2,y2);
     }
     return layer;
@@ -68,14 +67,14 @@ class MapLocationsLayersFactory {
     double robotW = 12 * mapPixelsPerCm;
     double robotH = 10 * mapPixelsPerCm;
 
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
-    double x = (robotLocation.x * mapPixelsPerCm - robotW/2);
-    double y = (robotLocation.y * mapPixelsPerCm - robotH/2);
+    double x = (robotLocation.x * mapPixelsPerCm - robotW/2)+mapW;
+    double y = (robotLocation.y * mapPixelsPerCm - robotH/2)+mapH;
 
-    double rotationCenterX = ((robotW) / 2);
-    double rotationCenterY = ((robotH) / 2);
+    double rotationCenterX = (robotW / 2);
+    double rotationCenterY = (robotH / 2);
 
     gc.save();
     gc.translate(x, y);
@@ -99,11 +98,11 @@ class MapLocationsLayersFactory {
 
     int sensorFieldH = (int) sensorValUltra;
 
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
-    double x = (robotLocation.x - sensorFieldW/2) * mapPixelsPerCm;
-    double y = (robotLocation.y - sensorFieldH/2) * mapPixelsPerCm;
+    double x = (robotLocation.x + mapW - sensorFieldW/2) * mapPixelsPerCm;
+    double y = (robotLocation.y + mapH - sensorFieldH/2) * mapPixelsPerCm;
 
     double rotationCenterX = ((sensorFieldW) / 2) * mapPixelsPerCm;
     double rotationCenterY = ((sensorFieldH) / 2) * mapPixelsPerCm;

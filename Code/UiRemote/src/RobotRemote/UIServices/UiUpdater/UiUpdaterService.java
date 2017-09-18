@@ -69,9 +69,17 @@ public class UiUpdaterService extends ServiceBase {
     MapSelectedLayersFactory mapSelectedLayersFactory = new MapSelectedLayersFactory(robotConfiguration, appStateRepository);
     List<Canvas> mapSelectedLayers = mapSelectedLayersFactory.CreateMapLayers();
 
-    rootController.map.getChildren().clear();
-    rootController.map.getChildren().addAll(mapLocationLayers);
-    rootController.map.getChildren().addAll(mapSelectedLayers);
+    Pane map = rootController.map;
+
+    map.getChildren().clear();
+    map.getChildren().addAll(mapLocationLayers);
+    map.getChildren().addAll(mapSelectedLayers);
+
+    double w = map.getWidth();
+    double h = map.getHeight();
+
+    map.setTranslateX(w/2);
+    map.setTranslateY(h/2);
   }
 
   private void UpdateStatusDisplay() {

@@ -51,14 +51,14 @@ class MapSelectedLayersFactory {
     for (Canvas layer : mapLayers) {
       layer.setScaleX(zoom);
       layer.setScaleY(zoom);
-      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX());
-      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY());
+      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX()-mapW*3/2);
+      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY()-mapH*3/2);
     }
     return mapLayers;
   }
 
   private Canvas CreateGridLayer(Matrix matrix, Color colourOn, Color colourOff) {
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colourOff.darker());
     int cols = matrix.getColumnDimension();
@@ -67,8 +67,8 @@ class MapSelectedLayersFactory {
     float h = (mapH /cols);
     for(int i=0;i<rows; i++) {
       for(int j=0;j<cols; j++) {
-        float x1 = i*w;
-        float y1 = j*h;
+        float x1 = i*w + mapW;
+        float y1 = j*h + mapH;
         gc.strokeRect(x1,y1,w,h);
         if(matrix.get(i,j) == 1){
           gc.setFill(colourOn);
@@ -84,24 +84,24 @@ class MapSelectedLayersFactory {
   }
 
   private Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
 
-      double p1x = p1.x * mapPixelsPerCm;
-      double p2x = p2.x * mapPixelsPerCm;
-      double p1y = p1.y * mapPixelsPerCm;
-      double p2y = p2.y * mapPixelsPerCm;
+      double p1x = p1.x * mapPixelsPerCm + mapW;
+      double p2x = p2.x * mapPixelsPerCm + mapW;
+      double p1y = p1.y * mapPixelsPerCm + mapH;
+      double p2y = p2.y * mapPixelsPerCm + mapH;
       gc.strokeLine(p1x,p1y,p2x,p2y);
     }
     return layer;
   }
 
   private Canvas CreateDiscoveredColoursLayer(DiscoveredColoursState discoveredColoursState) {
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     int circleSize = 10;
     for(int colourInt = 0; colourInt<10;colourInt++) {
@@ -112,8 +112,8 @@ class MapSelectedLayersFactory {
       gc.setStroke(pointColour);
       gc.setFill(pointColour);
       for (MapPoint point: points) {
-        double p1x = (point.x * mapPixelsPerCm)-circleSize/2;
-        double p1y = (point.y * mapPixelsPerCm)-circleSize/2;
+        double p1x = (point.x * mapPixelsPerCm)-circleSize/2 + mapW;
+        double p1y = (point.y * mapPixelsPerCm)-circleSize/2 + mapH;
         gc.fillOval(p1x, p1y, circleSize, circleSize);
       }
     }
@@ -121,14 +121,14 @@ class MapSelectedLayersFactory {
   }
 
   private Canvas CreateWaypointsLayer(List<Waypoint> waypoints, Color color) {
-    Canvas layer = new Canvas(mapW,mapH);
+    Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
 
     int circleSize = 30;
     gc.setStroke(color);
     for (Waypoint point : waypoints) {
-      double p1x = (point.x * mapPixelsPerCm)-circleSize/2;
-      double p1y = (point.y * mapPixelsPerCm)-circleSize/2;
+      double p1x = (point.x * mapPixelsPerCm)-circleSize/2 + mapW;
+      double p1y = (point.y * mapPixelsPerCm)-circleSize/2 + mapH;
       gc.strokeOval(p1x, p1y, circleSize, circleSize);
     }
 
