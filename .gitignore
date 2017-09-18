@@ -226,3 +226,6 @@ Code/UiRemote/.idea
 **/.idea/*
 Code/UiRemote/.idea/workspace.xml
 \.DS_Store
+
+#Compiled java ouput binaries
+**/out/*
