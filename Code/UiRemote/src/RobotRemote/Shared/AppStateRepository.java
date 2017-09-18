@@ -10,6 +10,7 @@ import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
 
+
 public class AppStateRepository {
   private UiState uiState;
   private SensorsState sensorsState;
