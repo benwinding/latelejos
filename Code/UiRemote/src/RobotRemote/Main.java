@@ -8,9 +8,11 @@ import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.Shared.ThreadLoop;
+import RobotRemote.UIServices.MapHandlers.Lunarovermap;
 import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
+import RobotRemote.UIServices.MapHandlers.RobotMapTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import RobotRemote.UI.Views.RootController;
 import com.google.common.eventbus.EventBus;
@@ -89,11 +91,11 @@ public class Main extends Application {
 
       Lunarovermap map1 = new Lunarovermap();
       RobotMapTranslator translator = new RobotMapTranslator();
-      map1=translator.createMapObject("UiRemote/src/RobotRemote/Services/MapHandlers/samplexml.xml");
+      map1=translator.createMapObject("UiRemote/src/RobotRemote/UIServices/MapHandlers/samplexml.xml");
       System.out.println("Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
       map1.roverLandingSite.point.setX(100);
       map1.roverLandingSite.point.setY(100);
-      //System.out.println("New Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
+      System.out.println("New Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
       translator.createXml(map1);
   }
 

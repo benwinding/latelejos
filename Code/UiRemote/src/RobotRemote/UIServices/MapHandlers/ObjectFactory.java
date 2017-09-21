@@ -1,5 +1,5 @@
 
-package RobotRemote.Services.MapHandlers;
+package RobotRemote.UIServices.MapHandlers;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
