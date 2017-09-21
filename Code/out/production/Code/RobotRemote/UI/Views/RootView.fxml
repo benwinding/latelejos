@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900"
+            xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="RobotRemote.UI.Views.RootController"
+            stylesheets="@RootStyle.css"
+>
+  <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <MenuBar minHeight="30" prefHeight="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <Menu mnemonicParsing="false" text="File">
+        <MenuItem mnemonicParsing="false" text="Upload XML" />
+        <MenuItem mnemonicParsing="false" text="Export XML" />
+        <MenuItem mnemonicParsing="false" text="Close" />
+      </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
+        <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
+      </Menu>
+    </MenuBar>
+    <HBox alignment="CENTER_RIGHT">
+      <Label text="version: 0.8.2" textAlignment="RIGHT" />
+    </HBox>
+    <AnchorPane>
+      <SplitPane dividerPositions="0.8" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <AnchorPane minWidth="0" prefWidth="Infinity">
+          <TitledPane collapsible="false" text="Map" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <StackPane>
+              <HBox alignment="CENTER" StackPane.alignment="CENTER">
+                <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap"
+                      prefHeight="2000"
+                      prefWidth="2000"
+                />
+              </HBox>
+              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options" StackPane.alignment="TOP_RIGHT">
+                <VBox prefHeight="61.0" prefWidth="158.0">
+                  <VBox.margin>
+                    <Insets bottom="10.0" />
+                  </VBox.margin>
+                  <padding>
+                    <Insets bottom="10.0" left="10" right="10" top="10" />
+                  </padding>
+                  <RadioButton fx:id="enterNgz" text="Enter NGZ">
+                    <toggleGroup>
+                      <ToggleGroup fx:id="mapOptions" />
+                    </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
+                  <Button id="btnZoomReset" maxHeight="30.0" minWidth="130.0" onMouseClicked="#onClickZoomReset">
+                    Zoom Reset
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Button>
+                </VBox>
+              </TitledPane>
+              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
+                <VBox prefHeight="120.0" prefWidth="120.0">
+                  <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                      <Image url="@../Images/Map_legend.png" />
+                    </image>
+                  </ImageView>
+                </VBox>
+              </TitledPane>
+            </StackPane>
+          </TitledPane>
+        </AnchorPane>
+        <AnchorPane minWidth="360" prefWidth="360" SplitPane.resizableWithParent="false">
+          <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox>
+              <TitledPane collapsible="false" prefWidth="180.0" text="System Status">
+                <VBox>
+                  <ToolBar>
+                    <Pane fx:id="statusIsConnected" />
+                    <Label text="Connected Status" />
+                  </ToolBar>
+                  <ToolBar>
+                    <Pane fx:id="statusSensorColour" />
+                    <Label text="Colour Status" />
+                  </ToolBar>
+                  <ToolBar>
+                    <Pane fx:id="statusSensorUltra" />
+                    <Label text="Ultrasonic Status" />
+                  </ToolBar>
+                </VBox>
+              </TitledPane>
+              <TitledPane collapsible="false" maxWidth="200" prefWidth="180.0" text="Switch Mode" AnchorPane.rightAnchor="0.0">
+                <HBox alignment="CENTER">
+                  <VBox alignment="CENTER">
+                    <Button fx:id="btnManualMode" onMouseClicked="#onClickManualMode" prefHeight="20.0" prefWidth="200" text="Manual Mode" />
+                    <Button fx:id="btnAutoSurveyMode" onMouseClicked="#onClickAutoMapMode" prefHeight="20.0" prefWidth="200" text="Auto Survey Mode" />
+                  </VBox>
+                </HBox>
+              </TitledPane>
+            </HBox>
+            <TitledPane collapsible="false" minHeight="300" text="Manual Controls">
+              <HBox alignment="CENTER">
+                <VBox alignment="CENTER">
+                  <Button id="btnMoveUp" fx:id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
+                  <HBox alignment="CENTER">
+                    <Button id="btnMoveLeft" fx:id="btnMoveLeft" onMouseClicked="#onClickLeft" styleClass="moveButton" />
+                    <Button id="btnMoveStop" fx:id="btnMoveStop" onMouseClicked="#onClickStop" styleClass="stopButton" />
+                    <Button id="btnMoveRight" fx:id="btnMoveRight" onMouseClicked="#onClickRight" styleClass="moveButton" />
+                  </HBox>
+                  <Button id="btnMoveDown" fx:id="btnMoveDown" onMouseClicked="#onClickBackward" styleClass="moveButton" />
+                </VBox>
+              </HBox>
+            </TitledPane>
+            <TabPane maxWidth="360">
+              <Tab text="System Log">
+                <TextArea fx:id="messageDisplayer" editable="false" wrapText="true" />
+              </Tab>
+              <Tab text="Sensor Graphs">
+                <Pane fx:id="sensorDisplay" />
+              </Tab>
+              <Tab text="Location Status">
+                <Pane fx:id="locationDetails" prefHeight="500" />
+              </Tab>
+            </TabPane>
+          </VBox>
+        </AnchorPane>
+      </SplitPane>
+    </AnchorPane>
+  </VBox>
+</AnchorPane>
