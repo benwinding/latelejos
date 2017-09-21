@@ -36,7 +36,7 @@
       </Menu>
     </MenuBar>
     <HBox alignment="CENTER_RIGHT">
-      <Label text="version: 0.8.1" textAlignment="RIGHT" />
+      <Label text="version: 0.8.2" textAlignment="RIGHT" />
     </HBox>
     <AnchorPane>
       <SplitPane dividerPositions="0.8" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
