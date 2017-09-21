@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+         <xs:element name="lunarovermap">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="attribute" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="key" type="xs:string"></xs:element>
+                                             <xs:element name="value" type="xs:string"></xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="boundary">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="area">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="point" maxOccurs="unbounded">
+                                                                     <xs:complexType>
+                                                                           <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                                           <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="vehicle-status">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="point">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="attribute">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="key" type="xs:string"></xs:element>
+                                                               <xs:element name="value" type="xs:int"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="apollo-landing-site">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="point">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="rover-landing-site">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="point">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="obstacle">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="point" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="track-to-color">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="attribute" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="key" type="xs:string"></xs:element>
+                                                               <xs:element name="value" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="zone" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="area">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="point" maxOccurs="unbounded">
+                                                                     <xs:complexType>
+                                                                           <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                                           <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                       <xs:attribute name="state" type="xs:string"></xs:attribute>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="track" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="point" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="x" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="y" type="xs:int"></xs:attribute>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                       <xs:attribute name="type" type="xs:string"></xs:attribute>
+                                 </xs:complexType>
+                           </xs:element>
+                     </xs:sequence>
+                     <xs:attribute name="units" type="xs:string"></xs:attribute>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>
