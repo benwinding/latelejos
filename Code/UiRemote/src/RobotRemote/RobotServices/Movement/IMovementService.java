@@ -4,6 +4,8 @@ import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.Shared.AppStateRepository;
 
+import java.util.concurrent.Callable;
+
 public interface IMovementService {
   void stop();
   void forward();
@@ -14,6 +16,6 @@ public interface IMovementService {
   boolean isMoving();
   void Initialize(RobotConfiguration configuration, RobotConnectionService robotConnectionService, AppStateRepository appStateRepository);
 
-  void repeatWhileMoving(Runnable repeatThis) throws InterruptedException;
+  void repeatWhileMoving(Callable repeatThis) throws InterruptedException;
   void waitWhileMoving() throws InterruptedException;
 }
