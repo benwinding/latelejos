@@ -11,8 +11,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
 
-import java.util.concurrent.Callable;
-
 public class AutoSurveying implements IModeState{
   private IMovementService moveThread;
   private ServiceManager sm;
@@ -58,11 +56,11 @@ public class AutoSurveying implements IModeState{
 
   private Object checkSurroundingsRight() throws InterruptedException {
     if (isThereABorder()) {
-      Logger.log("Detected Border");
+      Logger.log("checkSurroundingsRight: Detected Border");
       HandleDetectedBorderRight();
     }
     if (isThereAnObject()) {
-      Logger.log("Detected Object");
+      Logger.log("checkSurroundingsRight: Detected Object");
       HandleDetectedBorderRight();
     }
     return null;
@@ -70,11 +68,11 @@ public class AutoSurveying implements IModeState{
 
   private Object checkSurroundingsLeft() throws InterruptedException {
     if (isThereABorder()) {
-      Logger.log("Detected Border");
+      Logger.log("checkSurroundingsLeft: Detected Border");
       HandleDetectedBorderLeft();
     }
     if (isThereAnObject()) {
-      Logger.log("Detected Object");
+      Logger.log("checkSurroundingsLeft: Detected Object");
       HandleDetectedObjectLeft();
     }
     return null;
@@ -86,11 +84,11 @@ public class AutoSurveying implements IModeState{
 
   private void HandleDetectedObjectLeft() throws InterruptedException {
     Logger.log("Handling Detected Object going left");
-    moveThread.turn(-90);
+    moveThread.turn(90);
     moveThread.waitWhileMoving();
     moveThread.forward(15);
     moveThread.waitWhileMoving();
-    moveThread.turn(90);
+    moveThread.turn(-90);
     moveThread.repeatWhileMoving(this::checkSurroundingsLeft);
   }
 
@@ -131,7 +129,7 @@ public class AutoSurveying implements IModeState{
   }
 
   private boolean isThereABorder() {
-    return sensorState.getColourEnum() == Color.RED;
+    return sensorState.getColourEnum() == Color.BLACK;
   }
 
   private boolean isThereACrater() {

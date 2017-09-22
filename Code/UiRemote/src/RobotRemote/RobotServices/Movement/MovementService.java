@@ -1,12 +1,8 @@
 package RobotRemote.RobotServices.Movement;
 
-import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
-import RobotRemote.Shared.AppStateRepository;
-import RobotRemote.Shared.Logger;
-import RobotRemote.Shared.Synchronizer;
-import RobotRemote.Shared.ThreadLoop;
+import RobotRemote.Shared.*;
 import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.util.Timer;
@@ -141,9 +137,9 @@ public class MovementService implements IMovementService {
         Thread.sleep(20);
       } catch (Exception ignored) {
         Logger.log("MOVE: Interrupted repeatWhileMoving");
+        throw new InterruptedException();
       }
     }
-    throw new InterruptedException();
   }
 
   @Override
@@ -153,9 +149,9 @@ public class MovementService implements IMovementService {
         Thread.sleep(20);
       } catch (InterruptedException ignored) {
         Logger.log("MOVE: Interrupted waitWhileMoving");
+        throw new InterruptedException();
       }
     }
-    throw new InterruptedException();
   }
 
   private boolean isMoving;
@@ -165,18 +161,6 @@ public class MovementService implements IMovementService {
       isMoving = this.pilot.isMoving();
     });
     return isMoving;
-  }
-
-  private void Sleep(long millis) {
-    try {
-      Thread.sleep(millis);
-    } catch (InterruptedException ignored) {
-      Logger.log("MOVE: Thread Interrupted... Stopping");
-      Synchronizer.SerializeRobotCalls(() -> {
-        this.pilot.stop();
-      });
-      stop();
-    }
   }
 
   @Override
@@ -189,6 +173,18 @@ public class MovementService implements IMovementService {
     // Set location-tracking stopped
     threadLoop.StopThread();
     timer.cancel();
+  }
+
+  private void Sleep(long millis) {
+    try {
+      Thread.sleep(millis);
+    } catch (InterruptedException ignored) {
+      Logger.log("MOVE: Thread Interrupted... Stopping");
+      Synchronizer.SerializeRobotCalls(() -> {
+        this.pilot.stop();
+      });
+      stop();
+    }
   }
 
   private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");
