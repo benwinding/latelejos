@@ -32,10 +32,13 @@ public class ManualMoving implements IModeState {
   public void EnterState() {
     Logger.log("STATE: ManualMoving...");
     this.eventBus.register(this);
-    threadLoop.StartThread(this::LoopThis,500);
+    this.threadLoop.StartThread(() -> {
+      LoopThis();
+      return null;
+    }, 100);
   }
 
-  private void LoopThis() {
+  private void LoopThis() throws InterruptedException {
     double ultraDist = sensorState.getUltraReadingCm();
     Color colourEnum = sensorState.getColourEnum();
     if(ultraDist < 10) {

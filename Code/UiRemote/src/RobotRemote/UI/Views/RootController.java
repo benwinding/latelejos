@@ -58,6 +58,8 @@ public class RootController implements Initializable {
   Button btnMoveRight;
   @FXML
   Button btnMoveStop;
+  @FXML
+  TitledPane groupManualControls;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -74,6 +76,7 @@ public class RootController implements Initializable {
     this.uiState = sm.getAppState().getUiState();
     this.eventBus = sm.getEventBus();
     this.initMap();
+    SetManualButtonsDisabled(true);
     //this.initManualMode();
   }
 
@@ -106,7 +109,7 @@ public class RootController implements Initializable {
       case ENTER:
       case SPACE:
       case Q:
-        StopMotors();
+        MoveMotors(EnumCommandManual.Halt);
         break;
       default:
         Logger.log("Key press:" + e.getCode() + " is not implemented");
@@ -115,13 +118,10 @@ public class RootController implements Initializable {
 
   public void onClickManualMode(MouseEvent mouseEvent) {
     btnManualMode.setDisable(true);
-    btnManualMode.setDisable(false);
+    btnAutoSurveyMode.setDisable(false);
     eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToManual());
-    btnMoveUp.setDisable(false);
-    btnMoveDown.setDisable(false);
-    btnMoveLeft.setDisable(false);
-    btnMoveRight.setDisable(false);
+    SetManualButtonsDisabled(false);
   }
 
   public void onClickAutoMapMode(MouseEvent mouseEvent) {
@@ -132,10 +132,14 @@ public class RootController implements Initializable {
     btnAutoSurveyMode.setDisable(true);
     eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToAutoMap());
-    btnMoveUp.setDisable(true);
-    btnMoveDown.setDisable(true);
-    btnMoveLeft.setDisable(true);
-    btnMoveRight.setDisable(true);
+    SetManualButtonsDisabled(true);
+  }
+
+  private void SetManualButtonsDisabled(boolean disabled) {
+    btnMoveUp.setDisable(disabled);
+    btnMoveDown.setDisable(disabled);
+    btnMoveLeft.setDisable(disabled);
+    btnMoveRight.setDisable(disabled);
   }
 
   public void onClickHelp(ActionEvent event) {
@@ -167,7 +171,11 @@ public class RootController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    StopMotors();
+    this.SetManualButtonsDisabled(true);
+    this.btnAutoSurveyMode.setDisable(false);
+    this.btnManualMode.setDisable(false);
+    eventBus.post(new EventEmergencySTOP());
+    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
@@ -189,14 +197,10 @@ public class RootController implements Initializable {
   private void MoveMotors(EnumCommandManual command) {
     uiState.setCurrentCommand(command);
     eventBus.post(new EventManualCommand(command));
-    if(command == EnumCommandManual.Halt) {
-      StopMotors();
-    }
   }
 
   private void StopMotors() {
     eventBus.post(new EventEmergencySTOP());
-    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickZoomReset(MouseEvent mouseEvent) {

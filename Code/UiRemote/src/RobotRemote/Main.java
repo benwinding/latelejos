@@ -52,7 +52,7 @@ public class Main extends Application {
     UiUpdaterService uiUpdaterService = new UiUpdaterService(robotConfiguration, appStateRepository, rootController);
 
     IMovementService movementService = new MovementService();
-    ThreadLoop stateMachineThreadLoop = new ThreadLoop("Thread: Robot State Machine");
+    ThreadLoop stateMachineThreadLoop = new ThreadLoop("Robot State Machine");
 
     // Coordinate and spin up services
     serviceManager = new ServiceManager(

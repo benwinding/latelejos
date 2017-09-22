@@ -11,6 +11,7 @@ import lejos.robotics.navigation.ArcRotateMoveController;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Callable;
 
 public class MovementService implements IMovementService {
   private ArcRotateMoveController pilot;
@@ -45,6 +46,7 @@ public class MovementService implements IMovementService {
     Sleep(300);
     this.RepeatForever(() -> {
       this.locationState.GoingStraight(linearDistanceInterval);
+      return null;
     }, loopDelay);
   }
 
@@ -60,8 +62,9 @@ public class MovementService implements IMovementService {
     double linearDistanceInterval = linearSpeed * (loopDelay*1.0 / 1000);
 
     Sleep(300);
-    this.RepeatForever( () -> {
+    this.RepeatForever(() -> {
       this.locationState.GoingStraight(-linearDistanceInterval);
+      return null;
     }, loopDelay);
   }
 
@@ -80,6 +83,7 @@ public class MovementService implements IMovementService {
 
     this.RepeatFor(() -> {
       this.locationState.GoingStraight(distancePerLoop);
+      return null;
     }, loopDelay, timeToTravel);
   }
 
@@ -97,7 +101,10 @@ public class MovementService implements IMovementService {
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = distAbs / numLoops;
 
-    this.RepeatFor(() -> this.locationState.GoingStraight(-distancePerLoop), loopDelay, timeToTravel);
+    this.RepeatFor(() -> {
+      this.locationState.GoingStraight(-distancePerLoop);
+      return null;
+    }, loopDelay, timeToTravel);
   }
 
   @Override
@@ -116,7 +123,10 @@ public class MovementService implements IMovementService {
     float degreesFin = (float) (locationState.GetCurrentPosition().theta + degrees);
     Sleep(300);
     this.RepeatFor(
-      () -> locationState.ChangingHeading(degreesPerLoop),
+      () -> {
+        locationState.ChangingHeading(degreesPerLoop);
+        return null;
+      },
       () -> locationState.SetHeading(degreesFin),
       loopDelay,
       timeToTravel
@@ -124,20 +134,28 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void repeatWhileMoving(Runnable repeatThis) throws InterruptedException {
+  public void repeatWhileMoving(Callable repeatThis) throws InterruptedException {
     while (isMoving() && !Thread.interrupted()) {
-      repeatThis.run();
-      Thread.sleep(20);
+      try {
+        repeatThis.call();
+        Thread.sleep(20);
+      } catch (Exception ignored) {
+        Logger.log("MOVE: Interrupted repeatWhileMoving");
+      }
     }
-    Logger.log("MOVE: Finished repeatWhileMoving");
+    throw new InterruptedException();
   }
 
   @Override
   public void waitWhileMoving() throws InterruptedException {
     while (isMoving() && !Thread.interrupted()) {
-      Thread.sleep(50);
+      try {
+        Thread.sleep(20);
+      } catch (InterruptedException ignored) {
+        Logger.log("MOVE: Interrupted waitWhileMoving");
+      }
     }
-    Logger.log("MOVE: Leaving repeatWhileMoving");
+    throw new InterruptedException();
   }
 
   private boolean isMoving;
@@ -176,7 +194,7 @@ public class MovementService implements IMovementService {
   private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");
   private Timer timer = new Timer();
 
-  private void RepeatFor(Runnable repeatThis, Runnable onFinish, int loopDelay, long timeTillStopThread) {
+  private void RepeatFor(Callable repeatThis, Runnable onFinish, int loopDelay, long timeTillStopThread) {
     threadLoop.StopThread();
     timer = new Timer();
     timer.schedule(new TimerTask() {
@@ -189,7 +207,7 @@ public class MovementService implements IMovementService {
     threadLoop.StartThread(repeatThis, loopDelay);
   }
 
-  private void RepeatFor(Runnable repeatThis, int loopDelay, long timeTillStopThread) {
+  private void RepeatFor(Callable repeatThis, int loopDelay, long timeTillStopThread) {
     threadLoop.StopThread();
     timer = new Timer();
     timer.schedule(new TimerTask() {
@@ -201,7 +219,7 @@ public class MovementService implements IMovementService {
     threadLoop.StartThread(repeatThis, loopDelay);
   }
 
-  private void RepeatForever(Runnable thing, int loopDelay) {
+  private void RepeatForever(Callable thing, int loopDelay) {
     threadLoop.StopThread();
     threadLoop.StartThread(thing, loopDelay);
   }
