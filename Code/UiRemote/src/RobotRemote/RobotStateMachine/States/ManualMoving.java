@@ -63,23 +63,27 @@ public class ManualMoving implements IModeState {
 
   @Subscribe
   public void OnManualCommand(EventManualCommand event) {
-    switch (event.getCommand()) {
-      case Left:
-        moveThread.turn(-90);
-        break;
-      case Right:
-        moveThread.turn(90);
-        break;
-      case Forward:
-        moveThread.forward();
-        break;
-      case Backward:
-        moveThread.backward();
-        break;
-      case Halt:
-        moveThread.stop();
-        break;
+    try {
+      switch (event.getCommand()) {
+        case Left:
+          moveThread.turn(-90);
+          break;
+        case Right:
+          moveThread.turn(90);
+          break;
+        case Forward:
+          moveThread.forward();
+          break;
+        case Backward:
+          moveThread.backward();
+          break;
+        case Halt:
+          moveThread.stop();
+          break;
+      }
+    } catch (InterruptedException e) {
+      Logger.log("MANUAL Command Interrupted, stopping");
+      moveThread.stop();
     }
   }
-
 }

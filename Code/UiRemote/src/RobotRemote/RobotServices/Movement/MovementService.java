@@ -29,7 +29,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void forward() {
+  public void forward() throws InterruptedException {
     stop();
     // Set pilot moving forward async
     Synchronizer.SerializeRobotCalls(() -> {
@@ -39,13 +39,7 @@ public class MovementService implements IMovementService {
     // Set location-tracking forward async
     double linearDistanceInterval = linearSpeed * (loopDelay*1.0 / 1000);
 
-    try {
-      Thread.sleep(300);
-    } catch (InterruptedException e) {
-      Logger.log("MOVE: Forward Interrupted... Stopping");
-      stop();
-      return;
-    }
+    Thread.sleep(300);
     this.RepeatForever(() -> {
       this.locationState.GoingStraight(linearDistanceInterval);
       return null;
@@ -53,7 +47,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void backward() {
+  public void backward() throws InterruptedException {
     stop();
     // Set pilot backward async dist
     Synchronizer.SerializeRobotCalls(() -> {
@@ -63,13 +57,7 @@ public class MovementService implements IMovementService {
     // Set location-tracking backward async dist
     double linearDistanceInterval = linearSpeed * (loopDelay*1.0 / 1000);
 
-    try {
-      Thread.sleep(300);
-    } catch (InterruptedException e) {
-      Logger.log("MOVE: Backward Interrupted... Stopping");
-      stop();
-      return;
-    }
+    Thread.sleep(300);
     this.RepeatForever(() -> {
       this.locationState.GoingStraight(-linearDistanceInterval);
       return null;
@@ -77,7 +65,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void forward(float dist_cm) {
+  public void forward(float dist_cm) throws InterruptedException {
     stop();
     // Set pilot forward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -96,7 +84,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void backward(float dist_cm) {
+  public void backward(float dist_cm) throws InterruptedException {
     stop();
     // Set pilot backward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -116,7 +104,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void turn(int degrees) {
+  public void turn(int degrees) throws InterruptedException {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -130,13 +118,7 @@ public class MovementService implements IMovementService {
     double degreesPerLoop = degrees / numLoops;
     float degreesFin = (float) (locationState.GetCurrentPosition().theta + degrees);
 
-    try {
-      Thread.sleep(300);
-    } catch (InterruptedException e) {
-      Logger.log("MOVE: turn Interrupted... Stopping");
-      stop();
-      return;
-    }
+    Thread.sleep(300);
     this.RepeatFor(
       () -> {
         locationState.ChangingHeading(degreesPerLoop);
@@ -198,7 +180,7 @@ public class MovementService implements IMovementService {
   private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");
   private Timer timer = new Timer();
 
-  private void RepeatFor(Callable repeatThis, Runnable onFinish, int loopDelay, long timeTillStopThread) {
+  private void RepeatFor(Callable repeatThis, Runnable onFinish, int loopDelay, long timeTillStopThread) throws InterruptedException {
     threadLoop.StopThread();
     timer = new Timer();
     timer.schedule(new TimerTask() {
