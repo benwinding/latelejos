@@ -1,42 +1,32 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.Shared.Logger;
-import RobotRemote.RobotStateMachine.Events.EventSwitchToAutoMap;
-import RobotRemote.RobotStateMachine.Events.EventSwitchToManual;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.Shared.ServiceManager;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 
 public class ManualStopped implements IModeState {
-  private EventBus eventBus;
+    private EventBus eventBus;
+    private  boolean IsOnState;
+    public ManualStopped(ServiceManager sm) {
+        this.IsOnState = false;
+        this.eventBus = sm.getEventBus();
+    }
 
-  private ManualMoving state_manualmoving;
-  private AutoSurveying state_autoSurveying;
+    public void Enter() {
+        if(this.IsOnState)
+            return;
+        this.IsOnState =true;
+        this.eventBus.register(this);
+        Logger.log("ENTER IDLE STATE...");
+    }
 
-  public ManualStopped(ServiceManager sm) {
-    this.eventBus = sm.getEventBus();
-  }
+    public void Leave() {
+        if(!this.IsOnState)
+            return;
+        this.IsOnState =false;
+        this.eventBus.register(this);
+        Logger.log("LEAVE IDLE STATE...");
+    }
 
-  public void linkStates(ManualMoving state_manualmoving, AutoSurveying state_autoSurveying) {
-    this.state_manualmoving = state_manualmoving;
-    this.state_autoSurveying = state_autoSurveying;
-  }
-
-  public void EnterState() {
-    Logger.log("STATE: ManualStopped...");
-    this.eventBus.register(this);
-  }
-
-  @Subscribe
-  private void OnSwitchToManual(EventSwitchToManual event) {
-    this.eventBus.unregister(this);
-    this.state_manualmoving.EnterState();
-  }
-
-  @Subscribe
-  private void OnSwitchToAutoMap(EventSwitchToAutoMap event) {
-    this.eventBus.unregister(this);
-    this.state_autoSurveying.EnterState();
-  }
 }

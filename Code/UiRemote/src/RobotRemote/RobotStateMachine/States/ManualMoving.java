@@ -1,7 +1,7 @@
 package RobotRemote.RobotStateMachine.States;
 
+import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
 import RobotRemote.Shared.*;
-import RobotRemote.RobotStateMachine.Events.*;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
@@ -13,28 +13,36 @@ public class ManualMoving implements IModeState {
   private EventBus eventBus;
   private ServiceManager sm;
   private SensorsState sensorState;
-
   private ThreadLoop threadLoop;
-
-  private ManualStopped state_manualstopped;
-
+  private boolean IsOnState;
   public ManualMoving(ServiceManager sm) {
+    this.IsOnState = false;
     this.sm = sm;
     this.eventBus = sm.getEventBus();
     this.sensorState = sm.getAppState().getSensorsState();
     this.threadLoop = sm.getRobotStateMachineThread();
   }
 
-  public void linkStates(ManualStopped state_waiting) {
-    this.state_manualstopped = state_waiting;
+  public void Enter()
+  {
+        if(this.IsOnState)
+            return;
+        this.IsOnState =true;
+        this.eventBus.register(this);
+        threadLoop.StartThread(this::LoopThis,500);
+        Logger.log("ENTER MANUAL STATE...");
   }
 
-  public void EnterState() {
-    Logger.log("STATE: ManualMoving...");
-    this.eventBus.register(this);
-    threadLoop.StartThread(this::LoopThis,500);
+  public void Leave()
+  {
+      if(!this.IsOnState)
+          return;
+      this.IsOnState = false;
+      this.eventBus.unregister(this);
+      this.sm.getMovementService().stop();
+      this.threadLoop.StopThread();
+      Logger.log("LEAVE MANUAL STATE...");
   }
-
   private void LoopThis() {
     double ultraDist = sensorState.getUltraReadingCm();
     Color colourEnum = sensorState.getColourEnum();
@@ -70,19 +78,4 @@ public class ManualMoving implements IModeState {
     }
   }
 
-  @Subscribe
-  private void OnExitManualControl(EventExitManualControl event) {
-    this.eventBus.unregister(this);
-    this.sm.getMovementService().stop();
-    this.threadLoop.StopThread();
-    state_manualstopped.EnterState();
-  }
-
-  @Subscribe
-  private void OnSTOP(EventEmergencySTOP event) {
-    this.eventBus.unregister(this);
-    this.sm.getMovementService().stop();
-    this.threadLoop.StopThread();
-    state_manualstopped.EnterState();
-  }
 }

@@ -1,5 +1,9 @@
 package RobotRemote.UI.Views;
 
+import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
+import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumZoomCommand;
@@ -115,8 +119,7 @@ public class RootController implements Initializable {
 
   public void onClickManualMode(MouseEvent mouseEvent) {
     btnManualMode.setDisable(true);
-    btnManualMode.setDisable(false);
-    eventBus.post(new EventEmergencySTOP());
+    btnAutoSurveyMode.setDisable(false);
     eventBus.post(new EventSwitchToManual());
     btnMoveUp.setDisable(false);
     btnMoveDown.setDisable(false);
@@ -130,7 +133,6 @@ public class RootController implements Initializable {
 //    if (alert.getResult() == ButtonType.YES)
     btnManualMode.setDisable(false);
     btnAutoSurveyMode.setDisable(true);
-    eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToAutoMap());
     btnMoveUp.setDisable(true);
     btnMoveDown.setDisable(true);
@@ -167,7 +169,10 @@ public class RootController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    StopMotors();
+      btnManualMode.setDisable(false);
+      btnAutoSurveyMode.setDisable(false);
+      eventBus.post(new EventEmergencySTOP());
+
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
@@ -196,7 +201,6 @@ public class RootController implements Initializable {
 
   private void StopMotors() {
     eventBus.post(new EventEmergencySTOP());
-    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickZoomReset(MouseEvent mouseEvent) {
