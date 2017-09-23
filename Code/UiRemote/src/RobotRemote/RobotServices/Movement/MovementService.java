@@ -39,7 +39,13 @@ public class MovementService implements IMovementService {
     // Set location-tracking forward async
     double linearDistanceInterval = linearSpeed * (loopDelay*1.0 / 1000);
 
-    Sleep(300);
+    try {
+      Thread.sleep(300);
+    } catch (InterruptedException e) {
+      Logger.log("MOVE: Forward Interrupted... Stopping");
+      stop();
+      return;
+    }
     this.RepeatForever(() -> {
       this.locationState.GoingStraight(linearDistanceInterval);
       return null;
@@ -57,7 +63,13 @@ public class MovementService implements IMovementService {
     // Set location-tracking backward async dist
     double linearDistanceInterval = linearSpeed * (loopDelay*1.0 / 1000);
 
-    Sleep(300);
+    try {
+      Thread.sleep(300);
+    } catch (InterruptedException e) {
+      Logger.log("MOVE: Backward Interrupted... Stopping");
+      stop();
+      return;
+    }
     this.RepeatForever(() -> {
       this.locationState.GoingStraight(-linearDistanceInterval);
       return null;
@@ -117,7 +129,14 @@ public class MovementService implements IMovementService {
     double numLoops = timeToTravel / loopDelay;
     double degreesPerLoop = degrees / numLoops;
     float degreesFin = (float) (locationState.GetCurrentPosition().theta + degrees);
-    Sleep(300);
+
+    try {
+      Thread.sleep(300);
+    } catch (InterruptedException e) {
+      Logger.log("MOVE: turn Interrupted... Stopping");
+      stop();
+      return;
+    }
     this.RepeatFor(
       () -> {
         locationState.ChangingHeading(degreesPerLoop);
@@ -174,18 +193,6 @@ public class MovementService implements IMovementService {
     // Set location-tracking stopped
     threadLoop.StopThread();
     timer.cancel();
-  }
-
-  private void Sleep(long millis) {
-    try {
-      Thread.sleep(millis);
-    } catch (InterruptedException ignored) {
-      Logger.log("MOVE: Thread Interrupted... Stopping");
-      Synchronizer.SerializeRobotCalls(() -> {
-        this.pilot.stop();
-      });
-      stop();
-    }
   }
 
   private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");

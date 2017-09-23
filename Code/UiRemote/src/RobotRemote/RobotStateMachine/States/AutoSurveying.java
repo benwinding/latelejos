@@ -10,12 +10,12 @@ import com.google.common.eventbus.EventBus;
 import javafx.scene.paint.Color;
 
 public class AutoSurveying implements IModeState{
-    private boolean IsOnState;
-    private IMovementService moveThread;
-    private ServiceManager sm;
-    private EventBus eventBus;
-    private SensorsState sensorState;
-    private ThreadLoop threadLoop;
+  private boolean IsOnState;
+  private IMovementService moveThread;
+  private ServiceManager sm;
+  private EventBus eventBus;
+  private SensorsState sensorState;
+  private ThreadLoop threadLoop;
 
   public AutoSurveying(ServiceManager sm) {
     this.sm = sm;
@@ -26,21 +26,19 @@ public class AutoSurveying implements IModeState{
   }
 
   public void Enter() {
-        if(this.IsOnState)
-            return;
-        this.eventBus.register(this);
-        this.threadLoop.StartThread(this::LoopThis, 100);
-        this.IsOnState = true;
-        Logger.log("ENTER AUTO SURVEY MODE...");
-  }
-
-  @Override
-  public void EnterState() {
     this.eventBus.register(this);
+    Logger.log("ENTER AUTOSURVEYING STATE...");
     this.threadLoop.StartThread(() -> {
       LoopThis();
       return null;
     }, 100);
+  }
+
+  public void Leave() {
+    this.eventBus.unregister(this);
+    this.threadLoop.StopThread();
+    this.moveThread.stop();
+    Logger.log("LEAVE AUTOSURVEYING STATE...");
   }
 
   private void LoopThis() throws InterruptedException {
@@ -140,14 +138,5 @@ public class AutoSurveying implements IModeState{
 
   private boolean isThereATrail() {
     return sensorState.getColourEnum() == Color.YELLOW;
-  }
-
-  @Subscribe
-  private void OnSTOP(EventEmergencySTOP event) {
-    Logger.log("Autosurveying:  EventEmergencyStop");
-    //this.eventBus.unregister(this);
-    this.threadLoop.StopThread();
-    this.moveThread.stop();
-    state_manualstopped.EnterState();
   }
 }

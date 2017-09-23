@@ -1,20 +1,20 @@
 package RobotRemote.UI.Views;
 
+import RobotRemote.Models.Enums.EnumCommandManual;
+import RobotRemote.Models.Enums.EnumZoomCommand;
+import RobotRemote.Models.MapPoint;
+import RobotRemote.RobotStateMachine.Events.EventAutoControl;
 import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
 import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
 import RobotRemote.Shared.Logger;
-import RobotRemote.Models.Enums.EnumCommandManual;
-import RobotRemote.Models.Enums.EnumZoomCommand;
 import RobotRemote.Shared.ServiceManager;
+import RobotRemote.UI.UiState;
 import RobotRemote.UIServices.Events.EventUserAddNgz;
 import RobotRemote.UIServices.Events.EventUserAddWaypoint;
 import RobotRemote.UIServices.Events.EventUserMapDragged;
 import RobotRemote.UIServices.Events.EventUserZoomChanged;
-import RobotRemote.Models.MapPoint;
-import RobotRemote.RobotStateMachine.Events.*;
-import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +22,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -134,6 +137,7 @@ public class RootController implements Initializable {
 //    if (alert.getResult() == ButtonType.YES)
     btnManualMode.setDisable(false);
     btnAutoSurveyMode.setDisable(true);
+    eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToAutoMap());
     SetManualButtonsDisabled(true);
   }
@@ -178,7 +182,6 @@ public class RootController implements Initializable {
     this.btnAutoSurveyMode.setDisable(false);
     this.btnManualMode.setDisable(false);
     eventBus.post(new EventEmergencySTOP());
-    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickForward(MouseEvent mouseEvent) {

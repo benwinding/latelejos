@@ -1,11 +1,12 @@
 package RobotRemote.RobotStateMachine.States;
 
-import RobotRemote.Models.Enums.EnumCommandManual;
-import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
-import RobotRemote.Shared.*;
-import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
+import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
+import RobotRemote.RobotStateMachine.IModeState;
+import RobotRemote.Shared.Logger;
+import RobotRemote.Shared.ServiceManager;
+import RobotRemote.Shared.ThreadLoop;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
@@ -26,23 +27,25 @@ public class ManualMoving implements IModeState {
     this.moveThread = sm.getMovementService();
   }
 
-  public void Enter()
-  {
-        if(this.IsOnState)
-            return;
-        this.IsOnState =true;
-        this.eventBus.register(this);
-        this.threadLoop.StartThread(this::LoopThis,500);
-        Logger.log("ENTER MANUAL STATE...");
-  }
-
-  public void EnterState() {
-    Logger.log("STATE: ManualMoving...");
+  public void Enter() {
+    if(this.IsOnState)
+        return;
+    this.IsOnState =true;
     this.eventBus.register(this);
     this.threadLoop.StartThread(() -> {
       LoopThis();
       return null;
     }, 100);
+    Logger.log("ENTER MANUAL STATE...");
+  }
+
+  public void Leave() {
+    if(!this.IsOnState)
+      return;
+//    this.eventBus.unregister(this);
+    this.moveThread.stop();
+    this.threadLoop.StopThread();
+    Logger.log("LEAVE MANUAL STATE...");
   }
 
   private void LoopThis() throws InterruptedException {
