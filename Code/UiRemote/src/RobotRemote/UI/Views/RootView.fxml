@@ -22,7 +22,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RobotRemote.UI.Views.RootController">
+<AnchorPane onKeyPressed="#keyPressed" prefHeight="600" prefWidth="900"
+            xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="RobotRemote.UI.Views.RootController"
+            stylesheets="@RootStyle.css"
+>
   <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <MenuBar minHeight="30" prefHeight="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
       <Menu mnemonicParsing="false" text="File">
@@ -42,13 +47,14 @@
       <SplitPane dividerPositions="0.8" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <AnchorPane minWidth="0" prefWidth="Infinity">
           <TitledPane collapsible="false" text="Map" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-            <StackPane alignment="TOP_RIGHT">
-              <HBox alignment="CENTER">
-                <VBox alignment="CENTER">
-                  <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap" />
-                </VBox>
+            <StackPane>
+              <HBox alignment="CENTER" StackPane.alignment="CENTER">
+                <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap"
+                      prefHeight="2000"
+                      prefWidth="2000"
+                />
               </HBox>
-              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options">
+              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options" StackPane.alignment="TOP_RIGHT">
                 <VBox prefHeight="61.0" prefWidth="158.0">
                   <VBox.margin>
                     <Insets bottom="10.0" />
@@ -62,7 +68,7 @@
                     </toggleGroup>
                   </RadioButton>
                   <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
-                  <Button id="btnZoomReset" minWidth="130.0" onMouseClicked="#onClickZoomReset" maxHeight="30.0">
+                  <Button id="btnZoomReset" maxHeight="30.0" minWidth="130.0" onMouseClicked="#onClickZoomReset">
                     Zoom Reset
                     <VBox.margin>
                       <Insets top="10.0" />
@@ -71,18 +77,13 @@
                 </VBox>
               </TitledPane>
               <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
-                <HBox alignment="BOTTOM_RIGHT">
-                  <VBox prefHeight="120.0" prefWidth="120.0">
-                    <children>
-                      <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                          <Image url="@../Images/Map_legend.png" />
-                        </image>
-                      </ImageView>
-                    </children>
-
-                  </VBox>
-                </HBox>
+                <VBox prefHeight="120.0" prefWidth="120.0">
+                  <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                      <Image url="@../Images/Map_legend.png" />
+                    </image>
+                  </ImageView>
+                </VBox>
               </TitledPane>
             </StackPane>
           </TitledPane>
@@ -109,8 +110,8 @@
               <TitledPane collapsible="false" maxWidth="200" prefWidth="180.0" text="Switch Mode" AnchorPane.rightAnchor="0.0">
                 <HBox alignment="CENTER">
                   <VBox alignment="CENTER">
-                    <Button fx:id="btnSwitchRobotMode" onMouseClicked="#onClickSwitchRobotMode" prefHeight="50.0" prefWidth="166.0" text="Switch Robot Mode" />
-                    <Label fx:id="lblSwitchRobotMode" />
+                    <Button fx:id="btnManualMode" onMouseClicked="#onClickManualMode" prefHeight="20.0" prefWidth="200" text="Manual Mode" />
+                    <Button fx:id="btnAutoSurveyMode" onMouseClicked="#onClickAutoMapMode" prefHeight="20.0" prefWidth="200" text="Auto Survey Mode" />
                   </VBox>
                 </HBox>
               </TitledPane>
@@ -118,13 +119,13 @@
             <TitledPane collapsible="false" minHeight="300" text="Manual Controls">
               <HBox alignment="CENTER">
                 <VBox alignment="CENTER">
-                  <Button id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
+                  <Button id="btnMoveUp" fx:id="btnMoveUp" onMouseClicked="#onClickForward" styleClass="moveButton" />
                   <HBox alignment="CENTER">
-                    <Button id="btnMoveLeft" onMouseClicked="#onClickLeft" styleClass="moveButton" />
-                    <Button id="btnMoveStop" onMouseClicked="#onClickStop" styleClass="stopButton" />
-                    <Button id="btnMoveRight" onMouseClicked="#onClickRight" styleClass="moveButton" />
+                    <Button id="btnMoveLeft" fx:id="btnMoveLeft" onMouseClicked="#onClickLeft" styleClass="moveButton" />
+                    <Button id="btnMoveStop" fx:id="btnMoveStop" onMouseClicked="#onClickStop" styleClass="stopButton" />
+                    <Button id="btnMoveRight" fx:id="btnMoveRight" onMouseClicked="#onClickRight" styleClass="moveButton" />
                   </HBox>
-                  <Button id="btnMoveDown" onMouseClicked="#onClickBackward" styleClass="moveButton" />
+                  <Button id="btnMoveDown" fx:id="btnMoveDown" onMouseClicked="#onClickBackward" styleClass="moveButton" />
                 </VBox>
               </HBox>
             </TitledPane>
