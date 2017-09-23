@@ -17,7 +17,6 @@ public class AutoSurveying implements IModeState{
     private SensorsState sensorState;
     private ThreadLoop threadLoop;
 
-
   public AutoSurveying(ServiceManager sm) {
     this.sm = sm;
     this.eventBus = sm.getEventBus();
@@ -31,30 +30,31 @@ public class AutoSurveying implements IModeState{
             return;
         this.eventBus.register(this);
         this.threadLoop.StartThread(this::LoopThis, 100);
-
         this.IsOnState = true;
-        Logger.log("ENTER AUTO SURVEY STATE...");
+        Logger.log("ENTER AUTO SURVEY MODE...");
   }
 
     public void Leave(){
         if(!this.IsOnState)
             return;
         this.eventBus.unregister(this);
-        this.moveThread.stop();
         this.threadLoop.StopThread();
-
         this.IsOnState = false;
-        Logger.log("LEAVE AUTO SURVEY STATE...");
+        this.moveThread.stop();
+        Logger.log("LEAVE AUTO SURVEY MODE...");
     }
 
   private void LoopThis() {
-    ZigZagAcrossMap();
+      if(!this.IsOnState)
+          return;
+        ZigZagAcrossMap();
   }
 
   private void ZigZagAcrossMap() {
     try {
+        Logger.log("ZigZagAcrossMap");
       // Move leftwards across the map
-      moveThread.forward();
+      moveThread.forward(5);
       moveThread.repeatWhileMoving(() -> {
         if (isThereABorder()) {
           Logger.log("Detected Border");
@@ -66,7 +66,7 @@ public class AutoSurveying implements IModeState{
         }
       });
       // Move rightwards across the map
-      moveThread.forward();
+      moveThread.forward(5);
       moveThread.repeatWhileMoving(() -> {
         if (isThereABorder()) {
           Logger.log("Detected Border");
@@ -77,7 +77,7 @@ public class AutoSurveying implements IModeState{
           HandleDetectedBorderRight();
         }
       });
-    } catch (InterruptedException e) {
+    } catch (Exception e) {
       Logger.log("- Interrupt: AutoSurveying");
       this.sm.getMovementService().stop();
       this.threadLoop.StopThread();

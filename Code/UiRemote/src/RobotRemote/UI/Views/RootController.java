@@ -169,10 +169,7 @@ public class RootController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-      btnManualMode.setDisable(false);
-      btnAutoSurveyMode.setDisable(false);
-      eventBus.post(new EventEmergencySTOP());
-
+      StopMotors();
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
@@ -200,7 +197,9 @@ public class RootController implements Initializable {
   }
 
   private void StopMotors() {
-    eventBus.post(new EventEmergencySTOP());
+      btnManualMode.setDisable(false);
+      btnAutoSurveyMode.setDisable(false);
+      eventBus.post(new EventEmergencySTOP());
   }
 
   public void onClickZoomReset(MouseEvent mouseEvent) {

@@ -1,5 +1,6 @@
 package RobotRemote.RobotStateMachine.States;
 
+import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
 import RobotRemote.Shared.*;
 import RobotRemote.RobotStateMachine.IModeState;
@@ -14,6 +15,7 @@ public class ManualMoving implements IModeState {
   private ServiceManager sm;
   private SensorsState sensorState;
   private ThreadLoop threadLoop;
+  private IMovementService moveThread;
   private boolean IsOnState;
   public ManualMoving(ServiceManager sm) {
     this.IsOnState = false;
@@ -21,6 +23,7 @@ public class ManualMoving implements IModeState {
     this.eventBus = sm.getEventBus();
     this.sensorState = sm.getAppState().getSensorsState();
     this.threadLoop = sm.getRobotStateMachineThread();
+    this.moveThread = sm.getMovementService();
   }
 
   public void Enter()
@@ -29,7 +32,7 @@ public class ManualMoving implements IModeState {
             return;
         this.IsOnState =true;
         this.eventBus.register(this);
-        threadLoop.StartThread(this::LoopThis,500);
+        this.threadLoop.StartThread(this::LoopThis,500);
         Logger.log("ENTER MANUAL STATE...");
   }
 
@@ -37,13 +40,16 @@ public class ManualMoving implements IModeState {
   {
       if(!this.IsOnState)
           return;
-      this.IsOnState = false;
       this.eventBus.unregister(this);
-      this.sm.getMovementService().stop();
+      this.moveThread.stop();
       this.threadLoop.StopThread();
+      this.IsOnState = false;
       Logger.log("LEAVE MANUAL STATE...");
   }
   private void LoopThis() {
+      if(!this.IsOnState)
+          return;
+
     double ultraDist = sensorState.getUltraReadingCm();
     Color colourEnum = sensorState.getColourEnum();
     if(ultraDist < 10) {
@@ -58,7 +64,6 @@ public class ManualMoving implements IModeState {
 
   @Subscribe
   public void OnManualCommand(EventManualCommand event) {
-    IMovementService moveThread = this.sm.getMovementService();
     switch (event.getCommand()) {
       case Left:
         moveThread.turn(-90);

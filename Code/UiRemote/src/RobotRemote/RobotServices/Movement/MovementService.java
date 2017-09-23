@@ -166,7 +166,8 @@ public class MovementService implements IMovementService {
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.log("MOVE: Stopping");
-      this.pilot.stop();
+      if(this.pilot!=null)
+        this.pilot.stop();
     });
     // Set location-tracking stopped
     threadLoop.StopThread();
