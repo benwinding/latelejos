@@ -2,23 +2,20 @@ package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
-import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.Shared.ThreadLoop;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import javafx.scene.paint.Color;
 
 public class AutoSurveying implements IModeState{
-  private IMovementService moveThread;
-  private ServiceManager sm;
-  private EventBus eventBus;
-  private SensorsState sensorState;
-  private ThreadLoop threadLoop;
-
-  private ManualStopped state_manualstopped;
+    private boolean IsOnState;
+    private IMovementService moveThread;
+    private ServiceManager sm;
+    private EventBus eventBus;
+    private SensorsState sensorState;
+    private ThreadLoop threadLoop;
 
   public AutoSurveying(ServiceManager sm) {
     this.sm = sm;
@@ -28,8 +25,13 @@ public class AutoSurveying implements IModeState{
     this.moveThread = sm.getMovementService();
   }
 
-  public void linkStates(ManualStopped state_manualstopped) {
-    this.state_manualstopped = state_manualstopped;
+  public void Enter() {
+        if(this.IsOnState)
+            return;
+        this.eventBus.register(this);
+        this.threadLoop.StartThread(this::LoopThis, 100);
+        this.IsOnState = true;
+        Logger.log("ENTER AUTO SURVEY MODE...");
   }
 
   @Override

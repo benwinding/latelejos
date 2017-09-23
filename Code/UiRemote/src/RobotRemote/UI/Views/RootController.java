@@ -1,5 +1,9 @@
 package RobotRemote.UI.Views;
 
+import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
+import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumZoomCommand;
@@ -130,7 +134,6 @@ public class RootController implements Initializable {
 //    if (alert.getResult() == ButtonType.YES)
     btnManualMode.setDisable(false);
     btnAutoSurveyMode.setDisable(true);
-    eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToAutoMap());
     SetManualButtonsDisabled(true);
   }

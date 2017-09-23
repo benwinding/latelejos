@@ -3,7 +3,7 @@ package RobotRemote.Shared;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
-import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
+import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import com.google.common.eventbus.EventBus;
 
@@ -48,7 +48,6 @@ public class ServiceManager {
   }
 
   public void StopAllThreads() {
-    this.getEventBus().post(new EventEmergencySTOP());
     Sleep(1000);
     this.sensorService.kill();
     Sleep(1000);

@@ -1,4 +1,4 @@
-package RobotRemote.RobotStateMachine.Events;
+package RobotRemote.RobotStateMachine.Events.ManualState;
 
 import RobotRemote.Models.Enums.EnumCommandManual;
 
