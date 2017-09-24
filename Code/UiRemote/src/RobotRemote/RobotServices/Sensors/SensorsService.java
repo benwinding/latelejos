@@ -49,11 +49,11 @@ public class SensorsService extends ServiceBase {
 
   private void InitUltrasonicSensor() {
     try {
-      Logger.log("Opening ultrasonic sensor, on port: " + config.sensorPortUltra);
+      Logger.debug("Opening ultrasonic sensor, on port: " + config.sensorPortUltra);
       ultraSampleProvider =  this.connectionService.GetBrickeRemoteEv3().createSampleProvider(config.sensorPortUltra,"lejos.hardware.sensor.EV3UltrasonicSensor","Distance");
       Thread.sleep(100);
       sensorsState.setStatusUltra(true);
-      Logger.log("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
+      Logger.debug("Success: opened ultrasonic sensor, on port: " + config.sensorPortUltra);
     } catch(Exception e) {
       Logger.warn("Error: Unable to open ultrasonic sensor, on port: " + config.sensorPortUltra);
     }
@@ -61,13 +61,13 @@ public class SensorsService extends ServiceBase {
 
   private void InitColourSensor() {
     try {
-      Logger.log("Opening colour sensor, on port: " + config.sensorPortColour);
+      Logger.debug("Opening colour sensor, on port: " + config.sensorPortColour);
       Port port = this.connectionService.GetBrick().getPort(config.sensorPortColour);
       this.colourSensorConnection = new EV3ColorSensor(port);
       this.colourSensorMode = colourSensorConnection.getRGBMode();
       Thread.sleep(100);
       sensorsState.setStatusColour(true);
-      Logger.log("Success: opened colour sensor, on port: " + config.sensorPortColour);
+      Logger.debug("Success: opened colour sensor, on port: " + config.sensorPortColour);
     } catch(Exception e) {
       Logger.warn("Error: Unable to open colour sensor, on port: " + config.sensorPortColour);
     }

@@ -12,47 +12,50 @@ public class Logger {
   }
 
   public static void log(String msg) {
+    logAll(msg);
+  }
+
+  public static void debug(String msg) {
+    logAll("....." + msg);
+  }
+
+  public static void warn(String msg) {
+    warnAll("ERROR:" + msg);
+  }
+
+  private static void logAll(String msg) {
     TryToLogConsole(msg);
     TryToWriteToUi(msg);
   }
 
-  public static void warn(String msg) {
+  private static void warnAll(String msg) {
     TryToWarnConsole(msg);
     TryToWriteToUi(msg);
   }
 
   private static void TryToLogConsole(final String msg) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          System.out.println(msg);
-        }catch (Exception ignored) {
-        }
+    Platform.runLater(() -> {
+      try {
+        System.out.println(msg);
+      }catch (Exception ignored) {
       }
     });
   }
 
   private static void TryToWarnConsole(final String msg) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          System.err.println(msg);
-        }catch (Exception ignored) {
-        }
+    Platform.runLater(() -> {
+      try {
+        System.err.println(msg);
+      }catch (Exception ignored) {
       }
     });
   }
   private static void TryToWriteToUi(String msg) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
-          textArea.appendText(msg + '\n');
-        } catch(Exception ignored) {
-        }
+    Platform.runLater(() -> {
+      try {
+        TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
+        textArea.appendText(msg + '\n');
+      } catch(Exception ignored) {
       }
     });
   }

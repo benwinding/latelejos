@@ -1,5 +1,7 @@
 package RobotRemote.Shared;
 
+import java.util.concurrent.Callable;
+
 public class ThreadLoop {
   private Thread loopThread = new Thread();
   private String threadName;
@@ -8,20 +10,21 @@ public class ThreadLoop {
     this.threadName = threadName;
   }
 
-  public void StartThread(Runnable repeatThis, int msLoopDelay) {
+  public void StartThread(Callable repeatThis, int msLoopDelay) {
     StopThread();
     loopThread = new Thread(() -> {
       while(!loopThread.isInterrupted()) {
-        repeatThis.run();
         try {
+          repeatThis.call();
           Thread.sleep(msLoopDelay);
-        } catch (InterruptedException e) {
-          Logger.log("---Interrupted: ThreadLoop");
-          break;
+        } catch (Exception e) {
+          Logger.debug("THREAD: Interrupted: ThreadLoop: " + loopThread.getName());
+          return;
         }
       }
     });
     loopThread.setName(this.threadName);
+    Logger.debug("THREAD: Starting ThreadLoop: " + loopThread.getName());
     loopThread.start();
   }
 

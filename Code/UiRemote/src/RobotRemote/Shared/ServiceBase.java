@@ -18,7 +18,7 @@ public abstract class ServiceBase implements Runnable{
         Repeat();
         Thread.sleep(msDelay);
       } catch (InterruptedException e) {
-        Logger.log("THREAD: "+threadName+": Interupted... terminating thread");
+        Logger.debug("THREAD: "+threadName+": Interupted... terminating thread");
         break;
       }
     }
@@ -37,7 +37,7 @@ public abstract class ServiceBase implements Runnable{
       Logger.warn("THREAD: "+threadName+": Already Started");
       return;
     }
-    Logger.log("THREAD: "+threadName+": Started");
+    Logger.debug("THREAD: "+threadName+": Started");
     thread = new Thread (this, threadName);
     thread.start ();
   }
@@ -45,7 +45,7 @@ public abstract class ServiceBase implements Runnable{
   public void kill() {
     if (thread == null)
       return;
-    Logger.log("THREAD: "+threadName+": About to kill");
+    Logger.debug("THREAD: "+threadName+": About to kill");
     thread.interrupt();
   }
 }

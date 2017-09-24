@@ -3,7 +3,6 @@ package RobotRemote.Shared;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
-import RobotRemote.RobotStateMachine.Events.EventEmergencySTOP;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import com.google.common.eventbus.EventBus;
 
@@ -37,7 +36,7 @@ public class ServiceManager {
   public void StartAllThreads() {
     // Run start up in the background so the GUI can load quicker
     Thread startUp = new Thread(() -> {
-      Logger.log("Service Coordinator: Starting all threads");
+      Logger.debug("Service Coordinator: Starting all threads");
       this.uiUpdaterService.start();
       this.robotConnectionService.InitializeBrick();
       this.movementService.Initialize(configuration, robotConnectionService, appStateRepository);
@@ -48,7 +47,6 @@ public class ServiceManager {
   }
 
   public void StopAllThreads() {
-    this.getEventBus().post(new EventEmergencySTOP());
     Sleep(1000);
     this.sensorService.kill();
     Sleep(1000);

@@ -25,12 +25,12 @@ public class RobotConnectionService {
       BrickInfo firstEv3 = bricks[0];
       BrickInstanceRequest = new RemoteRequestEV3(firstEv3.getIPAddress());
       BrickInstanceRemoteEv3 = new RemoteEV3(firstEv3.getIPAddress());
-      Logger.log("Found ev3!");
-      Logger.log("Ip address: " + firstEv3.getIPAddress());
+      Logger.debug("Found ev3!");
+      Logger.debug("Ip address: " + firstEv3.getIPAddress());
       this.robotConnectionState.setConnected(true);
     }
     catch (Exception e) {
-      Logger.log("No ev3 robots detected in network");
+      Logger.warn("No ev3 robots detected in network");
       this.robotConnectionState.setConnected(false);
     }
   }

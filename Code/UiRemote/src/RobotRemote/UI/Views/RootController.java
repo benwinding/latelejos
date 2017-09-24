@@ -1,16 +1,20 @@
 package RobotRemote.UI.Views;
 
-import RobotRemote.Shared.Logger;
 import RobotRemote.Models.Enums.EnumCommandManual;
 import RobotRemote.Models.Enums.EnumZoomCommand;
+import RobotRemote.Models.MapPoint;
+import RobotRemote.RobotStateMachine.Events.EventAutoControl;
+import RobotRemote.RobotStateMachine.Events.ManualState.EventManualCommand;
+import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
+import RobotRemote.UI.UiState;
 import RobotRemote.UIServices.Events.EventUserAddNgz;
 import RobotRemote.UIServices.Events.EventUserAddWaypoint;
 import RobotRemote.UIServices.Events.EventUserMapDragged;
 import RobotRemote.UIServices.Events.EventUserZoomChanged;
-import RobotRemote.Models.MapPoint;
-import RobotRemote.RobotStateMachine.Events.*;
-import RobotRemote.UI.UiState;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +22,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -58,6 +65,8 @@ public class RootController implements Initializable {
   Button btnMoveRight;
   @FXML
   Button btnMoveStop;
+  @FXML
+  TitledPane groupManualControls;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -67,13 +76,14 @@ public class RootController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    Logger.log("UI Loaded!");
+    Logger.debug("UI Loaded!");
   }
 
   public void Init(ServiceManager sm) {
     this.uiState = sm.getAppState().getUiState();
     this.eventBus = sm.getEventBus();
     this.initMap();
+    SetManualButtonsDisabled(true);
     //this.initManualMode();
   }
 
@@ -106,22 +116,19 @@ public class RootController implements Initializable {
       case ENTER:
       case SPACE:
       case Q:
-        StopMotors();
+        MoveMotors(EnumCommandManual.Halt);
         break;
       default:
-        Logger.log("Key press:" + e.getCode() + " is not implemented");
+        Logger.debug("Key press:" + e.getCode() + " is not implemented");
     }
   }
 
   public void onClickManualMode(MouseEvent mouseEvent) {
     btnManualMode.setDisable(true);
-    btnManualMode.setDisable(false);
+    btnAutoSurveyMode.setDisable(false);
     eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToManual());
-    btnMoveUp.setDisable(false);
-    btnMoveDown.setDisable(false);
-    btnMoveLeft.setDisable(false);
-    btnMoveRight.setDisable(false);
+    SetManualButtonsDisabled(false);
   }
 
   public void onClickAutoMapMode(MouseEvent mouseEvent) {
@@ -132,10 +139,14 @@ public class RootController implements Initializable {
     btnAutoSurveyMode.setDisable(true);
     eventBus.post(new EventEmergencySTOP());
     eventBus.post(new EventSwitchToAutoMap());
-    btnMoveUp.setDisable(true);
-    btnMoveDown.setDisable(true);
-    btnMoveLeft.setDisable(true);
-    btnMoveRight.setDisable(true);
+    SetManualButtonsDisabled(true);
+  }
+
+  private void SetManualButtonsDisabled(boolean disabled) {
+    btnMoveUp.setDisable(disabled);
+    btnMoveDown.setDisable(disabled);
+    btnMoveLeft.setDisable(disabled);
+    btnMoveRight.setDisable(disabled);
   }
 
   public void onClickHelp(ActionEvent event) {
@@ -167,7 +178,10 @@ public class RootController implements Initializable {
   }
 
   public void onClickStop(MouseEvent mouseEvent) {
-    StopMotors();
+    this.SetManualButtonsDisabled(true);
+    this.btnAutoSurveyMode.setDisable(false);
+    this.btnManualMode.setDisable(false);
+    eventBus.post(new EventEmergencySTOP());
   }
 
   public void onClickForward(MouseEvent mouseEvent) {
@@ -189,14 +203,10 @@ public class RootController implements Initializable {
   private void MoveMotors(EnumCommandManual command) {
     uiState.setCurrentCommand(command);
     eventBus.post(new EventManualCommand(command));
-    if(command == EnumCommandManual.Halt) {
-      StopMotors();
-    }
   }
 
   private void StopMotors() {
     eventBus.post(new EventEmergencySTOP());
-    eventBus.post(new EventExitManualControl());
   }
 
   public void onClickZoomReset(MouseEvent mouseEvent) {
@@ -209,7 +219,7 @@ public class RootController implements Initializable {
     if(mouseEvent.getButton() == MouseButton.SECONDARY) {
       mapDragInitial.x = mouseEvent.getX() - mapDragInitial.x;
       mapDragInitial.y = mouseEvent.getY() - mapDragInitial.y;
-      Logger.log("UI: map drag start...");
+      Logger.debug("UI: map drag start...");
     }
     else if(enterNgz.isSelected()) {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
@@ -237,6 +247,6 @@ public class RootController implements Initializable {
         mouseEvent.getY() - mapDragInitial.y
     );
     this.mapDragInitial = dragNew;
-    Logger.log("UI: map drag end...");
+    Logger.debug("UI: map drag end...");
   }
 }
