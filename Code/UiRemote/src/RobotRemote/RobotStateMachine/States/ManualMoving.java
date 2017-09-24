@@ -36,7 +36,7 @@ public class ManualMoving implements IModeState {
       LoopThis();
       return null;
     }, 100);
-    Logger.log("ENTER MANUAL STATE...");
+    Logger.debug("ENTER MANUAL STATE...");
   }
 
   public void Leave() {
@@ -45,18 +45,18 @@ public class ManualMoving implements IModeState {
 //    this.eventBus.unregister(this);
     this.moveThread.stop();
     this.threadLoop.StopThread();
-    Logger.log("LEAVE MANUAL STATE...");
+    Logger.debug("LEAVE MANUAL STATE...");
   }
 
   private void LoopThis() throws InterruptedException {
     double ultraDist = sensorState.getUltraReadingCm();
     Color colourEnum = sensorState.getColourEnum();
     if(ultraDist < 10) {
-      //Logger.log("Close to Object: " + ultraDist + " cm");
+      //Logger.debug("Close to Object: " + ultraDist + " cm");
 //      this.eventBus.post(new EventWarnOfObject(ultraDist));
     }
     if(colourEnum == Color.RED) {
-      //Logger.log("Crater Detected, ColourId: " + colourEnum);
+      //Logger.debug("Crater Detected, ColourId: " + colourEnum);
 //      this.eventBus.post(new EventWarnOfColour(colourEnum));
     }
   }
@@ -82,7 +82,7 @@ public class ManualMoving implements IModeState {
           break;
       }
     } catch (InterruptedException e) {
-      Logger.log("MANUAL Command Interrupted, stopping");
+      Logger.debug("MANUAL Command Interrupted, stopping");
       moveThread.stop();
     }
   }

@@ -22,7 +22,7 @@ public class IdleState implements IModeState {
         this.moveThread.stop();
         this.IsOnState =true;
         this.eventBus.register(this);
-        Logger.log("ENTER IDLE STATE...");
+        Logger.debug("ENTER IDLE STATE...");
     }
 
     public void Leave() {
@@ -30,6 +30,6 @@ public class IdleState implements IModeState {
             return;
         this.IsOnState =false;
         this.eventBus.unregister(this);
-        Logger.log("LEAVE IDLE STATE...");
+        Logger.debug("LEAVE IDLE STATE...");
     }
 }

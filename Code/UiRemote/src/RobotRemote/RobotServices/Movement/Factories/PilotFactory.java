@@ -16,10 +16,10 @@ public class PilotFactory {
           config.wheelPortLeft,
           config.wheelPortRight
       );
-      Logger.log("Robot is connected, using robots pilot");
+      Logger.debug("Robot is connected, using robots pilot");
     }
     else {
-      Logger.log("Robot not connected, using TestArcPilot");
+      Logger.debug("Robot not connected, using TestArcPilot");
       pilot = new TestArcPilot();
     }
     pilot.setLinearSpeed(config.robotLinearSpeed_cms);
