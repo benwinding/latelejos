@@ -4,8 +4,15 @@ import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.Events.*;
 import RobotRemote.Shared.RobotConfiguration;
+import RobotRemote.UIServices.MapTranslation.Lunarovermap;
+import RobotRemote.UIServices.MapTranslation.RobotMapTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
+
+import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MapInputEventHandlers {
   private final UserWaypointsState userWaypointsState;
@@ -23,12 +30,34 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnMapImport(EventMapImport event) {
-
+    File importedMapFile = event.getSelectedMapFile();
+    try {
+      Lunarovermap mapObject = new RobotMapTranslator().createMapObject(importedMapFile.getName());
+    } catch (JAXBException e) {
+      Logger.warn("Could not translate xml to map object");
+    }
   }
 
   @Subscribe
   public void OnMapExport(EventMapExport event) {
+    File exportMapFile = event.getSelectedExportMapFile();
+    Lunarovermap currentMap = null;
+    try {
+      String mapObject = new RobotMapTranslator().createXml(currentMap);
+      SaveFile(mapObject, exportMapFile);
+    } catch (JAXBException e) {
+      Logger.warn("Could not export map object to XML");
+    }
+  }
 
+  private void SaveFile(String content, File file){
+    try {
+      FileWriter fileWriter = new FileWriter(file);
+      fileWriter.write(content);
+      fileWriter.close();
+    } catch (IOException ex) {
+      Logger.warn("Could not save File");
+    }
   }
 
   @Subscribe
