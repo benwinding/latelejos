@@ -84,11 +84,6 @@ public class RootController implements Initializable {
     this.eventBus = sm.getEventBus();
     this.initMap();
     SetManualButtonsDisabled(true);
-    //this.initManualMode();
-  }
-
-  private void initManualMode() {
-    this.onClickManualMode(null);
   }
 
   private void initMap() {
@@ -248,5 +243,17 @@ public class RootController implements Initializable {
     );
     this.mapDragInitial = dragNew;
     Logger.debug("UI: map drag end...");
+  }
+
+  public void onClickMapImport(ActionEvent actionEvent) {
+    Logger.log("Importing XML Map");
+  }
+
+  public void onClickMapExport(ActionEvent actionEvent) {
+    Logger.log("Exporting XML Map");
+  }
+
+  public void onClickCloseUi(ActionEvent actionEvent) {
+    Logger.log("Closing UI");
   }
 }
