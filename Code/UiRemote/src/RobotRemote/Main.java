@@ -1,29 +1,20 @@
 package RobotRemote;
 
-import RobotRemote.RobotServices.Movement.MovementService;
-import RobotRemote.Shared.Logger;
-import RobotRemote.Shared.RobotConfiguration;
-import RobotRemote.Shared.AppStateRepository;
-import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
-import RobotRemote.Shared.ServiceManager;
-import RobotRemote.Shared.ThreadLoop;
-import RobotRemote.UIServices.MapHandlers.Lunarovermap;
-import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
 import RobotRemote.RobotServices.Movement.IMovementService;
+import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
-import RobotRemote.UIServices.MapHandlers.RobotMapTranslator;
-import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
+import RobotRemote.RobotStateMachine.StateMachineBuilder;
+import RobotRemote.Shared.*;
 import RobotRemote.UI.Views.RootController;
+import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
+import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-
-import java.util.ArrayList;
 
 public class Main extends Application {
   private ServiceManager serviceManager;
@@ -86,17 +77,6 @@ public class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
     primaryStage.show();
-
-//test map xml stuff
-
-      Lunarovermap map1 = new Lunarovermap();
-      RobotMapTranslator translator = new RobotMapTranslator();
-      map1=translator.createMapObject("UiRemote/src/RobotRemote/UIServices/MapHandlers/samplexml.xml");
-      System.out.println("Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
-      map1.roverLandingSite.point.setX(100);
-      map1.roverLandingSite.point.setY(100);
-      System.out.println("New Rover Landing point : " + map1.roverLandingSite.getPoint().getX() + " , " + map1.roverLandingSite.getPoint().getY());
-      translator.createXml(map1);
   }
 
   @Override

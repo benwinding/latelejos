@@ -1,4 +1,4 @@
-package RobotRemote.UIServices.MapHandlers;
+package RobotRemote.UIServices.MapTranslation;
 
 import RobotRemote.Models.MapPoint;
 
