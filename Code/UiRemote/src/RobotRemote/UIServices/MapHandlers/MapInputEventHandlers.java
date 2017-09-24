@@ -4,25 +4,34 @@ import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.Events.*;
 import RobotRemote.Shared.RobotConfiguration;
+import RobotRemote.UIServices.MapTranslation.MapTransferObject;
+import RobotRemote.UIServices.MapTranslation.MapTranslator;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
+import org.omg.IOP.Encoding;
+import sun.nio.cs.UTF_32;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MapInputEventHandlers {
   private final UserWaypointsState userWaypointsState;
   private final UserNoGoZoneState userNoGoZoneState;
   private final UiUpdaterState uiUpdaterState;
-  private RobotConfiguration config;
+  private final ServiceManager sm;
+  private final RobotConfiguration config;
 
   public MapInputEventHandlers(ServiceManager sm) {
     sm.getEventBus().register(this);
-    this.config = config;
+    this.config = sm.getConfiguration();
+    this.sm = sm;
     this.userNoGoZoneState = sm.getAppState().getUserNoGoZoneState();
     this.userWaypointsState = sm.getAppState().getUserWaypointsState();
     this.uiUpdaterState = sm.getAppState().getUiUpdaterState();
@@ -32,22 +41,35 @@ public class MapInputEventHandlers {
   public void OnMapImport(EventMapImport event) {
     File importedMapFile = event.getSelectedMapFile();
     try {
-      Lunarovermap mapObject = new XmlTranslator().createMapObject(importedMapFile.getName());
+      String xmlStringFromFile = this.readFile(importedMapFile.getAbsolutePath());
+      MapTransferObject mapObject = new MapTranslator().GetMapFromXmlString(xmlStringFromFile);
+      this.SetCurrentMap(mapObject);
     } catch (JAXBException e) {
       Logger.warn("Could not translate xml to map object");
+    } catch (IOException e) {
+      Logger.warn("Could read xml file: " + importedMapFile.getAbsolutePath());
     }
   }
 
   @Subscribe
   public void OnMapExport(EventMapExport event) {
     File exportMapFile = event.getSelectedExportMapFile();
-    Lunarovermap currentMap = null;
+    MapTransferObject currentMap = this.GetCurrentMap();
     try {
-      String mapObject = new XmlTranslator().createXml(currentMap);
-      SaveFile(mapObject, exportMapFile);
+      String xmlMapString = new MapTranslator().GetXmlStringFromMap(currentMap);
+      SaveFile(xmlMapString, exportMapFile);
     } catch (JAXBException e) {
       Logger.warn("Could not export map object to XML");
     }
+  }
+
+  private void SetCurrentMap(MapTransferObject mapObject) {
+    // Set the mapTransfer object to the current state
+  }
+
+  private MapTransferObject GetCurrentMap() {
+    // Get the current map state convert to the map transfer object
+    return null;
   }
 
   private void SaveFile(String content, File file){
@@ -58,6 +80,11 @@ public class MapInputEventHandlers {
     } catch (IOException ex) {
       Logger.warn("Could not save File");
     }
+  }
+
+  private String readFile(String path) throws IOException {
+    byte[] encoded = Files.readAllBytes(Paths.get(path));
+    return new String(encoded, Charset.forName("UTF-8"));
   }
 
   @Subscribe
