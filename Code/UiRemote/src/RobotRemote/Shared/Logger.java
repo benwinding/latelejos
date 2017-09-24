@@ -11,6 +11,15 @@ public class Logger {
     uiScene = scene;
   }
 
+  public static void log(String msg, int level) {
+    for(int i=0; i<level; i++) {
+      msg = "-" + msg;
+    }
+
+    TryToLogConsole(msg);
+    TryToWriteToUi(msg);
+  }
+
   public static void log(String msg) {
     TryToLogConsole(msg);
     TryToWriteToUi(msg);
@@ -34,25 +43,19 @@ public class Logger {
   }
 
   private static void TryToWarnConsole(final String msg) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          System.err.println(msg);
-        }catch (Exception ignored) {
-        }
+    Platform.runLater(() -> {
+      try {
+        System.err.println(msg);
+      }catch (Exception ignored) {
       }
     });
   }
   private static void TryToWriteToUi(String msg) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
-          textArea.appendText(msg + '\n');
-        } catch(Exception ignored) {
-        }
+    Platform.runLater(() -> {
+      try {
+        TextArea textArea = (TextArea) uiScene.lookup("#messageDisplayer");
+        textArea.appendText(msg + '\n');
+      } catch(Exception ignored) {
       }
     });
   }
