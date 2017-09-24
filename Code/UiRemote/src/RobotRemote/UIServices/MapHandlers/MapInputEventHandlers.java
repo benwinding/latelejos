@@ -38,7 +38,7 @@ public class MapInputEventHandlers {
     // Scale mouse to actual map xy coordinates
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
-    Logger.log(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", scaleX, scaleY));
+    Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", scaleX, scaleY));
 
     userWaypointsState.AddWayPoint(scaleX,scaleY);
   }
@@ -58,7 +58,7 @@ public class MapInputEventHandlers {
     double scaleX = mouseX / zoomLevel;
     double scaleY = mouseY / zoomLevel;
 
-    Logger.log(String.format("Received UserAddNGZ:: x:%.1f, y:%.1f", scaleX, scaleY));
+    Logger.debug(String.format("Received UserAddNGZ:: x:%.1f, y:%.1f", scaleX, scaleY));
     int cols = userNoGoZoneState.countGridRows();
     int rows = userNoGoZoneState.countGridCols();
 
@@ -85,7 +85,7 @@ public class MapInputEventHandlers {
         uiUpdaterState.zoomReset();
         break;
     }
-    Logger.log("Received UserZoomChanged: " + uiUpdaterState.getZoomLevel());
+    Logger.debug("Received UserZoomChanged: " + uiUpdaterState.getZoomLevel());
   }
 
   // Get the cell selected in a certain range

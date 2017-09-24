@@ -18,13 +18,13 @@ public class ThreadLoop {
           repeatThis.call();
           Thread.sleep(msLoopDelay);
         } catch (Exception e) {
-          Logger.log("---Interrupted: ThreadLoop: " + loopThread.getName());
+          Logger.debug("THREAD: Interrupted: ThreadLoop: " + loopThread.getName());
           return;
         }
       }
     });
     loopThread.setName(this.threadName);
-    Logger.log("THREAD: Starting ThreadLoop: " + loopThread.getName());
+    Logger.debug("THREAD: Starting ThreadLoop: " + loopThread.getName());
     loopThread.start();
   }
 

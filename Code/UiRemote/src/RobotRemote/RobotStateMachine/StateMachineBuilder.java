@@ -51,6 +51,6 @@ public class StateMachineBuilder {
 
     @Subscribe
     private void OnEveryEvent(Object event) {
-        Logger.log("EVENT:: " + event.getClass().getSimpleName());
+        Logger.debug("EVENT:: " + event.getClass().getSimpleName());
     }
 }

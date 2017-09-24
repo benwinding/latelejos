@@ -33,7 +33,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot moving forward async
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.log("MOVE: Start forward");
+      Logger.debug("MOVE: Start forward");
       this.pilot.forward();
     });
     // Set location-tracking forward async
@@ -51,7 +51,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot backward async dist
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.log("MOVE: Start backward");
+      Logger.debug("MOVE: Start backward");
       this.pilot.backward();
     });
     // Set location-tracking backward async dist
@@ -69,7 +69,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot forward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.log("MOVE: Start forward: " + dist_cm);
+      Logger.debug("MOVE: Start forward: " + dist_cm);
       this.pilot.forward();
     });
     // Set location-tracking forward async dist, will stop
@@ -88,7 +88,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot backward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.log("MOVE: Start backward: " + dist_cm);
+      Logger.debug("MOVE: Start backward: " + dist_cm);
       this.pilot.backward();
     });
     // Set location-tracking backward async dist, will stop
@@ -108,7 +108,7 @@ public class MovementService implements IMovementService {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.log("MOVE: Start rotate: " + degrees);
+      Logger.debug("MOVE: Start rotate: " + degrees);
       pilot.rotate(degrees, true  );
     });
     // Set location-tracking turning async degrees, will stop
@@ -137,7 +137,7 @@ public class MovementService implements IMovementService {
         repeatThis.call();
         Thread.sleep(20);
       } catch (Exception ignored) {
-        Logger.log("MOVE: Interrupted repeatWhileMoving");
+        Logger.debug("MOVE: Interrupted repeatWhileMoving");
         throw new InterruptedException();
       }
     }
@@ -149,7 +149,7 @@ public class MovementService implements IMovementService {
       try {
         Thread.sleep(20);
       } catch (InterruptedException ignored) {
-        Logger.log("MOVE: Interrupted waitWhileMoving");
+        Logger.debug("MOVE: Interrupted waitWhileMoving");
         throw new InterruptedException();
       }
     }
@@ -168,7 +168,7 @@ public class MovementService implements IMovementService {
   public void stop() {
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.log("MOVE: Stopping");
+      Logger.debug("MOVE: Stopping");
       if(this.pilot!=null)
         this.pilot.stop();
     });

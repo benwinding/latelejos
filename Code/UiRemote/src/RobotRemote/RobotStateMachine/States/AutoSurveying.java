@@ -56,11 +56,11 @@ public class AutoSurveying implements IModeState{
 
   private Object checkSurroundingsRight() throws InterruptedException {
     if (isThereABorder()) {
-      Logger.log("checkSurroundingsRight: Detected Border");
+      Logger.debug("checkSurroundingsRight: Detected Border");
       HandleDetectedBorderRight();
     }
     if (isThereAnObject()) {
-      Logger.log("checkSurroundingsRight: Detected Object");
+      Logger.debug("checkSurroundingsRight: Detected Object");
       HandleDetectedBorderRight();
     }
     return null;
@@ -68,22 +68,22 @@ public class AutoSurveying implements IModeState{
 
   private Object checkSurroundingsLeft() throws InterruptedException {
     if (isThereABorder()) {
-      Logger.log("checkSurroundingsLeft: Detected Border");
+      Logger.debug("checkSurroundingsLeft: Detected Border");
       HandleDetectedBorderLeft();
     }
     if (isThereAnObject()) {
-      Logger.log("checkSurroundingsLeft: Detected Object");
+      Logger.debug("checkSurroundingsLeft: Detected Object");
       HandleDetectedObjectLeft();
     }
     return null;
   }
 
   private void HandleDetectedObjectRight() {
-    Logger.log("Handling Detected Object");
+    Logger.debug("Handling Detected Object");
   }
 
   private void HandleDetectedObjectLeft() throws InterruptedException {
-    Logger.log("Handling Detected Object going left");
+    Logger.debug("Handling Detected Object going left");
     moveThread.turn(90);
     moveThread.waitWhileMoving();
     moveThread.forward(15);
@@ -93,20 +93,20 @@ public class AutoSurveying implements IModeState{
   }
 
   private void HandleDetectedCrater() {
-    Logger.log("Handling Detected Crater");
+    Logger.debug("Handling Detected Crater");
   }
 
   private void HandleDetectedTrail() {
-    Logger.log("Handling Detected Trail");
+    Logger.debug("Handling Detected Trail");
   }
 
   private void HandleDetectedBorderLeft() throws InterruptedException {
-    Logger.log("Handling Detected Border going left");
+    Logger.debug("Handling Detected Border going left");
     TurnRobotAround(true);
   }
 
   private void HandleDetectedBorderRight() throws InterruptedException {
-    Logger.log("Handling Detected Border going right");
+    Logger.debug("Handling Detected Border going right");
     TurnRobotAround(false);
   }
 

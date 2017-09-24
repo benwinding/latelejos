@@ -76,7 +76,7 @@ public class RootController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    Logger.log("UI Loaded!");
+    Logger.debug("UI Loaded!");
   }
 
   public void Init(ServiceManager sm) {
@@ -119,7 +119,7 @@ public class RootController implements Initializable {
         MoveMotors(EnumCommandManual.Halt);
         break;
       default:
-        Logger.log("Key press:" + e.getCode() + " is not implemented");
+        Logger.debug("Key press:" + e.getCode() + " is not implemented");
     }
   }
 
@@ -219,7 +219,7 @@ public class RootController implements Initializable {
     if(mouseEvent.getButton() == MouseButton.SECONDARY) {
       mapDragInitial.x = mouseEvent.getX() - mapDragInitial.x;
       mapDragInitial.y = mouseEvent.getY() - mapDragInitial.y;
-      Logger.log("UI: map drag start...");
+      Logger.debug("UI: map drag start...");
     }
     else if(enterNgz.isSelected()) {
       this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
@@ -247,6 +247,6 @@ public class RootController implements Initializable {
         mouseEvent.getY() - mapDragInitial.y
     );
     this.mapDragInitial = dragNew;
-    Logger.log("UI: map drag end...");
+    Logger.debug("UI: map drag end...");
   }
 }
