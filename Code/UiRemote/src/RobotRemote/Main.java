@@ -1,18 +1,14 @@
 package RobotRemote;
 
-import RobotRemote.RobotServices.Movement.MovementService;
-import RobotRemote.Shared.Logger;
-import RobotRemote.Shared.RobotConfiguration;
-import RobotRemote.Shared.AppStateRepository;
-import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
-import RobotRemote.Shared.ServiceManager;
-import RobotRemote.Shared.ThreadLoop;
-import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
 import RobotRemote.RobotServices.Movement.IMovementService;
+import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
-import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
+import RobotRemote.RobotStateMachine.StateMachineBuilder;
+import RobotRemote.Shared.*;
 import RobotRemote.UI.Views.RootController;
+import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
+import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
