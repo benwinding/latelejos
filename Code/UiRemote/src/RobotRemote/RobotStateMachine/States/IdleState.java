@@ -1,16 +1,16 @@
 package RobotRemote.RobotStateMachine.States;
 
 import RobotRemote.RobotServices.Movement.IMovementService;
-import RobotRemote.Shared.Logger;
 import RobotRemote.RobotStateMachine.IModeState;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import com.google.common.eventbus.EventBus;
 
-public class ManualStopped implements IModeState {
+public class IdleState implements IModeState {
     private EventBus eventBus;
     private  boolean IsOnState;
     private IMovementService moveThread;
-    public ManualStopped(ServiceManager sm) {
+    public IdleState(ServiceManager sm) {
         this.IsOnState = false;
         this.eventBus = sm.getEventBus();
         this.moveThread = sm.getMovementService();
@@ -29,8 +29,7 @@ public class ManualStopped implements IModeState {
         if(!this.IsOnState)
             return;
         this.IsOnState =false;
-        this.eventBus.register(this);
+        this.eventBus.unregister(this);
         Logger.log("LEAVE IDLE STATE...");
     }
-
 }
