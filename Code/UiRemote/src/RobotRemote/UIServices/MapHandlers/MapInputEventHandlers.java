@@ -4,8 +4,8 @@ import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.Events.*;
 import RobotRemote.Shared.RobotConfiguration;
-import RobotRemote.UIServices.MapTranslation.Lunarovermap;
-import RobotRemote.UIServices.MapTranslation.RobotMapTranslator;
+import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
+import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
 
@@ -32,7 +32,7 @@ public class MapInputEventHandlers {
   public void OnMapImport(EventMapImport event) {
     File importedMapFile = event.getSelectedMapFile();
     try {
-      Lunarovermap mapObject = new RobotMapTranslator().createMapObject(importedMapFile.getName());
+      Lunarovermap mapObject = new XmlTranslator().createMapObject(importedMapFile.getName());
     } catch (JAXBException e) {
       Logger.warn("Could not translate xml to map object");
     }
@@ -43,7 +43,7 @@ public class MapInputEventHandlers {
     File exportMapFile = event.getSelectedExportMapFile();
     Lunarovermap currentMap = null;
     try {
-      String mapObject = new RobotMapTranslator().createXml(currentMap);
+      String mapObject = new XmlTranslator().createXml(currentMap);
       SaveFile(mapObject, exportMapFile);
     } catch (JAXBException e) {
       Logger.warn("Could not export map object to XML");
