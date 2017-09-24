@@ -1,5 +1,7 @@
 
-package RobotRemote.UIServices.MapTranslation;
+package RobotRemote.UIServices.MapTranslation.XmlTranslation;
+
+import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

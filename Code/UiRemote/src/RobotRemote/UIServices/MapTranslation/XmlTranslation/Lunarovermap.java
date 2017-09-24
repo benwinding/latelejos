@@ -1,5 +1,5 @@
 
-package RobotRemote.UIServices.MapTranslation;
+package RobotRemote.UIServices.MapTranslation.XmlTranslation;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;

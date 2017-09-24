@@ -1,7 +1,7 @@
 package RobotRemote.Test;
 
-import RobotRemote.UIServices.MapTranslation.Lunarovermap;
-import RobotRemote.UIServices.MapTranslation.RobotMapTranslator;
+import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
+import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
@@ -11,7 +11,7 @@ public class MapTranslationTest {
   public void TestMapImport() {
     //test map xml stuff
     Lunarovermap map1 = new Lunarovermap();
-    RobotMapTranslator translator = new RobotMapTranslator();
+    XmlTranslator translator = new XmlTranslator();
     try {
       map1=translator.createMapObject("UiRemote/src/RobotRemote/Test/samplexml.xml");
     } catch (JAXBException e) {
