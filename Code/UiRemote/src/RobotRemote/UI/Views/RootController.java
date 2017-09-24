@@ -11,10 +11,7 @@ import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UI.UiState;
-import RobotRemote.UIServices.Events.EventUserAddNgz;
-import RobotRemote.UIServices.Events.EventUserAddWaypoint;
-import RobotRemote.UIServices.Events.EventUserMapDragged;
-import RobotRemote.UIServices.Events.EventUserZoomChanged;
+import RobotRemote.UIServices.Events.*;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,8 +62,6 @@ public class RootController implements Initializable {
   Button btnMoveRight;
   @FXML
   Button btnMoveStop;
-  @FXML
-  TitledPane groupManualControls;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -247,13 +242,17 @@ public class RootController implements Initializable {
 
   public void onClickMapImport(ActionEvent actionEvent) {
     Logger.log("Importing XML Map");
+    eventBus.post(new EventMapImport());
   }
 
   public void onClickMapExport(ActionEvent actionEvent) {
     Logger.log("Exporting XML Map");
+    eventBus.post(new EventMapExport());
   }
 
   public void onClickCloseUi(ActionEvent actionEvent) {
     Logger.log("Closing UI");
+    Stage stage = (Stage) btnMoveStop.getScene().getWindow();
+    stage.close();
   }
 }

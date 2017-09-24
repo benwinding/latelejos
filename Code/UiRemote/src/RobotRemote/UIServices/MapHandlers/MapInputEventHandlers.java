@@ -2,10 +2,7 @@ package RobotRemote.UIServices.MapHandlers;
 
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
-import RobotRemote.UIServices.Events.EventUserAddNgz;
-import RobotRemote.UIServices.Events.EventUserAddWaypoint;
-import RobotRemote.UIServices.Events.EventUserMapDragged;
-import RobotRemote.UIServices.Events.EventUserZoomChanged;
+import RobotRemote.UIServices.Events.*;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
@@ -22,6 +19,16 @@ public class MapInputEventHandlers {
     this.userNoGoZoneState = sm.getAppState().getUserNoGoZoneState();
     this.userWaypointsState = sm.getAppState().getUserWaypointsState();
     this.uiUpdaterState = sm.getAppState().getUiUpdaterState();
+  }
+
+  @Subscribe
+  public void OnMapImport(EventMapImport event) {
+
+  }
+
+  @Subscribe
+  public void OnMapExport(EventMapExport event) {
+
   }
 
   @Subscribe
