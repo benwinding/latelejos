@@ -1,5 +1,8 @@
 package RobotRemote.UIServices.MapHandlers;
 
+import RobotRemote.Models.MapPoint;
+import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
+import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.Events.*;
@@ -20,6 +23,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapInputEventHandlers {
   private final UserWaypointsState userWaypointsState;
@@ -27,6 +32,11 @@ public class MapInputEventHandlers {
   private final UiUpdaterState uiUpdaterState;
   private final ServiceManager sm;
   private final RobotConfiguration config;
+
+  private HashMap<Integer, ArrayList<MapPoint>> colouredPoints;
+  private DiscoveredColoursState discoveredColoursState;
+  private AppStateRepository appStateRepository;
+  private MapTransferObject mapObject;
 
   public MapInputEventHandlers(ServiceManager sm) {
     sm.getEventBus().register(this);
@@ -42,8 +52,11 @@ public class MapInputEventHandlers {
     File importedMapFile = event.getSelectedMapFile();
     try {
       String xmlStringFromFile = this.readFile(importedMapFile.getAbsolutePath());
-      MapTransferObject mapObject = new MapTranslator().GetMapFromXmlString(xmlStringFromFile);
+      MapTranslator mapTranslator = new MapTranslator();
+      mapObject = mapTranslator.GetMapFromXmlString(xmlStringFromFile);
+      if (mapObject!=null) Logger.log("import success");
       this.SetCurrentMap(mapObject);
+
     } catch (JAXBException e) {
       Logger.warn("Could not translate xml to map object");
     } catch (IOException e) {
@@ -65,10 +78,21 @@ public class MapInputEventHandlers {
 
   private void SetCurrentMap(MapTransferObject mapObject) {
     // Set the mapTransfer object to the current state
+    int colour;
+    colour=1;
+    //DiscoveredColoursState discoveredColoursState=appStateRepository.getDiscoveredColoursState();
+
+    //test
+    for (MapPoint testpoint : mapObject.getBoundary()) {
+      Logger.log("boundary test x : "+testpoint.x + " , y :"+ testpoint.y);
+      //discoveredColoursState.AddColouredPoint(colour, testpoint);
+    }
   }
 
   private MapTransferObject GetCurrentMap() {
     // Get the current map state convert to the map transfer object
+
+
     return null;
   }
 

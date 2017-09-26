@@ -8,7 +8,7 @@ public class MapTransferObject {
     MapPoint currentPosition;
     MapPoint roverLandingSite;
     ArrayList<MapPoint> noGoZones;
-    ArrayList<MapPoint> tracks;
+    ArrayList<MapPoint> Landingtracks;
     ArrayList<MapPoint> radiation;
     ArrayList<MapPoint> craters;
     ArrayList<MapPoint> boundary;
@@ -31,34 +31,29 @@ public class MapTransferObject {
     public void setRoverLandingSite(MapPoint roverLandingSite) {
         this.roverLandingSite = roverLandingSite;
     }
-    public void setTracks(ArrayList<MapPoint> tracks) {
-        this.tracks = tracks;
+    public void setLandingtracks(ArrayList<MapPoint> landingtracks) {
+        Landingtracks = landingtracks;
     }
 
     public ArrayList<MapPoint> getNoGoZones() {
         return noGoZones;
     }
-
     public ArrayList<MapPoint> getRadiation() {
         return radiation;
     }
-
     public MapPoint getRoverLandingSite() {
         return roverLandingSite;
     }
-
     public MapPoint getCurrentPosition() {
         return currentPosition;
     }
-
     public ArrayList<MapPoint> getCraters() {
         return craters;
     }
 
-    public ArrayList<MapPoint> getTracks() {
-        return tracks;
+    public ArrayList<MapPoint> getLandingtracks() {
+        return Landingtracks;
     }
-
     public ArrayList<MapPoint> getBoundary() {
         return boundary;
     }

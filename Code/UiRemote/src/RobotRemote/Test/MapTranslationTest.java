@@ -59,10 +59,27 @@ public class MapTranslationTest {
     //System.out.println("xml path =" + xmlPath);
     System.out.println("currentPos X= "+ testPoint.x+ "Y= "+testPoint.y+ "theta= "+testPoint.theta);
     System.out.println("expected X= "+700+" Y"+100+ "Theta"+ 180);
-    for ( MapPoint nogoPoint : nogolist){
-      int i=0;
-      System.out.println("point" +i+" x ="+ nogoPoint.x + " y = "+ nogoPoint.y);
-      i++;
+    //nogo test
+    System.out.println("NOGO TEST:");
+    for ( MapPoint genericpoint : nogolist){
+      printPoints(genericpoint);
+    }
+    //LANDINGTRACKS TEST
+    System.out.println("LANDING TRACKS TEST:");
+    for ( MapPoint genericpoint : newMap.getLandingtracks()){
+      printPoints(genericpoint);
+    }
+    //Boundary Test
+    System.out.println("BOUNDARY TEST:");
+    for ( MapPoint genericpoint : newMap.getBoundary()){
+      printPoints(genericpoint);
     }
   }
+  private void printPoints(MapPoint genericpoint){
+    int i=0;
+    System.out.println("point" +i+" x ="+ genericpoint.x + " y = "+ genericpoint.y);
+    i++;
+  }
+
+
 }
