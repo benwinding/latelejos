@@ -34,9 +34,9 @@ public class MapInputEventHandlers {
   private final RobotConfiguration config;
 
   private HashMap<Integer, ArrayList<MapPoint>> colouredPoints;
-  private DiscoveredColoursState discoveredColoursState;
   private AppStateRepository appStateRepository;
   private MapTransferObject mapObject;
+  DiscoveredColoursState discoveredColoursState;
 
   public MapInputEventHandlers(ServiceManager sm) {
     sm.getEventBus().register(this);
@@ -80,11 +80,15 @@ public class MapInputEventHandlers {
     // Set the mapTransfer object to the current state
     int colour;
     colour=1;
-    //DiscoveredColoursState discoveredColoursState=appStateRepository.getDiscoveredColoursState();
+    HashMap<Integer, ArrayList<MapPoint>> colouredPoints = new HashMap<>();
 
     //test
     for (MapPoint testpoint : mapObject.getBoundary()) {
       Logger.log("boundary test x : "+testpoint.x + " , y :"+ testpoint.y);
+      if(!colouredPoints.containsKey(colour)) {
+        colouredPoints.put(colour, new ArrayList<MapPoint>());
+      }
+      colouredPoints.get(colour).add(testpoint);
       //discoveredColoursState.AddColouredPoint(colour, testpoint);
     }
   }
