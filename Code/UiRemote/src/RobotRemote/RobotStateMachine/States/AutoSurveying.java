@@ -1,5 +1,6 @@
 package RobotRemote.RobotStateMachine.States;
 
+import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.IModeState;
@@ -37,7 +38,8 @@ public class AutoSurveying implements IModeState {
     private RobotConfiguration config;
     private AutoSurveyingInternalState internalState;
     private Direction direction;
-
+    private boolean IsReverse;
+    private MapPoint LastPoint;
     public AutoSurveying(ServiceManager sm) {
         this.sm = sm;
         this.eventBus = sm.getEventBus();
@@ -45,6 +47,8 @@ public class AutoSurveying implements IModeState {
         this.threadLoop = sm.getRobotStateMachineThread();
         this.moveThread = sm.getMovementService();
         this.config = new RobotConfiguration();
+        this.LastPoint = new MapPoint(0,0);
+        this.IsReverse = false;
     }
 
     public void Enter() {
@@ -113,7 +117,8 @@ public class AutoSurveying implements IModeState {
       if (isThereABorder()) {
         Logger.specialLog("checkWhileTurn: Detected Border While Turn - Color: "+ sensorState.getColourEnum());
         moveThread.stop();
-        internalState = AutoSurveyingInternalState.ZigZagginSurvey;
+        moveThread.backward(5);
+        IsReverse = !IsReverse;
       }
       return null;
     }
@@ -124,12 +129,14 @@ public class AutoSurveying implements IModeState {
           internalState = AutoSurveyingInternalState.BorderDetected;
           Logger.specialLog("checkSurroundings: Detected Border - Color: "+ sensorState.getColourEnum().toString());
         }
+
         if (isThereAnObject()) {
           moveThread.stop();
           internalState = AutoSurveyingInternalState.DetectedObject;
           Logger.specialLog("checkSurroundings: Detected Object");
 
         }
+
         if(isThereATrail())
         {
           moveThread.stop();
@@ -179,6 +186,11 @@ public class AutoSurveying implements IModeState {
         int turnAngle = 90;
         if (rightTurn)
             turnAngle = -90;
+
+        if(IsReverse)
+          turnAngle *= -1;
+
+
         moveThread.backward(5);
         moveThread.waitWhileMoving();
         moveThread.turn(-turnAngle);
@@ -232,75 +244,53 @@ public class AutoSurveying implements IModeState {
       if(isFinishApolloMapping)
         internalState = AutoSurveyingInternalState.BackToHome;
     }
+
   private void HandleDetectedTrail()throws InterruptedException {
 
-    Logger.specialLog("Handling Detected Trail");
-    boolean isFinishTrack =false;
-    float moveStep = 3f;
-    while(!isFinishTrack)
-    {
-      while (isThereATrail())
-      {
-        moveThread.forward(moveStep);
-        moveThread.waitWhileMoving();
-      }
-      //Out of trail turn an find to track
-      //Move back
-      moveThread.backward(moveStep);
+        Logger.specialLog("Handling Detected Trail");
+        boolean isFinishTrack =false;
+        float moveStep = 3f;
+        while(!isFinishTrack)
+        {
+            while (isThereATrail())
+            {
+                moveThread.forward(moveStep);
+                moveThread.waitWhileMoving();
+            }
+            //Out of trail turn an find to track
 
-      isFinishTrack = !isThereATrail();
+            //Try turn right to find the trail
+            Logger.specialLog("Try right");
+            float tryDegree=0;
+            int turnRightInterval = 10;
+            float maxTryDegree = 120/turnRightInterval;
+            while (!isThereATrail() && tryDegree < maxTryDegree)
+            {
+                moveThread.turn(turnRightInterval);
+                moveThread.waitWhileMoving();
+                tryDegree++;
+            }
+
+            Logger.specialLog("Try left");
+            //try turn left to find the trail
+            int turnLeftInterval =-10;
+            tryDegree = - maxTryDegree;
+            while (!isThereATrail() && tryDegree < maxTryDegree)
+            {
+                moveThread.turn(turnLeftInterval);
+                moveThread.waitWhileMoving();
+                tryDegree++;
+            }
+            isFinishTrack = !isThereATrail();
+        }
+
+        if(isFinishTrack)
+            internalState = AutoSurveyingInternalState.BackToLastPosition;
     }
 
-    if(isFinishTrack)
-      internalState = AutoSurveyingInternalState.BackToLastPosition;
-  }
-
-//  private void HandleDetectedTrail_old()throws InterruptedException {
-//
-//        Logger.specialLog("Handling Detected Trail");
-//        boolean isFinishTrack =false;
-//        float moveStep = 3f;
-//        while(!isFinishTrack)
-//        {
-//            while (isThereATrail())
-//            {
-//                moveThread.forward(moveStep);
-//                moveThread.waitWhileMoving();
-//            }
-//            //Out of trail turn an find to track
-//
-//            //Try turn right to find the trail
-//            Logger.specialLog("Try right");
-//            float tryDegree=0;
-//            int turnRightInterval = 10;
-//            float maxTryDegree = 120/turnRightInterval;
-//            while (!isThereATrail() && tryDegree < maxTryDegree)
-//            {
-//                moveThread.turn(turnRightInterval);
-//                moveThread.waitWhileMoving();
-//                tryDegree++;
-//            }
-//
-//            Logger.specialLog("Try left");
-//            //try turn left to find the trail
-//            int turnLeftInterval =-10;
-//            tryDegree = - maxTryDegree;
-//            while (!isThereATrail() && tryDegree < maxTryDegree)
-//            {
-//                moveThread.turn(turnLeftInterval);
-//                moveThread.waitWhileMoving();
-//                tryDegree++;
-//            }
-//            isFinishTrack = !isThereATrail();
-//        }
-//
-//        if(isFinishTrack)
-//            internalState = AutoSurveyingInternalState.BackToLastPosition;
-//    }
-
     private void HandleDetectedCrater() {
-    Logger.debug("Handling Detected Crater");
-  }
+      Logger.debug("Handling Detected Crater");
+    }
 
     private boolean isThereAnObject() {
       return sensorState.getUltraReadingCm() < config.obstacleAvoidDistance;
