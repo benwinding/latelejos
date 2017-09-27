@@ -6,7 +6,7 @@ import javafx.scene.control.TextArea;
 
 public class Logger {
   private static Scene uiScene;
-
+  public static boolean isDisableLog = false;
   public static void Init(Scene scene) {
     uiScene = scene;
   }
@@ -23,12 +23,21 @@ public class Logger {
     warnAll("ERROR:" + msg);
   }
 
+  public static void specialLog(String msg)
+  {
+      TryToLogConsole("....." +msg);
+      TryToWriteToUi("....." +msg);
+  }
   private static void logAll(String msg) {
+      if(isDisableLog)
+          return;
     TryToLogConsole(msg);
     TryToWriteToUi(msg);
   }
 
   private static void warnAll(String msg) {
+      if(isDisableLog)
+        return;
     TryToWarnConsole(msg);
     TryToWriteToUi(msg);
   }
