@@ -3,6 +3,7 @@ package RobotRemote.RobotServices.Movement;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.RobotConfiguration;
+import lejos.robotics.navigation.Pose;
 
 import java.util.concurrent.Callable;
 
@@ -19,4 +20,5 @@ public interface IMovementService {
 
   void repeatWhileMoving(Callable repeatThis) throws InterruptedException;
   void waitWhileMoving() throws InterruptedException;
+  Pose GetCurrentPose();
 }
