@@ -30,14 +30,14 @@
 >
   <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <MenuBar minHeight="30" prefHeight="30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-      <Menu mnemonicParsing="false" text="File">
-        <MenuItem mnemonicParsing="false" text="Upload XML" />
-        <MenuItem mnemonicParsing="false" text="Export XML" />
-        <MenuItem mnemonicParsing="false" text="Close" />
+      <Menu text="File">
+        <MenuItem onAction="#onClickMapImport" text="Import XML Map" />
+        <MenuItem onAction="#onClickMapExport" text="Export XML Map" />
+        <MenuItem onAction="#onClickCloseUi" text="Close" />
       </Menu>
-      <Menu mnemonicParsing="false" text="Help">
-        <MenuItem mnemonicParsing="false" onAction="#onClickHelp" text="Getting Started" />
-        <MenuItem mnemonicParsing="false" onAction="#onClickAbout" text="About" />
+      <Menu text="Help">
+        <MenuItem onAction="#onClickHelp" text="Getting Started" />
+        <MenuItem onAction="#onClickAbout" text="About" />
       </Menu>
     </MenuBar>
     <HBox alignment="CENTER_RIGHT">

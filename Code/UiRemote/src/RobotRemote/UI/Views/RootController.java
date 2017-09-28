@@ -11,10 +11,7 @@ import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UI.UiState;
-import RobotRemote.UIServices.Events.EventUserAddNgz;
-import RobotRemote.UIServices.Events.EventUserAddWaypoint;
-import RobotRemote.UIServices.Events.EventUserMapDragged;
-import RobotRemote.UIServices.Events.EventUserZoomChanged;
+import RobotRemote.UIServices.Events.*;
 import com.google.common.eventbus.EventBus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,15 +22,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Waypoint;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -65,8 +63,6 @@ public class RootController implements Initializable {
   Button btnMoveRight;
   @FXML
   Button btnMoveStop;
-  @FXML
-  TitledPane groupManualControls;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -84,11 +80,6 @@ public class RootController implements Initializable {
     this.eventBus = sm.getEventBus();
     this.initMap();
     SetManualButtonsDisabled(true);
-    //this.initManualMode();
-  }
-
-  private void initManualMode() {
-    this.onClickManualMode(null);
   }
 
   private void initMap() {
@@ -248,5 +239,39 @@ public class RootController implements Initializable {
     );
     this.mapDragInitial = dragNew;
     Logger.debug("UI: map drag end...");
+  }
+
+  public void onClickMapImport(ActionEvent actionEvent) {
+    Logger.log("Importing XML Map");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Import XML Map");
+    fileChooser.getExtensionFilters().addAll(
+      new FileChooser.ExtensionFilter("xml", "*.xml")
+    );
+    Stage stage = (Stage) btnMoveStop.getScene().getWindow();
+    File selectedFile = fileChooser.showOpenDialog(stage);
+    if (selectedFile != null) {
+      eventBus.post(new EventMapImport(selectedFile));
+    }
+  }
+
+  public void onClickMapExport(ActionEvent actionEvent) {
+    Logger.log("Exporting XML Map");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Export XML Map");
+    fileChooser.getExtensionFilters().addAll(
+        new FileChooser.ExtensionFilter("xml", "*.xml")
+    );
+    Stage stage = (Stage) btnMoveStop.getScene().getWindow();
+    File selectedFile = fileChooser.showSaveDialog(stage);
+    if (selectedFile != null) {
+      eventBus.post(new EventMapExport(selectedFile));
+    }
+  }
+
+  public void onClickCloseUi(ActionEvent actionEvent) {
+    Logger.log("Closing UI");
+    Stage stage = (Stage) btnMoveStop.getScene().getWindow();
+    stage.close();
   }
 }
