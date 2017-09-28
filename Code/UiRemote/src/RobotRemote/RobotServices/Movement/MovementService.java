@@ -3,7 +3,9 @@ package RobotRemote.RobotServices.Movement;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
 import RobotRemote.Shared.*;
+import javafx.geometry.Pos;
 import lejos.robotics.navigation.ArcRotateMoveController;
+import lejos.robotics.navigation.Pose;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -175,6 +177,11 @@ public class MovementService implements IMovementService {
     // Set location-tracking stopped
     threadLoop.StopThread();
     timer.cancel();
+  }
+
+  public Pose GetCurrentPose()
+  {
+      return this.locationState.GetCurrentPose();
   }
 
   private ThreadLoop threadLoop = new ThreadLoop("Thread: Movement Service");
