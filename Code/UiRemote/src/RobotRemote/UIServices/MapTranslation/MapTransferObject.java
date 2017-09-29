@@ -50,7 +50,6 @@ public class MapTransferObject {
     public ArrayList<MapPoint> getCraters() {
         return craters;
     }
-
     public ArrayList<MapPoint> getLandingtracks() {
         return Landingtracks;
     }

@@ -78,19 +78,19 @@ public class MapInputEventHandlers {
 
   private void SetCurrentMap(MapTransferObject mapObject) {
     // Set the mapTransfer object to the current state
-    int colour;
-    colour=1;
-    HashMap<Integer, ArrayList<MapPoint>> colouredPoints = new HashMap<>();
 
-    //test
-    for (MapPoint testpoint : mapObject.getBoundary()) {
-      Logger.log("boundary test x : "+testpoint.x + " , y :"+ testpoint.y);
-      if(!colouredPoints.containsKey(colour)) {
-        colouredPoints.put(colour, new ArrayList<MapPoint>());
-      }
-      colouredPoints.get(colour).add(testpoint);
-      //discoveredColoursState.AddColouredPoint(colour, testpoint);
+    //locationstate, discoveredcolorstate, nogozonestate(implement later)
+    this.sm.getAppState().getLocationState().SetCurrentLocation(mapObject.getCurrentPosition());
+    //this.sm.getAppState().getLocationState().SetCurrentLocation(mapObject.getRoverLandingSite());
+    //colourstate
+    for (MapPoint testPoint : mapObject.getRadiation()){
+      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(0, testPoint);
     }
+    for (MapPoint testPoint : mapObject.getNoGoZones()){
+      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(3, testPoint);
+    }
+    //test
+
   }
 
   private MapTransferObject GetCurrentMap() {
