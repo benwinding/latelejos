@@ -114,8 +114,8 @@ class MapSelectedLayersFactory {
     int circleSize = 30;
     gc.setStroke(color);
     for (Waypoint point : waypoints) {
-      double p1x = (point.x * mapPixelsPerCm)-circleSize/2 + mapW;
-      double p1y = (point.y * mapPixelsPerCm)-circleSize/2 + mapH;
+      double p1x = (point.x + config.mapW)*config.mapPixelsPerCm - circleSize/2;
+      double p1y = (point.y + config.mapH)*config.mapPixelsPerCm - circleSize/2;
       gc.strokeOval(p1x, p1y, circleSize, circleSize);
     }
 

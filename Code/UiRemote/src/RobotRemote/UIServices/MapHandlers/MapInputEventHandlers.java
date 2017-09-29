@@ -119,14 +119,19 @@ public class MapInputEventHandlers {
     float mapH = uiUpdaterState.getMapH();
     float mapW = uiUpdaterState.getMapW();
     float zoomLevel = uiUpdaterState.getZoomLevel();
+    float pixelsPerCm = config.mapPixelsPerCm;
 
     // Mouse relative coordinates to scaled map
-    double mouseX = event.getX()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapW;
-    double mouseY = event.getY()/config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapH;
+    double mouseXcm = event.getX()/pixelsPerCm;// - ((1-zoomLevel)/2)*mapW;
+    double mouseYcm = event.getY()/pixelsPerCm;// config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapH;
+
+    // Translate mouse to actual map xy coordinates
+    double transXcm = mouseXcm + mapW/2;// - ((1-zoomLevel)/2)*mapW;
+    double transYcm = mouseYcm + mapH/2;// config.mapPixelsPerCm - ((1-zoomLevel)/2)*mapH;
 
     // Scale mouse to actual map xy coordinates
-    double scaleX = mouseX / zoomLevel;
-    double scaleY = mouseY / zoomLevel;
+    double scaleX = transXcm / zoomLevel;
+    double scaleY = transYcm / zoomLevel;
     Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", scaleX, scaleY));
 
     userWaypointsState.AddWayPoint(scaleX,scaleY);
