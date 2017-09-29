@@ -90,9 +90,7 @@ public class MapInputEventHandlers {
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(3, testPoint);
     }
     //test
-
   }
-
   private MapTransferObject GetCurrentMap() {
     // Get the current map state convert to the map transfer object
 
