@@ -6,6 +6,7 @@ import lejos.robotics.navigation.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LocationState {
   private List<MapPoint> pointsVisited;
@@ -74,5 +75,13 @@ public class LocationState {
   void SetHeading(float degrees) {
     MapPoint curr = GetCurrentPosition();
     GoingToPoint(curr.x,curr.y,degrees);
+  }
+
+  public void SetExploredAreaPoints(List<MapPoint> importedPoints) {
+    this.pointsVisited = importedPoints;
+  }
+
+  public void SetCurrentLocation(MapPoint currentLocation) {
+    this.pointsVisited.add(currentLocation);
   }
 }
