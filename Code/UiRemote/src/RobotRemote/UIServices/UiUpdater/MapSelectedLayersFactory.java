@@ -21,16 +21,18 @@ class MapSelectedLayersFactory {
   private final float mapH;
   private final float mapW;
   private final float mapPixelsPerCm;
+  private final RobotConfiguration config;
   private DiscoveredColoursState discoveredColoursState;
   private UserWaypointsState userWaypointsState;
   private UserNoGoZoneState userNoGoZoneState;
   private UiUpdaterState uiUpdaterState;
 
   MapSelectedLayersFactory(RobotConfiguration config, AppStateRepository appStateRepository) {
-    this.mapPixelsPerCm = config.mapPixelsPerCm;
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
+    this.mapPixelsPerCm = config.mapPixelsPerCm;
     this.mapH = uiUpdaterState.getMapH()*mapPixelsPerCm;
     this.mapW = uiUpdaterState.getMapW()*mapPixelsPerCm;
+    this.config = config;
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
     this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
@@ -47,13 +49,7 @@ class MapSelectedLayersFactory {
           Color.web("green",0.1)
         )
     );
-    float zoom = uiUpdaterState.getZoomLevel();
-    for (Canvas layer : mapLayers) {
-      layer.setScaleX(zoom);
-      layer.setScaleY(zoom);
-      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX()-mapW*3/2);
-      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY()-mapH*3/2);
-    }
+    UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
   }
 
@@ -87,16 +83,7 @@ class MapSelectedLayersFactory {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
-    for(int i = 0; i<points.size() - 1;i++) {
-      MapPoint p1 = points.get(i);
-      MapPoint p2 = points.get(i+1);
-
-      double p1x = p1.x * mapPixelsPerCm + mapW;
-      double p2x = p2.x * mapPixelsPerCm + mapW;
-      double p1y = p1.y * mapPixelsPerCm + mapH;
-      double p2y = p2.y * mapPixelsPerCm + mapH;
-      gc.strokeLine(p1x,p1y,p2x,p2y);
-    }
+    UpdaterUtils.DrawPointsOnContext(gc, points, config);
     return layer;
   }
 
