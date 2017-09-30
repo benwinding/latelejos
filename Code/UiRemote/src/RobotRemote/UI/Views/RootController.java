@@ -158,7 +158,7 @@ public class RootController implements Initializable {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RobotRemote/UI/Views/About/About.fxml"));
       Parent root = (Parent) fxmlLoader.load();
-      Scene help = new Scene(root, 400, 300);
+      Scene help = new Scene(root);
       Stage stage = new Stage();
       stage.setTitle("About");
       stage.setScene(help);
