@@ -28,9 +28,9 @@ The GUI is divided into four main parts and listed in Table 1. Each part of GUI 
 		\hline
 		Name             & Component & Related Features                       \\ \hline
 		Mannual Control &           & UR13, UR14, FR008, FR009, FR010        \\ \hline
-		Map area         &           & UR12, UR15, FR001, FR002, FR006, FR012 \\ \hline
-		System status    &           & FR015                                  \\ \hline
-		System log       &           & EM001                                  \\ \hline
+		Map panel         &           & UR03, UR04, UR07, UR12, UR15, FR006, FR012 \\ \hline
+		System status and log panels    &           & FR015, EM001                               \\ \hline
+		Other functionalities       &           &  UR05, UR06, FR001, FR002, FR003, FR004      \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -64,9 +64,38 @@ The GUI is divided into four main parts and listed in Table 1. Each part of GUI 
 \end{itemize}
 
 \begin{itemize}
-	\item \textbf{2. Map Area}\\
+	\item \textbf{2. Map panel}\\
 	Supporting input devices: Mouse\\
-	The Map showing on Figure 6 is to display the area where the robot need to be explored. The user can select the NGZ area in the map and change size of the map. Also, the detected obstacles, NGZ area and track line will also be displayed in the map. The user can check the map legend to see what it looks in the map. Mouse listener will be created in the map to listen the event from the mouse. The list of methods called by listeners is shown on Table 3.
+	The Map showing on Figure 6 is to display the area where the robot need to be explored. The user can select the NGZ area in the map and change size of the map. Also, the detected obstacles, NGZ area and track line will also be displayed in the map. The user can check the map legend to see what it looks in the map. Mouse listener will be created in the map to listen the event from the mouse. The list of methods called by listeners is shown on Table 3.\\
+	Map also consists of different components. The below is the description of each component.
+	\\
+	\item Map area Fig.8\\
+	The robot icon showing on the map area is represented as the current position of robot in the survey area. When the colour sensor of the robot is detecting the track/tail, the colour line will be drawn on the map. The map will be kept updating during the surveying.
+	\\
+	\item Map legends Fig.9\\
+	The map legends describle the item which are shown on the map area.
+	\\
+	\item Map Options Fig.10\\
+	If the user ticks the "Enter way point" box, then the user clicks on the map, the robot will go to that point. If the user ticks the "Ener NGX" box, then the user can select the NGZ area on the map
+	
+\begin{figure}[H]
+	\includegraphics[width=50mm]{MapArea.PNG}  
+	\caption{Map Area}
+	\label{fig:Map Area}				
+\end{figure}	
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{Maplegends.PNG}  
+	\caption{Map Legends}
+	\label{fig:Map Area}				
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{MapOptions.PNG}  
+	\caption{Map Options}
+	\label{fig:Map Area}				
+\end{figure}
+	
 
 \begin{table}[]
 	\centering
@@ -76,10 +105,50 @@ The GUI is divided into four main parts and listed in Table 1. Each part of GUI 
 		\hline
 		\textbf{Name}             & Mouse Action and Action                                                                                                                                                                                                                             \\ \hline
 		\textbf{onClickZoomReset} & Click on the reset button                                                                                                                                                                                                                           \\ \hline
-		\textbf{onClickMap}       & \begin{tabular}[c]{@{}l@{}}If the user ticks the "Enter way point" box,\\ then the user clicks on the map, the robot will go to that point.\\ If the user ticks the "Ener NGX" box,\\ then the user can select the NGZ area on the map\end{tabular} \\ \hline
+		\textbf{onClickMap}       & \begin{tabular}[c]{@{}l@{}}Selecting the mode for map input, Enter NGZ or Enter waypoint\end{tabular} \\ \hline
 		\textbf{onDragMap}        & Determine the map action, the user do not need to concern this method                                                                                                                                                                               \\ \hline
 	\end{tabular}
 \end{table}
+
+\item \textbf{3. System status and log panels Fig.11 and Fig.12}\\
+The user can check the EV3 hardware status such as colour and ultrsonic sensors and switch the robot from manual mode to auto survey mode or venus through the status panel shown as Fig.11. Also, the user can check the system log through the log console shown as Fig.12.
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{Systemstatus.PNG}  
+	\caption{System status}
+	\label{fig:System Status}				
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{SystemLog.PNG}  
+	\caption{System Log}
+	\label{fig:System Log}				
+\end{figure}
+
+\item \textbf{3. Other Functionalites Fig.13, Fig.14 and Fig.15}\\
+The User can import and export the map xml file through the File button shown as Fig.13. When the user import the map xml file, the map will show the obstracle, trail or track which are describled in the xml file immediately. Also, if user has any operation issue, the use can click help button to find the maunal for operating the software(shown as Fig.14). The user can check the current version of the software through about button(show as Fig.15).
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{other.PNG}  
+	\caption{Tools bar}
+	\label{fig:Tools bar}				
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{help.PNG}  
+	\caption{Help Popup window}
+	\label{fig:Help Popup Window}				
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=50mm]{about.PNG}  
+	\caption{about Popup Window}
+	\label{fig:About Popup Window}				
+\end{figure}
+
+
+
 \end{itemize}
+
 
 	
