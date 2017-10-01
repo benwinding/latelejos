@@ -20,7 +20,7 @@ public class DiscoveredColoursState {
     return colouredPointsSeen.get(colour);
   }
 
-  void AddColouredPoint(int colour, MapPoint newColouredPoint) {
+  public void AddColouredPoint(int colour, MapPoint newColouredPoint) {
     if(!colouredPointsSeen.containsKey(colour)) {
       colouredPointsSeen.put(colour, new ArrayList<MapPoint>());
     }

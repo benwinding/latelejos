@@ -523,7 +523,6 @@ public class Lunarovermap {
             return state;
         }
 
-
         public void setState(String value) {
             this.state = value;
         }

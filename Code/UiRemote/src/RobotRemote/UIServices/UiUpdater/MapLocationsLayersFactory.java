@@ -20,10 +20,12 @@ class MapLocationsLayersFactory {
   private SensorsState sensorState;
   private LocationState locationState;
   private UiUpdaterState uiUpdaterState;
+  private RobotConfiguration config;
 
   MapLocationsLayersFactory(RobotConfiguration config, AppStateRepository appStateRepository) {
-    this.mapPixelsPerCm = config.mapPixelsPerCm;
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
+    this.config = config;
+    this.mapPixelsPerCm = config.mapPixelsPerCm;
     this.mapH = uiUpdaterState.getMapH() * mapPixelsPerCm;
     this.mapW = uiUpdaterState.getMapW() * mapPixelsPerCm;
     this.locationState = appStateRepository.getLocationState();
@@ -35,13 +37,7 @@ class MapLocationsLayersFactory {
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
         this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN)
     );
-    float zoom = uiUpdaterState.getZoomLevel();
-    for (Canvas layer : mapLayers) {
-      layer.setScaleX(zoom);
-      layer.setScaleY(zoom);
-      layer.setTranslateX(uiUpdaterState.getMapDragDeltaX()-mapW*3/2);
-      layer.setTranslateY(uiUpdaterState.getMapDragDeltaY()-mapH*3/2);
-    }
+    UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
   }
 
@@ -50,16 +46,10 @@ class MapLocationsLayersFactory {
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
     gc.setLineWidth(5);
-    for(int i = 0; i<points.size() - 1;i++) {
-      MapPoint p1 = points.get(i);
-      MapPoint p2 = points.get(i+1);
-
-      double x1 = p1.x * mapPixelsPerCm + mapW;
-      double x2 = p2.x * mapPixelsPerCm + mapW;
-      double y1 = p1.y * mapPixelsPerCm + mapH;
-      double y2 = p2.y * mapPixelsPerCm + mapH;
-      gc.strokeLine(x1,y1,x2,y2);
-    }
+    UpdaterUtils.DrawPointsOnContext(gc, points, config);
+    gc.setFill(Color.GREEN);
+    UpdaterUtils.DrawAreaOnContext(gc, points, config);
+    gc.setFill(Color.BLACK);
     return layer;
   }
 
