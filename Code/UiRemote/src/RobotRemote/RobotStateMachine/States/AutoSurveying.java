@@ -95,10 +95,11 @@ public class AutoSurveying implements IModeState {
     }
 
     private void HandleBackToLastPosition() throws InterruptedException {
-
         //for now just turn back to up direction
         Logger.specialLog("Handling Back To Last Posistion");
-        int turnBackDegree = - 180 - (int)moveThread.GetCurrentPose().getHeading();
+        //If  last time move up then turn back to move up otherwise move down;
+        int initDegree = direction == Direction.Up ? -180 : 0;
+        int turnBackDegree = initDegree - (int)moveThread.GetCurrentPose().getHeading();
         moveThread.turn(turnBackDegree);
         moveThread.waitWhileMoving();
         internalState = AutoSurveyingInternalState.ZigZagginSurvey;
@@ -259,25 +260,32 @@ public class AutoSurveying implements IModeState {
             }
             //Out of trail turn an find to track
 
-            //Try turn right to find the trail
-            Logger.specialLog("Try right");
+
+            //Try turn to find the trail
+            Logger.specialLog("Try find track");
+
             float tryDegree=0;
-            int turnRightInterval = 10;
-            float maxTryDegree = 120/turnRightInterval;
+            int turnInterval = 10;
+            int turnDirection = direction == Direction.Down ? -1:1;
+            if(IsReverse)
+            {
+              turnDirection = - turnDirection;
+            }
+
+            float maxTryDegree = 120/ Math.abs(turnInterval);
             while (!isThereATrail() && tryDegree < maxTryDegree)
             {
-                moveThread.turn(turnRightInterval);
+                moveThread.turn(turnInterval*turnDirection);
                 moveThread.waitWhileMoving();
                 tryDegree++;
             }
 
-            Logger.specialLog("Try left");
-            //try turn left to find the trail
-            int turnLeftInterval =-10;
+            //try turn back to find the trail
             tryDegree = - maxTryDegree;
+            turnDirection=-turnDirection;
             while (!isThereATrail() && tryDegree < maxTryDegree)
             {
-                moveThread.turn(turnLeftInterval);
+                moveThread.turn(turnInterval*turnDirection);
                 moveThread.waitWhileMoving();
                 tryDegree++;
             }
