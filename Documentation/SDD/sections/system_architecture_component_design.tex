@@ -1,7 +1,7 @@
 \subsection{Architectural Description}
 The software architecture is comprised of several subsystems, which have different responsibilities in the system.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{Robot_system.png}
 	\caption{\label{fig:robotSystem}This needs to be updated though}
@@ -10,6 +10,8 @@ The software architecture is comprised of several subsystems, which have differe
 \subsection{Component Decomposition Description}
 The system has been broken down into clearly defined components, which can be tested individually. Each of these components perform a function in the entire system.
 
+\begin{table}[H]
+\centering
 \begin{tabular}{|c|l|}
 	\hline
 	\bf{Location} & \bf{Description} \\
@@ -24,13 +26,16 @@ The system has been broken down into clearly defined components, which can be te
 	PC & Robot State Logic \\
 	\hline
 \end{tabular}
+\caption{\label{fig:compHigh}High Level Component Overview}
+\end{table}
 
 \subsection{Detailed Components Design Description}
+The following sections show the detailed design of each of the components in the system. It shows the Purpose, Function, Subordinates, Dependencies, Interfaces and Data that are required for the component.
 
 \subsubsection{C00 Lejos Library}\label{compLejos}
 \begin{itemize}
-	\item Purpose:
-	\item Function: To interface to the robot.
+	\item Purpose: 
+	\item Function: To interface to the robot. 
 	\item Subordinates: \nameref{compMove}, \nameref{compSense}
 	\item Dependencies:
 	\item Interfaces:
@@ -42,8 +47,8 @@ The system has been broken down into clearly defined components, which can be te
 
 \subsubsection{C01 Movement Service} \label{compMove}
 \begin{itemize}
-	\item Purpose: To provide a simple abstraction to move the robot.
-	\item Function: 
+	\item Purpose: 
+	\item Function: To provide a simple abstraction to move the robot.
 	\item Subordinates: \nameref{compState}
 	\item Dependencies: \nameref{compLejos}
 	\item Interfaces:
@@ -55,8 +60,8 @@ The system has been broken down into clearly defined components, which can be te
 
 \subsubsection{C02 Sensors Service} \label{compSense}
 \begin{itemize}
-	\item Purpose: To provide a simple abstraction to receive sensor readings from the robot.
-	\item Function: 
+	\item Purpose: 
+	\item Function: To provide a simple abstraction to receive sensor readings from the robot. 
 	\item Subordinates: \nameref{compState}
 	\item Dependencies: \nameref{compLejos}, \nameref{compShared}
 	\item Interfaces:
@@ -68,8 +73,8 @@ The system has been broken down into clearly defined components, which can be te
 
 \subsubsection{C03 Robot State Machine} \label{compState}
 \begin{itemize}
-	\item Purpose: A logic to defined the logic of the system.
-	\item Function:
+	\item Purpose: 
+	\item Function: A location to define the logic what the robot does in the system.
 	\item Subordinates: \nameref{compUI}
 	\item Dependencies: \nameref{compShared}, \nameref{compMove}, \nameref{compSense}
 	\item Interfaces:
@@ -81,8 +86,8 @@ The system has been broken down into clearly defined components, which can be te
 
 \subsubsection{C04 Shared Core} \label{compShared}
 \begin{itemize}
-	\item Purpose: This is a component to share interfaces between other components, like models and service instances.
-	\item Function:
+	\item Purpose: 
+	\item Function: This is a component to share interfaces between other components, like models and service instances.
 	\item Subordinates: \nameref{compState}, \nameref{compUI}, \nameref{compSense}, \nameref{compUIUpdater}, \nameref{compMove}
 	\item Dependencies: Null
 	\item Interfaces:
@@ -94,8 +99,8 @@ The system has been broken down into clearly defined components, which can be te
 
 \subsubsection{C05 User Interface} \label{compUI}
 \begin{itemize}
-	\item Purpose: To provide an interactive display of the system to the user.
-	\item Function: 
+	\item Purpose: 
+	\item Function: To provide an interactive display of the system to the user. 
 	\item Subordinates: \nameref{compUIUpdater}
 	\item Dependencies: \nameref{compState}, \nameref{compShared}
 	\item Interfaces:
@@ -107,16 +112,28 @@ The system has been broken down into clearly defined components, which can be te
 
 \subsubsection{C06 UI Updater} \label{compUIUpdater}
 \begin{itemize}
-	\item Purpose: To constantly update parts of the GUI in real time.
-	\item Function: 
+	\item Purpose: 
+	\item Function: To constantly update parts of the GUI in real time. 
 	\item Subordinates:
 	\item Dependencies: \nameref{compUI}, \nameref{compState}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item 
 	\end{itemize}
 	\item Data:
 \end{itemize}
 
 \subsection{Architectural Alternatives}
+There are several other architectural alternatives to the one that was chosen for this system.
+
 \subsection{Design Rationale}
+The system design emerged from iterative design and testing during the initial stages of the project.
+
+\subsubsection{Testing}
+During this stage the system's architecture was very fragile, as different parts of the system were being explored in order to determine which components were necessary.
+
+\subsubsection{Component Development}
+In this phase, the system was divided into logical components which had specific purposes. This allowed us to work on parts of the project independently in order to maximise project efficiency.
+
+\subsubsection{Dependency Minimisation}
+This was a crucial phase of system development, where the dependencies of each of the components were minimised and centralised, so that each of the components could be revised independently.
