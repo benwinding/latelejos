@@ -7,7 +7,7 @@ According to Software Requirement Specification document(SRS), this embedded sof
 	\item The user is able to see the obstacles, line track displaced on the map.
 	\item The user is able to trace the robot's current position.
 	\item The user is able to see the detailed system log including software and hardware of the robot.
-	\item The user is able to import and export xml file to define and retrieve the map information.
+	\item The user is able to import and export XML file to define and retrieve the map information.
 \end{itemize}
 
 \subsection{Detailed Design of the User Interface}
@@ -18,12 +18,12 @@ The GUI is divided into four main parts and listed in Table \ref{GUI Features}. 
 	\caption{GUI Features}
 	\label{GUI Features}
 	\begin{tabular}{|p{3cm}|p{2cm}|p{6cm}|}
-		 \hline
-		 Name & Component & Related Features \\ \hline
-		 Manual Control &  & UR13, UR14, FR008, FR009, FR010 \\ \hline
-		 Map panel  &  & UR03, UR04, UR07, UR12, UR15, FR006, FR012 \\ \hline
-		 System status and log panels &  & FR015, EM001 \\ \hline
-		 Other functionalities &  &  UR05, UR06, FR001, FR002, FR003, FR004 \\ \hline
+		\hline
+		Name & Component & Related Features \\ \hline
+		Manual Control &  & UR13, UR14, FR008, FR009, FR010 \\ \hline
+		Map panel  &  & UR03, UR04, UR07, UR12, UR15, FR006, FR012 \\ \hline
+		System status and log panels &  & FR015, EM001 \\ \hline
+		Other functionalities &  &  UR05, UR06, FR001, FR002, FR003, FR004 \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -75,7 +75,7 @@ Map area is shown in Figure \ref{fig:Map Area}. The robot icon showing on the ma
 The map legends are shown in Figure \ref{fig:Map Legends}. They provide a method of identifying items on the map area.
 \textbf{Map Options}
 As shown in Figure \ref{fig:Map Options}, if the user ticks the "Enter way point" box, then the user clicks on the map, the robot will go to that point. If the user ticks the "Enter NGZ" box, then the user can select the NGZ area on the map.
-	
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.4\textwidth}
@@ -108,22 +108,27 @@ As shown in Figure \ref{fig:Map Options}, if the user ticks the "Enter way point
 		\textbf{onDragMap}        & Determine the map action, the user do not need to concern this method                                                                                                                                                                               \\ \hline
 	\end{tabular}
 \end{table}
-	
-\textbf{3. System status and log panels Fig.11 and Fig.12}\\
-The user can check the EV3 hardware status such as colour and ultrasonic sensors and switch the robot from manual mode to auto survey mode or menus through the status panel shown as Fig.11. Also, the user can check the system log through the log console shown as Fig.12.\newline
 
-\begin{tabular}{|l|l|l|l|}
-	\hline
-	\textbf{Figure Number}            & \textbf{Image of panels} & \textbf{Name} \\ 
-	\hline
-	\textbf{Fig 11}  & \parbox[c]{1em}{\includegraphics[width=30mm]{Systemstatus.png}} & System Status  \\ 
-	\hline
-	\textbf{Fig 12} & \parbox[c]{1em}{\includegraphics[width=30mm]{SystemLog.png}} & System Log \\ 
-	\hline
-\end{tabular}
-	
+\textbf{Status and Logging Panels}\\
+The user can check the EV3 hardware status such as colour and ultrasonic sensors and switch the robot from manual mode to auto survey mode or menus through the status panel shown as Fig.\ref{fig:panelStatus}. Also, the user can check the system log through the log console shown as Fig.\ref{fig:panelLog}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.5\textwidth}
+		\includegraphics[width=0.95\linewidth]{Systemstatus.png}  
+		\caption{System Status}
+		\label{fig:panelStatus}                
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.95\linewidth]{SystemLog.png}  
+		\caption{System Log}
+		\label{fig:panelLog}
+	\end{subfigure}
+	\caption{Status Panels}
+\end{figure}
+
 \textbf{Other Functionalities}\\
-The User can import and export the map xml file through the File button shown as Fig. \ref{fig:other topmenu}. When the user import the map xml file, the map will show the obstacle, trail or track which are described in the xml file immediately. Also, if user has any operation issue, the use can click help button to find the manual for operating the software(shown as Fig. \ref{fig:other_help}). The user can check the current version of the software through about button(show as Fig.\ref{fig:other_about}).
+The User can import and export the map XML file through the File button shown as Fig. \ref{fig:other topmenu}. When the user import the map XML file, the map will show the obstacle, trail or track which are described in the XML file immediately. Also, if user has any operation issue, the use can click help button to find the manual for operating the software(shown as Fig. \ref{fig:other_help}). The user can check the current version of the software through about button(show as Fig.\ref{fig:other_about}).
 
 \begin{figure}[H]
 	\centering

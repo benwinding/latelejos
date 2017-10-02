@@ -1,7 +1,7 @@
 An overview of the SDD and the scope of the system will be discussed in this section.
 
 \subsection{Purpose}
-The purpose of this document is to analysis the Robot Mapping System that is defined in the SRS document.  The RMS is for a prototype rover capable of surveying a designated area automatically, and developing an appropriately safe system for the client, and it shall be constructed  in real time as long as the robot is surveying, showing lines, obstacles and current location of the robot. The details of RMS will be discussed in the following, mainly including the system architecture and components design, data design, and human interface design.
+The purpose of this document is to analysis the Robot Mapping System that is defined in the SRS document. The RMS is for a prototype rover capable of surveying a designated area automatically, and developing an appropriately safe system for the client, and it shall be constructed  in real time as long as the robot is surveying, showing lines, obstacles and current location of the robot. The details of RMS will be discussed in the following, mainly including the system architecture and components design, data design, and human interface design.
 
 \subsection{Scope}
 The RMS, real-time system, involves building a prototype rover capable of surveying a designated area automatically, which is controlled via a remote location. The map can store the map information, including the current location of the robot. Also, NGZ, obstacles with colour lines and the boundaries of the map will be shown on the map.  The RMS will collect map information, such as detecting obstacles or NGZ, showing on the map with different colours. The particular map can be zoomed and recovery the map after zooming in and zooming out.  The map can be exported with XML file.
@@ -16,50 +16,50 @@ In this project, the prototype rover is based on A1 size paper.
 \end{itemize}	
 
 \subsection{Overview}
-The discription of RMS is included in the SDD document. The system architecture and its components and data design will also be delivered in this document. In addition, some class diagrams, state diagrams, and interactions diagrams will be included in the document. However, the implementation of the programming, the explanation of algorithms and the consequences of testing are not included in SDD document. 
+The description of RMS is included in the SDD document. The system architecture and its components and data design will also be delivered in this document. In addition, some class diagrams, state diagrams, and interactions diagrams will be included in the document. However, the implementation of the programming, the explanation of algorithms and the consequences of testing are not included in SDD document. 
 
 \subsection{Constraints}
-	\subsubsection*{Hardware Constraints}
-	\begin{itemize}
-	\item The software can be run on Windows, Mac or Ubuntu systems, specific details are shown in fig \ref{fig:tab Os Requirements}. 
-	\item  WiFi access is required to run the control software. 
-	\item The GUI must be compiled using JDK (version 1.7 only).
-	\end{itemize}	
+\subsubsection*{Hardware Constraints}
+\begin{itemize}
+\item The software can be run on Windows, Mac or Ubuntu systems, specific details are shown in fig \ref{fig:tab Os Requirements}. 
+\item  WiFi access is required to run the control software. 
+\item The GUI must be compiled using JDK (version 1.7 only).
+\end{itemize}	
 
-		
-	\begin{figure}
-		\centering
-		\begin{tabular}{|p{2cm}|p{2cm}|p{7cm}|}
-			\hline 
-			\textbf{OS} &\textbf{Minimum Version} & \textbf{Requirements} \\ 
-			\hline 
-			Windows & 7 & 1 (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;
-			1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
-			16 GB available hard disk space (32-bit) or 20 GB (64-bit);
-			DirectX 9 graphics device with WDDM 1.0 or higher driver. \\ 
-			\hline 
-			Mac & OS X 10 & An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor;
-			7 GB of available disk space;
-			2 GB of RAM. \\ 
-			\hline 
-			Ubuntu & 16.10 & 1 (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;
-			1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
-			16 GB available hard disk space (32-bit) or 20 GB (64-bit); \\
-			\hline 
-		\end{tabular} 
-		\caption{Detailed operating system requirements}
-		\label{fig:tab Os Requirements}
-	\end{figure}
 	
-	\subsubsection*{Software Constraints}
-	\begin{itemize}
-	\item The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0.
-	\item The build tool for compiling the software and deploying it to the system is \textit{ant}.
-	\item The university enterprise Github instance is the version control system to be used throughout the project.
-	\item During development the project team will use the IntelliJ IDE to design and write code. 
-	\item Latex is used to produce documentation
-	\item Accuracy of sensors, such as the colour sensor and ultrasonic sensor
-	\end{itemize}	
+\begin{figure}
+	\centering
+	\begin{tabular}{|p{1.5cm}|p{2cm}|p{7cm}|}
+		\hline 
+		\textbf{OS} &\textbf{Minimum Version} & \textbf{Requirements} \\ 
+		\hline 
+		Windows & 7 & 1 (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;
+		1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
+		16 GB available hard disk space (32-bit) or 20 GB (64-bit);
+		DirectX 9 graphics device with WDDM 1.0 or higher driver. \\ 
+		\hline 
+		Mac & OS X 10 & An Intel Core 2 Duo, Core i3, Core i5, Core i7, or Xeon processor;
+		7 GB of available disk space;
+		2 GB of RAM. \\ 
+		\hline 
+		Ubuntu & 16.10 & 1 (GHz) or faster 32-bit (x86) or 64-bit (x64) processor*;
+		1 gigabyte (GB) RAM (32-bit) or 2 GB RAM (64-bit);
+		16 GB available hard disk space (32-bit) or 20 GB (64-bit); \\
+		\hline 
+	\end{tabular} 
+	\caption{Detailed operating system requirements}
+	\label{fig:tab Os Requirements}
+\end{figure}
+
+\subsubsection*{Software Constraints}
+\begin{itemize}
+\item The embedded software on the rover is to be written in Java, using the LeJOS Ev3 library version:0.9.0.
+\item The build tool for compiling the software and deploying it to the system is \textit{ant}.
+\item The university enterprise Github instance is the version control system to be used throughout the project.
+\item During development the project team will use the IntelliJ IDE to design and write code. 
+\item Latex is used to produce documentation.
+\item Accuracy of sensors, such as the colour sensor and ultrasonic sensor.
+\end{itemize}	
 
 
 
