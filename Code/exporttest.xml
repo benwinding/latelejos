@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lunarovermap>
+    <vehicle-status>
+        <point x="52"/>
+        <attribute>
+            <key>rotation</key>
+            <value>-180</value>
+        </attribute>
+    </vehicle-status>
+    <rover-landing-site>
+        <point x="76"/>
+    </rover-landing-site>
+    <obstacle/>
+    <zone state="nogo">
+        <area/>
+    </zone>
+</lunarovermap>
