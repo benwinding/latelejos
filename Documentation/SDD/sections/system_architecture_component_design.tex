@@ -147,7 +147,13 @@ The following sections show the detailed design of each of the components in the
 \end{itemize}
 
 \subsection{Architectural Alternatives}
-There are several other architectural alternatives to the one that was chosen for this system.
+There are several other architectural alternatives to the one that was chosen for this system. 
+
+\textbf{Single Threaded Event Loop}
+A viable alternative is the single threaded event loop. In this architecture, the eventloop would be continually running and functions would be called periodically based on events. This would be an efficient system, however it is important that every call is non-blocking which is hard to implement and maintain in practice, it's for this reason that a multi-threaded system was desired.
+
+\textbf{Monolithic System}
+Another alternative is to combine the system code into large files. This actually reduces the amount of overall code in the system, however the code becomes hard to maintain as the code is highly interdependent. This is one of the main reasons we decided to break apart the system into multiple services.
 
 \subsection{Design Rationale}
 The system design emerged from iterative design and testing during the initial stages of the project.
