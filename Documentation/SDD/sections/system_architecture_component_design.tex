@@ -29,7 +29,7 @@ The system has been broken down into clearly defined components, which can be te
 \caption{\label{fig:compHigh}High Level Component Overview}
 \end{table}
 
-\subsection{Detailed Components Design Description}
+\subsection{Detailed Components Design Description}\label{detailedSection}
 The following sections show the detailed design of each of the components in the system. It shows the Purpose, Function, Subordinates, Dependencies, Interfaces and Data that are required for the component.
 
 \subsubsection{C00 Lejos Library}\label{compLejos}
@@ -149,20 +149,30 @@ The following sections show the detailed design of each of the components in the
 \subsection{Architectural Alternatives}
 There are several other architectural alternatives to the one that was chosen for this system. 
 
-\textbf{Single Threaded Event Loop}
-A viable alternative is the single threaded event loop. In this architecture, the eventloop would be continually running and functions would be called periodically based on events. This would be an efficient system, however it is important that every call is non-blocking which is hard to implement and maintain in practice, it's for this reason that a multi-threaded system was desired.
+\subsubsection*{Single Threaded Event Loop}
+A viable alternative is the single threaded event loop. In this architecture, the event loop would be continually running and functions would be called periodically based on events. This would be an efficient system, however it is important that every call is non-blocking which is hard to implement and maintain in practice, it's for this reason that a multi-threaded system was desired.
 
-\textbf{Monolithic System}
+\subsubsection*{Monolithic System}
 Another alternative is to combine the system code into large files. This actually reduces the amount of overall code in the system, however the code becomes hard to maintain as the code is highly interdependent. This is one of the main reasons we decided to break apart the system into multiple services.
 
 \subsection{Design Rationale}
-The system design emerged from iterative design and testing during the initial stages of the project.
+The system design emerged from iterative design and testing during the initial stages of the project. The rationale behind the system design can be explained by illustrating the different stages of the project.
 
-\subsubsection{Testing}
-During this stage the system's architecture was very fragile, as different parts of the system were being explored in order to determine which components were necessary.
+\subsubsection{Initial Testing}
+During the beginning of the system's design the architecture was very fragile, as different parts of the system were being explored in order to determine which components were necessary. It was found that several parts of the system would need to be running concurrently. The required threads are shown in Table \ref{designInit}.
+
+\begin{table}[H]
+\begin{tabular}{>{\bfseries}r l}
+	SensorsThread & Fetching the sensor information \\
+	MovementThread & Moving the robot, tracking location \\
+	LogicThread & Handling state changes and movement subroutines \\
+	GUI & Interface for users to interact with the system \\
+\end{tabular}
+\caption{\label{designInit}The required threads determined through testing}
+\end{table}
 
 \subsubsection{Component Development}
-In this phase, the system was divided into logical components which had specific purposes. This allowed us to work on parts of the project independently in order to maximise project efficiency.
+In this phase, the system was divided into logical components which had specific purposes. This allowed us to work on parts of the project independently in order to maximise project efficiency. The components that were defined also include the implementations for the threads determined in the initial testing stage. They are outlined in detail in section \ref{detailedSection}.
 
 \subsubsection{Dependency Minimisation}
-This was a crucial phase of system development, where the dependencies of each of the components were minimised and centralised, so that each of the components could be revised independently.
+This was a crucial phase of system development, where the dependencies of each of the components were minimised and centralised, so that each of the components could be revised independently. This provided the system with clearly defined minimal components, which also provided easier abstractions for testing, as dependencies were minimised.
