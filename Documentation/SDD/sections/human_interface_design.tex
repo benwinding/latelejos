@@ -13,7 +13,7 @@ According to Software Requirement Specification document(SRS), this embedded sof
 \subsection{Detailed Design of the User Interface}
 The GUI is divided into four main parts and listed in Table \ref{GUI Features}. Each part of GUI consists of multiple panels.
 
-\begin{table}[]
+\begin{table}[H]
 	\centering
 	\caption{GUI Features}
 	\label{GUI Features}
@@ -37,13 +37,13 @@ Fig.5 shows the screen image of GUI for end user perspective. The GUI supports m
 \end{figure}
 
 \subsubsection{Manual Control}
-\textbf{Supporting input devices: Keyboard and Mouse}
+\textbf{Supporting input devices: Keyboard and Mouse}\\
 Manual Control has two listeners for listen the event and determine the actions. One listener is for the event coming from mouse device. The another is for the event coming from keyboard. Fig.6 is the manual control panel \\
 \\
 \textbf{Listener for listening mouse and keyboard event}\\
 The user can use their mouse to click the graphic icons showing on the Manual Control panel to control the robot. Also, the user can use keyboard to fire the event to GUI to control the robot instead. Each button and keyboard listeners have different method to control the robot. For example, if the user click the stop button, the method called onClickStop() will be called and stop the robot movement. The list of methods called by listeners is shown on Table \ref{Method called for Manual Control}.
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\includegraphics[width=80mm]{Control.png}  % created using www.draw.io
 	\caption{Manual control}
@@ -66,14 +66,16 @@ The user can use their mouse to click the graphic icons showing on the Manual Co
 \end{table}
 
 \subsubsection{2. Map panel}
-\textbf{Supporting input devices: Mouse}
-The Map showing on Figure 6 is to display the area where the robot need to be explored. The user can select the NGZ area in the map and change size of the map. Also, the detected obstacles, NGZ area and track line will also be displayed in the map. The user can check the map legend to see what it looks in the map. Mouse listener will be created in the map to listen the event from the mouse. The list of methods called by listeners is shown on Table \ref{Methods called by map listeners}. Map also consists of different components. The below is the description of each component.
-
-\textbf{Map Area}
-Map area is shown in Figure \ref{fig:Map Area}. The robot icon showing on the map area is represented as the current position of robot in the survey area. When the colour sensor of the robot is detecting the track/tail, the colour line will be drawn on the map. The map will be kept updating during the surveying.
-\textbf{Map legends}  
-The map legends are shown in Figure \ref{fig:Map Legends}. They provide a method of identifying items on the map area.
-\textbf{Map Options}
+\textbf{Supporting input devices: Mouse}\\
+The Map showing on Figure 6 is to display the area where the robot need to be explored. The user can select the NGZ area in the map and change size of the map. Also, the detected obstacles, NGZ area and track line will also be displayed in the map. The user can check the map legend to see what it looks in the map. Mouse listener will be created in the map to listen the event from the mouse. The list of methods called by listeners is shown on Table \ref{Methods called by map listeners}. Map also consists of different components. The below is the description of each component.\\
+\\
+\textbf{Map Area}\\
+Map area is shown in Figure \ref{fig:Map Area}. The robot icon showing on the map area is represented as the current position of robot in the survey area. When the colour sensor of the robot is detecting the track/tail, the colour line will be drawn on the map. The map will be kept updating during the surveying.\\
+\\
+\textbf{Map legends} \\
+The map legends are shown in Figure \ref{fig:Map Legends}. They provide a method of identifying items on the map area.\\
+\\
+\textbf{Map Options}\\
 As shown in Figure \ref{fig:Map Options}, if the user ticks the "Enter way point" box, then the user clicks on the map, the robot will go to that point. If the user ticks the "Enter NGZ" box, then the user can select the NGZ area on the map.
 
 \begin{figure}[H]
@@ -96,7 +98,7 @@ As shown in Figure \ref{fig:Map Options}, if the user ticks the "Enter way point
 	\caption{Map Panel Components}
 \end{figure}
 
-\begin{table}[]
+\begin{table}[H]
 	\centering
 	\caption{Methods called by map listeners}
 	\label{Methods called by map listeners}
@@ -141,7 +143,7 @@ The User can import and export the map XML file through the File button shown as
 	\centering
 	\includegraphics[width=80mm]{Help.png}  
 	\caption{Help Popup Window}
-	\label{fig:other_help}                
+	\label{fig:other_help}           
 \end{figure}
 
 \begin{figure}[H]
