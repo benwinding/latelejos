@@ -40,10 +40,10 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: Null
 	\item Interfaces:
 	\begin{itemize}
-		\item In >> ArcMoveController
-		\item Out << Ev3Remote
-		\item Out << Pose
-		\item Out << RMISampleProvider
+		\item \texttt{\detokenize{In >> ArcMoveController}}
+		\item \texttt{\detokenize{Out << Ev3Remote}}
+		\item \texttt{\detokenize{Out << Pose}}
+		\item \texttt{\detokenize{Out << RMISampleProvider}}
 	\end{itemize}
 	\item Data:
 \end{itemize}
@@ -56,9 +56,9 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: \nameref{compLejos}
 	\item Interfaces:
 	\begin{itemize}
-		\item Out: LocationState >> location data
-		\item In: LejosLibrary << lejos functions
-		\item In: MovementThread << Move commands
+		\item Out: \texttt{\detokenize{LocationState >> location data}}
+		\item In: \texttt{\detokenize{LejosLibrary << lejos functions}}
+		\item In: \texttt{\detokenize{MovementThread << Move commands}}
 	\end{itemize}
 	\item Data: LocationState
 \end{itemize}
@@ -71,8 +71,8 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: \nameref{compLejos}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item Out: SensorsState << sensor readings
-		\item In: LejosLibrary >> lejos functions
+		\item Out: \texttt{\detokenize{SensorsState << sensor readings}}
+		\item In: \texttt{\detokenize{LejosLibrary >> lejos functions}}
 	\end{itemize}
 	\item Data: SensorsState
 \end{itemize}
@@ -85,8 +85,8 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: \nameref{compShared}, \nameref{compMove}, \nameref{compSense}
 	\item Interfaces:
 	\begin{itemize}
-		\item In: SensorsState >> input into statemachine
-		\item In: LocationState >> input into statemachine
+		\item In: \texttt{\detokenize{SensorsState >> input into statemachine}}
+		\item In: \texttt{\detokenize{LocationState >> input into statemachine}}
 	\end{itemize}
 	\item Data: Null
 \end{itemize}
@@ -99,8 +99,8 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: Null
 	\item Interfaces:
 	\begin{itemize}
-		\item Out: StateRepository >> output state for other parts of system
-		\item Out: ServiceManager >> output service instances for other parts of system
+		\item Out: \texttt{\detokenize{StateRepository >> output state for other parts of system}}
+		\item Out: \texttt{\detokenize{ServiceManager >> output service instances for other parts of system}}
 	\end{itemize}
 	\item Data:
 	\begin{itemize}
@@ -117,9 +117,9 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: \nameref{compState}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item In: User interaction << Mouse clicks, key presses, handled in UI code-behind.
-		\item Out: CommandEvents >> commands to be handled by Robot State Machine 
-		\item Out: MapEvents >> commands to be handled by UIUpdater
+		\item In: \texttt{\detokenize{User interaction << Mouse clicks, key presses, handled in UI code-behind.}}
+		\item Out: \texttt{\detokenize{CommandEvents >> commands to be handled by Robot State Machine}}
+		\item Out: \texttt{\detokenize{MapEvents >> commands to be handled by UIUpdater}}
 	\end{itemize}
 	\item Data:
 	\begin{itemize}
@@ -136,8 +136,8 @@ The following sections show the detailed design of each of the components in the
 	\item Dependencies: \nameref{compUI}, \nameref{compState}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item In: UiComponent >> Allows the UIUpdater to manipulate it
-		\item Out: UiComponent << After the UIUpdater has finished making the relevant updates
+		\item In: \texttt{\detokenize{UiComponent >> Allows the UIUpdater to manipulate it}}
+		\item Out: \texttt{\detokenize{UiComponent << After the UIUpdater has finished making the relevant updates}}
 	\end{itemize}
 	\item Data:
 	\begin{itemize}

@@ -20,10 +20,10 @@ The GUI is divided into four main parts and listed in Table \ref{GUI Features}. 
 	\begin{tabular}{|p{3cm}|p{2cm}|p{6cm}|}
 		\hline
 		Name & Component & Related Features \\ \hline
-		Manual Control &  & UR13, UR14, FR008, FR009, FR010 \\ \hline
-		Map panel  &  & UR03, UR04, UR07, UR12, UR15, FR006, FR012 \\ \hline
-		System status and log panels &  & FR015, EM001 \\ \hline
-		Other functionalities &  &  UR05, UR06, FR001, FR002, FR003, FR004 \\ \hline
+		Manual Control & C01, C05 & UR13, UR14, FR008, FR009, FR010 \\ \hline
+		Map panel  & C06, C05 & UR03, UR04, UR07, UR12, UR15, FR006, FR012 \\ \hline
+		System status and log panels & C02, C05 & FR015, EM001 \\ \hline
+		Other functionalities & C05 &  UR05, UR06, FR001, FR002, FR003, FR004 \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -65,7 +65,7 @@ The user can use their mouse to click the graphic icons showing on the Manual Co
 	\end{tabular}
 \end{table}
 
-\subsubsection{2. Map panel}
+\subsubsection{Map panel}
 \textbf{Supporting input devices: Mouse}\\
 The Map showing on Figure 6 is to display the area where the robot need to be explored. The user can select the NGZ area in the map and change size of the map. Also, the detected obstacles, NGZ area and track line will also be displayed in the map. The user can check the map legend to see what it looks in the map. Mouse listener will be created in the map to listen the event from the mouse. The list of methods called by listeners is shown on Table \ref{Methods called by map listeners}. Map also consists of different components. The below is the description of each component.\\
 \\
@@ -129,7 +129,7 @@ The user can check the EV3 hardware status such as colour and ultrasonic sensors
 	\caption{Status Panels}
 \end{figure}
 
-\textbf{Other Functionalities}\\
+\subsubsection{Other Functionalities}
 The User can import and export the map XML file through the File button shown as Fig. \ref{fig:other topmenu}. When the user import the map XML file, the map will show the obstacle, trail or track which are described in the XML file immediately. Also, if user has any operation issue, the use can click help button to find the manual for operating the software(shown as Fig. \ref{fig:other_help}). The user can check the current version of the software through about button(show as Fig.\ref{fig:other_about}).
 
 \begin{figure}[H]
