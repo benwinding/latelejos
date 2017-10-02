@@ -47,7 +47,7 @@ class MapLocationsLayersFactory {
     gc.setStroke(colour);
     gc.setLineWidth(5);
     UpdaterUtils.DrawPointsOnContext(gc, points, config);
-    gc.setFill(Color.GREEN);
+    gc.setFill(Color.web("GREEN", 0.2));
     UpdaterUtils.DrawAreaOnContext(gc, points, config);
     gc.setFill(Color.BLACK);
     return layer;
