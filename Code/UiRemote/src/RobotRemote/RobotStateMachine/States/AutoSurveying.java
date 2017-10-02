@@ -10,9 +10,7 @@ import javafx.scene.paint.Color;
 import sun.java2d.cmm.ColorTransform;
 
 public class AutoSurveying implements IModeState {
-
-
-    enum AutoSurveyingInternalState {
+   enum AutoSurveyingInternalState {
         BackToLastPosition,
         ZigZagginSurvey,
         DetectedObject,
@@ -49,6 +47,7 @@ public class AutoSurveying implements IModeState {
         this.config = new RobotConfiguration();
         this.LastPoint = new MapPoint(0,0);
         this.IsReverse = false;
+        this.direction = Direction.Up;
     }
 
     public void Enter() {
@@ -103,8 +102,6 @@ public class AutoSurveying implements IModeState {
         moveThread.turn(turnBackDegree);
         moveThread.waitWhileMoving();
         internalState = AutoSurveyingInternalState.ZigZagginSurvey;
-        direction = Direction.Up;
-
     }
 
     private void ZigZagAcrossMap() throws InterruptedException {
