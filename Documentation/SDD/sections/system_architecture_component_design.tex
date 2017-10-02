@@ -5,7 +5,7 @@ The software architecture is comprised of several subsystems, which have differe
 	\centering
 	\includegraphics[width=0.9\textwidth]{Robot_system.png}
 	\caption{\label{fig:robotSystem}This needs to be updated though}
-\end{figure}   
+\end{figure}
 
 \subsection{Component Decomposition Description}
 The system has been broken down into clearly defined components, which can be tested individually. Each of these components perform a function in the entire system.
@@ -34,93 +34,116 @@ The following sections show the detailed design of each of the components in the
 
 \subsubsection{C00 Lejos Library}\label{compLejos}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR01,UR08,UR09,UR10,UR11,UR12,UR13
 	\item Function: To interface to the robot. 
-	\item Subordinates: \nameref{compMove}, \nameref{compSense}
-	\item Dependencies:
+	\item Subordinates: \nameref{compMove}, \nameref{compSense} 
+	\item Dependencies: Null
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item In >> ArcMoveController
+		\item Out << Ev3Remote
+		\item Out << Pose
+		\item Out << RMISampleProvider
 	\end{itemize}
 	\item Data:
 \end{itemize}
 
 \subsubsection{C01 Movement Service} \label{compMove}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR01,UR12,UR13,UR15,UR02
 	\item Function: To provide a simple abstraction to move the robot.
 	\item Subordinates: \nameref{compState}
 	\item Dependencies: \nameref{compLejos}
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item Out: LocationState >> location data
+		\item In: LejosLibrary << lejos functions
+		\item In: MovementThread << Move commands
 	\end{itemize}
-	\item Data:
+	\item Data: LocationState
 \end{itemize}
 
 \subsubsection{C02 Sensors Service} \label{compSense}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR08,UR09,UR10,UR11,UR02
 	\item Function: To provide a simple abstraction to receive sensor readings from the robot. 
 	\item Subordinates: \nameref{compState}
 	\item Dependencies: \nameref{compLejos}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item Out: SensorsState << sensor readings
+		\item In: LejosLibrary >> lejos functions
 	\end{itemize}
-	\item Data:
+	\item Data: SensorsState
 \end{itemize}
 
 \subsubsection{C03 Robot State Machine} \label{compState}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR03,UR08,UR09,UR10,UR11
 	\item Function: A location to define the logic what the robot does in the system.
 	\item Subordinates: \nameref{compUI}
 	\item Dependencies: \nameref{compShared}, \nameref{compMove}, \nameref{compSense}
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item In: SensorsState >> input into statemachine
+		\item In: LocationState >> input into statemachine
 	\end{itemize}
-	\item Data:
+	\item Data: Null
 \end{itemize}
 
 \subsubsection{C04 Shared Core} \label{compShared}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR03,UR14
 	\item Function: This is a component to share interfaces between other components, like models and service instances.
 	\item Subordinates: \nameref{compState}, \nameref{compUI}, \nameref{compSense}, \nameref{compUIUpdater}, \nameref{compMove}
 	\item Dependencies: Null
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item Out: StateRepository >> output state for other parts of system
+		\item Out: ServiceManager >> output service instances for other parts of system
 	\end{itemize}
 	\item Data:
+	\begin{itemize}
+		\item MapPoint: shared class to represent a point on the map
+		\item Colour: shared class to represent a colour on the map
+	\end{itemize}
 \end{itemize}
 
 \subsubsection{C05 User Interface} \label{compUI}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR03,UR04,UR07,UR05,UR06
 	\item Function: To provide an interactive display of the system to the user. 
 	\item Subordinates: \nameref{compUIUpdater}
 	\item Dependencies: \nameref{compState}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item
+		\item In: User interaction << Mouse clicks, key presses, handled in UI code-behind.
+		\item Out: CommandEvents >> commands to be handled by Robot State Machine 
+		\item Out: MapEvents >> commands to be handled by UIUpdater
 	\end{itemize}
 	\item Data:
+	\begin{itemize}
+		\item MapPoint: shared class to represent a point on the map
+		\item Colour: shared class to represent a colour on the map
+	\end{itemize}
 \end{itemize}
 
 \subsubsection{C06 UI Updater} \label{compUIUpdater}
 \begin{itemize}
-	\item Purpose: 
+	\item Purpose: UR02,UR03,UR04,UR07,UR05,UR06
 	\item Function: To constantly update parts of the GUI in real time. 
 	\item Subordinates:
 	\item Dependencies: \nameref{compUI}, \nameref{compState}, \nameref{compShared}
 	\item Interfaces:
 	\begin{itemize}
-		\item 
+		\item In: UiComponent >> Allows the UIUpdater to manipulate it
+		\item Out: UiComponent << After the UIUpdater has finished making the relevant updates
 	\end{itemize}
 	\item Data:
+	\begin{itemize}
+		\item MapPoint: shared class to represent a point on the map
+		\item Colour: shared class to represent a colour on the map
+	\end{itemize}
 \end{itemize}
 
 \subsection{Architectural Alternatives}
