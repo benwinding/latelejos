@@ -159,30 +159,11 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnUserAddWaypoint(EventUserAddWaypoint event) {
-    float mapH = uiUpdaterState.getMapH();
-    float mapW = uiUpdaterState.getMapW();
-    float zoomLevel = uiUpdaterState.getZoomLevel();
-    float pixelsPerCm = config.mapPixelsPerCm;
-
-    // Raw mouse input pixel coordinates
-    double mouseX = event.getX();
-    double mouseY = event.getY();
-
-    // Scale mouse to original map pixel coordinates
-    double scaleX = mouseX / zoomLevel;
-    double scaleY = mouseY / zoomLevel;
-
-    // Get cm coordinates from scaled coordinates
-    double scaleXcm = scaleX / pixelsPerCm;
-    double scaleYcm = scaleY / pixelsPerCm;
-
+    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
     // Translate mouse coordinates to account for map centering
-    double transXcm = scaleXcm + mapW/2;
-    double transYcm = scaleYcm + mapH/2;
+    Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", newPoint.x, newPoint.y));
 
-    Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", transXcm, transYcm));
-
-    userWaypointsState.AddWayPoint(transXcm,transYcm);
+    userWaypointsState.AddWayPoint(newPoint.x,newPoint.y);
   }
 
   @Subscribe
@@ -192,35 +173,20 @@ public class MapInputEventHandlers {
   }
 
   @Subscribe
-  public void OnUserAddNgz(EventUserAddNgz event) {
-    float mapH = uiUpdaterState.getMapH();
-    float mapW = uiUpdaterState.getMapW();
-    float zoomLevel = uiUpdaterState.getZoomLevel();
-    float pixelsPerCm = config.mapPixelsPerCm;
+  public void OnUserMapNgzStart(EventUserMapNgzStart event){
+    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
+    userNoGoZoneState.AddNgzStartPoint(newPoint);
+  }
 
-    // Raw mouse input pixel coordinates
-    double mouseX = event.getX();
-    double mouseY = event.getY();
+  @Subscribe
+  public void OnUserMapNgzMiddle(EventUserMapNgzMiddle event){
+    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
+    userNoGoZoneState.AddNgzMiddlePoint(newPoint);
+  }
 
-    // Scale mouse to original map pixel coordinates
-    double scaleX = mouseX / zoomLevel;
-    double scaleY = mouseY / zoomLevel;
-
-    // Get cm coordinates from scaled coordinates
-    double scaleXcm = scaleX / pixelsPerCm;
-    double scaleYcm = scaleY / pixelsPerCm;
-
-    // Translate mouse coordinates to account for map centering
-    double transXcm = scaleXcm + mapW/2;
-    double transYcm = scaleYcm + mapH/2;
-
-    Logger.debug(String.format("Received UserAddNGZ:: x:%.1f, y:%.1f", transXcm, transYcm));
-    int cols = userNoGoZoneState.countGridRows();
-    int rows = userNoGoZoneState.countGridCols();
-
-    int r = this.GetCellInRange(mapW, cols, transXcm);
-    int c = this.GetCellInRange(mapH, rows, transYcm);
-    userNoGoZoneState.switchNgzCell(r,c);
+  @Subscribe
+  public void OnUserMapNgzEnd(EventUserMapNgzEnd event){
+    userNoGoZoneState.FinishedNgzSet();
   }
 
   @Subscribe
@@ -250,5 +216,26 @@ public class MapInputEventHandlers {
     double cellsOver = distPoint / cellWidth;
     double cell = Math.floor(cellsOver);
     return (int) cell;
+  }
+
+  private MapPoint ScaleMouseInputToMap(double mouseX, double mouseY) {
+    float mapH = uiUpdaterState.getMapH();
+    float mapW = uiUpdaterState.getMapW();
+    float zoomLevel = uiUpdaterState.getZoomLevel();
+    float pixelsPerCm = config.mapPixelsPerCm;
+
+    // Scale mouse to original map pixel coordinates
+    double scaleX = mouseX / zoomLevel;
+    double scaleY = mouseY / zoomLevel;
+
+    // Get cm coordinates from scaled coordinates
+    double scaleXcm = scaleX / pixelsPerCm;
+    double scaleYcm = scaleY / pixelsPerCm;
+
+    // Translate mouse coordinates to account for map centering
+    double transXcm = scaleXcm + mapW/2;
+    double transYcm = scaleYcm + mapH/2;
+
+    return new MapPoint(transXcm, transYcm);
   }
 }

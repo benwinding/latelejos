@@ -10,7 +10,6 @@ import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import RobotRemote.UI.UiState;
 
-
 public class AppStateRepository {
   private UiState uiState;
   private SensorsState sensorsState;
@@ -29,7 +28,7 @@ public class AppStateRepository {
     discoveredColoursState = new DiscoveredColoursState();
     uiUpdaterState = new UiUpdaterState(config.mapInitZoom, config.mapH, config.mapW);
     uiState = new UiState();
-    userNoGoZoneState = new UserNoGoZoneState(config.ngzRows, config.ngzCols);
+    userNoGoZoneState = new UserNoGoZoneState();
     userWaypointsState = new UserWaypointsState();
     robotConnectionState = new RobotConnectionState();
   }

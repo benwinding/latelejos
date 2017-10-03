@@ -5,9 +5,6 @@ public class RobotConfiguration {
   // Map Size: A1 594mm x 841mm
   public float mapW = 59.4f; // cm
   public float mapH = 84.1f; // cm
-  // No Go Zone grid size
-  public int ngzRows = 10;
-  public int ngzCols = 15;
   // Initial map values
   public float mapInitZoom = 0.7f;
   public float mapPixelsPerCm = 10; // Define pixel density of map

@@ -11,7 +11,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import lejos.robotics.navigation.Waypoint;
-import lejos.utility.Matrix;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,40 +40,22 @@ class MapSelectedLayersFactory {
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLACK),
-        this.CreateWaypointsLayer(userWaypointsState.GetSelectedWayPoints(), Color.BLUE),
         this.CreateDiscoveredColoursLayer(discoveredColoursState),
-        this.CreateGridLayer(
-          userNoGoZoneState.getNgzMatrix(),
-          Color.web("red",0.2),
-          Color.web("green",0.1)
-        )
+        this.CreateWaypointsLayer(userWaypointsState.GetSelectedWayPoints(), Color.BLUE),
+        this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints(), Color.web("BLUE",0.1))
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
   }
 
-  private Canvas CreateGridLayer(Matrix matrix, Color colourOn, Color colourOff) {
+  private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets, Color ngzColour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    gc.setStroke(colourOff.darker());
-    int cols = matrix.getColumnDimension();
-    int rows = matrix.getRowDimension();
-    float w = (mapW /rows);
-    float h = (mapH /cols);
-    for(int i=0;i<rows; i++) {
-      for(int j=0;j<cols; j++) {
-        float x1 = i*w + mapW;
-        float y1 = j*h + mapH;
-        gc.strokeRect(x1,y1,w,h);
-        if(matrix.get(i,j) == 1){
-          gc.setFill(colourOn);
-          gc.fillRect(x1,y1,w,h);
-        }
-        else {
-          gc.setFill(colourOff);
-          gc.fillRect(x1,y1,w,h);
-        }
-      }
+    gc.setFill(ngzColour.brighter());
+    gc.setStroke(Color.web("BLACK", 0.3));
+    for(List<MapPoint> points: pointSets) {
+      UpdaterUtils.DrawAreaOnContext(gc, points, config);
+      UpdaterUtils.DrawPointsOnContext(gc, points, config);
     }
     return layer;
   }

@@ -49,7 +49,7 @@
           <TitledPane collapsible="false" text="Map" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <StackPane>
               <HBox alignment="CENTER" StackPane.alignment="CENTER">
-                <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap"
+                <Pane fx:id="map" onMouseDragged="#onDragMap" onMouseClicked="#onClickMap" onMouseReleased="#onReleaseMap"
                       prefHeight="2000"
                       prefWidth="2000"
                 />
