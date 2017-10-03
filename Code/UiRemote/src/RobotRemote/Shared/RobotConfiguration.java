@@ -34,5 +34,5 @@ public class RobotConfiguration {
   public Color colorCrater = Color.RED;
   public Color colorApollo = Color.RED;
   public double obstacleAvoidDistance = 5;
-  public float zigzagWidth = 12;
+  public float zigzagWidth = 15;
 }
