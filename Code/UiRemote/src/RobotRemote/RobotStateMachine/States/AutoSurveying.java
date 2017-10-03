@@ -3,16 +3,16 @@ package RobotRemote.RobotStateMachine.States;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.RobotServices.Sensors.SensorsState;
+import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObject;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.Shared.*;
 import com.google.common.eventbus.EventBus;
 import javafx.scene.paint.Color;
+import lejos.robotics.navigation.Pose;
 import sun.java2d.cmm.ColorTransform;
 
 public class AutoSurveying implements IModeState {
-
-
-    enum AutoSurveyingInternalState {
+   enum AutoSurveyingInternalState {
         BackToLastPosition,
         ZigZagginSurvey,
         DetectedObject,
@@ -49,6 +49,7 @@ public class AutoSurveying implements IModeState {
         this.config = new RobotConfiguration();
         this.LastPoint = new MapPoint(0,0);
         this.IsReverse = false;
+        this.direction = Direction.Up;
     }
 
     public void Enter() {
@@ -103,8 +104,6 @@ public class AutoSurveying implements IModeState {
         moveThread.turn(turnBackDegree);
         moveThread.waitWhileMoving();
         internalState = AutoSurveyingInternalState.ZigZagginSurvey;
-        direction = Direction.Up;
-
     }
 
     private void ZigZagAcrossMap() throws InterruptedException {
@@ -135,7 +134,6 @@ public class AutoSurveying implements IModeState {
           moveThread.stop();
           internalState = AutoSurveyingInternalState.DetectedObject;
           Logger.specialLog("checkSurroundings: Detected Object");
-
         }
 
         if(isThereATrail())
@@ -143,31 +141,44 @@ public class AutoSurveying implements IModeState {
           moveThread.stop();
           internalState = AutoSurveyingInternalState.PathDetected;
           Logger.specialLog("checkSurroundings: Trail Detected - Color: "+ sensorState.getColourEnum());
-
         }
 
-        if(isThereApollo())
-        {
-          Logger.specialLog("checkSurroundings: Apollo Detected - Color: "+ sensorState.getColourEnum());
-          moveThread.stop();
-          internalState = AutoSurveyingInternalState.ApolloDetected;
-        }
+//        if(isThereApollo())
+//        {
+//          Logger.specialLog("checkSurroundings: Apollo Detected - Color: "+ sensorState.getColourEnum());
+//          moveThread.stop();
+//          internalState = AutoSurveyingInternalState.ApolloDetected;
+//        }
         return null;
     }
 
-
     private void HandleDetectedObject() throws InterruptedException {
         Logger.specialLog("Handling Detected Object going left");
+        RegisterObjectDetected();
         moveThread.turn(90);
         moveThread.waitWhileMoving();
         moveThread.forward(15);
         moveThread.waitWhileMoving();
         moveThread.turn(-90);
         moveThread.waitWhileMoving();
+        moveThread.forward(40);
+        moveThread.waitWhileMoving();
+        moveThread.turn(-90);
+        moveThread.waitWhileMoving();
+        moveThread.forward(15);
+        moveThread.waitWhileMoving();
+        moveThread.turn(90);
+        moveThread.waitWhileMoving();
         internalState = AutoSurveyingInternalState.ZigZagginSurvey;
     }
 
-    private void HandleDetectedBorder() throws InterruptedException {
+  private void RegisterObjectDetected() {
+    Pose current = this.sm.getAppState().getLocationState().GetCurrentPose();
+    current.moveUpdate((float) this.config.obstacleAvoidDistance);
+    this.eventBus.post(new EventAutomapDetectedObject(current));
+  }
+
+  private void HandleDetectedBorder() throws InterruptedException {
         Logger.debug("Handling Detected Border going left");
         switch (direction) {
             case Up:

@@ -1,18 +1,49 @@
 package RobotRemote.UIServices.MapTranslation;
 
 import RobotRemote.Models.MapPoint;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MapTransferObject {
+    Color vehicleTrackColor;
+    Color footprintTrackColor;
+    Color landingTrackColor;
     MapPoint currentPosition;
     MapPoint roverLandingSite;
+    MapPoint apolloLandingSite;
     ArrayList<MapPoint> noGoZones;
     ArrayList<MapPoint> Landingtracks;
+    ArrayList<MapPoint> vehicleTracks;
+    ArrayList<MapPoint> footprintTracks;
     ArrayList<MapPoint> radiation;
     ArrayList<MapPoint> craters;
     ArrayList<MapPoint> boundary;
+    ArrayList<MapPoint> unexplored;
+    ArrayList<MapPoint> explored;
+    ArrayList<MapPoint> obstacles;
 
+    public void setFootprintTracks(ArrayList<MapPoint> footprintTracks) {
+        this.footprintTracks = footprintTracks;
+    }
+
+    public void setVehicleTracks(ArrayList<MapPoint> vehicleTracks) {
+        this.vehicleTracks = vehicleTracks;
+    }
+
+    public void setApolloLandingSite(MapPoint apolloLandingSite) {
+        this.apolloLandingSite = apolloLandingSite;
+    }
+    public void setObstacles(ArrayList<MapPoint> obstacles) {
+        this.obstacles = obstacles;
+    }
+    public void setExplored(ArrayList<MapPoint> explored) {
+        this.explored = explored;
+    }
+    public void setUnexplored(ArrayList<MapPoint> unexplored) {
+        this.unexplored = unexplored;
+    }
     public void setCurrentPosition(MapPoint currentPosition) {
         this.currentPosition = currentPosition;
     }
@@ -34,7 +65,45 @@ public class MapTransferObject {
     public void setLandingtracks(ArrayList<MapPoint> landingtracks) {
         Landingtracks = landingtracks;
     }
+    public void setFootprintTrackColor(Color footprintTrackColor) {
+        this.footprintTrackColor = footprintTrackColor;
+    }
+    public void setLandingTrackColor(Color landingTrackColor) {
+        this.landingTrackColor = landingTrackColor;
+    }
+    public void setVehicleTrackColor(Color vehicleTrackColor) {
+        this.vehicleTrackColor = vehicleTrackColor;
+    }
 
+    public ArrayList<MapPoint> getFootprintTracks() {
+        return footprintTracks;
+    }
+
+    public ArrayList<MapPoint> getVehicleTracks() {
+        return vehicleTracks;
+    }
+
+    public MapPoint getApolloLandingSite() {
+        return apolloLandingSite;
+    }
+    public ArrayList<MapPoint> getObstacles() {
+        return obstacles;
+    }
+    public ArrayList<MapPoint> getExplored() {
+        return explored;
+    }
+    public ArrayList<MapPoint> getUnexplored() {
+        return unexplored;
+    }
+    public Color getFootprintTrackColor() {
+        return footprintTrackColor;
+    }
+    public Color getLandingTrackColor() {
+        return landingTrackColor;
+    }
+    public Color getVehicleTrackColor() {
+        return vehicleTrackColor;
+    }
     public ArrayList<MapPoint> getNoGoZones() {
         return noGoZones;
     }
