@@ -173,23 +173,6 @@ public class MapInputEventHandlers {
   }
 
   @Subscribe
-  public void OnUserAddNgz(EventUserAddNgz event) {
-    float mapH = uiUpdaterState.getMapH();
-    float mapW = uiUpdaterState.getMapW();
-
-    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
-    // Translate mouse coordinates to account for map centering
-
-    Logger.debug(String.format("Received UserAddNGZ:: x:%.1f, y:%.1f", newPoint.x, newPoint.y));
-    int cols = userNoGoZoneState.countGridRows();
-    int rows = userNoGoZoneState.countGridCols();
-
-    int r = this.GetCellInRange(mapW, cols, newPoint.x);
-    int c = this.GetCellInRange(mapH, rows, newPoint.y);
-    userNoGoZoneState.switchNgzCell(r,c);
-  }
-
-  @Subscribe
   public void OnUserMapNgzStart(EventUserMapNgzStart event){
     MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
     userNoGoZoneState.AddNgzStartPoint(newPoint);

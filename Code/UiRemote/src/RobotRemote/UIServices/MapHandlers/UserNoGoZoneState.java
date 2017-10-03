@@ -7,43 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserNoGoZoneState {
-  private Matrix ngzMatrix;
   private List<List<MapPoint>> allNgzSets;
 
-  public UserNoGoZoneState(int ngzRows, int ngzCols) {
-    ngzMatrix = new Matrix(ngzRows,ngzCols);
+  public UserNoGoZoneState() {
     allNgzSets = new ArrayList<>();
-  }
-
-  public Matrix getNgzMatrix() {
-    return ngzMatrix;
-  }
-
-  private void selectNgzCell(int ngzRow, int ngzCol) {
-    ngzMatrix.set(ngzRow, ngzCol, 1);
-  }
-
-  private void deselectNgzCell(int ngzRow, int ngzCol) {
-    ngzMatrix.set(ngzRow, ngzCol, 0);
-  }
-
-  void switchNgzCell(int ngzRow, int ngzCol) {
-    try {
-      double currentValue = ngzMatrix.get(ngzRow, ngzCol);
-      if(currentValue == 0)
-        selectNgzCell(ngzRow, ngzCol);
-      else
-        deselectNgzCell(ngzRow, ngzCol);
-    } catch (Exception e) {
-    }
-  }
-
-  int countGridRows() {
-    return this.ngzMatrix.getRowDimension();
-  }
-
-  int countGridCols() {
-    return this.ngzMatrix.getColumnDimension();
   }
 
   private List<MapPoint> getCurrentNgzPoints() {
