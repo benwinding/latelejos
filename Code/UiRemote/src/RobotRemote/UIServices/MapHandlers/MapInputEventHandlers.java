@@ -2,6 +2,7 @@ package RobotRemote.UIServices.MapHandlers;
 
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
+import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObject;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
@@ -13,6 +14,7 @@ import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
+import lejos.robotics.navigation.Pose;
 import org.omg.IOP.Encoding;
 import sun.nio.cs.UTF_32;
 
@@ -177,6 +179,12 @@ public class MapInputEventHandlers {
     Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", transXcm, transYcm));
 
     userWaypointsState.AddWayPoint(transXcm,transYcm);
+  }
+
+  @Subscribe
+  public void OnEventAutomapDetectedObject(EventAutomapDetectedObject event) {
+    Pose detectedLocation = event.getDetectedPosition();
+    this.userWaypointsState.AddWayPoint(detectedLocation.getX(), detectedLocation.getY());
   }
 
   @Subscribe
