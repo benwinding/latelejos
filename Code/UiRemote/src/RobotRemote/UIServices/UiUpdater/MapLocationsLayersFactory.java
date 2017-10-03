@@ -35,7 +35,7 @@ class MapLocationsLayersFactory {
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN)
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("GREEN", 0.15))
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
@@ -45,10 +45,10 @@ class MapLocationsLayersFactory {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setStroke(colour);
-    gc.setLineWidth(5);
+    gc.setLineWidth(15);
     UpdaterUtils.DrawPointsOnContext(gc, points, config);
-    gc.setFill(Color.web("GREEN", 0.2));
-    UpdaterUtils.DrawAreaOnContext(gc, points, config);
+//    gc.setFill(Color.web("GREEN", 0.2));
+//    UpdaterUtils.DrawAreaOnContext(gc, points, config);
     gc.setFill(Color.BLACK);
     return layer;
   }
