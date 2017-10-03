@@ -29,7 +29,7 @@ public class RobotConfiguration {
   // Update intervals
   public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 50;
-  public Color colorTrail = Color.YELLOW;
+  public Color colorTrail = Color.RED;
   public Color colorBorder = Color.BLACK;
   public Color colorCrater = Color.RED;
   public Color colorApollo = Color.RED;
