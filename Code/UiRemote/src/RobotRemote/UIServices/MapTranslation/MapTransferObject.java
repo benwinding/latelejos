@@ -15,12 +15,22 @@ public class MapTransferObject {
     MapPoint apolloLandingSite;
     ArrayList<MapPoint> noGoZones;
     ArrayList<MapPoint> Landingtracks;
+    ArrayList<MapPoint> vehicleTracks;
+    ArrayList<MapPoint> footprintTracks;
     ArrayList<MapPoint> radiation;
     ArrayList<MapPoint> craters;
     ArrayList<MapPoint> boundary;
     ArrayList<MapPoint> unexplored;
     ArrayList<MapPoint> explored;
     ArrayList<MapPoint> obstacles;
+
+    public void setFootprintTracks(ArrayList<MapPoint> footprintTracks) {
+        this.footprintTracks = footprintTracks;
+    }
+
+    public void setVehicleTracks(ArrayList<MapPoint> vehicleTracks) {
+        this.vehicleTracks = vehicleTracks;
+    }
 
     public void setApolloLandingSite(MapPoint apolloLandingSite) {
         this.apolloLandingSite = apolloLandingSite;
@@ -63,6 +73,14 @@ public class MapTransferObject {
     }
     public void setVehicleTrackColor(Color vehicleTrackColor) {
         this.vehicleTrackColor = vehicleTrackColor;
+    }
+
+    public ArrayList<MapPoint> getFootprintTracks() {
+        return footprintTracks;
+    }
+
+    public ArrayList<MapPoint> getVehicleTracks() {
+        return vehicleTracks;
     }
 
     public MapPoint getApolloLandingSite() {

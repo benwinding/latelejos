@@ -130,9 +130,13 @@ public class MapInputEventHandlers {
     mapToExport.setNoGoZones((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(1));
     mapToExport.setBoundary((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(2));
     mapToExport.setLandingtracks((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
+    mapToExport.setVehicleTracks((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
+    mapToExport.setFootprintTracks((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
     mapToExport.setCraters((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
     mapToExport.setUnexplored((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
     mapToExport.setObstacles((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
+
+
     return mapToExport;
   }
 
