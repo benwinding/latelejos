@@ -48,13 +48,15 @@ class MapSelectedLayersFactory {
     return mapLayers;
   }
 
-  private Canvas CreateNgzLayer(List<MapPoint> points, Color ngzColour) {
+  private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets, Color ngzColour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     gc.setFill(ngzColour.brighter());
-    UpdaterUtils.DrawAreaOnContext(gc, points, config);
     gc.setStroke(Color.web("BLACK", 0.3));
-    UpdaterUtils.DrawPointsOnContext(gc, points, config);
+    for(List<MapPoint> points: pointSets) {
+      UpdaterUtils.DrawAreaOnContext(gc, points, config);
+      UpdaterUtils.DrawPointsOnContext(gc, points, config);
+    }
     return layer;
   }
 

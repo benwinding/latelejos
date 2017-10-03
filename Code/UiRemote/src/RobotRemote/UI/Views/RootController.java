@@ -22,10 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -69,6 +66,7 @@ public class RootController implements Initializable {
 
   // Variables for UI logic
   private MapPoint mapDragInitial = new MapPoint(0,0);
+  private boolean isFirstNgzPoint = true;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,7 +89,8 @@ public class RootController implements Initializable {
   }
 
   public void keyPressed(KeyEvent e) {
-    switch (e.getCode()) {
+    KeyCode a = e.getCode();
+    switch (a) {
       case W:
         MoveMotors(EnumCommandManual.Forward);
         break;
@@ -105,9 +104,14 @@ public class RootController implements Initializable {
         MoveMotors(EnumCommandManual.Backward);
         break;
       case ENTER:
-      case SPACE:
       case Q:
         MoveMotors(EnumCommandManual.Halt);
+        break;
+      case ESCAPE:
+        this.enterNgz.setSelected(false);
+        this.enterWaypoint.setSelected(false);
+        eventBus.post(new EventUserMapNgzEnd());
+        this.isFirstNgzPoint = true;
         break;
       default:
         Logger.debug("Key press:" + e.getCode() + " is not implemented");
@@ -196,10 +200,6 @@ public class RootController implements Initializable {
     eventBus.post(new EventManualCommand(command));
   }
 
-  private void StopMotors() {
-    eventBus.post(new EventEmergencySTOP());
-  }
-
   public void onClickZoomReset(MouseEvent mouseEvent) {
     eventBus.post(new EventUserZoomChanged(EnumZoomCommand.ZoomReset));
     mapDragInitial = new MapPoint(0,0);
@@ -213,12 +213,22 @@ public class RootController implements Initializable {
       Logger.debug("UI: map drag start...");
     }
     else if(enterNgz.isSelected()) {
-      this.eventBus.post(new EventUserAddNgz(mouseEvent.getX(), mouseEvent.getY()));
+      handleEnterNgz(mouseEvent);
     }
     else if(enterWaypoint.isSelected()) {
       Waypoint gotoOnMap = new Waypoint(mouseEvent.getX(), mouseEvent.getY());
       eventBus.post(new EventUserAddWaypoint(gotoOnMap));
       eventBus.post(new EventAutoControl(gotoOnMap));
+    }
+  }
+
+  private void handleEnterNgz(MouseEvent mouseEvent) {
+    if(isFirstNgzPoint) {
+      this.eventBus.post(new EventUserMapNgzStart(mouseEvent.getX(), mouseEvent.getY()));
+      isFirstNgzPoint = false;
+    }
+    else {
+      this.eventBus.post(new EventUserMapNgzMiddle(mouseEvent.getX(), mouseEvent.getY()));
     }
   }
 

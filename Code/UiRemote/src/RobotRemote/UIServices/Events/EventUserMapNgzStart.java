@@ -1,10 +1,10 @@
 package RobotRemote.UIServices.Events;
 
-public class EventUserMapDragged {
+public class EventUserMapNgzStart {
   private double x;
   private double y;
 
-  public EventUserMapDragged(double x, double y) {
+  public EventUserMapNgzStart(double x, double y) {
     this.x = x;
     this.y = y;
   }
@@ -17,4 +17,3 @@ public class EventUserMapDragged {
     return y;
   }
 }
-
