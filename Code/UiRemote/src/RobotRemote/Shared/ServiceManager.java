@@ -15,6 +15,9 @@ public class ServiceManager {
   private IMovementService movementService;
   private EventBus eventBus;
   private ThreadLoop robotStateMachineThread;
+  public ServiceManager(){
+
+  }
 
   public ServiceManager(EventBus eventBus, RobotConfiguration configuration,
                         AppStateRepository appStateRepository,
@@ -33,7 +36,7 @@ public class ServiceManager {
     this.robotStateMachineThread = robotStateMachineThread;
   }
 
-  public void StartAllThreads() {
+  public void startAllThreads() {
     // Run start up in the background so the GUI can load quicker
     Thread startUp = new Thread(() -> {
       Logger.debug("Service Coordinator: Starting all threads");

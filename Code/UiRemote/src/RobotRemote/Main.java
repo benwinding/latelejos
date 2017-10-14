@@ -61,7 +61,7 @@ public class Main extends Application {
         movementService,
         stateMachineThreadLoop
     );
-    serviceManager.StartAllThreads();
+    serviceManager.startAllThreads();
 
     // Handler classes
     MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(serviceManager);

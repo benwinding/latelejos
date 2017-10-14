@@ -60,11 +60,9 @@ public class AutoSurveying implements IModeState {
             LoopThis();
             return null;
         }, 100);
-        Logger.isDisableLog = true;
     }
 
     public void Leave() {
-        Logger.isDisableLog = false;
         this.eventBus.unregister(this);
         this.threadLoop.StopThread();
         this.moveThread.stop();
