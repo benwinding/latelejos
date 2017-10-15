@@ -577,7 +577,7 @@
 		\end{itemize} 
 		
 	\end{itemize}
-	
+	\newpage
 	\section{External Interface Requirements}
 	\subsection{User Interfaces}
 	Graphic User Interface will be provided to allow a user to interact with the system through graphical buttons and map scene. The size of GUI shall be large enough to display system message and map information clearly. This GUI will be implemented by using JavaFX. There are three types of buttons and two types of display area. The specific details of the user interface design will be documented in a separate user interface specification. 
@@ -585,8 +585,8 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=300px]{GUI.PNG}
-		\caption{The prototype of GUI with keyboard shortcuts for each button}
-		\label{fig:GUI with keyboard shortcuts}
+		\caption{The prototype of GUI}
+		\label{fig:GUI}
 	\end{figure}
 	
 	\subsubsection*{EIR01: Button Functions}
@@ -596,18 +596,17 @@
 
 	\begin{figure}[H]
 		\centering
-		\begin{tabular}{|p{3cm}|p{6cm}|}
+		\begin{tabular}{|p{3cm}|p{3cm}| p{6cm}|}
 			\hline 
-			\textbf{Button} &\textbf{Action} \\ \hline 
-			Up & Robot moves forward \\ \hline 
-			Left & Robot makes a left turn \\ \hline 
-			Right & Robot makes a right turn \\ \hline 
-			Down & Robot moves backward \\ \hline 
-			Connect & Establish connection to remote robot \\ \hline 
-			Disconnect & Disconnect from remote connection \\ \hline 
-			Switch Mode & Switch the current mode of the robot. If the robot is in Navigation mode then change the robot to Auto mode, and vice versa. \\ \hline 
-			Upload & Upload partially complete map data to the system \\ \hline
-			Download & Save the current map information to a local XML file \\ \hline
+			\textbf{Button} &\textbf{Keyboard shortcuts}& \textbf{Action} \\ \hline 
+			Up & W &  Robot moves forward \\ \hline 
+			Left & A& Robot makes a left turn \\ \hline 
+			Right & D& Robot makes a right turn \\ \hline 
+			Down & S&Robot moves backward \\ \hline 
+			Stop & Q&Robot moves backward \\ \hline 
+			Switch Mode &None& Switch the current mode of the robot. If the robot is in Navigation mode then change the robot to Auto mode, and vice versa. \\ \hline 
+			Upload &None & Upload partially complete map data to the system \\ \hline
+			Download &None & Save the current map information to a local XML file \\ \hline
 		\end{tabular} 
 		\caption{Buttons functions during manual remote control}
 		\label{fig:button functions manual}
@@ -743,7 +742,7 @@
 		\item Except for software message, the User can get the errors message about EV3 robot via SCP only since there are no external server setting in the EV3 robot.
 		\item Since all functionalities are developed running remotely, all mapping information and initial map are supposed to upload to user’s PC. There are no need to transfer any document to EV3 robot.
 	\end{itemize}
-	
+	\newpage
 	\section{Other Non-Functional Requirements}
 	
 	\subsection{Performance Requirements}
