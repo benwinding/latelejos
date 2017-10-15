@@ -582,14 +582,18 @@
 	\subsection{User Interfaces}
 	Graphic User Interface will be provided to allow a user to interact with the system through graphical buttons and map scene. The size of GUI shall be large enough to display system message and map information clearly. This GUI will be implemented by using JavaFX. There are three types of buttons and two types of display area. The specific details of the user interface design will be documented in a separate user interface specification. 
 	
-	\begin{figure}[h]
+	\begin{figure}[H]
 		\centering
 		\includegraphics[width=300px]{GUI.PNG}
 		\caption{The prototype of GUI with keyboard shortcuts for each button}
 		\label{fig:GUI with keyboard shortcuts}
 	\end{figure}
 	
-	\subsubsection*{Button Functions}
+	\subsubsection*{EIR01: Button Functions}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR05, UR06, UR14
+	\paragraph{Description:} GUI shall provide a set of buttons for an user to coontrol the robot and perform the features which are describled in section 3. The following is the table to illustrate the functionalities for each button.
+
 	\begin{figure}[H]
 		\centering
 		\begin{tabular}{|p{3cm}|p{6cm}|}
@@ -608,9 +612,11 @@
 		\caption{Buttons functions during manual remote control}
 		\label{fig:button functions manual}
 	\end{figure}
-	
-	\subsubsection*{Map Information}
-	The map information component provides a user interface to view and interact with the map in real time.
+
+	\subsubsection*{EIR02: Map panel}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR05, UR06, UR14
+	\paragraph{Description:} The map information component provides a user interface to view and interact with the map in real time.
 	
 	\begin{figure}[H]
 		\centering
