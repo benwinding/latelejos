@@ -4,12 +4,13 @@ import RobotRemote.Models.MapPoint;
 import RobotRemote.Shared.RobotConfiguration;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UpdaterUtils {
-  public static void DrawPointsOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config) {
+  public static void DrawPointsOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config, Color colour) {
+    gc.setStroke(colour);
     for(int i = 0; i<points.size() - 1;i++) {
       MapPoint p1 = points.get(i);
       MapPoint p2 = points.get(i+1);
@@ -22,7 +23,9 @@ public class UpdaterUtils {
     }
   }
 
-  public static void DrawAreaOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config) {
+  public static void DrawAreaOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config, Color fillColour) {
+    gc.setStroke(fillColour);
+    gc.setFill(fillColour.brighter());
     int numPoints = points.size();
     double[] xpoints = new double[numPoints];
     double[] ypoints = new double[numPoints];
@@ -45,6 +48,15 @@ public class UpdaterUtils {
       layer.setScaleY(uiUpdaterState.getZoomLevel());
       layer.setTranslateX(uiUpdaterState.getMapDragDeltaX()-mapW*3/2);
       layer.setTranslateY(uiUpdaterState.getMapDragDeltaY()-mapH*3/2);
+    }
+  }
+
+  static void DrawCirclesOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config, Color color, int circleSize) {
+    gc.setStroke(color);
+    for (MapPoint point : points) {
+      double p1x = (point.x + config.mapW) * config.mapPixelsPerCm - circleSize / 2;
+      double p1y = (point.y + config.mapH) * config.mapPixelsPerCm - circleSize / 2;
+      gc.strokeOval(p1x, p1y, circleSize, circleSize);
     }
   }
 }

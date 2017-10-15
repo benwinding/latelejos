@@ -1,5 +1,6 @@
 package RobotRemote.UIServices.MapHandlers;
 
+import RobotRemote.Models.MapPoint;
 import lejos.robotics.navigation.Waypoint;
 
 import java.util.ArrayList;
@@ -14,6 +15,14 @@ public class UserWaypointsState {
 
   public List<Waypoint> GetSelectedWayPoints() {
     return waypoints;
+  }
+
+  public List<MapPoint> GetSelectedMapPoints() {
+    List<MapPoint> temp = new ArrayList<>();
+    for(Waypoint wp: waypoints) {
+      temp.add(new MapPoint(wp.x,wp.y));
+    }
+    return temp;
   }
 
   void AddWayPoint(double x, double y) {

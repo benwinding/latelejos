@@ -41,9 +41,8 @@ class MapLocationsLayersFactory {
   private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    gc.setStroke(colour);
     gc.setLineWidth(15);
-    UpdaterUtils.DrawPointsOnContext(gc, points, config);
+    UpdaterUtils.DrawPointsOnContext(gc, points, config, colour);
     return layer;
   }
 
