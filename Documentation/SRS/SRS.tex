@@ -666,18 +666,25 @@
 	\subsection{Hardware Interfaces}
 	There are two main hardware interfaces in the system. The remote control interface is to provide the GUI with an interface to control the robot. The robot embedded interface is to provide the robot with an interface to receive signals from the remote control system.
 	
-	\subsubsection*{Remote Control Interface}
-	This hardware interface is the WiFi which is connected to the computer that contains the control software. The computer must meet the system requirements stated in section 2.4
+	\subsubsection*{EIR04:Remote Control Interface}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} This hardware interface is the WiFi which is connected to the computer that contains the control software. The computer must meet the system requirements stated in section 2.4
 	
-	\subsubsection*{Robot Embedded Interface}
-	All hardware components such as sensors and motors in the Robot are controlled by a controller called a LEGO\cpright EV3 brick. The EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WiFi. The details of specification of WiFi dongle which is inserted to the Robot will be discussed in 5.4 section.
+	\subsubsection*{EIR05:Robot Embedded Interface}
+	\paragraph{Priortiy:} Medium
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} All hardware components such as sensors and motors in the Robot are controlled by a controller called a LEGO\cpright EV3 brick. The EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WiFi. The details of specification of WiFi dongle which is inserted to the Robot will be discussed in 5.4 section.
 	
-	\subsubsection*{System Control}
-	 The system control is conducted via WiFi connection. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.	
+	\subsubsection*{EIR06:System Control}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} The system control is conducted via WiFi connection. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.	
 	
-	
-	\subsection{Software Interfaces}  
-	The system is developed in Java 7 environment and support running with machine specifications as stated in section 2.4. The flow of software communication between each component is shown in figure \ref{fig:Flow of software communication}.
+	\subsubsection*{EIR07:Software Interfaces}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} The system is developed in Java 8 environment and support running with machine specifications as stated in section 2.4. The flow of software communication between each component is shown in figure \ref{fig:Flow of software communication}.
 	
 	\begin{figure}[h]
 		\includegraphics[width=\linewidth]{software_interface.PNG}
@@ -685,22 +692,25 @@
 		\label{fig:Flow of software communication}
 	\end{figure}
 	
-	\subsubsection*{System Package Details}
-	- JDK 1.7 development environment.\\
-	- LeJOS 0.9.1 library including ev3 classes.\\
+	
+	\subsubsection*{Summary of System Package Details}
+	\begin{itemize}
+	\item JDK 1.8 development environment.
+	\item LeJOS 0.9.1 library including ev3 classes.
+	\end{itemize}
 	
 	These two libraries are for making a jar file which can be executed in LeJOS firmware. Also, ev3 classes provide necessary application programming interfaces for the system to communicate with robot.
 	
-	\subsubsection*{Software Components}
+	\subsubsection*{Summary of Software Components}
 	\begin{itemize}
-		\item LeJOS EV3 is running in Linux and LeJOS EV3 0.9.1 is supporting JAVA 1.7 only.     
-		Therefore, the system is developed in JAVA 1.7 environment.
+		\item LeJOS EV3 is running in Linux and LeJOS EV3 0.9.1 is supporting JAVA 1.8 only.     
+		Therefore, the system is developed in JAVA 1.8 environment.
 		\item User must execute the system via provided libraries in the system package. System package contains all necessary libraries for running the system.
 		\item Robot can be controlled by user via GUI only.
 		\item All data and mapping information will be transferred via wireless network. There are 100ms delay. In case of unavailable of wireless network, the system also provides Bluetooth network for communication. However, it is very unstable and is not recommended .
 	\end{itemize} 
 	
-	\subsubsection*{LeJOS Application Interface}
+	\subsubsection*{Summary of LeJOS Application Interface}
 	\begin{itemize}
 		\item Manual control
 		\item Package: LeJOS.hardware.motor, LeJOS.hardware.port and LeJOS.hardware.sensor
@@ -714,14 +724,20 @@
 	\subsection{Communications Interfaces}
 	The communication including data transfer and API communication is via wireless network (WiFi). The below is the standard for establishing wireless channel and supporting type of communication.
 	
-	\subsubsection*{LeJOS ev3 robot and remote system communication:}
+	\subsubsection*{EIR08:Communication interface between LeJOS ev3 robot and remote system }
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None	
+	\paragraph{Description:}
 	\begin{itemize}
 		\item The communication channel is established via WiFi.
 		\item The Digitech WiFi dongle is used for EV3 to connect wireless network (Support 802.11 b/g/n standards).
 		\item The encryption type for accessing wireless network supports WPA2 or none.
 	\end{itemize}
 	
-	\subsubsection*{The type of communication between LeJOS ev3 robot and remote system:}
+	\subsubsection*{EIR09:The type of communication between LeJOS ev3 robot and remote system}
+	\paragraph{Priortiy:} Medium
+	\paragraph{Dependencies:} None	
+	\paragraph{Description:}
 	\begin{itemize}
 		\item All system messages will be transferred to GUI display area only. It will not send any e-mail alerts to user e-mail. For the detail about what will be shown to the GUI display area, please refer to 5.1 user interface.
 		\item Except for software message, the User can get the errors message about EV3 robot via SCP only since there are no external server setting in the EV3 robot.
