@@ -1,7 +1,7 @@
 package RobotRemote.UIServices.MapHandlers;
 
 import RobotRemote.Models.MapPoint;
-import lejos.utility.Matrix;
+import RobotRemote.Shared.RobotConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +46,21 @@ public class UserNoGoZoneState {
     if(this.allNgzSets.size() > 0 && this.getCurrentNgzPoints() != null)
       this.CopyFirstPointToLastPosition(this.getCurrentNgzPoints());
   }
-}
 
+  public boolean isPointInNgz(MapPoint point) {
+    for(List<MapPoint> ngzSet: this.allNgzSets) {
+      if(NgzUtils.isPointInNgzArea(point, ngzSet))
+        return true;
+    }
+    return false;
+  }
+
+  public boolean isRobotInNgz(MapPoint robotLocation, RobotConfiguration config) {
+    int robotLong = config.robotPhysicalLength;
+    for(List<MapPoint> ngzSet: this.allNgzSets) {
+      if(NgzUtils.isRobotInNgzArea(robotLocation, ngzSet, robotLong))
+        return true;
+    }
+    return false;
+  }
+}

@@ -23,6 +23,8 @@ public class RobotConfiguration {
   // Robot physical attributes
   public float robotWheelDia = 5.6f;  // Tested on hard surface, Will not be accurate on carpet
   public float robotTrackWidth = 10.75f; // Tested on hard surface, Will not be accurate on carpet
+  public int robotPhysicalWidth = 20;
+  public int robotPhysicalLength = 20;
   // Update intervals
   public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 50;
