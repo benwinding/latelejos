@@ -85,13 +85,16 @@
                   <Label textFill="#4981e3">To finish the NGZ</Label>
                 </VBox>
               </VBox>
-              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
-                <VBox prefHeight="120.0" prefWidth="120.0">
-                  <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
+                <VBox>
+                  <ImageView>
                     <image>
                       <Image url="@../Images/Map_legend.png" />
                     </image>
                   </ImageView>
+                  <padding>
+                    <Insets top="10.0" bottom="10.0" right="10.0" left="10.0" />
+                  </padding>
                 </VBox>
               </TitledPane>
             </StackPane>
