@@ -168,8 +168,6 @@ public class MovementService implements IMovementService {
 
   @Override
   public void stop() {
-    if(!isMoving)
-      return;
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Stopping");
