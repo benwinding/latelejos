@@ -20,10 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lejos.robotics.navigation.Waypoint;
@@ -60,6 +62,8 @@ public class RootController implements Initializable {
   Button btnMoveRight;
   @FXML
   Button btnMoveStop;
+  @FXML
+  VBox infoNgzSelction;
 
   private UiState uiState;
   private EventBus eventBus;
@@ -77,6 +81,7 @@ public class RootController implements Initializable {
     this.uiState = sm.getAppState().getUiState();
     this.eventBus = sm.getEventBus();
     this.initMap();
+    this.infoNgzSelction.setVisible(false);
     SetManualButtonsDisabled(true);
   }
 
@@ -112,6 +117,7 @@ public class RootController implements Initializable {
         this.enterWaypoint.setSelected(false);
         eventBus.post(new EventUserMapNgzEnd());
         this.isFirstNgzPoint = true;
+        this.infoNgzSelction.setVisible(false);
         break;
       default:
         Logger.debug("Key press:" + e.getCode() + " is not implemented");
@@ -220,6 +226,10 @@ public class RootController implements Initializable {
       eventBus.post(new EventUserAddWaypoint(gotoOnMap));
       eventBus.post(new EventAutoControl(gotoOnMap));
     }
+  }
+
+  public void onClickEnterNgz(MouseEvent mouseEvent) {
+    this.infoNgzSelction.setVisible(enterNgz.isSelected());
   }
 
   private void handleEnterNgz(MouseEvent mouseEvent) {
