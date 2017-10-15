@@ -81,8 +81,8 @@
                   <VBox.margin>
                     <Insets top="10.0" />
                   </VBox.margin>
-                  <Label>Press ESC key</Label>
-                  <Label>To finish the NGZ</Label>
+                  <Label textFill="#4981e3">Press ESC key</Label>
+                  <Label textFill="#4981e3">To finish the NGZ</Label>
                 </VBox>
               </VBox>
               <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
