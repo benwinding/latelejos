@@ -57,7 +57,7 @@ public class MapInputEventHandlers {
     } catch (JAXBException e) {
       Logger.warn("Could not translate xml to map object");
     } catch (IOException e) {
-      Logger.warn("Could read xml file: " + importedMapFile.getAbsolutePath());
+      Logger.warn("Could not read xml file: " + importedMapFile.getAbsolutePath());
     }
   }
 

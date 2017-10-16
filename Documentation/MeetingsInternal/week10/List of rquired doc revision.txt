@@ -1,0 +1,16 @@
+SDD Improvements:
+System overview section of SDD should also include robot in the system along with a diagram of whole system.
+Section 3.2 needs more content.
+Diagrams included in Section 5 should be explained somewhere. 
+Section 7.4 needs more technical details such as how much ram and cpu is required to run the software.
+
+
+
+SPMP Improvements:
+Gannt Chart needs milestones
+Process Model needs more detail on which agile method and how it is implemented.
+Need an implementation of our Work Plan with high level diagram & work break down
+structure
+
+SRS Improments
+NA
