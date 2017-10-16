@@ -41,19 +41,19 @@ class MapSelectedLayersFactory {
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLACK),
         this.CreateDiscoveredColoursLayer(discoveredColoursState),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
-        this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints(), Color.web("BLUE",0.1))
+        this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
   }
 
-  private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets, Color ngzColour) {
+  private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     for(List<MapPoint> points: pointSets) {
-      UpdaterUtils.DrawAreaOnContext(gc, points, config, ngzColour);
-      UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("BLUE",0.8));
-      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("BLUE",0.8), 10);
+      UpdaterUtils.DrawAreaOnContext(gc, points, config, Color.web("RED",0.1));
+      UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("RED"));
+      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
     }
     return layer;
   }
