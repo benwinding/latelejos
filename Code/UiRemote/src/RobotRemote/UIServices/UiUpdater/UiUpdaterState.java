@@ -11,11 +11,18 @@ public class UiUpdaterState {
   private float mapW;
   private double mapDragDeltax;
   private double mapDragDeltay;
+  List<MapPoint> pointsMapBorder;
 
   public UiUpdaterState(float zoomLevel, float mapH, float mapW) {
     this.zoomLevel = zoomLevel;
     this.mapH = mapH;
     this.mapW = mapW;
+    this.pointsMapBorder = new ArrayList<>();
+    pointsMapBorder.add(new MapPoint(0,0));
+    pointsMapBorder.add(new MapPoint(mapW,0));
+    pointsMapBorder.add(new MapPoint(mapW,mapH));
+    pointsMapBorder.add(new MapPoint(0,mapH));
+    pointsMapBorder.add(new MapPoint(0,0));
   }
 
   public float getZoomLevel() {
@@ -31,13 +38,11 @@ public class UiUpdaterState {
   }
 
   public List<MapPoint> GetPointsBorder() {
-    List<MapPoint> pointsMapBorder = new ArrayList<>();
-    pointsMapBorder.add(new MapPoint(0,0));
-    pointsMapBorder.add(new MapPoint(mapW,0));
-    pointsMapBorder.add(new MapPoint(mapW,mapH));
-    pointsMapBorder.add(new MapPoint(0,mapH));
-    pointsMapBorder.add(new MapPoint(0,0));
-    return pointsMapBorder;
+    return this.pointsMapBorder;
+  }
+
+  public void SetBorderPoints(List<MapPoint> borderPointsSet) {
+    this.pointsMapBorder = borderPointsSet;
   }
 
   public void incrementZoomLevel() {
