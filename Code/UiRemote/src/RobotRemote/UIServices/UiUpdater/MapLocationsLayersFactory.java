@@ -4,6 +4,7 @@ import RobotRemote.Models.MapPoint;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Movement.LocationState;
+import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -16,6 +17,7 @@ class MapLocationsLayersFactory {
   private final float mapH;
   private final float mapW;
   private final float mapPixelsPerCm;
+  private UserNoGoZoneState ngzState;
   private LocationState locationState;
   private UiUpdaterState uiUpdaterState;
   private RobotConfiguration config;
@@ -27,6 +29,7 @@ class MapLocationsLayersFactory {
     this.mapH = uiUpdaterState.getMapH() * mapPixelsPerCm;
     this.mapW = uiUpdaterState.getMapW() * mapPixelsPerCm;
     this.locationState = appStateRepository.getLocationState();
+    this.ngzState = appStateRepository.getUserNoGoZoneState();
   }
 
   List<Canvas> CreateMapLayers() {
@@ -68,8 +71,12 @@ class MapLocationsLayersFactory {
     Image imgRobot = new Image(getClass().getResourceAsStream("../../UI/Images/robot-map.png"));
 
     gc.drawImage(imgRobot,0,0, robotW, robotH);
-    gc.restore();
 
+    if(ngzState.isRobotInNgz(robotLocation, config)) {
+      gc.setFill(Color.web("RED",0.3));
+      gc.fillRect(0,0, robotW, robotH);
+    }
+    gc.restore();
     return layer;
   }
 }
