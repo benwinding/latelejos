@@ -1,43 +1,70 @@
 package RobotRemote.UIServices.MapHandlers;
 
-import lejos.utility.Matrix;
+import RobotRemote.Models.MapPoint;
+import RobotRemote.Shared.RobotConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserNoGoZoneState {
-  private Matrix ngzMatrix;
+  private List<List<MapPoint>> allNgzSets;
 
-  public UserNoGoZoneState(int ngzRows, int ngzCols) {
-    ngzMatrix = new Matrix(ngzRows,ngzCols);
+  public UserNoGoZoneState() {
+    allNgzSets = new ArrayList<>();
   }
 
-  public Matrix getNgzMatrix() {
-    return ngzMatrix;
+  private List<MapPoint> getCurrentNgzPoints() {
+    return this.allNgzSets.get(allNgzSets.size()-1);
   }
 
-  void selectNgzCell(int ngzRow, int ngzCol) {
-    ngzMatrix.set(ngzRow, ngzCol, 1);
+  public void AddNgzSet(List<MapPoint> ngzSet) {
+    this.allNgzSets.add(ngzSet);
   }
 
-  void deselectNgzCell(int ngzRow, int ngzCol) {
-    ngzMatrix.set(ngzRow, ngzCol, 0);
+  void AddNgzStartPoint(MapPoint newNgzPoint) {
+    this.allNgzSets.add(new ArrayList<>());
+    AddPointToCurrentList(newNgzPoint);
   }
 
-  void switchNgzCell(int ngzRow, int ngzCol) {
-    try {
-      double currentValue = ngzMatrix.get(ngzRow, ngzCol);
-      if(currentValue == 0)
-        selectNgzCell(ngzRow, ngzCol);
-      else
-        deselectNgzCell(ngzRow, ngzCol);
-    }catch (Exception e) {
+  void AddNgzMiddlePoint(MapPoint newNgzPoint) {
+    AddPointToCurrentList(newNgzPoint);
+  }
+
+  private void AddPointToCurrentList(MapPoint newNgzPoint) {
+    this.getCurrentNgzPoints().add(newNgzPoint);
+  }
+
+  public List<List<MapPoint>> GetNgzPoints() {
+    if(this.allNgzSets.size() > 0 && this.getCurrentNgzPoints() != null)
+      return this.allNgzSets;
+    else
+      return new ArrayList<>();
+  }
+
+  private void CopyFirstPointToLastPosition(List<MapPoint> ngzCopy) {
+    if(ngzCopy != null && ngzCopy.size() > 0)
+      ngzCopy.add(ngzCopy.get(0));
+  }
+
+  void FinishedNgzSet() {
+    if(this.allNgzSets.size() > 0 && this.getCurrentNgzPoints() != null)
+      this.CopyFirstPointToLastPosition(this.getCurrentNgzPoints());
+  }
+
+  public boolean isPointInNgz(MapPoint point) {
+    for(List<MapPoint> ngzSet: this.allNgzSets) {
+      if(NgzUtils.isPointInNgzArea(point, ngzSet))
+        return true;
     }
+    return false;
   }
 
-  public int countGridRows() {
-    return this.ngzMatrix.getRowDimension();
-  }
-
-  public int countGridCols() {
-    return this.ngzMatrix.getColumnDimension();
+  public boolean isRobotInNgz(MapPoint robotLocation, RobotConfiguration config) {
+    int robotLong = config.robotPhysicalLength;
+    for(List<MapPoint> ngzSet: this.allNgzSets) {
+      if(NgzUtils.isRobotInNgzArea(robotLocation, ngzSet, robotLong))
+        return true;
+    }
+    return false;
   }
 }
-

@@ -4,7 +4,7 @@ import RobotRemote.Models.MapPoint;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Movement.LocationState;
-import RobotRemote.RobotServices.Sensors.SensorsState;
+import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -17,7 +17,7 @@ class MapLocationsLayersFactory {
   private final float mapH;
   private final float mapW;
   private final float mapPixelsPerCm;
-  private SensorsState sensorState;
+  private UserNoGoZoneState ngzState;
   private LocationState locationState;
   private UiUpdaterState uiUpdaterState;
   private RobotConfiguration config;
@@ -29,13 +29,13 @@ class MapLocationsLayersFactory {
     this.mapH = uiUpdaterState.getMapH() * mapPixelsPerCm;
     this.mapW = uiUpdaterState.getMapW() * mapPixelsPerCm;
     this.locationState = appStateRepository.getLocationState();
-    this.sensorState = appStateRepository.getSensorsState();
+    this.ngzState = appStateRepository.getUserNoGoZoneState();
   }
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.GREEN)
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("GREEN", 0.15))
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
@@ -44,18 +44,14 @@ class MapLocationsLayersFactory {
   private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    gc.setStroke(colour);
-    gc.setLineWidth(5);
-    UpdaterUtils.DrawPointsOnContext(gc, points, config);
-    gc.setFill(Color.GREEN);
-    UpdaterUtils.DrawAreaOnContext(gc, points, config);
-    gc.setFill(Color.BLACK);
+    gc.setLineWidth(15);
+    UpdaterUtils.DrawPointsOnContext(gc, points, config, colour);
     return layer;
   }
 
   private Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
-    double robotW = 12 * mapPixelsPerCm;
-    double robotH = 10 * mapPixelsPerCm;
+    double robotW = config.robotPhysicalWidth * mapPixelsPerCm;
+    double robotH = config.robotPhysicalLength * mapPixelsPerCm;
 
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
@@ -75,39 +71,12 @@ class MapLocationsLayersFactory {
     Image imgRobot = new Image(getClass().getResourceAsStream("../../UI/Images/robot-map.png"));
 
     gc.drawImage(imgRobot,0,0, robotW, robotH);
+
+    if(ngzState.isRobotInNgz(robotLocation, config)) {
+      gc.setFill(Color.web("RED",0.3));
+      gc.fillRect(0,0, robotW, robotH);
+    }
     gc.restore();
-
-    return layer;
-  }
-
-  private Canvas CreateSensorFieldLayer(MapPoint robotLocation) {
-    double sensorFieldW = 12 * mapPixelsPerCm;
-    double sensorValUltra = sensorState.getUltraReadingCm();
-    if(sensorValUltra < 0)
-      sensorValUltra = 0;
-
-    int sensorFieldH = (int) sensorValUltra;
-
-    Canvas layer = new Canvas(mapW*3,mapH*3);
-    GraphicsContext gc = layer.getGraphicsContext2D();
-
-    double x = (robotLocation.x + mapW - sensorFieldW/2) * mapPixelsPerCm;
-    double y = (robotLocation.y + mapH - sensorFieldH/2) * mapPixelsPerCm;
-
-    double rotationCenterX = ((sensorFieldW) / 2) * mapPixelsPerCm;
-    double rotationCenterY = ((sensorFieldH) / 2) * mapPixelsPerCm;
-
-    gc.save();
-    gc.translate(x, y );
-    gc.translate(rotationCenterX, rotationCenterY);
-    gc.rotate((robotLocation.theta-90)+180);
-    gc.translate(-rotationCenterX, -rotationCenterY);
-
-    Image imgSensorField = new Image(getClass().getResourceAsStream("../../UI/Images/sensor-field.png"));
-
-    gc.drawImage(imgSensorField,0,0, sensorFieldW, sensorFieldH);
-    gc.restore();
-
     return layer;
   }
 }

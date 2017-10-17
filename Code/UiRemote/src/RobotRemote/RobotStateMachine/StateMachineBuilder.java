@@ -11,42 +11,50 @@ import RobotRemote.Shared.ServiceManager;
 import com.google.common.eventbus.Subscribe;
 
 public class StateMachineBuilder {
-    private IdleState state_idle;
-    private ManualMoving state_manualMoving;
-    private AutoSurveying state_autoSurveying;
-
+    private IdleState stateIdle;
+    private ManualMoving stateManualMoving;
+    private AutoSurveying stateAutoSurveying;
+    private IModeState currentState;
     public StateMachineBuilder(ServiceManager sm) {
         sm.getEventBus().register(this);
         // Create State Instances
-        state_manualMoving = new ManualMoving(sm);
-        state_autoSurveying = new AutoSurveying(sm);
-        state_idle = new IdleState(sm);
-        state_idle.Enter();
+        stateManualMoving = new ManualMoving(sm);
+        stateAutoSurveying = new AutoSurveying(sm);
+        stateIdle = new IdleState(sm);
+        stateIdle.Enter();
+        currentState = stateIdle;
+    }
+    public IModeState getCurrentState()
+    {
+        return  this.currentState;
     }
 
     @Subscribe
     private void OnSwitchToManualMode(EventSwitchToManual event) {
         Logger.log("SWITCH TO MANUAL MODE...");
-        this.state_idle.Leave();
-        this.state_autoSurveying.Leave();
-        this.state_manualMoving.Enter();
+        this.stateIdle.Leave();
+        this.stateAutoSurveying.Leave();
+        this.stateManualMoving.Enter();
+        this.currentState = stateManualMoving;
     }
 
     @Subscribe
     private void OnSwitchToAutoSurveyMode(EventSwitchToAutoMap event) {
         Logger.log("SWITCH TO AUTOSURVEY MODE...");
-        this.state_idle.Leave();
-        this.state_manualMoving.Leave();
-        this.state_autoSurveying.Enter();
+        this.stateIdle.Leave();
+        this.stateManualMoving.Leave();
+        this.stateAutoSurveying.Enter();
+        this.currentState = stateAutoSurveying;
     }
 
     @Subscribe
     private void OnSTOP(EventEmergencySTOP event) {
       Logger.log("EMERGENCY STOP...");
-      this.state_autoSurveying.Leave();
-      this.state_manualMoving.Leave();
+      this.stateAutoSurveying.Leave();
+      this.stateManualMoving.Leave();
       //Switch to idle mode
-      this.state_idle.Enter();
+      this.stateIdle.Enter();
+      this.currentState = stateIdle;
     }
 
     @Subscribe

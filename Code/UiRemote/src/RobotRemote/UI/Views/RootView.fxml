@@ -49,40 +49,52 @@
           <TitledPane collapsible="false" text="Map" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <StackPane>
               <HBox alignment="CENTER" StackPane.alignment="CENTER">
-                <Pane fx:id="map" onMouseDragged="#onDragMap" onMousePressed="#onClickMap" onMouseReleased="#onReleaseMap"
+                <Pane fx:id="map" onMouseDragged="#onDragMap" onMouseClicked="#onClickMap" onMouseReleased="#onReleaseMap"
                       prefHeight="2000"
                       prefWidth="2000"
                 />
               </HBox>
-              <TitledPane collapsible="false" maxWidth="160.0" prefWidth="152.0" text="Map Options" StackPane.alignment="TOP_RIGHT">
-                <VBox prefHeight="61.0" prefWidth="158.0">
-                  <VBox.margin>
-                    <Insets bottom="10.0" />
-                  </VBox.margin>
-                  <padding>
-                    <Insets bottom="10.0" left="10" right="10" top="10" />
-                  </padding>
-                  <RadioButton fx:id="enterNgz" text="Enter NGZ">
-                    <toggleGroup>
-                      <ToggleGroup fx:id="mapOptions" />
-                    </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
-                  <Button id="btnZoomReset" maxHeight="30.0" minWidth="130.0" onMouseClicked="#onClickZoomReset">
-                    Zoom Reset
+              <VBox maxWidth="160.0" prefWidth="152.0" StackPane.alignment="TOP_RIGHT">
+                <TitledPane collapsible="false" text="Map Options">
+                  <VBox prefHeight="61.0" prefWidth="158.0">
                     <VBox.margin>
-                      <Insets top="10.0" />
+                      <Insets bottom="10.0" />
                     </VBox.margin>
-                  </Button>
+                    <padding>
+                      <Insets bottom="10.0" left="10" right="10" top="10" />
+                    </padding>
+                    <RadioButton fx:id="enterNgz" text="Enter NGZ" onMouseClicked="#onClickEnterNgz">
+                      <toggleGroup>
+                        <ToggleGroup fx:id="mapOptions" />
+                      </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="enterWaypoint" text="Enter Waypoint" toggleGroup="$mapOptions" />
+                    <Button id="btnZoomReset" maxHeight="30.0" minWidth="130.0" onMouseClicked="#onClickZoomReset">
+                      Zoom Reset
+                      <VBox.margin>
+                        <Insets top="10.0" />
+                      </VBox.margin>
+                    </Button>
+                  </VBox>
+                </TitledPane>
+                <VBox fx:id="infoNgzSelction">
+                  <VBox.margin>
+                    <Insets top="10.0" />
+                  </VBox.margin>
+                  <Label textFill="#4981e3">Press ESC key</Label>
+                  <Label textFill="#4981e3">To finish the NGZ</Label>
                 </VBox>
-              </TitledPane>
-              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" prefHeight="250.0" prefWidth="153.0" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
-                <VBox prefHeight="120.0" prefWidth="120.0">
-                  <ImageView fitHeight="127.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+              </VBox>
+              <TitledPane alignment="CENTER" collapsible="false" maxWidth="160" text="Map Legends" StackPane.alignment="BOTTOM_RIGHT">
+                <VBox>
+                  <ImageView>
                     <image>
                       <Image url="@../Images/Map_legend.png" />
                     </image>
                   </ImageView>
+                  <padding>
+                    <Insets top="10.0" bottom="10.0" right="10.0" left="10.0" />
+                  </padding>
                 </VBox>
               </TitledPane>
             </StackPane>

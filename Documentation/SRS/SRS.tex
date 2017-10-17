@@ -577,40 +577,45 @@
 		\end{itemize} 
 		
 	\end{itemize}
-	
+	\newpage
 	\section{External Interface Requirements}
 	\subsection{User Interfaces}
 	Graphic User Interface will be provided to allow a user to interact with the system through graphical buttons and map scene. The size of GUI shall be large enough to display system message and map information clearly. This GUI will be implemented by using JavaFX. There are three types of buttons and two types of display area. The specific details of the user interface design will be documented in a separate user interface specification. 
 	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=300px]{GUI.PNG}
-		\caption{The prototype of GUI with keyboard shortcuts for each button}
-		\label{fig:GUI with keyboard shortcuts}
-	\end{figure}
-	
-	\subsubsection*{Button Functions}
 	\begin{figure}[H]
 		\centering
-		\begin{tabular}{|p{3cm}|p{6cm}|}
+		\includegraphics[width=300px]{GUI.PNG}
+		\caption{The prototype of GUI}
+		\label{fig:GUI}
+	\end{figure}
+	
+	\subsubsection*{EIR01: Button Functions}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR05, UR06, UR14
+	\paragraph{Description:} GUI shall provide a set of buttons for an user to coontrol the robot and perform the features which are describled in section 3. The following is the table to illustrate the functionalities of each button.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tabular}{|p{3cm}|p{3cm}| p{6cm}|}
 			\hline 
-			\textbf{Button} &\textbf{Action} \\ \hline 
-			Up & Robot moves forward \\ \hline 
-			Left & Robot makes a left turn \\ \hline 
-			Right & Robot makes a right turn \\ \hline 
-			Down & Robot moves backward \\ \hline 
-			Connect & Establish connection to remote robot \\ \hline 
-			Disconnect & Disconnect from remote connection \\ \hline 
-			Switch Mode & Switch the current mode of the robot. If the robot is in Navigation mode then change the robot to Auto mode, and vice versa. \\ \hline 
-			Upload & Upload partially complete map data to the system \\ \hline
-			Download & Save the current map information to a local XML file \\ \hline
+			\textbf{Button} &\textbf{Keyboard shortcuts}& \textbf{Action} \\ \hline 
+			Up & W &  Robot moves forward \\ \hline 
+			Left & A& Robot makes a left turn \\ \hline 
+			Right & D& Robot makes a right turn \\ \hline 
+			Down & S&Robot moves backward \\ \hline 
+			Stop & Q&Robot moves backward \\ \hline 
+			Switch Mode &None& Switch the current mode of the robot. If the robot is in Navigation mode then change the robot to Auto mode, and vice versa. \\ \hline 
+			Upload &None & Upload partially complete map data to the system \\ \hline
+			Download &None & Save the current map information to a local XML file \\ \hline
 		\end{tabular} 
 		\caption{Buttons functions during manual remote control}
 		\label{fig:button functions manual}
 	\end{figure}
-	
-	\subsubsection*{Map Information}
-	The map information component provides a user interface to view and interact with the map in real time.
+
+	\subsubsection*{EIR02: Map panel}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} UR01, UR02, UR03, UR04
+	\paragraph{Description:} The map information component provides a user interface to view and interact with the map in real time. The following is the table to illustrate the functionalities of map panel.
 	
 	\begin{figure}[H]
 		\centering
@@ -624,8 +629,10 @@
 		\label{fig:button functions map}
 	\end{figure}
 	
-	\subsubsection*{Message Area}
-	The message area displays system information and error messages during the operation of the robot. Figure \ref{fig:message display details}. shows the different messages have been broken into priority categories to illustrate the different levels of importance of each message.
+	\subsubsection*{EIR03: User console}
+	\paragraph{Priortiy:} Low
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} The User console displays system information and error messages during the operation of the robot. Figure \ref{fig:User console details}. shows the different messages have been broken into priority categories.
 	
 	\begin{figure}
 		\centering
@@ -658,18 +665,25 @@
 	\subsection{Hardware Interfaces}
 	There are two main hardware interfaces in the system. The remote control interface is to provide the GUI with an interface to control the robot. The robot embedded interface is to provide the robot with an interface to receive signals from the remote control system.
 	
-	\subsubsection*{Remote Control Interface}
-	This hardware interface is the WiFi which is connected to the computer that contains the control software. The computer must meet the system requirements stated in section 2.4
+	\subsubsection*{EIR04:Remote Control Interface}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} This hardware interface is the WiFi which is connected to the computer that contains the control software. The computer must meet the system requirements stated in section 2.4
 	
-	\subsubsection*{Robot Embedded Interface}
-	All hardware components such as sensors and motors in the Robot are controlled by a controller called a LEGO\cpright EV3 brick. The EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WiFi. The details of specification of WiFi dongle which is inserted to the Robot will be discussed in 5.4 section.
+	\subsubsection*{EIR05:Robot Embedded Interface}
+	\paragraph{Priortiy:} Medium
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} All hardware components such as sensors and motors in the Robot are controlled by a controller called a LEGO\cpright EV3 brick. The EV3 brick is also an interface to establish connection between remote system and robot. The communication is established through WiFi. The details of specification of WiFi dongle which is inserted to the Robot will be discussed in 5.4 section.
 	
-	\subsubsection*{System Control}
-	 The system control is conducted via WiFi connection. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.	
+	\subsubsection*{EIR06:System Control}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} The system control is conducted via WiFi connection. The product is an integrated system which is running in remote system only. The robot itself will not contain any software which is required for running the system. The EV3 brick will base all decisions on the received signal from a user remote system to control motors and sensors.	
 	
-	
-	\subsection{Software Interfaces}  
-	The system is developed in Java 7 environment and support running with machine specifications as stated in section 2.4. The flow of software communication between each component is shown in figure \ref{fig:Flow of software communication}.
+	\subsubsection*{EIR07:Software Interfaces}
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None
+	\paragraph{Description:} The system is developed in Java 8 environment and support running with machine specifications as stated in section 2.4. The flow of software communication between each component is shown in figure \ref{fig:Flow of software communication}.
 	
 	\begin{figure}[h]
 		\includegraphics[width=\linewidth]{software_interface.PNG}
@@ -677,22 +691,25 @@
 		\label{fig:Flow of software communication}
 	\end{figure}
 	
-	\subsubsection*{System Package Details}
-	- JDK 1.7 development environment.\\
-	- LeJOS 0.9.1 library including ev3 classes.\\
+	
+	\subsubsection*{Summary of System Package Details}
+	\begin{itemize}
+	\item JDK 1.8 development environment.
+	\item LeJOS 0.9.1 library including ev3 classes.
+	\end{itemize}
 	
 	These two libraries are for making a jar file which can be executed in LeJOS firmware. Also, ev3 classes provide necessary application programming interfaces for the system to communicate with robot.
 	
-	\subsubsection*{Software Components}
+	\subsubsection*{Summary of Software Components}
 	\begin{itemize}
-		\item LeJOS EV3 is running in Linux and LeJOS EV3 0.9.1 is supporting JAVA 1.7 only.     
-		Therefore, the system is developed in JAVA 1.7 environment.
+		\item LeJOS EV3 is running in Linux and LeJOS EV3 0.9.1 is supporting JAVA 1.8 only.     
+		Therefore, the system is developed in JAVA 1.8 environment.
 		\item User must execute the system via provided libraries in the system package. System package contains all necessary libraries for running the system.
 		\item Robot can be controlled by user via GUI only.
 		\item All data and mapping information will be transferred via wireless network. There are 100ms delay. In case of unavailable of wireless network, the system also provides Bluetooth network for communication. However, it is very unstable and is not recommended .
 	\end{itemize} 
 	
-	\subsubsection*{LeJOS Application Interface}
+	\subsubsection*{Summary of LeJOS Application Interface}
 	\begin{itemize}
 		\item Manual control
 		\item Package: LeJOS.hardware.motor, LeJOS.hardware.port and LeJOS.hardware.sensor
@@ -706,20 +723,26 @@
 	\subsection{Communications Interfaces}
 	The communication including data transfer and API communication is via wireless network (WiFi). The below is the standard for establishing wireless channel and supporting type of communication.
 	
-	\subsubsection*{LeJOS ev3 robot and remote system communication:}
+	\subsubsection*{EIR08:Communication interface between LeJOS ev3 robot and remote system }
+	\paragraph{Priortiy:} High
+	\paragraph{Dependencies:} None	
+	\paragraph{Description:}
 	\begin{itemize}
 		\item The communication channel is established via WiFi.
 		\item The Digitech WiFi dongle is used for EV3 to connect wireless network (Support 802.11 b/g/n standards).
 		\item The encryption type for accessing wireless network supports WPA2 or none.
 	\end{itemize}
 	
-	\subsubsection*{The type of communication between LeJOS ev3 robot and remote system:}
+	\subsubsection*{EIR09:The type of communication between LeJOS ev3 robot and remote system}
+	\paragraph{Priortiy:} Medium
+	\paragraph{Dependencies:} None	
+	\paragraph{Description:}
 	\begin{itemize}
 		\item All system messages will be transferred to GUI display area only. It will not send any e-mail alerts to user e-mail. For the detail about what will be shown to the GUI display area, please refer to 5.1 user interface.
 		\item Except for software message, the User can get the errors message about EV3 robot via SCP only since there are no external server setting in the EV3 robot.
 		\item Since all functionalities are developed running remotely, all mapping information and initial map are supposed to upload to user’s PC. There are no need to transfer any document to EV3 robot.
 	\end{itemize}
-	
+	\newpage
 	\section{Other Non-Functional Requirements}
 	
 	\subsection{Performance Requirements}

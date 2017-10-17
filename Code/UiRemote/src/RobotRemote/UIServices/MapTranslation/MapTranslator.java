@@ -3,6 +3,7 @@ package RobotRemote.UIServices.MapTranslation;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
@@ -42,36 +43,60 @@ public class MapTranslator implements IMapTranslator {
     throw new NotFound();
   }
 
-  private void addZoneMapPoints(ArrayList<MapPoint> listName, Lunarovermap.Zone zoneName) {
+  private void addZoneMapPoints(ArrayList<MapPoint> listName, Lunarovermap.Zone zoneName, String units) {
     if (zoneName != null) {
       for (Lunarovermap.Zone.Area.Point genericPoint : zoneName.area.point) {
         int x = 0, y = 0;
-        x = genericPoint.getX() / 10;
-        y = genericPoint.getY() / 10;
+        x = genericPoint.getX() ;
+        y = genericPoint.getY() ;
+        if(Objects.equals(units, "metres")){
+          x=x/10;
+          y=y/10;
+        }
         MapPoint point = new MapPoint(x, y);
         listName.add(point);
       }
     }
   }
 
-  private void addTrackMapPoints(ArrayList<MapPoint> listName, Lunarovermap.Track trackName) {
+  private void addTrackMapPoints(ArrayList<MapPoint> listName, Lunarovermap.Track trackName, String units) {
     if (trackName != null) {
       for (Lunarovermap.Track.Point genericPoint : trackName.point) {
         int x = 0, y = 0;
-        x = genericPoint.getX() / 10;
-        y = genericPoint.getY() / 10;
+        x = genericPoint.getX() ;
+        y = genericPoint.getY() ;
+        if(Objects.equals(units, "metres")){
+          x=x/10;
+          y=y/10;
+        }
         MapPoint point = new MapPoint(x, y);
         listName.add(point);
       }
     }
   }
 
+  public void validateImport(Lunarovermap mapFromString){
+    if(mapFromString.trackToColor==null){
+      Logger.warn(" Invalid track color settings detected");
+    }
+    if(mapFromString.roverLandingSite.point==null){
+      Logger.warn(" invalid rover landing site");
+    }
+    if(mapFromString.vehicleStatus.point==null){
+      Logger.warn("Invalid current position");
+    }
+    if(mapFromString.boundary.area.point==null){
+      Logger.warn("Invalid boundary");
+    }
+  }
   //input: xmlstring, outputs mapTransferObject
   @Override
   public MapTransferObject GetMapFromXmlString(String xmlString) throws JAXBException {
     //create lunarRoverMap object:
     Lunarovermap mapFromString = new XmlTranslator().createMapObject(xmlString);
     //Get list of generic zones from object
+    validateImport(mapFromString);
+
     List<Lunarovermap.Zone> zoneList = mapFromString.zone;
     //Get list of different track types
     List<Lunarovermap.Track> tracksList = mapFromString.track;
@@ -97,18 +122,23 @@ public class MapTranslator implements IMapTranslator {
     }
 
     //current point:
-    int currentX = mapFromString.vehicleStatus.point.getX() / 10;
-    int currentY = mapFromString.vehicleStatus.point.getY() / 10;
+    int currentX = mapFromString.vehicleStatus.point.getX();
+    int currentY = mapFromString.vehicleStatus.point.getY();
+    if(Objects.equals(mapFromString.units, "metres")){
+      currentX=currentX/10;
+      currentY=currentY/10;
+    }
     int currentTheta = mapFromString.vehicleStatus.attribute.getValue();
     MapPoint currentPos = new MapPoint(currentX, currentY, currentTheta);
     ////////////////////
     //rover landing site:
-    MapPoint roverLandingSite = null;
-    if (mapFromString.roverLandingSite!=null) {
-      int roverX = mapFromString.roverLandingSite.point.getX() / 10;
-      int roverY = mapFromString.roverLandingSite.point.getY() / 10;
-      roverLandingSite = new MapPoint(roverX, roverY);
+    int roverX = mapFromString.roverLandingSite.point.getX() ;
+    int roverY = mapFromString.roverLandingSite.point.getY() ;
+    if(Objects.equals(mapFromString.units, "metres")){
+      roverX=roverX/10;
+      roverY=roverY/10;
     }
+    MapPoint roverLandingSite = new MapPoint(roverX, roverY);
     /////////////////////
     //Obstacles
     ArrayList<MapPoint> obstacleList = null;
@@ -131,7 +161,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addZoneMapPoints(noGo, noGoZone1);
+    addZoneMapPoints(noGo, noGoZone1, mapFromString.units);
     /////////////////////
     //Crater Zones
     ArrayList<MapPoint> craters = new ArrayList<>();
@@ -141,7 +171,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addZoneMapPoints(craters, craterZone);
+    addZoneMapPoints(craters, craterZone, mapFromString.units);
     /////////////////////
     //Explored Zones
     ArrayList<MapPoint> explored = new ArrayList<>();
@@ -151,7 +181,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addZoneMapPoints(explored, exploredZone);
+    addZoneMapPoints(explored, exploredZone, mapFromString.units);
     /////////////////////
     //Unexplored Zones
     ArrayList<MapPoint> unexplored = new ArrayList<>();
@@ -161,7 +191,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addZoneMapPoints(unexplored, unexploredZone);
+    addZoneMapPoints(unexplored, unexploredZone, mapFromString.units);
 
     /////////////////////
     //radiation zone
@@ -172,7 +202,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addZoneMapPoints(radiation, radiationZone);
+    addZoneMapPoints(radiation, radiationZone, mapFromString.units);
     /////////////////////
     //Boundary
     ArrayList<MapPoint> boundary = new ArrayList<>();
@@ -180,8 +210,12 @@ public class MapTranslator implements IMapTranslator {
     if (lunarBoundary != null) {
       for (Lunarovermap.Boundary.Area.Point genericPoint : lunarBoundary.area.point) {
         int x = 0, y = 0;
-        x = genericPoint.getX() / 10;
-        y = genericPoint.getY() / 10;
+        x = genericPoint.getX() ;
+        y = genericPoint.getY() ;
+        if(Objects.equals(mapFromString.units, "metres")){
+          x=x/10;
+          y=y/10;
+        }
         MapPoint point = new MapPoint(x, y);
         boundary.add(point);
       }
@@ -195,7 +229,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addTrackMapPoints(landingTracks, lunarmapLandingTracks);
+    addTrackMapPoints(landingTracks, lunarmapLandingTracks, mapFromString.units);
 
     /////////////////////
     //Vehicle Tracks
@@ -206,7 +240,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addTrackMapPoints(vehicleTracks, lunarmapVehicleTrack);
+    addTrackMapPoints(vehicleTracks, lunarmapVehicleTrack, mapFromString.units);
     /////////////////////
     //Footprint Tracks
     ArrayList<MapPoint> footprintTrack= new ArrayList<>();
@@ -216,7 +250,7 @@ public class MapTranslator implements IMapTranslator {
     } catch (NotFound notFound) {
       notFound.printStackTrace();
     }
-    addTrackMapPoints(footprintTrack, lunarmapFootprintTrack);
+    addTrackMapPoints(footprintTrack, lunarmapFootprintTrack, mapFromString.units);
 
 
 
@@ -240,6 +274,7 @@ public class MapTranslator implements IMapTranslator {
     mapTransferObject.setLandingtracks(landingTracks);
     mapTransferObject.setVehicleTracks(vehicleTracks);
     mapTransferObject.setFootprintTracks(footprintTrack);
+
     return mapTransferObject;
   }
 
@@ -258,6 +293,8 @@ public class MapTranslator implements IMapTranslator {
     Lunarovermap lunarovermap= objectFactory.createLunarovermap();
 
     //Convert LunarRoverMap to maptransferObject:
+
+    lunarovermap.setUnits("cm");
     //set colors from xml
     Color vehicleColor=mapTransferObject.vehicleTrackColor;
     Color footprintColor = null;

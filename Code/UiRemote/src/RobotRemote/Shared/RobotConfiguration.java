@@ -5,9 +5,6 @@ public class RobotConfiguration {
   // Map Size: A1 594mm x 841mm
   public float mapW = 59.4f; // cm
   public float mapH = 84.1f; // cm
-  // No Go Zone grid size
-  public int ngzRows = 10;
-  public int ngzCols = 15;
   // Initial map values
   public float mapInitZoom = 0.7f;
   public float mapPixelsPerCm = 10; // Define pixel density of map
@@ -26,13 +23,15 @@ public class RobotConfiguration {
   // Robot physical attributes
   public float robotWheelDia = 5.6f;  // Tested on hard surface, Will not be accurate on carpet
   public float robotTrackWidth = 10.75f; // Tested on hard surface, Will not be accurate on carpet
+  public int robotPhysicalWidth = 14;
+  public int robotPhysicalLength = 20;
   // Update intervals
   public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 50;
-  public Color colorTrail = Color.YELLOW;
+  public Color colorTrail = Color.RED;
   public Color colorBorder = Color.BLACK;
   public Color colorCrater = Color.RED;
   public Color colorApollo = Color.RED;
-  public double obstacleAvoidDistance = 10;
-  public float zigzagWidth = 5;
+  public double obstacleAvoidDistance = 5;
+  public float zigzagWidth = 15;
 }
