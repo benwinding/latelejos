@@ -50,8 +50,8 @@ class MapLocationsLayersFactory {
   }
 
   private Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {
-    double robotW = 12 * mapPixelsPerCm;
-    double robotH = 10 * mapPixelsPerCm;
+    double robotW = config.robotPhysicalWidth * mapPixelsPerCm;
+    double robotH = config.robotPhysicalLength * mapPixelsPerCm;
 
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
