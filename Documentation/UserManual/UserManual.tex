@@ -1,0 +1,79 @@
+\documentclass[10pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float} % force figure to render inline location
+\usepackage{enumitem} % apt install texlive-latex-extra 
+\usepackage{anyfontsize} % custom fontsizes
+\usepackage{titlesec} % custom section spacings
+\usepackage{multirow} % merge table rows
+\usepackage{vhistory} % revision table package
+\usepackage{pdfpages}
+
+\setlist[itemize]{noitemsep} % No spaces in itemize lists
+\setlist[enumerate]{noitemsep} % No spaces in itemize lists
+\setlist[description]{noitemsep} % No spaces in itemize lists
+\titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
+\titlespacing*{\paragraph}{0pt}{3pt}{5pt}
+
+\newcommand{\cpright}{\textsuperscript{\tiny\copyright}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+	
+	\begin{titlepage}
+		
+		\title{
+			\fontsize{50}{12}\selectfont{\textsc{Lunar Rover}}\\
+			\vspace{20pt}
+			\fontsize{20}{12}\selectfont{\textsc{User Manual}}\\
+			\vspace{10pt}
+			\large{Software Engineering \& Project} \\
+			\vspace{20pt}
+			\includegraphics[width=200px]{title-page-ev3.png}					
+		}
+		\date{17/10/2017}
+		\author{
+			\bf{Team: PG-29} \\
+			Benjamin Winding \\
+			Kin Leong Lee \\
+			Pavitterjeet Sidhu \\
+			Phan Huy Nguyen \\
+			Sean Hennessy \\
+			Xiaoshan Chen \\
+		}
+		\maketitle
+		
+	\end{titlepage}
+		 
+	\tableofcontents	
+	
+	
+	
+	\section*{Revision History}	
+	\label{revtable}	
+	\begin{tabular}{|p{2.1cm}|p{2.5cm}|p{2cm}|p{4.1cm}|}		
+		\hline 
+		\textbf {Name} & \textbf{Date} & \textbf {Version} &\textbf {Summary of Changes} \\ 
+		\hline 
+		\hline 		
+	\end{tabular}
+
+	\newpage
+	
+	\section{GENERAL INFORMATION}
+		
+	\section{SYSTEM SUMMARY}
+		
+	\section{GETTING STARTED}
+		
+	\section{USING the SYSTEM}
+
+	\section{Appendices}
+		
+	
+\end{document}
