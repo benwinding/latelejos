@@ -163,6 +163,11 @@ public class MapInputEventHandlers {
     // Translate mouse coordinates to account for map centering
     Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", newPoint.x, newPoint.y));
 
+    try {
+      this.sm.getMovementService().gotoPoint((float) newPoint.x,(float) newPoint.y);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     userWaypointsState.AddWayPoint(newPoint.x,newPoint.y);
   }
 
@@ -208,14 +213,6 @@ public class MapInputEventHandlers {
         break;
     }
     Logger.debug("Received UserZoomChanged: " + uiUpdaterState.getZoomLevel());
-  }
-
-  // Get the cell selected in a certain range
-  private int GetCellInRange(double distLength, int cellCount, double distPoint) {
-    double cellWidth = distLength/cellCount;
-    double cellsOver = distPoint / cellWidth;
-    double cell = Math.floor(cellsOver);
-    return (int) cell;
   }
 
   private MapPoint ScaleMouseInputToMap(double mouseX, double mouseY) {

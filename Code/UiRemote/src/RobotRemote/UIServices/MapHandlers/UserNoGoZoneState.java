@@ -67,4 +67,13 @@ public class UserNoGoZoneState {
     }
     return false;
   }
+
+  public boolean isRobotInNgzBoundingBox(MapPoint robotLocation, RobotConfiguration config) {
+    int robotLong = config.robotPhysicalLength;
+    for(List<MapPoint> ngzSet: this.allNgzSets) {
+      if(NgzUtils.isRobotInBoundingBoxNgzArea(robotLocation, ngzSet, robotLong))
+        return true;
+    }
+    return false;
+  }
 }
