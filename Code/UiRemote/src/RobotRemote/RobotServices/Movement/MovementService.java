@@ -4,6 +4,7 @@ import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
 import RobotRemote.Shared.*;
 import javafx.geometry.Pos;
+import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
@@ -126,7 +127,10 @@ public class MovementService implements IMovementService {
         locationState.ChangingHeading(degreesPerLoop);
         return null;
       },
-      () -> locationState.SetHeading(degreesFin),
+      () -> {
+        locationState.SetHeading(degreesFin);
+        pilot.stop();
+      },
       loopDelay,
       timeToTravel
     );
@@ -164,6 +168,16 @@ public class MovementService implements IMovementService {
       isMoving = this.pilot.isMoving();
     });
     return isMoving;
+  }
+
+  @Override
+  public void gotoPoint(float x, float y) throws InterruptedException {
+    Pose currentPose = this.locationState.GetCurrentPose();
+    float angleToPoint = currentPose.relativeBearing(new Point(x, y));
+    float distanceToPoint = currentPose.distanceTo(new Point(x, y));
+    turn((int) angleToPoint);
+    waitWhileMoving();
+    forward(distanceToPoint);
   }
 
   @Override
