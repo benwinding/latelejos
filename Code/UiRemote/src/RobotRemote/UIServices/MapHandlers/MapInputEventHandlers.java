@@ -83,6 +83,7 @@ public class MapInputEventHandlers {
     this.sm.getAppState().getLocationState().SetExploredAreaPoints(mapObject.getExplored());
     this.sm.getAppState().getLocationState().SetCurrentLocation(mapObject.getCurrentPosition());
     this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(7,mapObject.getRoverLandingSite());
+
     if (mapObject.getApolloLandingSite()!=null) {
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(7,mapObject.getApolloLandingSite());
     }
@@ -91,9 +92,11 @@ public class MapInputEventHandlers {
     for (MapPoint testPoint : mapObject.getRadiation()){
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(0, testPoint);
     }
-    for (MapPoint testPoint : mapObject.getNoGoZones()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(1, testPoint);
-    }
+
+    this.sm.getAppState().getUserNoGoZoneState().AddNgzSet(mapObject.getNoGoZones());
+
+
+
     for (MapPoint testPoint : mapObject.getBoundary()){
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(2, testPoint);
     }
