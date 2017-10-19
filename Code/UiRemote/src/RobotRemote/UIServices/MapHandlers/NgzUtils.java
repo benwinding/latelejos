@@ -1,6 +1,7 @@
 package RobotRemote.UIServices.MapHandlers;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.RobotStateMachine.States.AutoMode.AutoSurveying;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.RobotConfiguration;
 import org.w3c.dom.css.Rect;
@@ -26,6 +27,8 @@ public class NgzUtils {
       return true;
     return false;
   }
+
+
   public static Rectangle getInterceptNgzArea(AppStateRepository appState, RobotConfiguration config)
   {
       int robotLong = config.robotPhysicalLength;

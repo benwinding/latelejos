@@ -10,7 +10,7 @@ public class RobotConfiguration {
   public float mapPixelsPerCm = 10; // Define pixel density of map
   public float initX = 52; // cm
   public float initY = 76; // cm
-  public float initTheta = -180; // degrees
+  public float initTheta = 180; // degrees
   // Robot settings
   public double robotLinearSpeed_cms = 3;
   public double robotLinearAcceleration_cms2 = 0;

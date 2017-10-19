@@ -62,7 +62,6 @@ public class ManualMoving implements IModeState {
 
   @Subscribe
   public void OnManualCommand(EventManualCommand event) {
-    Logger.log("Heading :"+ this.sm.getAppState().getLocationState().GetCurrentPose().getHeading());
     try {
       switch (event.getCommand()) {
         case Left:

@@ -54,7 +54,7 @@ public class LocationState {
   }
 
   private void GoingToPoint(double x, double y, double theta) {
-    MapPoint newPoint = new MapPoint(x, y, theta);
+    MapPoint newPoint = new MapPoint(x, y, theta%360);
     this.pointsVisited.add(newPoint);
   }
 

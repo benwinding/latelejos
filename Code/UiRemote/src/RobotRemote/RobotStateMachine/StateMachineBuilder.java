@@ -3,7 +3,7 @@ package RobotRemote.RobotStateMachine;
 import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
-import RobotRemote.RobotStateMachine.States.AutoSurveying;
+import RobotRemote.RobotStateMachine.States.AutoMode.AutoSurveying;
 import RobotRemote.RobotStateMachine.States.IdleState;
 import RobotRemote.RobotStateMachine.States.ManualMoving;
 import RobotRemote.Shared.Logger;
