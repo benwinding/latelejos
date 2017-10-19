@@ -64,7 +64,7 @@ public class AutoSurveying implements IModeState
     this.isMovingToPoint = false;
     this.direction = Direction.Up;
     this.util = new AutoSurveyUtil(sm);
-    Logger.isDisableLog =true;
+   // Logger.isDisableLog =true;
   }
   public void setMoveToWaypoint(MapPoint point)
   {
@@ -133,7 +133,21 @@ public class AutoSurveying implements IModeState
 
   private void turnBackToLastDirection(Direction lastDirection) throws InterruptedException
   {
-    int initDegree = lastDirection == Direction.Up ? -180 : 0;
+    //TODO: Need to optimize tunrning degree
+    int initDegree =  180;
+    switch (lastDirection)
+    {
+      case Left:
+        initDegree = 90;
+        break;
+      case Down:
+        initDegree = 0;
+        break;
+      case Right:
+        initDegree = 270;
+        break;
+    }
+
     int turnBackDegree = (initDegree - (int) moveThread.GetCurrentPose().getHeading()) % 360;
     moveThread.turn(turnBackDegree);
   }
@@ -185,6 +199,10 @@ public class AutoSurveying implements IModeState
   private void handleZigZagAcrossMap() throws InterruptedException
   {
     // Move leftwards across the map
+    //Correct direction up or down before move
+    if(direction != Direction.Up && direction != Direction.Down)
+      direction = Direction.Up;
+    turnBackToLastDirection(direction);
     moveThread.forward(this::checkSurroundings);
   }
 
@@ -295,16 +313,11 @@ public class AutoSurveying implements IModeState
     }
     else {
       moveThread.backward(3);
-      int randomNum = ThreadLocalRandom.current().nextInt();
-      if(randomNum%2==0) //turn right
-      {
-        moveThread.turn(90);
-      }
-      else
-      {
+      int randomNum = ThreadLocalRandom.current().nextInt(-90,90);
+      moveThread.turn(randomNum);
+      randomNum = ThreadLocalRandom.current().nextInt(5,10);
+      moveThread.forward(randomNum,this::checkSurroundings);
 
-        moveThread.turn(-90);
-      }
     }
 
     if(moveThread.AllowExecute)
@@ -318,6 +331,7 @@ public class AutoSurveying implements IModeState
   {
     Logger.debug("Handling Detected Border");
     direction = util.getCurrentDirection();
+    turnBackToLastDirection(direction);
     switch (direction)
     {
       case Up:
@@ -336,7 +350,7 @@ public class AutoSurveying implements IModeState
         isReverse = !isReverse;
         break;
     }
-    
+
     if(moveThread.AllowExecute)
       setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
   }

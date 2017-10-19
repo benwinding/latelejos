@@ -19,6 +19,7 @@ public class AutoSurveyUtil
   private RobotConfiguration config;
   private EventBus eventBus;
   private LocationState locationState;
+
   public AutoSurveyUtil(ServiceManager sm)
   {
     this.sm = sm;
@@ -102,20 +103,19 @@ public class AutoSurveyUtil
   public AutoSurveying.Direction getCurrentDirection()
   {
     Pose current = locationState.GetCurrentPose();
-    int degree =(int)Math.abs(current.getHeading());
-    switch ( degree)
-    {
-      case 0:
-        return  AutoSurveying.Direction.Down;
-      case 90:
-        return  AutoSurveying.Direction.Right;
-      case 180:
-        return  AutoSurveying.Direction.Up;
-      case 270:
-        return  AutoSurveying.Direction.Left;
+    double degree = current.getHeading();
+    if (degree >= 45 && degree < 135
+        || degree >= -315 && degree < -225)
+      return AutoSurveying.Direction.Left;
+    if (degree >= 135 && degree < 225
+        || degree >= -225 && degree < -135)
+      return AutoSurveying.Direction.Up;
 
-    }
-    return AutoSurveying.Direction.Up;
+    if (degree >= 225 && degree < 315
+        || degree >= -135 && degree < -45)
+      return AutoSurveying.Direction.Right;
+
+    return AutoSurveying.Direction.Down;
   }
 
 }
