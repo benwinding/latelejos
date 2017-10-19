@@ -80,6 +80,7 @@ public class LocationState {
   public void SetExploredAreaPoints(List<MapPoint> importedPoints) {
     this.pointsVisited = importedPoints;
   }
+
   public List<MapPoint> GetExploredAreaPoints(){
     return this.pointsVisited;
   }

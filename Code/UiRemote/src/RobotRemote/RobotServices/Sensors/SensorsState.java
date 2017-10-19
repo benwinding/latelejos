@@ -70,8 +70,7 @@ public class SensorsState {
   }
 
   public Color getColourEnum() {
-    if(this.colourId!=6)
-    Logger.specialLog("ColorId:" + this.colourId);
+
     return ColourTranslator.GetColourEnum(this.colourId);
   }
 }

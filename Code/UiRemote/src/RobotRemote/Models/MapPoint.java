@@ -16,4 +16,8 @@ public class MapPoint {
     this.y = y;
     this.theta = theta;
   }
+
+  public String ToString(){
+    return x+ ","+y;
+  }
 }

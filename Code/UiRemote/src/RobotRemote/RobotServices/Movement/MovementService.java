@@ -70,13 +70,16 @@ public class MovementService implements IMovementService {
   @Override
   public void forward(float dist_cm) throws InterruptedException {
     stop();
+    if(dist_cm==0)
+      return;
+
     // Set pilot forward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Start forward: " + dist_cm);
       this.pilot.forward();
     });
     // Set location-tracking forward async dist, will stop
-    long timeToTravel = (long)(dist_cm / linearSpeed)*1000;
+    long timeToTravel = (long)(dist_cm *1000/ linearSpeed);
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = dist_cm / numLoops;
 
@@ -89,6 +92,8 @@ public class MovementService implements IMovementService {
   @Override
   public void backward(float dist_cm) throws InterruptedException {
     stop();
+    if(dist_cm == 0)
+      return;
     // Set pilot backward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Start backward: " + dist_cm);
@@ -96,7 +101,7 @@ public class MovementService implements IMovementService {
     });
     // Set location-tracking backward async dist, will stop
     double distAbs = Math.abs(dist_cm);
-    long timeToTravel = (long)(distAbs/ linearSpeed)*1000;
+    long timeToTravel = (long)(distAbs*1000/ linearSpeed);
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = distAbs / numLoops;
 

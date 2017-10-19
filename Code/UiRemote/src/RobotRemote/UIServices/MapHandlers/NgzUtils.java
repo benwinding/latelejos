@@ -1,51 +1,78 @@
 package RobotRemote.UIServices.MapHandlers;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.RobotConfiguration;
 import org.w3c.dom.css.Rect;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class NgzUtils {
   public static boolean isPointInNgzArea(MapPoint point, List<MapPoint> ngzSet) {
     Point testPoint = new Point((int)point.x,(int)point.y);
-    Polygon polygon = new Polygon();
+    Path2D path = new Path2D.Double();
+    int count=0;
     for(MapPoint mapPoint: ngzSet) {
-      polygon.addPoint((int)mapPoint.x,(int)mapPoint.y);
+      if(count==0)
+        path.moveTo(mapPoint.x,mapPoint.y);
+      else
+        path.lineTo(mapPoint.x,mapPoint.y);
+      count++;
     }
-    if(polygon.contains(testPoint))
+    if(path.contains(testPoint))
       return true;
     return false;
   }
-
-  public static boolean isRobotInNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, int robotLengthCm) {
-    int x = (int)robotLocation.x - robotLengthCm / 2;
-    int y = (int)robotLocation.y - robotLengthCm / 2;
-    Rectangle2D testPoint = new Rectangle(x,y,robotLengthCm,robotLengthCm);
-    Polygon polygon = new Polygon();
-    for(MapPoint mapPoint: ngzSet) {
-      polygon.addPoint((int)mapPoint.x,(int)mapPoint.y);
-    }
-    if(polygon.intersects(testPoint))
-      return true;
-    if(polygon.contains(testPoint))
-      return true;
-    return false;
+  public static Rectangle getInterceptNgzArea(AppStateRepository appState, RobotConfiguration config)
+  {
+      int robotLong = config.robotPhysicalLength;
+      for(List<MapPoint> ngzSet: appState.getUserNoGoZoneState().GetNgzPoints()) {
+        Rectangle intercept =NgzUtils.getInterceptNgzArea(appState.getLocationState().GetCurrentPosition(), ngzSet, robotLong);
+        if(intercept!=null)
+          return intercept;
+      }
+      return null;
   }
 
-  public static boolean isRobotInBoundingBoxNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, int robotLengthCm) {
+  public static Rectangle getInterceptNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, int robotLengthCm) {
     int x = (int)robotLocation.x - robotLengthCm / 2;
     int y = (int)robotLocation.y - robotLengthCm / 2;
     Rectangle2D testPoint = new Rectangle(x,y,robotLengthCm,robotLengthCm);
-    Polygon polygon = new Polygon();
+    Path2D path = new Path2D.Double();
+    int count=0;
     for(MapPoint mapPoint: ngzSet) {
-      polygon.addPoint((int)mapPoint.x,(int)mapPoint.y);
+      if(count==0)
+        path.moveTo(mapPoint.x,mapPoint.y);
+      else
+        path.lineTo(mapPoint.x,mapPoint.y);
+      count++;
     }
-    Rectangle2D boundingBox = polygon.getBounds2D();
-    if(boundingBox.intersects(testPoint))
+    if(path.intersects(testPoint))
+      return path.getBounds();
+    if(path.contains(testPoint))
+      return path.getBounds();
+    return null;
+  }
+
+  public static boolean isRobotInNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, double robotLengthCm, double robotWidth) {
+    double x = robotLocation.x - robotLengthCm / 2;
+    double y = robotLocation.y - robotLengthCm / 2;
+    Rectangle2D testPoint = new Rectangle2D.Double(x,y,robotLengthCm,robotWidth);
+    Path2D path = new Path2D.Double();
+    int count=0;
+    for(MapPoint mapPoint: ngzSet) {
+      if(count==0)
+        path.moveTo(mapPoint.x,mapPoint.y);
+      else
+        path.lineTo(mapPoint.x,mapPoint.y);
+      count++;
+    }
+    if(path.intersects(testPoint))
       return true;
-    if(boundingBox.contains(testPoint))
+    if(path.contains(testPoint))
       return true;
     return false;
   }

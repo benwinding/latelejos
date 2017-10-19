@@ -3,6 +3,7 @@ package RobotRemote.UIServices.MapHandlers;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Shared.RobotConfiguration;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,16 @@ public class UserNoGoZoneState {
 
   public UserNoGoZoneState() {
     allNgzSets = new ArrayList<>();
+    List<MapPoint> testList = new ArrayList<>();
+
+    testList.add(new MapPoint(20.985714900250336,76.33571410665708));
+    testList.add(new MapPoint(26.98571500242973,80.47857132006666));
+    testList.add(new MapPoint(34.985715138668915,65.47857106461818));
+    testList.add(new MapPoint(24.70000067778996,63.04999959468842));
+    testList.add(new MapPoint(18.985714866190538,69.1928568421578));
+    testList.add(new MapPoint(14.128571926331029,78.47857128600685));
+    testList.add(new MapPoint(20.985714900250336,76.33571410665708));
+    allNgzSets.add(testList);
   }
 
   private List<MapPoint> getCurrentNgzPoints() {
@@ -51,29 +62,13 @@ public class UserNoGoZoneState {
       this.CopyFirstPointToLastPosition(this.getCurrentNgzPoints());
   }
 
-  public boolean isPointInNgz(MapPoint point) {
-    for(List<MapPoint> ngzSet: this.allNgzSets) {
-      if(NgzUtils.isPointInNgzArea(point, ngzSet))
-        return true;
-    }
-    return false;
-  }
 
   public boolean isRobotInNgz(MapPoint robotLocation, RobotConfiguration config) {
-    int robotLong = config.robotPhysicalLength;
     for(List<MapPoint> ngzSet: this.allNgzSets) {
-      if(NgzUtils.isRobotInNgzArea(robotLocation, ngzSet, robotLong))
+      if(NgzUtils.isRobotInNgzArea(robotLocation, ngzSet, config.robotPhysicalLength,config.robotPhysicalWidth))
         return true;
     }
     return false;
   }
 
-  public boolean isRobotInNgzBoundingBox(MapPoint robotLocation, RobotConfiguration config) {
-    int robotLong = config.robotPhysicalLength;
-    for(List<MapPoint> ngzSet: this.allNgzSets) {
-      if(NgzUtils.isRobotInBoundingBoxNgzArea(robotLocation, ngzSet, robotLong))
-        return true;
-    }
-    return false;
-  }
 }

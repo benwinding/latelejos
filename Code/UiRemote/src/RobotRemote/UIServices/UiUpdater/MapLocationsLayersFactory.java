@@ -71,11 +71,12 @@ class MapLocationsLayersFactory {
     Image imgRobot = new Image(getClass().getResourceAsStream("../../UI/Images/robot-map.png"));
 
     gc.drawImage(imgRobot,0,0, robotW, robotH);
-
+    Color c =Color.web("BLUE",0.3);
     if(ngzState.isRobotInNgz(robotLocation, config)) {
-      gc.setFill(Color.web("RED",0.3));
-      gc.fillRect(0,0, robotW, robotH);
+      c =Color.web("RED",0.3);
     }
+    gc.setFill(c);
+    gc.fillRect(0,0, robotW, robotH);
     gc.restore();
     return layer;
   }
