@@ -1,5 +1,6 @@
 package RobotRemote.RobotStateMachine;
 
+import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToManual;
@@ -30,10 +31,14 @@ public class StateMachineBuilder {
     }
     private void enterState(IModeState state)
     {
+      if(state == this.currentState)
+        return;
       this.currentState.Leave();
       this.currentState = state;
       this.currentState.Enter();
     }
+
+
     @Subscribe
     private void OnSwitchToManualMode(EventSwitchToManual event) {
         Logger.log("SWITCH TO MANUAL MODE...");
@@ -43,6 +48,9 @@ public class StateMachineBuilder {
     @Subscribe
     private void OnSwitchToAutoSurveyMode(EventSwitchToAutoMap event) {
         Logger.log("SWITCH TO AUTOSURVEY MODE...");
+        if(event.waypoint!=null)
+          stateAutoSurveying.setMoveToWaypoint(event.waypoint);
+
         enterState(stateAutoSurveying);
     }
 

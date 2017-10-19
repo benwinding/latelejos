@@ -8,17 +8,26 @@ import RobotRemote.Shared.*;
 import RobotRemote.UIServices.MapHandlers.NgzUtils;
 import com.google.common.eventbus.EventBus;
 import lejos.robotics.navigation.Pose;
+import sun.rmi.runtime.Log;
 
-import javax.security.auth.login.Configuration;
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AutoSurveying implements IModeState
 {
 
+
   enum AutoSurveyingInternalState
   {
-    BackToLastPosition, ZigZagingSurvey, DetectedObject, CraterDetected, PathDetected, BorderDetected, BackToHome, ApolloDetected, NGZDetected
+    BackToLastPosition,
+    ZigZagingSurvey,
+    DetectedObject,
+    CraterDetected,
+    PathDetected,
+    BorderDetected,
+    BackToHome,
+    ApolloDetected,
+    NGZDetected,
   }
 
   enum Direction
@@ -38,9 +47,11 @@ public class AutoSurveying implements IModeState
   private MapPoint LastPoint;
   private AutoSurveyUtil util;
   private MovingServiceWrapper moveThread;
-  private  LocationState locationState;
+  private LocationState locationState;
+  private  boolean IsOnState;
   public AutoSurveying(ServiceManager sm)
   {
+    this.IsOnState = false;
     this.sm = sm;
     this.eventBus = sm.getEventBus();
     this.sensorState = sm.getAppState().getSensorsState();
@@ -50,13 +61,24 @@ public class AutoSurveying implements IModeState
     this.config = new RobotConfiguration();
     this.LastPoint = new MapPoint(config.initX, config.initY);
     this.isReverse = false;
-    this.isMovingToPoint =false;
+    this.isMovingToPoint = false;
     this.direction = Direction.Up;
     this.util = new AutoSurveyUtil(sm);
+    Logger.isDisableLog =true;
+  }
+  public void setMoveToWaypoint(MapPoint point)
+  {
+    this.LastPoint = point;
+    currentState = AutoSurveyingInternalState.BackToLastPosition;
+    moveThread.stop();
   }
 
   public void Enter()
   {
+    if(this.IsOnState)
+      return;
+
+    this.IsOnState = true;
     this.eventBus.register(this);
     Logger.log("ENTER AUTOSURVEYING STATE...");
     currentState = AutoSurveyingInternalState.BackToLastPosition;
@@ -69,6 +91,9 @@ public class AutoSurveying implements IModeState
 
   public void Leave()
   {
+    if(!this.IsOnState)
+        return;
+    this.IsOnState = false;
     this.eventBus.unregister(this);
     this.threadLoop.StopThread();
     this.moveThread.stop();
@@ -167,7 +192,9 @@ public class AutoSurveying implements IModeState
   {
       currentState = state;
       if(currentState == AutoSurveyingInternalState.ZigZagingSurvey && isMovingToPoint)
+      {
         currentState = AutoSurveyingInternalState.BackToLastPosition;
+      }
   }
 
   private Object checkSurroundings() throws InterruptedException
@@ -207,17 +234,20 @@ public class AutoSurveying implements IModeState
 
   private void handleDetectedObject() throws InterruptedException
   {
-    Logger.specialLog("Handling Detected Object going left");
+    Logger.specialLog("Handling Detected Object");
     util.RegisterObjectDetected();
     moveThread.turn(90);
-    moveThread.forward(15);
+    moveThread.forward(15,this::checkSurroundings);
     moveThread.turn(-90);
-    moveThread.forward(40);
+    moveThread.forward(40,this::checkSurroundings);
     moveThread.turn(-90);
-    moveThread.forward(15);
+    moveThread.forward(15,this::checkSurroundings);
     moveThread.turn(90);
 
-    setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+    if(moveThread.AllowExecute)
+    {
+      setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+    }
   }
 
   private void handleDetectedNGZ() throws InterruptedException
@@ -276,13 +306,17 @@ public class AutoSurveying implements IModeState
         moveThread.turn(-90);
       }
     }
-    direction = util.getCurrentDirection();
-    setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+
+    if(moveThread.AllowExecute)
+    {
+      direction = util.getCurrentDirection();
+      setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+    }
   }
 
   private void handleDetectedBorder() throws InterruptedException
   {
-    Logger.debug("Handling Detected Border going left");
+    Logger.debug("Handling Detected Border");
     direction = util.getCurrentDirection();
     switch (direction)
     {
@@ -302,7 +336,9 @@ public class AutoSurveying implements IModeState
         isReverse = !isReverse;
         break;
     }
-    setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+    
+    if(moveThread.AllowExecute)
+      setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
   }
 
 
