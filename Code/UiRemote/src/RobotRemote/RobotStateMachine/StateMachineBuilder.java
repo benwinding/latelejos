@@ -28,33 +28,29 @@ public class StateMachineBuilder {
     {
         return  this.currentState;
     }
-
+    private void enterState(IModeState state)
+    {
+      this.currentState.Leave();
+      this.currentState = state;
+      this.currentState.Enter();
+    }
     @Subscribe
     private void OnSwitchToManualMode(EventSwitchToManual event) {
         Logger.log("SWITCH TO MANUAL MODE...");
-        this.stateIdle.Leave();
-        this.stateAutoSurveying.Leave();
-        this.stateManualMoving.Enter();
-        this.currentState = stateManualMoving;
+        enterState(stateManualMoving);
     }
 
     @Subscribe
     private void OnSwitchToAutoSurveyMode(EventSwitchToAutoMap event) {
         Logger.log("SWITCH TO AUTOSURVEY MODE...");
-        this.stateIdle.Leave();
-        this.stateManualMoving.Leave();
-        this.stateAutoSurveying.Enter();
-        this.currentState = stateAutoSurveying;
+        enterState(stateAutoSurveying);
     }
 
     @Subscribe
     private void OnSTOP(EventEmergencySTOP event) {
       Logger.log("EMERGENCY STOP...");
-      this.stateAutoSurveying.Leave();
-      this.stateManualMoving.Leave();
       //Switch to idle mode
-      this.stateIdle.Enter();
-      this.currentState = stateIdle;
+      enterState(stateIdle);
     }
 
     @Subscribe

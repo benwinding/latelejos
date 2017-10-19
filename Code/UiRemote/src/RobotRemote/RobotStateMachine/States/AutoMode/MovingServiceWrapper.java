@@ -69,7 +69,7 @@ public class MovingServiceWrapper
       movementService.waitWhileMoving();
     }
   }
-  public void turn(int degrees) throws InterruptedException
+  public void turn(double degrees) throws InterruptedException
   {
     if(AllowExecute)
     {
@@ -83,4 +83,11 @@ public class MovingServiceWrapper
     return  movementService.GetCurrentPose();
   }
 
+  public void gotoPoint(int x, int y)
+  {
+    if(AllowExecute)
+    {
+
+    }
+  }
 }

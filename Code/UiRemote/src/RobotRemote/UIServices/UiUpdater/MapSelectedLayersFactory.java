@@ -76,6 +76,7 @@ class MapSelectedLayersFactory {
      UpdaterUtils.DrawAreaOnContext(gc, points, config, Color.web("RED",0.1));
      UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("RED"));
      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
+     if(config.enableTestData)
       drawNGZBoundingBox(points,gc);
 
     }

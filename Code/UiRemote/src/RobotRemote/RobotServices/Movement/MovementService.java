@@ -112,7 +112,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void turn(int degrees) throws InterruptedException {
+  public void turn(double degrees) throws InterruptedException {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -180,7 +180,7 @@ public class MovementService implements IMovementService {
     Pose currentPose = this.locationState.GetCurrentPose();
     float angleToPoint = currentPose.relativeBearing(new Point(x, y));
     float distanceToPoint = currentPose.distanceTo(new Point(x, y));
-    turn((int) angleToPoint);
+    turn(angleToPoint);
     waitWhileMoving();
     forward(distanceToPoint);
   }
