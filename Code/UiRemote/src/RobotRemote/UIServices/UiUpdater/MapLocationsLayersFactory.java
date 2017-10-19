@@ -69,15 +69,23 @@ class MapLocationsLayersFactory {
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("../../UI/Images/robot-map.png"));
-
     gc.drawImage(imgRobot,0,0, robotW, robotH);
+
     Color c =Color.web("BLUE",0.3);
+    if(config.enableTestData)
+    {
+      gc.setFill(c);
+      gc.fillRect(0,0, robotW, robotH);
+    }
+
     if(ngzState.isRobotInNgz(robotLocation, config)) {
       c =Color.web("RED",0.3);
+      gc.setFill(c);
+      gc.fillRect(0,0, robotW, robotH);
     }
-    gc.setFill(c);
-    gc.fillRect(0,0, robotW, robotH);
+
     gc.restore();
     return layer;
   }
+
 }

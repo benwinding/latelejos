@@ -77,6 +77,13 @@ public class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
     primaryStage.show();
+
+
+    //Init test data if need
+    if(robotConfiguration.enableTestData)
+    {
+      appStateRepository.getUserNoGoZoneState().enableTestNGZ();
+    }
   }
 
   @Override

@@ -12,8 +12,12 @@ public class UserNoGoZoneState {
 
   public UserNoGoZoneState() {
     allNgzSets = new ArrayList<>();
-    List<MapPoint> testList = new ArrayList<>();
+  }
 
+  public void enableTestNGZ()
+  {
+
+    List<MapPoint> testList = new ArrayList<>();
     testList.add(new MapPoint(20.985714900250336,76.33571410665708));
     testList.add(new MapPoint(26.98571500242973,80.47857132006666));
     testList.add(new MapPoint(34.985715138668915,65.47857106461818));
