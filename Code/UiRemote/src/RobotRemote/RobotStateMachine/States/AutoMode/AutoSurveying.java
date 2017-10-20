@@ -366,8 +366,13 @@ public class AutoSurveying implements IModeState
     {
       while (util.isThereATrail())
       {
-        moveThread.forward(moveStep);
+        moveThread.forward(moveStep,this::checkSurroundings);
       }
+
+      //Encounter some obstacle while follow track
+      if(!moveThread.AllowExecute)
+        break;
+
       //Out of trail turn an find to track
 
 
@@ -406,51 +411,51 @@ public class AutoSurveying implements IModeState
     }
   }
 
-  private void handleDetectedCrater()
-  {
-    Logger.debug("Handling Detected Crater");
-  }
-
-  private void handleDetectedApollo() throws InterruptedException
-  {
-    Logger.specialLog("Handling Detected Trail");
-    boolean isFinishApolloMapping = false;
-    float moveStep = 3f;
-    while (!isFinishApolloMapping)
-    {
-      while (util.isThereApollo())
-      {
-        moveThread.forward(moveStep);
-      }
-      //Out of trail turn an find to track
-
-      //Try turn right to find the trail
-      Logger.specialLog("Try right");
-      float tryDegree = 0;
-      int turnRightInterval = 10;
-      float maxTryDegree = 120 / turnRightInterval;
-      while (!util.isThereApollo() && tryDegree < maxTryDegree)
-      {
-        moveThread.turn(turnRightInterval);
-        tryDegree++;
-      }
-
-      Logger.specialLog("Try left");
-      //try turn left to find the trail
-      int turnLeftInterval = -10;
-      tryDegree = -maxTryDegree;
-      while (!util.isThereApollo() && tryDegree < maxTryDegree)
-      {
-        moveThread.turn(turnLeftInterval);
-        tryDegree++;
-      }
-      isFinishApolloMapping = !util.isThereApollo();
-    }
-
-    if (isFinishApolloMapping)
-    {
-      setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
-    }
-  }
+//  private void handleDetectedCrater()
+//  {
+//    Logger.debug("Handling Detected Crater");
+//  }
+//
+//  private void handleDetectedApollo() throws InterruptedException
+//  {
+//    Logger.specialLog("Handling Detected Trail");
+//    boolean isFinishApolloMapping = false;
+//    float moveStep = 3f;
+//    while (!isFinishApolloMapping)
+//    {
+//      while (util.isThereApollo())
+//      {
+//        moveThread.forward(moveStep);
+//      }
+//      //Out of trail turn an find to track
+//
+//      //Try turn right to find the trail
+//      Logger.specialLog("Try right");
+//      float tryDegree = 0;
+//      int turnRightInterval = 10;
+//      float maxTryDegree = 120 / turnRightInterval;
+//      while (!util.isThereApollo() && tryDegree < maxTryDegree)
+//      {
+//        moveThread.turn(turnRightInterval);
+//        tryDegree++;
+//      }
+//
+//      Logger.specialLog("Try left");
+//      //try turn left to find the trail
+//      int turnLeftInterval = -10;
+//      tryDegree = -maxTryDegree;
+//      while (!util.isThereApollo() && tryDegree < maxTryDegree)
+//      {
+//        moveThread.turn(turnLeftInterval);
+//        tryDegree++;
+//      }
+//      isFinishApolloMapping = !util.isThereApollo();
+//    }
+//
+//    if (isFinishApolloMapping)
+//    {
+//      setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+//    }
+//  }
 
 }
