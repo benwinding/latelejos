@@ -106,15 +106,18 @@ public class MapTranslator implements IMapTranslator {
     Color vehicleColor = null;
     Color footprintColor = null;
     Color landingColor = null;
-    for (Lunarovermap.TrackToColor.Attribute track : mapFromString.trackToColor.attribute) {
-      String trackName = track.key;
-      String trackColorHex = track.value;
-      if (trackName == "vehicle") {
-        vehicleColor = Color.web(track.value);
-      } else if (trackName == "footprint") {
-        footprintColor = Color.web(track.value);
-      } else if (trackName == "landing") {
-        landingColor = Color.web(track.value);
+
+    if (mapFromString.trackToColor!=null) {
+      for (Lunarovermap.TrackToColor.Attribute track : mapFromString.trackToColor.attribute) {
+        String trackName = track.key;
+        String trackColorHex = track.value;
+        if (trackName == "vehicle") {
+          vehicleColor = Color.web(track.value);
+        } else if (trackName == "footprint") {
+          footprintColor = Color.web(track.value);
+        } else if (trackName == "landing") {
+          landingColor = Color.web(track.value);
+        }
       }
     }
 
@@ -138,13 +141,16 @@ public class MapTranslator implements IMapTranslator {
     MapPoint roverLandingSite = new MapPoint(roverX, roverY);
     /////////////////////
     //Obstacles
-    ArrayList<MapPoint> obstacleList = new ArrayList<>();
-    for (Lunarovermap.Obstacle.Point obstacle : mapFromString.obstacle.point) {
-      int x = 0, y = 0;
-      x = obstacle.getX() / 10;
-      y = obstacle.getY() / 10;
-      MapPoint point = new MapPoint(x, y);
-      obstacleList.add(point);
+    ArrayList<MapPoint> obstacleList = null;
+    if (mapFromString.obstacle.point!=null) {
+      obstacleList = new ArrayList<>();
+      for (Lunarovermap.Obstacle.Point obstacle : mapFromString.obstacle.point) {
+        int x = 0, y = 0;
+        x = obstacle.getX() / 10;
+        y = obstacle.getY() / 10;
+        MapPoint point = new MapPoint(x, y);
+        obstacleList.add(point);
+      }
     }
     /////////////////////
     //No Go Zones
@@ -280,7 +286,6 @@ public class MapTranslator implements IMapTranslator {
   zone.area.point.add(point1);
 }
 
-
   //inputs mapTransferObject, outputs xmlstring
   @Override
   public String GetXmlStringFromMap(MapTransferObject mapTransferObject) throws JAXBException {
@@ -318,7 +323,7 @@ public class MapTranslator implements IMapTranslator {
     lunarovermap.roverLandingSite= objectFactory.createLunarovermapRoverLandingSite();
     lunarovermap.roverLandingSite.point =objectFactory.createLunarovermapRoverLandingSitePoint();
     lunarovermap.roverLandingSite.point.setX((int) mapTransferObject.roverLandingSite.x);
-    lunarovermap.roverLandingSite.point.setX((int) mapTransferObject.roverLandingSite.y);
+    lunarovermap.roverLandingSite.point.setY((int) mapTransferObject.roverLandingSite.y);
     /////////////////////
     //Obstacles
     lunarovermap.obstacle=objectFactory.createLunarovermapObstacle();

@@ -2,10 +2,10 @@
 <lunarovermap units="cm">
     <boundary>
         <area>
-            <point x="3" y="49"/>
-            <point x="81" y="49"/>
-            <point x="81" y="5"/>
             <point x="3" y="5"/>
+            <point x="81" y="5"/>
+            <point x="81" y="49"/>
+            <point x="3" y="49"/>
         </area>
     </boundary>
     <vehicle-status>
@@ -16,38 +16,38 @@
         </attribute>
     </vehicle-status>
     <rover-landing-site>
-        <point x="76"/>
+        <point x="52" y="76"/>
     </rover-landing-site>
     <obstacle>
-        <point x="55" y="24"/>
-        <point x="57" y="27"/>
-        <point x="62" y="28"/>
-        <point x="66" y="26"/>
-        <point x="68" y="21"/>
-        <point x="67" y="17"/>
-        <point x="65" y="15"/>
-        <point x="60" y="15"/>
         <point x="57" y="17"/>
+        <point x="60" y="15"/>
+        <point x="65" y="15"/>
+        <point x="67" y="17"/>
+        <point x="68" y="21"/>
+        <point x="66" y="26"/>
+        <point x="62" y="28"/>
+        <point x="57" y="27"/>
+        <point x="55" y="24"/>
     </obstacle>
     <zone state="nogo">
         <area>
-            <point x="36" y="44"/>
-            <point x="36" y="32"/>
-            <point x="30" y="38"/>
             <point x="30" y="44"/>
+            <point x="30" y="38"/>
+            <point x="36" y="32"/>
+            <point x="36" y="44"/>
         </area>
     </zone>
     <zone state="crater">
         <area>
-            <point x="55" y="24"/>
-            <point x="57" y="27"/>
-            <point x="62" y="28"/>
-            <point x="66" y="26"/>
-            <point x="68" y="21"/>
-            <point x="67" y="17"/>
-            <point x="65" y="15"/>
-            <point x="60" y="15"/>
             <point x="57" y="17"/>
+            <point x="60" y="15"/>
+            <point x="65" y="15"/>
+            <point x="67" y="17"/>
+            <point x="68" y="21"/>
+            <point x="66" y="26"/>
+            <point x="62" y="28"/>
+            <point x="57" y="27"/>
+            <point x="55" y="24"/>
         </area>
     </zone>
     <zone state="explored">
@@ -63,61 +63,61 @@
     </zone>
     <zone state="unexplored">
         <area>
-            <point x="55" y="24"/>
-            <point x="57" y="27"/>
-            <point x="62" y="28"/>
-            <point x="66" y="26"/>
-            <point x="68" y="21"/>
-            <point x="67" y="17"/>
-            <point x="65" y="15"/>
-            <point x="60" y="15"/>
             <point x="57" y="17"/>
+            <point x="60" y="15"/>
+            <point x="65" y="15"/>
+            <point x="67" y="17"/>
+            <point x="68" y="21"/>
+            <point x="66" y="26"/>
+            <point x="62" y="28"/>
+            <point x="57" y="27"/>
+            <point x="55" y="24"/>
         </area>
     </zone>
     <zone state="radiation">
         <area>
-            <point x="55" y="24"/>
-            <point x="57" y="27"/>
-            <point x="62" y="28"/>
-            <point x="66" y="26"/>
-            <point x="68" y="21"/>
-            <point x="67" y="17"/>
-            <point x="65" y="15"/>
-            <point x="60" y="15"/>
             <point x="57" y="17"/>
+            <point x="60" y="15"/>
+            <point x="65" y="15"/>
+            <point x="67" y="17"/>
+            <point x="68" y="21"/>
+            <point x="66" y="26"/>
+            <point x="62" y="28"/>
+            <point x="57" y="27"/>
+            <point x="55" y="24"/>
         </area>
     </zone>
     <track type="landing">
-        <point x="55" y="24"/>
-        <point x="57" y="27"/>
-        <point x="62" y="28"/>
-        <point x="66" y="26"/>
-        <point x="68" y="21"/>
-        <point x="67" y="17"/>
-        <point x="65" y="15"/>
-        <point x="60" y="15"/>
         <point x="57" y="17"/>
+        <point x="60" y="15"/>
+        <point x="65" y="15"/>
+        <point x="67" y="17"/>
+        <point x="68" y="21"/>
+        <point x="66" y="26"/>
+        <point x="62" y="28"/>
+        <point x="57" y="27"/>
+        <point x="55" y="24"/>
     </track>
     <track type="vehicle">
-        <point x="55" y="24"/>
-        <point x="57" y="27"/>
-        <point x="62" y="28"/>
-        <point x="66" y="26"/>
-        <point x="68" y="21"/>
-        <point x="67" y="17"/>
-        <point x="65" y="15"/>
-        <point x="60" y="15"/>
         <point x="57" y="17"/>
+        <point x="60" y="15"/>
+        <point x="65" y="15"/>
+        <point x="67" y="17"/>
+        <point x="68" y="21"/>
+        <point x="66" y="26"/>
+        <point x="62" y="28"/>
+        <point x="57" y="27"/>
+        <point x="55" y="24"/>
     </track>
     <track type="footprint">
-        <point x="55" y="24"/>
-        <point x="57" y="27"/>
-        <point x="62" y="28"/>
-        <point x="66" y="26"/>
-        <point x="68" y="21"/>
-        <point x="67" y="17"/>
-        <point x="65" y="15"/>
-        <point x="60" y="15"/>
         <point x="57" y="17"/>
+        <point x="60" y="15"/>
+        <point x="65" y="15"/>
+        <point x="67" y="17"/>
+        <point x="68" y="21"/>
+        <point x="66" y="26"/>
+        <point x="62" y="28"/>
+        <point x="57" y="27"/>
+        <point x="55" y="24"/>
     </track>
 </lunarovermap>
