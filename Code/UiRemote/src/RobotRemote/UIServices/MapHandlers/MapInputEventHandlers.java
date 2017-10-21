@@ -1,7 +1,9 @@
 package RobotRemote.UIServices.MapHandlers;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
+import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObject;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
 import RobotRemote.Shared.AppStateRepository;
@@ -15,6 +17,7 @@ import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
+import com.sun.glass.ui.Application;
 import lejos.robotics.navigation.Pose;
 import org.omg.IOP.Encoding;
 import sun.nio.cs.UTF_32;
@@ -76,8 +79,7 @@ public class MapInputEventHandlers {
 
   private void SetCurrentMap(MapTransferObject mapObject) {
     // Set the mapTransfer object to the current state
-    //set colors
-    this.config.colorTrail=mapObject.getVehicleTrackColor();
+    this.config.colorTrail = mapObject.getVehicleTrackColor();
     //...
     //...
     //locationstate, discoveredcolorstate, nogozonestate(implement later)
@@ -114,27 +116,28 @@ public class MapInputEventHandlers {
   }
   private MapTransferObject GetCurrentMap() {
     // Get the current map state convert to the map transfer object
-      MapTransferObject mapToExport = new MapTransferObject();
+    MapTransferObject mapToExport = new MapTransferObject();
     mapToExport.setVehicleTrackColor(this.config.colorTrail);
-    //...
-    //...
-    //locationstate, discoveredcolorstate, nogozonestate(implement later)
-    mapToExport.setExplored((ArrayList<MapPoint>) this.sm.getAppState().getLocationState().GetExploredAreaPoints());
-    mapToExport.setCurrentPosition(this.sm.getAppState().getLocationState().GetCurrentPosition());
-    //roverOriginPoint=landingsite
-    MapPoint origin = new MapPoint(this.sm.getConfiguration().initX,this.sm.getConfiguration().initY,this.sm.getConfiguration().initTheta);
-    mapToExport.setRoverLandingSite(origin);
-    //colourstate
+
+    // Ngz state
+    UserNoGoZoneState ngzState = this.sm.getAppState().getUserNoGoZoneState();
+    mapToExport.setNoGoZones(ngzState.GetNgzPointsFlattened());
+    mapToExport.setObstacles(ngzState.GetObstacles());
+    // Tracks state
     DiscoveredColoursState coloursState = this.sm.getAppState().getDiscoveredColoursState();
-    mapToExport.setRadiation(coloursState.GetPointsMatching(0));
-    mapToExport.setNoGoZones(coloursState.GetPointsMatching(1));
-    mapToExport.setBoundary(coloursState.GetPointsMatching(2));
-    mapToExport.setLandingtracks(coloursState.GetPointsMatching(0));
-    mapToExport.setVehicleTracks(coloursState.GetPointsMatching(0));
-    mapToExport.setFootprintTracks(coloursState.GetPointsMatching(0));
-    mapToExport.setCraters(coloursState.GetPointsMatching(0));
-    mapToExport.setUnexplored(coloursState.GetPointsMatching(0));
-    mapToExport.setObstacles(coloursState.GetPointsMatching(0));
+    mapToExport.setBoundary(coloursState.GetPointsMatching(config.colorBorder));
+    mapToExport.setRadiation(coloursState.GetPointsMatching(config.colorRadiation));
+    mapToExport.setLandingtracks(coloursState.GetPointsMatching(config.colorTrail));
+    mapToExport.setVehicleTracks(coloursState.GetPointsMatching(config.colorTrail));
+    mapToExport.setFootprintTracks(coloursState.GetPointsMatching(config.colorTrail));
+    mapToExport.setCraters(coloursState.GetPointsMatching(config.colorCrater));
+
+    // Location state
+    LocationState locationState = this.sm.getAppState().getLocationState();
+    // mapToExport.setUnexplored((ArrayList<MapPoint>) locationState.GetPointsVisited());
+    mapToExport.setExplored((ArrayList<MapPoint>) locationState.GetExploredAreaPoints());
+    mapToExport.setCurrentPosition(locationState.GetCurrentPosition());
+    mapToExport.setRoverLandingSite(new MapPoint(config.initX,config.initY,config.initTheta));
 
     return mapToExport;
   }
