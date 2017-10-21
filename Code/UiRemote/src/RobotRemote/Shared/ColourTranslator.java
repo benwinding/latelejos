@@ -38,4 +38,30 @@ public class ColourTranslator {
       default: return Color.WHITE;
     }
   }
+
+  public static int GetColourId(Color colour) {
+    if (colour.equals(Color.RED)) {
+      return 0;
+    } else if (colour.equals(Color.GREEN)) {
+      return 1;
+    } else if (colour.equals(Color.BLUE)) {
+      return 2;
+    } else if (colour.equals(Color.YELLOW)) {
+      return 3;
+    } else if (colour.equals(Color.MAGENTA)) {
+      return 4;
+    } else if (colour.equals(Color.ORANGE)) {
+      return 5;
+    } else if (colour.equals(Color.WHITE)) {
+      return 6;
+    } else if (colour.equals(Color.BLACK)) {
+      return 7;
+    } else if (colour.equals(Color.PINK)) {
+      return 8;
+    } else if (colour.equals(Color.GRAY)) {
+      return 9;
+    } else {
+      return 6;
+    }
+  }
 }
