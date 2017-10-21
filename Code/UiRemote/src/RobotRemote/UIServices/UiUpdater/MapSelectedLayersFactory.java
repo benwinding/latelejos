@@ -38,7 +38,7 @@ class MapSelectedLayersFactory {
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
-        this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLACK),
+        this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLUE),
         this.CreateDiscoveredColoursLayer(discoveredColoursState),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
@@ -61,6 +61,7 @@ class MapSelectedLayersFactory {
   private Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
+    gc.setLineWidth(10);
     UpdaterUtils.DrawPointsOnContext(gc, points, config, colour);
     return layer;
   }
