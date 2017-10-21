@@ -72,8 +72,8 @@ public class UiUpdaterService extends ServiceBase {
     Pane map = rootController.map;
 
     map.getChildren().clear();
-    map.getChildren().addAll(mapLocationLayers);
     map.getChildren().addAll(mapSelectedLayers);
+    map.getChildren().addAll(mapLocationLayers);
 
     double w = map.getWidth();
     double h = map.getHeight();

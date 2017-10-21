@@ -38,8 +38,8 @@ class MapSelectedLayersFactory {
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
-        this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), Color.BLUE),
         this.CreateDiscoveredColoursLayer(discoveredColoursState),
+        this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
