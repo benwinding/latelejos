@@ -96,8 +96,6 @@ public class MapInputEventHandlers {
 
     this.sm.getAppState().getUserNoGoZoneState().AddNgzSet(mapObject.getNoGoZones());
 
-
-
     for (MapPoint testPoint : mapObject.getBoundary()){
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(2, testPoint);
     }
@@ -107,17 +105,12 @@ public class MapInputEventHandlers {
     for (MapPoint testPoint : mapObject.getCraters()){
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(4, testPoint);
     }
-    //for (MapPoint testPoint : mapObject.getExplored()){
-      //this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(5, testPoint);
-    //}
     for (MapPoint testPoint : mapObject.getUnexplored()){
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(6, testPoint);
     }
     for (MapPoint testPoint : mapObject.getObstacles()){
       this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(7, testPoint);
     }
-
-    //test
   }
   private MapTransferObject GetCurrentMap() {
     // Get the current map state convert to the map transfer object
@@ -132,16 +125,16 @@ public class MapInputEventHandlers {
     MapPoint origin = new MapPoint(this.sm.getConfiguration().initX,this.sm.getConfiguration().initY,this.sm.getConfiguration().initTheta);
     mapToExport.setRoverLandingSite(origin);
     //colourstate
-    mapToExport.setRadiation((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-    mapToExport.setNoGoZones((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(1));
-    mapToExport.setBoundary((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(2));
-    mapToExport.setLandingtracks((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-    mapToExport.setVehicleTracks((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-    mapToExport.setFootprintTracks((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-    mapToExport.setCraters((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-    mapToExport.setUnexplored((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-    mapToExport.setObstacles((ArrayList<MapPoint>) this.sm.getAppState().getDiscoveredColoursState().GetPointsMatching(0));
-
+    DiscoveredColoursState coloursState = this.sm.getAppState().getDiscoveredColoursState();
+    mapToExport.setRadiation(coloursState.GetPointsMatching(0));
+    mapToExport.setNoGoZones(coloursState.GetPointsMatching(1));
+    mapToExport.setBoundary(coloursState.GetPointsMatching(2));
+    mapToExport.setLandingtracks(coloursState.GetPointsMatching(0));
+    mapToExport.setVehicleTracks(coloursState.GetPointsMatching(0));
+    mapToExport.setFootprintTracks(coloursState.GetPointsMatching(0));
+    mapToExport.setCraters(coloursState.GetPointsMatching(0));
+    mapToExport.setUnexplored(coloursState.GetPointsMatching(0));
+    mapToExport.setObstacles(coloursState.GetPointsMatching(0));
 
     return mapToExport;
   }

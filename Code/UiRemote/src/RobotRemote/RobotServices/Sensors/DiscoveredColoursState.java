@@ -13,7 +13,7 @@ public class DiscoveredColoursState {
     colouredPointsSeen = new HashMap<>();
   }
 
-  public List<MapPoint> GetPointsMatching(int colour) {
+  public ArrayList<MapPoint> GetPointsMatching(int colour) {
     if(!colouredPointsSeen.containsKey(colour)) {
       colouredPointsSeen.put(colour, new ArrayList<MapPoint>());
     }
