@@ -134,7 +134,9 @@ public class MovementService implements IMovementService {
       },
       () -> {
         locationState.SetHeading(degreesFin);
-        pilot.stop();
+        Synchronizer.SerializeRobotCalls(() -> {
+          pilot.stop();
+        });
       },
       loopDelay,
       timeToTravel
