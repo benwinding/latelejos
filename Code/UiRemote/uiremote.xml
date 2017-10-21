@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="uiremote" default="all">
+  
+  
+  <property file="uiremote.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.ane"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.ev3classes.classpath">
+    <pathelement location="${basedir}/lib/ev3classes.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.10.jar"/>
+  </path>
+  
+  <path id="library.guava-21.0.classpath">
+    <pathelement location="${basedir}/lib/guava-21.0.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module RobotRemote -->
+  
+  <dirname property="module.robotremote.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.robotremote" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.robotremote" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.robotremote" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.robotremote" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="robotremote.output.dir" value="${module.robotremote.basedir}/out/production/RobotRemote"/>
+  <property name="robotremote.testoutput.dir" value="${module.robotremote.basedir}/out/test/RobotRemote"/>
+  
+  <path id="robotremote.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="robotremote.module.production.classpath">
+    <path refid="${module.jdk.classpath.robotremote}"/>
+    <path refid="library.ev3classes.classpath"/>
+    <path refid="library.guava-21.0.classpath"/>
+  </path>
+  
+  <path id="robotremote.runtime.production.module.classpath">
+    <pathelement location="${robotremote.output.dir}"/>
+    <path refid="library.ev3classes.classpath"/>
+    <path refid="library.guava-21.0.classpath"/>
+  </path>
+  
+  <path id="robotremote.module.classpath">
+    <path refid="${module.jdk.classpath.robotremote}"/>
+    <pathelement location="${robotremote.output.dir}"/>
+    <path refid="library.ev3classes.classpath"/>
+    <path refid="library.guava-21.0.classpath"/>
+  </path>
+  
+  <path id="robotremote.runtime.module.classpath">
+    <pathelement location="${robotremote.testoutput.dir}"/>
+    <pathelement location="${robotremote.output.dir}"/>
+    <path refid="library.ev3classes.classpath"/>
+    <path refid="library.guava-21.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.robotremote">
+    <patternset refid="ignored.files"/>
+    <exclude name="out/**"/>
+    <exclude name="out/artifacts/**"/>
+    <exclude name="out/artifacts/JavaFXApp/**"/>
+    <exclude name="out/production/**"/>
+    <exclude name="out/production/RobotRemote/**"/>
+    <exclude name="out/production/RobotRemote/lib/**"/>
+    <exclude name="out/production/RobotRemote/src/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UI/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UI/Views/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UI/Views/Help/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UI/Views/About/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UI/Images/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/Test/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UIServices/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UIServices/MapTranslation/**"/>
+    <exclude name="out/production/RobotRemote/src/RobotRemote/UIServices/MapTranslation/XmlTranslation/**"/>
+    <exclude name="out/production/RobotRemote/.idea/**"/>
+    <exclude name="out/production/RobotRemote/.idea/artifacts/**"/>
+    <exclude name="out/production/RobotRemote/.idea/libraries/**"/>
+    <exclude name="out/production/RobotRemote/.idea/inspectionProfiles/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UI/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UI/Views/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UI/Views/Help/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UI/Views/About/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UI/Images/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/Test/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/Models/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/Models/Enums/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/Shared/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UIServices/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UIServices/Events/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UIServices/UiUpdater/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UIServices/MapHandlers/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UIServices/MapTranslation/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/UIServices/MapTranslation/XmlTranslation/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotServices/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotServices/Sensors/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotServices/Movement/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotServices/Movement/Mocks/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotServices/Movement/Factories/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotServices/Connection/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotStateMachine/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotStateMachine/Events/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotStateMachine/Events/Shared/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotStateMachine/Events/AutoSurvey/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotStateMachine/Events/ManualState/**"/>
+    <exclude name="out/production/RobotRemote/RobotRemote/RobotStateMachine/States/**"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.robotremote">
+    <patternset refid="excluded.from.module.robotremote"/>
+  </patternset>
+  
+  <path id="robotremote.module.sourcepath">
+    <dirset dir="${module.robotremote.basedir}/../../Code">
+      <include name="UiRemote/src"/>
+      <include name="UiRemote"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.robotremote" depends="compile.module.robotremote.production,compile.module.robotremote.tests" description="Compile module RobotRemote"/>
+  
+  <target name="compile.module.robotremote.production" depends="register.custom.compilers" description="Compile module RobotRemote; production classes">
+    <mkdir dir="${robotremote.output.dir}"/>
+    <javac2 destdir="${robotremote.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.robotremote}/javac">
+      <compilerarg line="${compiler.args.robotremote}"/>
+      <bootclasspath refid="robotremote.module.bootclasspath"/>
+      <classpath refid="robotremote.module.production.classpath"/>
+      <src refid="robotremote.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.robotremote"/>
+    </javac2>
+    
+    <copy todir="${robotremote.output.dir}">
+      <fileset dir="${module.robotremote.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.robotremote.basedir}">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <!--<target name="compile.module.robotremote.tests" depends="register.custom.compilers,compile.module.robotremote.production" description="compile module RobotRemote; test classes" unless="skip.tests"/>-->
+  
+  <target name="clean.module.robotremote" description="cleanup module">
+    <delete dir="${robotremote.output.dir}"/>
+    <delete dir="${robotremote.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.robotremote, clean.artifact.javafxapp" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.robotremote" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.javafxapp" value="${basedir}/out/artifacts/JavaFXApp"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="artifact.temp.output.JavaFXApp" value="${artifacts.temp.dir}/JavaFXApp.jar"/>
+    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath="${jdk.home.1.8}/lib/ant-javafx.jar"/>
+  </target>
+  
+  <target name="clean.artifact.javafxapp" description="clean JavaFXApp artifact output">
+    <delete dir="${artifact.output.javafxapp}"/>
+  </target>
+  
+  <target name="artifact.javafxapp" depends="init.artifacts, compile.module.robotremote" description="Build &#39;JavaFXApp&#39; artifact" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+    <mkdir dir="${artifact.output.javafxapp}"/>
+    <copy todir="${artifact.temp.output.JavaFXApp}">
+      <fileset dir="${robotremote.output.dir}"/>
+    </copy>
+    <fx:fileset id="all_but_JavaFXApp" dir="${artifact.temp.output.JavaFXApp}" includes="**/*.jar">
+      <exclude name="JavaFXApp.jar"/>
+    </fx:fileset>
+    <fx:fileset id="all_JavaFXApp" dir="${artifact.temp.output.JavaFXApp}" includes="**/*.jar"/>
+    <fx:application id="JavaFXApp_id" name="JavaFXApp" mainClass="sample.Main"/>
+    <fx:jar destfile="${artifact.temp.output.JavaFXApp}/JavaFXApp.jar">
+      <fx:application refid="JavaFXApp_id"/>
+      <fileset dir="${artifact.temp.output.JavaFXApp}" excludes="**/*.jar"/>
+      <fx:resources>
+        <fx:fileset refid="all_but_JavaFXApp"/>
+      </fx:resources>
+    </fx:jar>
+    <fx:deploy width="600" height="400" updatemode="background" outdir="${artifact.temp.output.JavaFXApp}/deploy" outfile="JavaFXApp">
+      <fx:application refid="JavaFXApp_id"/>
+      <fx:resources>
+        <fx:fileset refid="all_JavaFXApp"/>
+      </fx:resources>
+    </fx:deploy>
+    <copy todir="${artifact.output.javafxapp}">
+      <fileset dir="${artifact.temp.output.JavaFXApp}/deploy"/>
+    </copy>
+    <delete includeemptydirs="true">
+      <fileset dir="${artifact.temp.output.JavaFXApp}"/>
+    </delete>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.javafxapp" description="Build all artifacts">
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>

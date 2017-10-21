@@ -3,6 +3,7 @@ package RobotRemote.UIServices.MapHandlers;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
 import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObject;
+import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
@@ -165,13 +166,8 @@ public class MapInputEventHandlers {
     MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
     // Translate mouse coordinates to account for map centering
     Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", newPoint.x, newPoint.y));
-
-    try {
-      this.sm.getMovementService().gotoPoint((float) newPoint.x,(float) newPoint.y);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
     userWaypointsState.AddWayPoint(newPoint.x,newPoint.y);
+    sm.getEventBus().post(new EventSwitchToAutoMap(newPoint));
   }
 
   @Subscribe
@@ -218,7 +214,7 @@ public class MapInputEventHandlers {
     Logger.debug("Received UserZoomChanged: " + uiUpdaterState.getZoomLevel());
   }
 
-  private MapPoint ScaleMouseInputToMap(double mouseX, double mouseY) {
+  public MapPoint ScaleMouseInputToMap(double mouseX, double mouseY) {
     float mapH = uiUpdaterState.getMapH();
     float mapW = uiUpdaterState.getMapW();
     float zoomLevel = uiUpdaterState.getZoomLevel();

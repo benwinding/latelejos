@@ -2,6 +2,8 @@ package RobotRemote.Shared;
 import javafx.scene.paint.Color;
 
 public class RobotConfiguration {
+  public  boolean enableTestData =false;
+
   // Map Size: A1 594mm x 841mm
   public float mapW = 84.1f; // cm
   public float mapH = 59.4f; // cm

@@ -11,6 +11,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.awt.*;
+import java.awt.geom.Path2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,14 +49,36 @@ class MapSelectedLayersFactory {
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
   }
-
+  private void drawNGZBoundingBox(List<MapPoint> points,GraphicsContext gc)
+  {
+    //Draw bounding bo
+    Path2D path = new Path2D.Double();
+    int count=0;
+    for(MapPoint mapPoint: points) {
+      if(count==0)
+        path.moveTo(mapPoint.x,mapPoint.y);
+      else
+        path.lineTo(mapPoint.x,mapPoint.y);
+      count++;
+    }
+    Rectangle rectangle =path.getBounds();
+    List<MapPoint> box = new ArrayList<>();
+    box.add(new MapPoint(rectangle.x,rectangle.y));
+    box.add(new MapPoint(rectangle.x+rectangle.width,rectangle.y));
+    box.add(new MapPoint(rectangle.x+rectangle.width,rectangle.y+rectangle.height));
+    box.add(new MapPoint(rectangle.x,rectangle.y +rectangle.height));
+    UpdaterUtils.DrawAreaOnContext(gc, box, config, Color.web("BLUE",0.5));
+  }
   private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
     for(List<MapPoint> points: pointSets) {
-      UpdaterUtils.DrawAreaOnContext(gc, points, config, Color.web("RED",0.1));
-      UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("RED"));
-      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
+     UpdaterUtils.DrawAreaOnContext(gc, points, config, Color.web("RED",0.1));
+     UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("RED"));
+     UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
+     if(config.enableTestData)
+      drawNGZBoundingBox(points,gc);
+
     }
     return layer;
   }

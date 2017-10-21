@@ -1,6 +1,9 @@
 package RobotRemote.RobotStateMachine.Events.AutoSurvey;
 
+import RobotRemote.Models.MapPoint;
 import lejos.robotics.navigation.Pose;
+
+import java.util.Map;
 
 public class EventAutomapDetectedObject {
 

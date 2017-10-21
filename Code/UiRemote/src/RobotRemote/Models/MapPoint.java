@@ -1,5 +1,7 @@
 package RobotRemote.Models;
 
+import java.util.Map;
+
 public class MapPoint {
   public double x;
   public double y;
@@ -15,5 +17,15 @@ public class MapPoint {
     this.x = x;
     this.y = y;
     this.theta = theta;
+  }
+
+  public String ToString(){
+    return x+ ","+y;
+  }
+
+  public  boolean equals(MapPoint p)
+  {
+      double error = 1;
+      return  Math.abs(x - p.x) <error && Math.abs(y -p.y) <error;
   }
 }

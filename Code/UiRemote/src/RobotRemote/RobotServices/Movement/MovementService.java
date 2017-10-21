@@ -70,13 +70,16 @@ public class MovementService implements IMovementService {
   @Override
   public void forward(float dist_cm) throws InterruptedException {
     stop();
+    if(dist_cm==0)
+      return;
+
     // Set pilot forward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Start forward: " + dist_cm);
       this.pilot.forward();
     });
     // Set location-tracking forward async dist, will stop
-    long timeToTravel = (long)(dist_cm / linearSpeed)*1000;
+    long timeToTravel = (long)(dist_cm *1000/ linearSpeed);
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = dist_cm / numLoops;
 
@@ -89,6 +92,8 @@ public class MovementService implements IMovementService {
   @Override
   public void backward(float dist_cm) throws InterruptedException {
     stop();
+    if(dist_cm == 0)
+      return;
     // Set pilot backward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Start backward: " + dist_cm);
@@ -96,7 +101,7 @@ public class MovementService implements IMovementService {
     });
     // Set location-tracking backward async dist, will stop
     double distAbs = Math.abs(dist_cm);
-    long timeToTravel = (long)(distAbs/ linearSpeed)*1000;
+    long timeToTravel = (long)(distAbs*1000/ linearSpeed);
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = distAbs / numLoops;
 
@@ -107,7 +112,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void turn(int degrees) throws InterruptedException {
+  public void turn(double degrees) throws InterruptedException {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -175,7 +180,7 @@ public class MovementService implements IMovementService {
     Pose currentPose = this.locationState.GetCurrentPose();
     float angleToPoint = currentPose.relativeBearing(new Point(x, y));
     float distanceToPoint = currentPose.distanceTo(new Point(x, y));
-    turn((int) angleToPoint);
+    turn(angleToPoint);
     waitWhileMoving();
     forward(distanceToPoint);
   }
@@ -184,7 +189,8 @@ public class MovementService implements IMovementService {
   public void stop() {
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.debug("MOVE: Stopping");
+      if(this.locationState!=null)
+        Logger.debug("MOVE: Stopping - " + this.locationState.GetCurrentPose().toString());
       if(this.pilot!=null)
         this.pilot.stop();
     });

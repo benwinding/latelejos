@@ -42,7 +42,6 @@ public class ManualMoving implements IModeState {
   public void Leave() {
     if(!this.IsOnState)
       return;
-//    this.eventBus.unregister(this);
     this.moveThread.stop();
     this.threadLoop.StopThread();
     Logger.debug("LEAVE MANUAL STATE...");

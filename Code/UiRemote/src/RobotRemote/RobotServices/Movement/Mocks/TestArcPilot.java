@@ -70,7 +70,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public double getAngularSpeed() {
-    return this.angularSpeed;
+    return this.angularSpeed*ratio;
   }
 
   @Override
@@ -90,6 +90,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public void rotateRight() {
+
     this.isMoving = true;
   }
 
@@ -129,7 +130,7 @@ public class TestArcPilot implements ArcRotateMoveController {
   public void travel(double v, boolean b) {
 
   }
-
+  private int ratio =2;
   @Override
   public void setLinearSpeed(double v) {
     this.linearSpeed = v;
@@ -137,7 +138,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public double getLinearSpeed() {
-    return this.linearSpeed;
+    return this.linearSpeed*ratio;
   }
 
   @Override
