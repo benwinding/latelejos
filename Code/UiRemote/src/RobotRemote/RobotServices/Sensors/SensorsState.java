@@ -115,7 +115,7 @@ public class SensorsState {
 
     if(appState.getRobotConfiguration().enableTestData)
     {
-      return MockSensor.GetColor(appState.getLocationState().GetCurrentPosition());
+      return MockSensor.GetColor(appState.getLocationState());
     }
     return ColourTranslator.GetColourEnum(this.colourId);
   }

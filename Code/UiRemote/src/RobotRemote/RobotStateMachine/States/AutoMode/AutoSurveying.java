@@ -145,7 +145,24 @@ public class AutoSurveying implements IModeState
       case SurveyRadiation:
         handleSurveyRadiation();
       break;
+      case CraterDetected:
+        handleCraterDetected();
+        break;
     }
+  }
+
+  private void handleCraterDetected() throws InterruptedException
+  {
+    moveThread.backward(5);
+    int turnAngle = 90;
+    if (direction == Direction.Down)
+      turnAngle = -90;
+    if (isReverse)
+      turnAngle *= -1;
+    moveThread.turn(turnAngle,this::checkSurroundings);
+    moveThread.forward(config.zigzagWidth,this::checkSurroundings);
+    moveThread.turn(-turnAngle,this::checkSurroundings);
+    setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
   }
 
   private void handleApolloDetected()
@@ -163,6 +180,7 @@ public class AutoSurveying implements IModeState
     }
     return null;
   }
+
   private void handleSurveyRadiation() throws InterruptedException
   {
       while (!util.isThereApollo())
@@ -210,10 +228,8 @@ public class AutoSurveying implements IModeState
 
     if (isReverse)
       turnAngle *= -1;
-
     moveThread.turn(-turnAngle,this::checkSurroundings);
     moveThread.forward(config.zigzagWidth,this::checkSurroundings);
-    //Handle detect left right border
     moveThread.turn(-turnAngle,this::checkSurroundings);
   }
 
@@ -294,7 +310,7 @@ public class AutoSurveying implements IModeState
       setCurrentState(AutoSurveyingInternalState.DetectedObject);
       Logger.specialLog("checkSurroundings: Detected Object");
     }
-    else if (util.isThereATrail())
+    else if (currentState != AutoSurveyingInternalState.PathDetected && util.isThereATrail())
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.PathDetected);
@@ -305,6 +321,12 @@ public class AutoSurveying implements IModeState
       Logger.specialLog("checkSurroundings: NGZDetected Detected  ");
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.NGZDetected);
+    }
+    else if(util.isThereACrater())
+    {
+      Logger.specialLog("checkSurroundings: Crater Detected");
+      moveThread.stopExecuteCommand();
+      setCurrentState(AutoSurveyingInternalState.CraterDetected);
     }
 
     return null;

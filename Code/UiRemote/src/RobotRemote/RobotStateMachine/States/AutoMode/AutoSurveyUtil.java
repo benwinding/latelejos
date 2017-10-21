@@ -70,9 +70,6 @@ public class AutoSurveyUtil
 
   public boolean isThereACrater()
   {
-    if (!sm.getAppState().getSensorsState().getStatusColour())
-      return false;
-
     return sensorState.getColourEnum() == config.colorCrater;
   }
 
@@ -84,12 +81,7 @@ public class AutoSurveyUtil
 
   public boolean isThereATrail()
   {
-
-    if (!sm.getAppState().getSensorsState().getStatusColour())
-      return false;
-
-    Color color = sensorState.getColourEnum();
-    return color == config.colorTrail;
+    return sensorState.getColourEnum() == config.colorTrail;
   }
 
   public void RegisterObjectDetected()

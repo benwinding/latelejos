@@ -14,19 +14,6 @@ public class UserNoGoZoneState {
     allNgzSets = new ArrayList<>();
   }
 
-  public void enableTestNGZ()
-  {
-
-    List<MapPoint> testList = new ArrayList<>();
-    testList.add(new MapPoint(20.985714900250336,76.33571410665708));
-    testList.add(new MapPoint(26.98571500242973,80.47857132006666));
-    testList.add(new MapPoint(34.985715138668915,65.47857106461818));
-    testList.add(new MapPoint(24.70000067778996,63.04999959468842));
-    testList.add(new MapPoint(18.985714866190538,69.1928568421578));
-    testList.add(new MapPoint(14.128571926331029,78.47857128600685));
-    testList.add(new MapPoint(20.985714900250336,76.33571410665708));
-    allNgzSets.add(testList);
-  }
 
   private List<MapPoint> getCurrentNgzPoints() {
     return this.allNgzSets.get(allNgzSets.size()-1);

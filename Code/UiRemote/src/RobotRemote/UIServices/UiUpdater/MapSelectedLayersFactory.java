@@ -51,11 +51,13 @@ class MapSelectedLayersFactory {
     return mapLayers;
   }
 
-  private void drawRadiationZoneBox(GraphicsContext gc)
+  private void drawMockData(GraphicsContext gc)
   {
-        UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Radiation, config, Color.web("GREEN",0.3));
 
-        // Apollo
+      UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Crater, config, Color.web("BLACK",0.9));
+      UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Radiation, config, Color.web("GREEN",0.3));
+      UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Track, config, Color.web("YELLOW",0.9));
+      UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Track1, config, Color.web("YELLOW",0.9));
       UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Apollo, config, Color.web("RED",0.9));
 
 
@@ -87,11 +89,16 @@ class MapSelectedLayersFactory {
      UpdaterUtils.DrawAreaOnContext(gc, points, config, Color.web("RED",0.1));
      UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("RED"));
      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
-     if(config.enableTestData)
-     {
-       drawNGZBoundingBox(points, gc);
-       drawRadiationZoneBox(gc);
-     }
+
+      if(config.enableTestData)
+      {
+        drawNGZBoundingBox(points, gc);
+      }
+    }
+
+    if(config.enableTestData)
+    {
+      drawMockData(gc);
     }
     return layer;
   }

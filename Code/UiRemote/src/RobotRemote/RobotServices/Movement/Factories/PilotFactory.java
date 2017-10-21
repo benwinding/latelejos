@@ -27,7 +27,7 @@ public class PilotFactory {
       config.enableTestData = true;
 
       MockSensor.InitMockData();
-      app.getUserNoGoZoneState().enableTestNGZ();
+     app.getUserNoGoZoneState().AddNgzSet(MockSensor.NGZ);
     }
     pilot.setLinearSpeed(config.robotLinearSpeed_cms);
     pilot.setAngularSpeed(config.robotAngularSpeed_degs);
