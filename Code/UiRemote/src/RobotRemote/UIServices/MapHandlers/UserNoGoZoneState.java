@@ -6,6 +6,7 @@ import RobotRemote.Shared.RobotConfiguration;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserNoGoZoneState {
   private List<List<MapPoint>> allNgzSets;
@@ -56,6 +57,14 @@ public class UserNoGoZoneState {
       return new ArrayList<>();
   }
 
+  public ArrayList<MapPoint> GetNgzPointsFlattened() {
+    ArrayList<MapPoint> returnList = new ArrayList<>();
+    for(List<MapPoint> ngzList: allNgzSets) {
+      returnList.addAll(ngzList);
+    }
+    return returnList;
+  }
+
   private void CopyFirstPointToLastPosition(List<MapPoint> ngzCopy) {
     if(ngzCopy != null && ngzCopy.size() > 0)
       ngzCopy.add(ngzCopy.get(0));
@@ -75,4 +84,9 @@ public class UserNoGoZoneState {
     return false;
   }
 
+  public ArrayList<MapPoint> GetObstacles() {
+    ArrayList<MapPoint> returnList = new ArrayList<>();
+    // TODO implement get obstacle points
+    return returnList;
+  }
 }
