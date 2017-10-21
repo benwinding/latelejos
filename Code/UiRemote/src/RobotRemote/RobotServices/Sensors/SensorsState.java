@@ -4,9 +4,15 @@ import RobotRemote.Shared.ColourTranslator;
 import RobotRemote.Shared.Logger;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SensorsState {
   private double ultraReading;
   private int colourId;
+  private int arrayLength = 5;
+  private int[] colourArray = new int[arrayLength];
+  private int colourArrayPosition;
   private double colourReadingR;
   private double colourReadingG;
   private double colourReadingB;
@@ -46,12 +52,40 @@ public class SensorsState {
   }
 
   void setColourId(int colourId) {
+    this.colourArray[colourArrayPosition] = colourId;
+    colourArrayPosition++;
+    if(colourArrayPosition >= arrayLength)
+      colourArrayPosition = 0;
     this.colourId = colourId;
   }
 
   public int getColourId() {
-    return colourId;
+    return this.mostFrequent(this.colourArray);
   }
+
+  int mostFrequent(int... ary) {
+    // Taken from s.o. answer:
+    // https://stackoverflow.com/questions/1852631/determine-the-most-common-occurrence-in-an-array
+    Map<Integer, Integer> m = new HashMap<Integer, Integer>();
+
+    for (int a : ary) {
+      Integer freq = m.get(a);
+      m.put(a, (freq == null) ? 1 : freq + 1);
+    }
+
+    int max = -1;
+    int mostFrequent = -1;
+
+    for (Map.Entry<Integer, Integer> e : m.entrySet()) {
+      if (e.getValue() > max) {
+        mostFrequent = e.getKey();
+        max = e.getValue();
+      }
+    }
+
+    return mostFrequent;
+  }
+
 
   public boolean getStatusUltra() {
     return statusUltra;
