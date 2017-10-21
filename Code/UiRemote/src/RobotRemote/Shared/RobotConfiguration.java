@@ -3,14 +3,14 @@ import javafx.scene.paint.Color;
 
 public class RobotConfiguration {
   // Map Size: A1 594mm x 841mm
-  public float mapW = 59.4f; // cm
-  public float mapH = 84.1f; // cm
+  public float mapW = 84.1f; // cm
+  public float mapH = 59.4f; // cm
   // Initial map values
   public float mapInitZoom = 0.7f;
   public float mapPixelsPerCm = 10; // Define pixel density of map
-  public float initX = 52; // cm
-  public float initY = 76; // cm
-  public float initTheta = -180; // degrees
+  public float initX = 76; // cm
+  public float initY = 52; // cm
+  public float initTheta = 180; // degrees
   // Robot settings
   public double robotLinearSpeed_cms = 3;
   public double robotLinearAcceleration_cms2 = 0;

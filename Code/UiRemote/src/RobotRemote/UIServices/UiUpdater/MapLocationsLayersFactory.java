@@ -34,8 +34,8 @@ class MapLocationsLayersFactory {
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
-        this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("GREEN", 0.15))
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("GREEN", 0.15)),
+        this.CreateCurrentLocationLayer(locationState.GetCurrentPosition())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
