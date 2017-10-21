@@ -41,6 +41,7 @@ public class NgzUtils {
   }
 
   public static Rectangle getInterceptNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, int robotLengthCm) {
+    robotLengthCm*=0.8;
     int x = (int)robotLocation.x - robotLengthCm / 2;
     int y = (int)robotLocation.y - robotLengthCm / 2;
     Rectangle2D testPoint = new Rectangle(x,y,robotLengthCm,robotLengthCm);
@@ -61,9 +62,10 @@ public class NgzUtils {
   }
 
   public static boolean isRobotInNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, double robotLengthCm, double robotWidth) {
+    robotLengthCm = robotLengthCm * 0.8;
     double x = robotLocation.x - robotLengthCm / 2;
     double y = robotLocation.y - robotLengthCm / 2;
-    Rectangle2D testPoint = new Rectangle2D.Double(x,y,robotLengthCm,robotWidth);
+    Rectangle2D testPoint = new Rectangle2D.Double(x,y,robotLengthCm,robotLengthCm);
     Path2D path = new Path2D.Double();
     int count=0;
     for(MapPoint mapPoint: ngzSet) {

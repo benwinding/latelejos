@@ -56,12 +56,13 @@ public class AutoSurveyUtil
   {
 
 
-    if (!sm.getAppState().getSensorsState().getStatusColour())
-    {
-      if (sm.getAppState().getLocationState().GetCurrentPosition().y < 0 || sm.getAppState().getLocationState().GetCurrentPosition().x < 0 || sm.getAppState().getLocationState().GetCurrentPosition().y > 85 || sm.getAppState().getLocationState().GetCurrentPosition().x > 60)
-        return true;
-      return false;
-    }
+//    if (!sm.getAppState().getSensorsState().getStatusColour())
+//    {
+//      if (sm.getAppState().getLocationState().GetCurrentPosition().y < 0 || sm.getAppState().getLocationState().GetCurrentPosition().x < 0 ||
+//          sm.getAppState().getLocationState().GetCurrentPosition().y > 60 || sm.getAppState().getLocationState().GetCurrentPosition().x > 85)
+//        return true;
+//      return false;
+//    }
 
     javafx.scene.paint.Color color = sensorState.getColourEnum();
     return color == config.colorBorder;
@@ -77,8 +78,6 @@ public class AutoSurveyUtil
 
   public boolean isThereApollo()
   {
-    if (!sm.getAppState().getSensorsState().getStatusColour())
-      return false;
 
     return sensorState.getColourEnum() == config.colorApollo;
   }
@@ -118,4 +117,8 @@ public class AutoSurveyUtil
     return AutoSurveying.Direction.Down;
   }
 
+  public boolean isThereRadiation()
+  {
+    return sensorState.getColourEnum() == config.colorRadiation;
+  }
 }

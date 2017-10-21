@@ -20,7 +20,7 @@ public class MovementService implements IMovementService {
   private double angularSpeed;
 
   public void Initialize(RobotConfiguration config, RobotConnectionService robotConnectionService, AppStateRepository app) {
-    this.pilot = PilotFactory.GetPilot(config, robotConnectionService);
+    this.pilot = PilotFactory.GetPilot(config, robotConnectionService, app);
     this.locationState = app.getLocationState();
 
     Synchronizer.SerializeRobotCalls(() -> {

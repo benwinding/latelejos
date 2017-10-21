@@ -2,6 +2,7 @@ package RobotRemote;
 
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
+import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
 import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
 import RobotRemote.RobotStateMachine.StateMachineBuilder;
@@ -79,11 +80,6 @@ public class Main extends Application {
     primaryStage.show();
 
 
-    //Init test data if need
-    if(robotConfiguration.enableTestData)
-    {
-      appStateRepository.getUserNoGoZoneState().enableTestNGZ();
-    }
   }
 
   @Override

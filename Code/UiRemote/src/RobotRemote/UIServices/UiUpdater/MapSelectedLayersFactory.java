@@ -1,5 +1,6 @@
 package RobotRemote.UIServices.UiUpdater;
 
+import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
 import RobotRemote.Shared.ColourTranslator;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Shared.RobotConfiguration;
@@ -49,6 +50,16 @@ class MapSelectedLayersFactory {
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
   }
+
+  private void drawRadiationZoneBox(GraphicsContext gc)
+  {
+        UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Radiation, config, Color.web("GREEN",0.3));
+
+        // Apollo
+      UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Apollo, config, Color.web("RED",0.9));
+
+
+  }
   private void drawNGZBoundingBox(List<MapPoint> points,GraphicsContext gc)
   {
     //Draw bounding bo
@@ -77,11 +88,14 @@ class MapSelectedLayersFactory {
      UpdaterUtils.DrawPointsOnContext(gc, points, config, Color.web("RED"));
      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
      if(config.enableTestData)
-      drawNGZBoundingBox(points,gc);
-
+     {
+       drawNGZBoundingBox(points, gc);
+       drawRadiationZoneBox(gc);
+     }
     }
     return layer;
   }
+
 
   private Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);

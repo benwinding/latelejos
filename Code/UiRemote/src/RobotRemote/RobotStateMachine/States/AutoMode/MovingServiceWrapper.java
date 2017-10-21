@@ -17,6 +17,10 @@ public class MovingServiceWrapper
     this.movementService = movementService;
     AllowExecute = true;
   }
+  public void stopExecuteCommand(){
+    movementService.stop();
+    AllowExecute=true;
+  }
 
   public void stop()
   {
@@ -31,15 +35,6 @@ public class MovingServiceWrapper
       movementService.repeatWhileMoving(repeatThis);
     }
 
-  }
-
-  public void forward(float dist_cm) throws InterruptedException
-  {
-    if(AllowExecute)
-    {
-      movementService.forward(dist_cm);
-      movementService.waitWhileMoving();
-    }
   }
 
   public void forward(float dist_cm, Callable repeatThis) throws InterruptedException
@@ -69,6 +64,15 @@ public class MovingServiceWrapper
       movementService.waitWhileMoving();
     }
   }
+  public void turn(double degrees,Callable callthis) throws InterruptedException
+  {
+    if(AllowExecute)
+    {
+      movementService.turn(degrees);
+      movementService.repeatWhileMoving(callthis);
+    }
+  }
+
   public void turn(double degrees) throws InterruptedException
   {
     if(AllowExecute)
@@ -90,4 +94,5 @@ public class MovingServiceWrapper
 
     }
   }
+
 }
