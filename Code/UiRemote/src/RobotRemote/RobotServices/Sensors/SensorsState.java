@@ -4,15 +4,14 @@ import RobotRemote.Shared.ColourTranslator;
 import RobotRemote.Shared.Logger;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SensorsState {
   private double ultraReading;
   private int colourId;
-  private int[] colourArray = new int[20];
+  private int arrayLength = 5;
+  private int[] colourArray = new int[arrayLength];
   private int colourArrayPosition;
   private double colourReadingR;
   private double colourReadingG;
@@ -55,7 +54,7 @@ public class SensorsState {
   void setColourId(int colourId) {
     this.colourArray[colourArrayPosition] = colourId;
     colourArrayPosition++;
-    if(colourArrayPosition >= 20)
+    if(colourArrayPosition >= arrayLength)
       colourArrayPosition = 0;
     this.colourId = colourId;
   }
