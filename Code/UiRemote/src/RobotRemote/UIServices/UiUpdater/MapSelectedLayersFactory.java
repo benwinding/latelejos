@@ -132,7 +132,7 @@ class MapSelectedLayersFactory {
   private Canvas CreateObstaclesLayer(ArrayList<MapPoint> mapPoints, Color color) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    UpdaterUtils.DrawCirclesOnContext(gc, mapPoints, config, color,60);
+    UpdaterUtils.DrawFilledCirclesOnContext(gc, mapPoints, config, color,40);
     return layer;
   }
 
