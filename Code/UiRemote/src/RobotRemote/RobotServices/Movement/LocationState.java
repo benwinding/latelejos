@@ -1,6 +1,7 @@
 package RobotRemote.RobotServices.Movement;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.Shared.Logger;
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
 
@@ -55,6 +56,12 @@ public class LocationState {
 
   private void GoingToPoint(double x, double y, double theta) {
     MapPoint newPoint = new MapPoint(x, y, theta%360);
+
+    //Catch some un-expected value
+    if(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(theta%360))
+      return;
+
+    //Logger.log("GoingToPoint" + newPoint.ToString() );
     this.pointsVisited.add(newPoint);
   }
 
@@ -78,6 +85,7 @@ public class LocationState {
   }
 
   public void SetExploredAreaPoints(List<MapPoint> importedPoints) {
+    Logger.log("SetExploredAreaPoints" );
     this.pointsVisited = importedPoints;
   }
 
@@ -86,6 +94,7 @@ public class LocationState {
   }
 
   public void SetCurrentLocation(MapPoint currentLocation) {
+    Logger.log("SetCurrentLocation" );
     this.pointsVisited.add(currentLocation);
   }
 }

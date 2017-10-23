@@ -20,7 +20,7 @@ public class MovementService implements IMovementService {
   private double angularSpeed;
 
   public void Initialize(RobotConfiguration config, RobotConnectionService robotConnectionService, AppStateRepository app) {
-    this.pilot = PilotFactory.GetPilot(config, robotConnectionService);
+    this.pilot = PilotFactory.GetPilot(config, robotConnectionService, app);
     this.locationState = app.getLocationState();
 
     Synchronizer.SerializeRobotCalls(() -> {
@@ -147,8 +147,17 @@ public class MovementService implements IMovementService {
   public void repeatWhileMoving(Callable repeatThis) throws InterruptedException {
     while (isMoving() && !Thread.interrupted()) {
       try {
-        repeatThis.call();
-        Thread.sleep(20);
+        Synchronizer.SerializeRobotCalls(() -> {
+          try
+          {
+            repeatThis.call();
+          } catch (Exception e)
+          {
+            Logger.debug("MOVE: Interrupted repeatThis");
+          }
+        });
+        //repeatThis.call();
+        Thread.sleep(40);
       } catch (Exception ignored) {
         Logger.debug("MOVE: Interrupted repeatWhileMoving");
         throw new InterruptedException();
@@ -192,7 +201,7 @@ public class MovementService implements IMovementService {
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
       if(this.locationState!=null)
-        Logger.debug("MOVE: Stopping - " + this.locationState.GetCurrentPose().toString());
+       // Logger.debug("MOVE: Stopping - " + this.locationState.GetCurrentPose().toString());
       if(this.pilot!=null)
         this.pilot.stop();
     });

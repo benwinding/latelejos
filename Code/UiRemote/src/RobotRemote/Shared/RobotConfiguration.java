@@ -30,10 +30,11 @@ public class RobotConfiguration {
   // Update intervals
   public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 50;
-  public Color colorTrail = Color.RED;
-  public Color colorBorder = Color.BLACK;
-  public Color colorCrater = Color.RED;
+  public Color colorTrail = Color.YELLOW;
+  public Color colorBorder = Color.BLUE;
+  public Color colorCrater = Color.BLACK;
   public Color colorApollo = Color.RED;
-  public double obstacleAvoidDistance = 5;
-  public float zigzagWidth = 15;
+  public Color colorRadiation = Color.GREEN;
+  public double obstacleAvoidDistance = 8;
+  public float zigzagWidth = 10;
 }

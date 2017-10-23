@@ -3,6 +3,7 @@ package RobotRemote.RobotStateMachine.States.AutoMode;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.RobotServices.Sensors.SensorsState;
+import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.Shared.*;
 import RobotRemote.UIServices.MapHandlers.NgzUtils;
@@ -17,6 +18,7 @@ public class AutoSurveying implements IModeState
 {
 
 
+
   enum AutoSurveyingInternalState
   {
     BackToLastPosition,
@@ -28,6 +30,8 @@ public class AutoSurveying implements IModeState
     BackToHome,
     ApolloDetected,
     NGZDetected,
+    MissionCompleted,
+    SurveyRadiation,
   }
 
   enum Direction
@@ -49,6 +53,7 @@ public class AutoSurveying implements IModeState
   private MovingServiceWrapper moveThread;
   private LocationState locationState;
   private  boolean IsOnState;
+  private boolean missionAccomplish;
   public AutoSurveying(ServiceManager sm)
   {
     this.IsOnState = false;
@@ -64,13 +69,18 @@ public class AutoSurveying implements IModeState
     this.isMovingToPoint = false;
     this.direction = Direction.Up;
     this.util = new AutoSurveyUtil(sm);
+    this.missionAccomplish =false;
    // Logger.isDisableLog =true;
   }
+
   public void setMoveToWaypoint(MapPoint point)
   {
     this.LastPoint = point;
+    if(currentState == AutoSurveyingInternalState.ZigZagingSurvey)
+      moveThread.stop();
+    moveThread.AllowExecute=false;
     currentState = AutoSurveyingInternalState.BackToLastPosition;
-    moveThread.stop();
+
   }
 
   public void Enter()
@@ -123,12 +133,70 @@ public class AutoSurveying implements IModeState
         handleDetectedTrail();
         break;
       case ApolloDetected:
-        handleDetectedTrail();
+        handleApolloDetected();
         break;
       case NGZDetected:
         handleDetectedNGZ();
         break;
+      case MissionCompleted:
+        Logger.log("I'm Home!!!!");
+        eventBus.post(new EventEmergencySTOP());
+        break;
+      case SurveyRadiation:
+        handleSurveyRadiation();
+      break;
+      case CraterDetected:
+        handleCraterDetected();
+        break;
     }
+  }
+
+  private void handleCraterDetected() throws InterruptedException
+  {
+    moveThread.backward(5);
+    int turnAngle = 90;
+    if (direction == Direction.Down)
+      turnAngle = -90;
+    if (isReverse)
+      turnAngle *= -1;
+    moveThread.turn(turnAngle,this::checkSurroundings);
+    moveThread.forward(config.zigzagWidth,this::checkSurroundings);
+    moveThread.turn(-turnAngle,this::checkSurroundings);
+    setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
+  }
+
+  private void handleApolloDetected()
+  {
+    LastPoint = new MapPoint(config.initX,config.initY);
+    missionAccomplish=true;
+    setCurrentState(AutoSurveyingInternalState.BackToLastPosition);
+  }
+
+  private Object checkOutRadiationZone() throws InterruptedException
+  {
+    if (!util.isThereRadiation())
+    {
+      moveThread.stop();
+    }
+    return null;
+  }
+
+  private void handleSurveyRadiation() throws InterruptedException
+  {
+      while (!util.isThereApollo())
+      {
+        moveThread.forward(this::checkOutRadiationZone);
+        if(util.isThereApollo())
+        {
+          setCurrentState(AutoSurveyingInternalState.ApolloDetected);
+          break;
+        }
+        else {
+          moveThread.backward(3);
+          int randomNum = ThreadLocalRandom.current().nextInt(0,180);
+          moveThread.turn(randomNum);
+        }
+      }
   }
 
   private void turnBackToLastDirection(Direction lastDirection) throws InterruptedException
@@ -148,8 +216,8 @@ public class AutoSurveying implements IModeState
         break;
     }
 
-    int turnBackDegree = (initDegree - (int) moveThread.GetCurrentPose().getHeading()) % 360;
-    moveThread.turn(turnBackDegree);
+    double turnBackDegree = (initDegree - moveThread.GetCurrentPose().getHeading()) % 360;
+    moveThread.turn(turnBackDegree,this::checkSurroundings);
   }
 
   private void turnRobotAround(boolean rightTurn) throws InterruptedException
@@ -160,12 +228,9 @@ public class AutoSurveying implements IModeState
 
     if (isReverse)
       turnAngle *= -1;
-
-    moveThread.backward(5);
-    moveThread.turn(-turnAngle);
+    moveThread.turn(-turnAngle,this::checkSurroundings);
     moveThread.forward(config.zigzagWidth,this::checkSurroundings);
-    //Handle detect left right border
-    moveThread.turn(-turnAngle);
+    moveThread.turn(-turnAngle,this::checkSurroundings);
   }
 
   private void handleBackToLastPosition() throws InterruptedException
@@ -180,7 +245,7 @@ public class AutoSurveying implements IModeState
       isMovingToPoint = true;
       float angleToPoint = currentPose.relativeBearing(new lejos.robotics.geometry.Point((float) LastPoint.x, (float) LastPoint.y));
       float distanceToPoint = currentPose.distanceTo(new lejos.robotics.geometry.Point((float) LastPoint.x, (float) LastPoint.y));
-      moveThread.turn((int) angleToPoint);
+      moveThread.turn( angleToPoint,this::checkSurroundings);
       moveThread.forward(distanceToPoint, this::checkSurroundings);
       //If  last time move up then turn back to move up otherwise move down;
     }
@@ -190,6 +255,11 @@ public class AutoSurveying implements IModeState
     if(currentLocation.equals(LastPoint))
     {
       isMovingToPoint = false;
+      if(this.missionAccomplish)
+      {
+        setCurrentState(AutoSurveyingInternalState.MissionCompleted);
+        return;
+      }
       setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
       turnBackToLastDirection(direction);
     }
@@ -220,48 +290,94 @@ public class AutoSurveying implements IModeState
 
     if (util.isThereABorder())
     {
-      moveThread.stop();
-      moveThread.AllowExecute =false;
+      moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.BorderDetected);
       Logger.specialLog("checkSurroundings: Detected Border - Color: " + sensorState.getColourEnum().toString());
     }
+    else if(util.isThereApollo() && !missionAccomplish)
+    {
+      moveThread.stopExecuteCommand();
+      setCurrentState(AutoSurveyingInternalState.ApolloDetected);
+    }
+    else if(util.isThereRadiation() && !missionAccomplish)
+    {
+      moveThread.stopExecuteCommand();
+      setCurrentState(AutoSurveyingInternalState.SurveyRadiation);
+    }
     else if (util.isThereAnObject())
     {
-      moveThread.stop();
-      moveThread.AllowExecute =false;
+      moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.DetectedObject);
       Logger.specialLog("checkSurroundings: Detected Object");
     }
-    else if (util.isThereATrail())
+    else if (currentState != AutoSurveyingInternalState.PathDetected && util.isThereATrail())
     {
-      moveThread.stop();
-      moveThread.AllowExecute =false;
+      moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.PathDetected);
       Logger.specialLog("checkSurroundings: Trail Detected - Color: " + sensorState.getColourEnum());
     }
     else if (util.isThereANGZ())
     {
       Logger.specialLog("checkSurroundings: NGZDetected Detected  ");
-      moveThread.stop();
-      moveThread.AllowExecute =false;
+      moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.NGZDetected);
+    }
+    else if(util.isThereACrater())
+    {
+      Logger.specialLog("checkSurroundings: Crater Detected");
+      moveThread.stopExecuteCommand();
+      setCurrentState(AutoSurveyingInternalState.CraterDetected);
     }
 
     return null;
+  }
+
+  private void objectAvoidance(int distance) throws InterruptedException
+  {
+    moveThread.turn(90);
+    moveThread.forward(distance,this::checkSurroundings);
+    moveThread.turn(-90);
+
+  }
+
+  private boolean lookForObject() throws InterruptedException
+  {
+    int lookingDegree =20;
+    boolean stillSeeObject =false;
+    moveThread.turn(lookingDegree);
+    if (util.isThereAnObject())
+    {
+      stillSeeObject = true;
+    }
+    moveThread.turn(-lookingDegree);
+    moveThread.turn(-lookingDegree);
+    if (util.isThereAnObject())
+    {
+      stillSeeObject = true;
+    }
+    moveThread.turn(lookingDegree);
+    return stillSeeObject;
   }
 
   private void handleDetectedObject() throws InterruptedException
   {
     Logger.specialLog("Handling Detected Object");
     util.RegisterObjectDetected();
-    moveThread.turn(90);
-    moveThread.forward(15,this::checkSurroundings);
-    moveThread.turn(-90);
-    moveThread.forward(40,this::checkSurroundings);
-    moveThread.turn(-90);
-    moveThread.forward(15,this::checkSurroundings);
-    moveThread.turn(90);
+    objectAvoidance(15);
+    //Try look around be for keep moving
+    boolean stillSeeObject=false;
+    do
+    {
+      stillSeeObject = lookForObject();
+      if (stillSeeObject)
+      {
+        objectAvoidance(5);
+      }
+    }
+    while (stillSeeObject);
 
+
+    while(util.isThereAnObject());
     if(moveThread.AllowExecute)
     {
       setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
@@ -273,7 +389,7 @@ public class AutoSurveying implements IModeState
     Direction currentDir = util.getCurrentDirection();
     if(currentDir == Direction.Up || currentDir == Direction.Down)
     {
-      int padding = 5;
+      int padding = 2;
       int dir = 1;
       Rectangle ngzBoundingBox = NgzUtils.getInterceptNgzArea(sm.getAppState(), config);
       MapPoint robotLocation = sm.getAppState().getLocationState().GetCurrentPosition();
@@ -292,29 +408,29 @@ public class AutoSurveying implements IModeState
         ngzBoundingBox.y += ngzBoundingBox.height;
       }
 
-      int yAdding = (int) robotLocation.y - ngzBoundingBox.y;
+      double yAdding =  robotLocation.y - ngzBoundingBox.y;
       if (isReverse)
       {
         yAdding *= -1;
       }
       double moveY = yAdding + config.robotPhysicalLength / 2 + padding;
       moveThread.backward(3);
-      moveThread.turn(90 * dir);
+      moveThread.turn(90 * dir,this::checkSurroundings);
       moveThread.forward((float) moveY,this::checkSurroundings);
-      moveThread.turn(-90 * dir);
+      moveThread.turn(-90 * dir,this::checkSurroundings);
       //move over width of NGZ
       double xAdding = Math.abs((robotLocation.x - ngzBoundingBox.x));
       double moveX = xAdding + config.robotPhysicalLength / 2 + padding;
       moveThread.forward((float) moveX,this::checkSurroundings);
       //TODO: Change to check subrounding
-      moveThread.turn(-90 * dir);
+      moveThread.turn(-90 * dir,this::checkSurroundings);
       moveThread.forward((float) moveY,this::checkSurroundings);
-      moveThread.turn(90 * dir);
+      moveThread.turn(90 * dir,this::checkSurroundings);
     }
     else {
       moveThread.backward(3);
       int randomNum = ThreadLocalRandom.current().nextInt(-90,90);
-      moveThread.turn(randomNum);
+      moveThread.turn(randomNum,this::checkSurroundings);
       randomNum = ThreadLocalRandom.current().nextInt(5,10);
       moveThread.forward(randomNum,this::checkSurroundings);
 
@@ -330,6 +446,7 @@ public class AutoSurveying implements IModeState
   private void handleDetectedBorder() throws InterruptedException
   {
     Logger.debug("Handling Detected Border");
+    moveThread.backward(5);
     direction = util.getCurrentDirection();
     turnBackToLastDirection(direction);
     switch (direction)
@@ -344,7 +461,6 @@ public class AutoSurveying implements IModeState
         break;
       case Right:
       case Left:
-        moveThread.backward(5);
         turnBackToLastDirection(Direction.Up);
         direction = Direction.Up;
         isReverse = !isReverse;
@@ -355,10 +471,8 @@ public class AutoSurveying implements IModeState
       setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);
   }
 
-
   private void handleDetectedTrail() throws InterruptedException
   {
-
     Logger.specialLog("Handling Detected Trail");
     boolean isFinishTrack = false;
     float moveStep = 3f;
@@ -380,7 +494,7 @@ public class AutoSurveying implements IModeState
       Logger.specialLog("Try find track");
 
       float tryDegree = 0;
-      int turnInterval = 10;
+      int turnInterval = 5;
       int turnDirection = direction == Direction.Down ? -1 : 1;
       if (isReverse)
       {
@@ -390,16 +504,16 @@ public class AutoSurveying implements IModeState
       float maxTryDegree = 120 / Math.abs(turnInterval);
       while (!util.isThereATrail() && tryDegree < maxTryDegree)
       {
-        moveThread.turn(turnInterval * turnDirection);
+        moveThread.turn(turnInterval * turnDirection,this::checkSurroundings);
         tryDegree++;
       }
-
       //try turn back to find the trail
-      tryDegree = -maxTryDegree;
+      tryDegree = 0;
       turnDirection = -turnDirection;
+      moveThread.turn(turnDirection*120,this::checkSurroundings);
       while (!util.isThereATrail() && tryDegree < maxTryDegree)
       {
-        moveThread.turn(turnInterval * turnDirection);
+        moveThread.turn(turnInterval * turnDirection,this::checkSurroundings);
         tryDegree++;
       }
       isFinishTrack = !util.isThereATrail();

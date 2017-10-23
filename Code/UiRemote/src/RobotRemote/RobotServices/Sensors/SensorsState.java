@@ -1,7 +1,10 @@
 package RobotRemote.RobotServices.Sensors;
 
+import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
+import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.ColourTranslator;
 import RobotRemote.Shared.Logger;
+import RobotRemote.Shared.RobotConfiguration;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -18,6 +21,11 @@ public class SensorsState {
   private double colourReadingB;
   private boolean statusUltra;
   private boolean statusColour;
+  private AppStateRepository appState;
+  public SensorsState(AppStateRepository appState)
+  {
+    this.appState = appState;
+  }
 
   public double getUltraReadingCm() {
     return ultraReading * 100;
@@ -138,6 +146,10 @@ public class SensorsState {
 
   public Color getColourEnum() {
 
+    if(appState.getRobotConfiguration().enableTestData)
+    {
+      return MockSensor.GetColor(appState.getLocationState());
+    }
     return ColourTranslator.GetColourEnum(this.colourId);
   }
 }
