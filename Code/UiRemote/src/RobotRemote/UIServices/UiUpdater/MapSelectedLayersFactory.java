@@ -46,6 +46,7 @@ class MapSelectedLayersFactory {
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
+        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.ALICEBLUE),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
@@ -54,14 +55,11 @@ class MapSelectedLayersFactory {
 
   private void drawMockData(GraphicsContext gc)
   {
-
       UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Crater, config, Color.web("BLACK",0.9));
       UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Radiation, config, Color.web("GREEN",0.3));
       UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Track, config, Color.web("YELLOW",0.9));
       UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Track1, config, Color.web("YELLOW",0.9));
       UpdaterUtils.DrawAreaOnContext(gc, MockSensor.Apollo, config, Color.web("RED",0.9));
-
-
   }
 
   private void drawNGZBoundingBox(List<MapPoint> points,GraphicsContext gc)
@@ -84,6 +82,7 @@ class MapSelectedLayersFactory {
     box.add(new MapPoint(rectangle.x,rectangle.y +rectangle.height));
     UpdaterUtils.DrawAreaOnContext(gc, box, config, Color.web("BLUE",0.5));
   }
+
   private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
@@ -104,7 +103,6 @@ class MapSelectedLayersFactory {
     }
     return layer;
   }
-
   private Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
@@ -126,6 +124,13 @@ class MapSelectedLayersFactory {
       UpdaterUtils.DrawCirclesOnContext(gc, points, config, colorCircle, circleSize);
       UpdaterUtils.DrawAreaOnContext(gc, points, config, colorArea);
     }
+    return layer;
+  }
+
+  private Canvas CreateAppolloLayer(ArrayList<MapPoint> mapPoints, Color color) {
+    Canvas layer = new Canvas(mapW*3,mapH*3);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+    UpdaterUtils.DrawFilledCirclesOnContext(gc, mapPoints, config, color,40);
     return layer;
   }
 

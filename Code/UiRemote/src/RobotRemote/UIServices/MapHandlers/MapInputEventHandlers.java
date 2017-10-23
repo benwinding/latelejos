@@ -39,7 +39,10 @@ public class MapInputEventHandlers {
   @Subscribe
   public void OnEventAutomapDetectedObject(EventAutomapDetectedObject event) {
     Pose detectedLocation = event.getDetectedPosition();
-    this.userNoGoZoneState.AddDetectedObstacle(detectedLocation.getX(), detectedLocation.getY());
+    if(event.isApollo)
+      this.userNoGoZoneState.AddDetectedAppollo(detectedLocation.getX(), detectedLocation.getY());
+    else
+      this.userNoGoZoneState.AddDetectedObstacle(detectedLocation.getX(), detectedLocation.getY());
   }
 
   @Subscribe
