@@ -29,7 +29,7 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnUserAddWaypoint(EventUserAddWaypoint event) {
-    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
+    MapPoint newPoint = this.GetClickMapLocation(event.getX(), event.getY());
     // Translate mouse coordinates to account for map centering
     Logger.debug(String.format("Received UserAddWaypoint:: x:%.1f, y:%.1f", newPoint.x, newPoint.y));
     userWaypointsState.AddWayPoint(newPoint.x,newPoint.y);
@@ -44,19 +44,26 @@ public class MapInputEventHandlers {
 
   @Subscribe
   public void OnUserMapNgzStart(EventUserMapNgzStart event){
-    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
+    MapPoint newPoint = this.GetClickMapLocation(event.getX(), event.getY());
     userNoGoZoneState.AddNgzStartPoint(newPoint);
   }
 
   @Subscribe
   public void OnUserMapNgzMiddle(EventUserMapNgzMiddle event){
-    MapPoint newPoint = this.ScaleMouseInputToMap(event.getX(), event.getY());
+    MapPoint newPoint = this.GetClickMapLocation(event.getX(), event.getY());
     userNoGoZoneState.AddNgzMiddlePoint(newPoint);
   }
 
   @Subscribe
   public void OnUserMapNgzEnd(EventUserMapNgzEnd event){
     userNoGoZoneState.FinishedNgzSet();
+  }
+
+  MapPoint GetClickMapLocation(double mouseX, double mouseY) {
+    double xTrans = mouseX-uiUpdaterState.getMapDragDeltaX();
+    double yTrans = mouseY-uiUpdaterState.getMapDragDeltaY();
+    MapPoint newPoint = this.ScaleMouseInputToMap(xTrans, yTrans);
+    return newPoint;
   }
 
   @Subscribe
@@ -95,8 +102,8 @@ public class MapInputEventHandlers {
     double scaleYcm = scaleY / pixelsPerCm;
 
     // Translate mouse coordinates to account for map centering
-    double transXcm = scaleXcm + mapW/2 + uiUpdaterState.getMapDragDeltaX() / pixelsPerCm;
-    double transYcm = scaleYcm + mapH/2 + uiUpdaterState.getMapDragDeltaY() / pixelsPerCm;
+    double transXcm = scaleXcm + mapW/2;
+    double transYcm = scaleYcm + mapH/2;
 
     return new MapPoint(transXcm, transYcm);
   }
