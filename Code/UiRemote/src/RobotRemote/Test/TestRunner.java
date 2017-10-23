@@ -6,21 +6,20 @@ import org.junit.runner.notification.Failure;
 
 public class TestRunner {
     public static void main(String[] args) {
-        AppStateObjecttest();
+      RunAllTest();
     }
-
-    public static void AppStateObjecttest(){
-        Result result = JUnitCore.runClasses(AppObjectTest.class);
+    public static void RunAllTest(){
+        Result result = JUnitCore.runClasses(AppObjectTest.class,MapTranslationTest.class,StateMachineBuilderTest.class,UiConnectionTest.class);
 
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
         }
 
         if(result.wasSuccessful()){
-            System.out.println("Passed all AppObject tests");
+            System.out.println("Passed all tests ");
         }
         else{
-            System.out.println("Failed AppObject tests");
+            System.out.println("Failed "+result.getFailureCount()+" tests");
         }
 
     }
