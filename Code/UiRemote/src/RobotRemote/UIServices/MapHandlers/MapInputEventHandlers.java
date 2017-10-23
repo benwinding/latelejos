@@ -39,7 +39,7 @@ public class MapInputEventHandlers {
   @Subscribe
   public void OnEventAutomapDetectedObject(EventAutomapDetectedObject event) {
     Pose detectedLocation = event.getDetectedPosition();
-    this.userWaypointsState.AddWayPoint(detectedLocation.getX(), detectedLocation.getY());
+    this.userNoGoZoneState.AddDetectedObstacle(detectedLocation.getX(), detectedLocation.getY());
   }
 
   @Subscribe

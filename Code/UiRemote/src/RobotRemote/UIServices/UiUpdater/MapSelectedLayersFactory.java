@@ -45,6 +45,7 @@ class MapSelectedLayersFactory {
         this.CreateDiscoveredColoursLayer(discoveredColoursState),
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
+        this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
@@ -62,6 +63,7 @@ class MapSelectedLayersFactory {
 
 
   }
+
   private void drawNGZBoundingBox(List<MapPoint> points,GraphicsContext gc)
   {
     //Draw bounding bo
@@ -103,7 +105,6 @@ class MapSelectedLayersFactory {
     return layer;
   }
 
-
   private Canvas CreateBorderLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
@@ -128,10 +129,16 @@ class MapSelectedLayersFactory {
     return layer;
   }
 
+  private Canvas CreateObstaclesLayer(ArrayList<MapPoint> mapPoints, Color color) {
+    Canvas layer = new Canvas(mapW*3,mapH*3);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+    UpdaterUtils.DrawCirclesOnContext(gc, mapPoints, config, color,60);
+    return layer;
+  }
+
   private Canvas CreateWaypointsLayer(List<MapPoint> waypoints, Color color) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-
     UpdaterUtils.DrawCirclesOnContext(gc, waypoints, config, color,30);
     return layer;
   }

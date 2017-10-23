@@ -72,9 +72,13 @@ public class UserNoGoZoneState {
     return false;
   }
 
+  ArrayList<MapPoint> obstacleList = new ArrayList<>();
+
   public ArrayList<MapPoint> GetObstacles() {
-    ArrayList<MapPoint> returnList = new ArrayList<>();
-    // TODO implement get obstacle points
-    return returnList;
+    return obstacleList;
+  }
+
+  public void AddDetectedObstacle(float x, float y) {
+    this.obstacleList.add(new MapPoint(x,y));
   }
 }
