@@ -10,6 +10,7 @@ import RobotRemote.UIServices.Events.EventMapExport;
 import RobotRemote.UIServices.Events.EventMapImport;
 import RobotRemote.UIServices.MapTranslation.MapTransferObject;
 import RobotRemote.UIServices.MapTranslation.MapTranslator;
+import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
 
 import javax.xml.bind.JAXBException;
@@ -27,6 +28,7 @@ public class MapExportHandlers {
   private final LocationState locationState;
   private final DiscoveredColoursState discoveredState;
   private final UserNoGoZoneState ngzState;
+  private final UiUpdaterState updaterState;
 
   public MapExportHandlers (ServiceManager sm) {
     sm.getEventBus().register(this);
@@ -35,6 +37,7 @@ public class MapExportHandlers {
     this.locationState = this.sm.getAppState().getLocationState();
     this.discoveredState = this.sm.getAppState().getDiscoveredColoursState();
     this.ngzState = this.sm.getAppState().getUserNoGoZoneState();
+    this.updaterState = this.sm.getAppState().getUiUpdaterState();
   }
 
   @Subscribe
@@ -85,9 +88,8 @@ public class MapExportHandlers {
 
     ngzState.AddNgzSet(mapObject.getNoGoZones());
 
-    for (MapPoint testPoint : mapObject.getBoundary()){
-      discoveredState.AddColouredPoint(2, testPoint);
-    }
+    updaterState.SetBorderPoints(mapObject.getBoundary());
+
     for (MapPoint testPoint : mapObject.getLandingtracks()){
       discoveredState.AddColouredPoint(3, testPoint);
     }
