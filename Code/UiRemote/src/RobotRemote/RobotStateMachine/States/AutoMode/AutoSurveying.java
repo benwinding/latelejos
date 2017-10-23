@@ -212,9 +212,9 @@ public class AutoSurveying implements IModeState
     {
       moveThread.forward(3, this::checkOutRadiationZone);
       //look aground
-      moveThread.turn(45, this::checkOutRadiationZone);
-      moveThread.turn(-90, this::checkOutRadiationZone);
-      moveThread.turn(45, this::checkOutRadiationZone);
+      moveThread.turn(45, this::turnAroundForApollo);
+      moveThread.turn(-90, this::turnAroundForApollo);
+      moveThread.turn(45, this::turnAroundForApollo);
       if(!util.isThereRadiation())
       {
         moveThread.backward(3);

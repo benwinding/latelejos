@@ -5,8 +5,8 @@ public class RobotConfiguration {
   public  boolean enableTestData =false;
 
   // Map Size: A1 594mm x 841mm
-  public float mapW = 84.1f; // cm
-  public float mapH = 59.4f; // cm
+  public float mapW = 84.1f * 0.95f; // cm
+  public float mapH = 59.4f * 0.95f; // cm
   // Initial map values
   public float mapInitZoom = 0.7f;
   public float mapPixelsPerCm = 10; // Define pixel density of map
@@ -35,6 +35,6 @@ public class RobotConfiguration {
   public Color colorCrater = Color.BLACK;
   public Color colorApollo = Color.RED;
   public Color colorRadiation = Color.GREEN;
-  public double obstacleAvoidDistance = 6;
+  public double obstacleAvoidDistance = 8;
   public float zigzagWidth = 15;
 }

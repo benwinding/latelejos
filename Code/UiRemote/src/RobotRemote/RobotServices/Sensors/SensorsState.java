@@ -11,7 +11,7 @@ import java.util.Map;
 public class SensorsState {
   private double ultraReading;
   private int colourId;
-  private int arrayLength = 3;
+  private int arrayLength = 5;
   private int[] colourArray = new int[arrayLength];
   private int colourArrayPosition;
   private double colourReadingR;
@@ -76,14 +76,28 @@ public class SensorsState {
         actualColor = colourId;
       }
     }
-    else if(inputColor == Color.BLUE) {
-      if(this.colourReadingG > 0.14)
-        actualColor = ColourTranslator.GetColourId(Color.GREEN);
-      else if(this.colourReadingR > 0.1 && this.colourReadingB < 0.07)
+    else if(inputColor == Color.BLUE || inputColor == Color.GREEN) {
+      if(this.colourReadingR > 0.1 && this.colourReadingB < 0.07)
         actualColor = ColourTranslator.GetColourId(Color.PURPLE);
-      else {
-        actualColor = colourId;
+      else
+      {
+        double greenThreshold =0.6;
+        double value = Math.abs(this.colourReadingG - this.colourReadingB);
+        if(value >= greenThreshold )
+        {
+          actualColor = ColourTranslator.GetColourId(Color.GREEN);
+        }
+        else {
+          if(this.colourReadingB>0.08)
+            actualColor = ColourTranslator.GetColourId(Color.BLUE);
+          else if(this.colourReadingG >0.08)
+            actualColor = ColourTranslator.GetColourId(Color.GREEN);
+          else
+            actualColor = ColourTranslator.GetColourId(Color.BLUE);
+
+        }
       }
+
     }
     else if(inputColor == Color.RED) {
       if(this.colourReadingB > 0.4)
@@ -148,6 +162,6 @@ public class SensorsState {
     {
       return MockSensor.GetColor(appState.getLocationState());
     }
-    return ColourTranslator.GetColourEnum(getColourId());
+    return ColourTranslator.GetColourEnum(DoubleCheckColour(colourId));
   }
 }
