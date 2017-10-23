@@ -103,10 +103,10 @@ public class AutoSurveying implements IModeState
     if(!this.IsOnState)
         return;
     this.IsOnState = false;
+    this.moveThread.stopExecuteCommand();
     this.eventBus.unregister(this);
-    this.threadLoop.StopThread();
-    this.moveThread.stop();
     this.LastPoint = this.sm.getAppState().getLocationState().GetCurrentPosition();
+    this.threadLoop.StopThread();
     Logger.log("LEAVE AUTOSURVEYING STATE...");
   }
 
@@ -132,7 +132,7 @@ public class AutoSurveying implements IModeState
         handleDetectedTrail();
         break;
       case ApolloDetected:
-        handleApolloDetected();
+        handleApolloDetectedAsObject();
         break;
       case NGZDetected:
         handleDetectedNGZ();
@@ -172,31 +172,58 @@ public class AutoSurveying implements IModeState
     setCurrentState(AutoSurveyingInternalState.BackToLastPosition);
   }
 
+  private void handleApolloDetectedAsObject()
+  {
+    util.registerObjectDetected(true);
+    LastPoint = new MapPoint(config.initX,config.initY);
+    missionAccomplish=true;
+    setCurrentState(AutoSurveyingInternalState.BackToLastPosition);
+  }
+
   private Object checkOutRadiationZone() throws InterruptedException
   {
+    //out of radiation zone
     if (!util.isThereRadiation())
     {
       moveThread.stop();
+    }
+
+    if(util.isThereApolloAsObject(currentState))
+    {
+      moveThread.stopExecuteCommand();
+      setCurrentState(AutoSurveyingInternalState.ApolloDetected);
+    }
+    return null;
+  }
+
+  private Object turnAroundForApollo() throws InterruptedException
+  {
+    if(util.isThereApolloAsObject(currentState))
+    {
+      setCurrentState(AutoSurveyingInternalState.ApolloDetected);
+      moveThread.stopExecuteCommand();
     }
     return null;
   }
 
   private void handleSurveyRadiation() throws InterruptedException
   {
-      while (!util.isThereApollo())
+    while (!util.isThereApolloAsObject(currentState))
+    {
+      moveThread.forward(3, this::checkOutRadiationZone);
+      //look aground
+      moveThread.turn(45, this::checkOutRadiationZone);
+      moveThread.turn(-90, this::checkOutRadiationZone);
+      moveThread.turn(45, this::checkOutRadiationZone);
+      if(!util.isThereRadiation())
       {
-        moveThread.forward(this::checkOutRadiationZone);
-        if(util.isThereApollo())
-        {
-          setCurrentState(AutoSurveyingInternalState.ApolloDetected);
-          break;
-        }
-        else {
-          moveThread.backward(3);
-          int randomNum = ThreadLocalRandom.current().nextInt(0,180);
-          moveThread.turn(randomNum);
-        }
+        moveThread.backward(3);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 45) + 180;
+        moveThread.turn(180, this::checkOutRadiationZone);
+        randomNum = randomNum * (randomNum % 2 == 0 ? 1 : -1);
+        moveThread.turn(randomNum, this::checkOutRadiationZone);
       }
+    }
   }
 
   private void turnBackToLastDirection(Direction lastDirection) throws InterruptedException
@@ -228,9 +255,9 @@ public class AutoSurveying implements IModeState
 
     if (isReverse)
       turnAngle *= -1;
-    moveThread.turn(-turnAngle,this::checkSurroundings);
+    moveThread.turn(-turnAngle);
     moveThread.forward(config.zigzagWidth,this::checkSurroundings);
-    moveThread.turn(-turnAngle,this::checkSurroundings);
+    moveThread.turn(-turnAngle);
   }
 
   private void handleBackToLastPosition() throws InterruptedException
@@ -294,12 +321,7 @@ public class AutoSurveying implements IModeState
       setCurrentState(AutoSurveyingInternalState.BorderDetected);
       Logger.specialLog("checkSurroundings: Detected Border - Color: " + sensorState.getColourEnum().toString());
     }
-    else if(util.isThereApolloAsObject(currentState) && !missionAccomplish)
-    {
-      moveThread.stopExecuteCommand();
-      setCurrentState(AutoSurveyingInternalState.ApolloDetected);
-    }
-    else if(util.isThereRadiation() && !missionAccomplish)
+    else if(currentState != AutoSurveyingInternalState.ApolloDetected && util.isThereRadiation() && !missionAccomplish)
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.SurveyRadiation);
@@ -376,8 +398,6 @@ public class AutoSurveying implements IModeState
     }
     while (stillSeeObject);
 
-
-    while(util.isThereAnObject());
     if(moveThread.AllowExecute)
     {
       setCurrentState(AutoSurveyingInternalState.ZigZagingSurvey);

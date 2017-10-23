@@ -13,7 +13,7 @@ import java.util.Map;
 public class SensorsState {
   private double ultraReading;
   private int colourId;
-  private int arrayLength = 5;
+  private int arrayLength = 3;
   private int[] colourArray = new int[arrayLength];
   private int colourArrayPosition;
   private double colourReadingR;
@@ -79,7 +79,7 @@ public class SensorsState {
       }
     }
     else if(inputColor == Color.BLUE) {
-      if(this.colourReadingG > 0.4)
+      if(this.colourReadingG > 0.16)
         actualColor = ColourTranslator.GetColourId(Color.GREEN);
       else if(this.colourReadingR > 0.1 && this.colourReadingB < 0.07)
         actualColor = ColourTranslator.GetColourId(Color.PURPLE);
@@ -150,6 +150,6 @@ public class SensorsState {
     {
       return MockSensor.GetColor(appState.getLocationState());
     }
-    return ColourTranslator.GetColourEnum(this.colourId);
+    return ColourTranslator.GetColourEnum(getColourId());
   }
 }

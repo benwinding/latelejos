@@ -3,6 +3,7 @@ package RobotRemote.RobotStateMachine.States.AutoMode;
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
 import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.RobotConfiguration;
 import lejos.robotics.navigation.Pose;
 
@@ -18,8 +19,9 @@ public class MovingServiceWrapper
     AllowExecute = true;
   }
   public void stopExecuteCommand(){
+    Logger.specialLog("stopExecuteCommand");
     movementService.stop();
-    AllowExecute=true;
+    AllowExecute=false;
   }
 
   public void stop()

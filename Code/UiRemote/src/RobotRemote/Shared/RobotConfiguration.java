@@ -14,7 +14,7 @@ public class RobotConfiguration {
   public float initY = 52; // cm
   public float initTheta = 180; // degrees
   // Robot settings
-  public double robotLinearSpeed_cms = 3;
+  public double robotLinearSpeed_cms = 2;
   public double robotLinearAcceleration_cms2 = 0;
   public double robotAngularSpeed_degs = 30;
   public double robotAngularAcceleration_degs2 = 10;
@@ -36,5 +36,5 @@ public class RobotConfiguration {
   public Color colorApollo = Color.RED;
   public Color colorRadiation = Color.GREEN;
   public double obstacleAvoidDistance = 6;
-  public float zigzagWidth = 10;
+  public float zigzagWidth = 15;
 }

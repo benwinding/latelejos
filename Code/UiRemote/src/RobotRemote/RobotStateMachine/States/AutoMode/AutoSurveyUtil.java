@@ -3,6 +3,7 @@ package RobotRemote.RobotStateMachine.States.AutoMode;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObject;
+import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.MapHandlers.NgzUtils;
@@ -33,7 +34,7 @@ public class AutoSurveyUtil
   {
     if (!sm.getAppState().getSensorsState().getStatusUltra())
       return false;
-    return sensorState.getUltraReadingCm() < config.obstacleAvoidDistance;
+    return sensorState.getUltraReadingCm() <= config.obstacleAvoidDistance;
   }
 
   public boolean isThereANGZ()
@@ -70,7 +71,7 @@ public class AutoSurveyUtil
 
   public boolean isThereApolloAsObject(AutoSurveying.AutoSurveyingInternalState state)
   {
-    return isThereAnObject() && state == AutoSurveying.AutoSurveyingInternalState.SurveyRadiation;
+    return state == AutoSurveying.AutoSurveyingInternalState.ApolloDetected || isThereAnObject() && state == AutoSurveying.AutoSurveyingInternalState.SurveyRadiation;
   }
 
   public boolean isThereATrail()
