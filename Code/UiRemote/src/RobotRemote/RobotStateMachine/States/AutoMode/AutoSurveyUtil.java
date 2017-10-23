@@ -54,16 +54,6 @@ public class AutoSurveyUtil
 
   public boolean isThereABorder()
   {
-
-
-//    if (!sm.getAppState().getSensorsState().getStatusColour())
-//    {
-//      if (sm.getAppState().getLocationState().GetCurrentPosition().y < 0 || sm.getAppState().getLocationState().GetCurrentPosition().x < 0 ||
-//          sm.getAppState().getLocationState().GetCurrentPosition().y > 60 || sm.getAppState().getLocationState().GetCurrentPosition().x > 85)
-//        return true;
-//      return false;
-//    }
-
     javafx.scene.paint.Color color = sensorState.getColourEnum();
     return color == config.colorBorder;
   }
@@ -75,8 +65,12 @@ public class AutoSurveyUtil
 
   public boolean isThereApollo()
   {
-
     return sensorState.getColourEnum() == config.colorApollo;
+  }
+
+  public boolean isThereApolloAsObject(AutoSurveying.AutoSurveyingInternalState state)
+  {
+    return isThereAnObject() && state == AutoSurveying.AutoSurveyingInternalState.SurveyRadiation;
   }
 
   public boolean isThereATrail()
@@ -84,11 +78,11 @@ public class AutoSurveyUtil
     return sensorState.getColourEnum() == config.colorTrail;
   }
 
-  public void RegisterObjectDetected()
+  public void registerObjectDetected(boolean isApollo)
   {
     Pose current = locationState.GetCurrentPose();
     current.moveUpdate((float) this.config.obstacleAvoidDistance);
-    this.eventBus.post(new EventAutomapDetectedObject(current));
+    this.eventBus.post(new EventAutomapDetectedObject(current,isApollo));
   }
 
   public AutoSurveying.Direction getCurrentDirection()

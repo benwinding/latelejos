@@ -9,7 +9,6 @@ import RobotRemote.Shared.*;
 import RobotRemote.UIServices.MapHandlers.NgzUtils;
 import com.google.common.eventbus.EventBus;
 import lejos.robotics.navigation.Pose;
-import sun.rmi.runtime.Log;
 
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -167,6 +166,7 @@ public class AutoSurveying implements IModeState
 
   private void handleApolloDetected()
   {
+    util.registerObjectDetected(true);
     LastPoint = new MapPoint(config.initX,config.initY);
     missionAccomplish=true;
     setCurrentState(AutoSurveyingInternalState.BackToLastPosition);
@@ -294,7 +294,7 @@ public class AutoSurveying implements IModeState
       setCurrentState(AutoSurveyingInternalState.BorderDetected);
       Logger.specialLog("checkSurroundings: Detected Border - Color: " + sensorState.getColourEnum().toString());
     }
-    else if(util.isThereApollo() && !missionAccomplish)
+    else if(util.isThereApolloAsObject(currentState) && !missionAccomplish)
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.ApolloDetected);
@@ -362,7 +362,7 @@ public class AutoSurveying implements IModeState
   private void handleDetectedObject() throws InterruptedException
   {
     Logger.specialLog("Handling Detected Object");
-    util.RegisterObjectDetected();
+    util.registerObjectDetected(false);
     objectAvoidance(15);
     //Try look around be for keep moving
     boolean stillSeeObject=false;
