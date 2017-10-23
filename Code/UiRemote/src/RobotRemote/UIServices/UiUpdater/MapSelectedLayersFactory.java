@@ -78,7 +78,6 @@ class MapSelectedLayersFactory {
      UpdaterUtils.DrawCirclesOnContext(gc, points, config, Color.web("RED"), 10);
      if(config.enableTestData)
       drawNGZBoundingBox(points,gc);
-
     }
     return layer;
   }
@@ -99,14 +98,10 @@ class MapSelectedLayersFactory {
       List<MapPoint> points = discoveredColoursState.GetPointsMatching(colourInt);
       Collections.reverse(points);
       String colourName = ColourTranslator.GetColourName(colourInt);
-      Color pointColour = Color.web(colourName, 0.5);
-      gc.setStroke(pointColour);
-      gc.setFill(pointColour);
-      for (MapPoint point: points) {
-        double p1x = (point.x * mapPixelsPerCm)-circleSize/2 + mapW;
-        double p1y = (point.y * mapPixelsPerCm)-circleSize/2 + mapH;
-        gc.fillOval(p1x, p1y, circleSize, circleSize);
-      }
+      Color colorCircle = Color.web(colourName);
+      Color colorArea = Color.web(colourName, 0.3);
+      UpdaterUtils.DrawCirclesOnContext(gc, points, config, colorCircle, circleSize);
+      UpdaterUtils.DrawAreaOnContext(gc, points, config, colorArea);
     }
     return layer;
   }
