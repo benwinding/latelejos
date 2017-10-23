@@ -80,40 +80,42 @@ public class MapInputEventHandlers {
   private void SetCurrentMap(MapTransferObject mapObject) {
     // Set the mapTransfer object to the current state
     this.config.colorTrail = mapObject.getVehicleTrackColor();
-    //...
-    //...
-    //locationstate, discoveredcolorstate, nogozonestate(implement later)
-    this.sm.getAppState().getLocationState().SetExploredAreaPoints(mapObject.getExplored());
-    this.sm.getAppState().getLocationState().SetCurrentLocation(mapObject.getCurrentPosition());
-    this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(7,mapObject.getRoverLandingSite());
+    LocationState locationState = this.sm.getAppState().getLocationState();
+    DiscoveredColoursState discoveredState = this.sm.getAppState().getDiscoveredColoursState();
+    UserNoGoZoneState ngzState = this.sm.getAppState().getUserNoGoZoneState();
+
+    locationState.SetExploredAreaPoints(mapObject.getExplored());
+    locationState.SetCurrentLocation(mapObject.getCurrentPosition());
+    discoveredState.AddColouredPoint(7,mapObject.getRoverLandingSite());
 
     if (mapObject.getApolloLandingSite()!=null) {
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(7,mapObject.getApolloLandingSite());
+      discoveredState.AddColouredPoint(7,mapObject.getApolloLandingSite());
     }
 
     //colourstate
     for (MapPoint testPoint : mapObject.getRadiation()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(0, testPoint);
+      discoveredState.AddColouredPoint(0, testPoint);
     }
 
-    this.sm.getAppState().getUserNoGoZoneState().AddNgzSet(mapObject.getNoGoZones());
+    ngzState.AddNgzSet(mapObject.getNoGoZones());
 
     for (MapPoint testPoint : mapObject.getBoundary()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(2, testPoint);
+      discoveredState.AddColouredPoint(2, testPoint);
     }
     for (MapPoint testPoint : mapObject.getLandingtracks()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(3, testPoint);
+      discoveredState.AddColouredPoint(3, testPoint);
     }
     for (MapPoint testPoint : mapObject.getCraters()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(4, testPoint);
+      discoveredState.AddColouredPoint(4, testPoint);
     }
     for (MapPoint testPoint : mapObject.getUnexplored()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(6, testPoint);
+      discoveredState.AddColouredPoint(6, testPoint);
     }
     for (MapPoint testPoint : mapObject.getObstacles()){
-      this.sm.getAppState().getDiscoveredColoursState().AddColouredPoint(7, testPoint);
+      discoveredState.AddColouredPoint(7, testPoint);
     }
   }
+
   private MapTransferObject GetCurrentMap() {
     // Get the current map state convert to the map transfer object
     MapTransferObject mapToExport = new MapTransferObject();
