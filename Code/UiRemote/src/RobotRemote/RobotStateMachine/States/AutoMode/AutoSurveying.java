@@ -315,7 +315,7 @@ public class AutoSurveying implements IModeState
   private Object checkSurroundings() throws InterruptedException
   {
 
-    if (util.isThereABorder())
+    if (util.isThereABorder() && !missionAccomplish)
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.BorderDetected);

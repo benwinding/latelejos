@@ -61,7 +61,8 @@ public class NgzUtils {
     return null;
   }
 
-  public static boolean isRobotInNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, double robotLengthCm, double robotWidth) {
+  public static boolean
+  isRobotInNgzArea(MapPoint robotLocation, List<MapPoint> ngzSet, double robotLengthCm, double robotWidth) {
     robotLengthCm = robotLengthCm * 0.8;
     double x = robotLocation.x - robotLengthCm / 2;
     double y = robotLocation.y - robotLengthCm / 2;
