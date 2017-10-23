@@ -52,11 +52,44 @@ public class SensorsState {
   }
 
   void setColourId(int colourId) {
-    this.colourArray[colourArrayPosition] = colourId;
+    int colourChecked = this.DoubleCheckColour(colourId);
+    this.colourArray[colourArrayPosition] = colourChecked;
     colourArrayPosition++;
     if(colourArrayPosition >= arrayLength)
       colourArrayPosition = 0;
     this.colourId = colourId;
+  }
+
+  private int DoubleCheckColour(int colourId) {
+    Color inputColor = ColourTranslator.GetColourEnum(colourId);
+    int actualColor = 0;
+    if(inputColor == Color.YELLOW) {
+      if(this.colourReadingR > 0.4)
+        actualColor = ColourTranslator.GetColourId(Color.RED);
+      else {
+        actualColor = colourId;
+      }
+    }
+    else if(inputColor == Color.BLUE) {
+      if(this.colourReadingG > 0.4)
+        actualColor = ColourTranslator.GetColourId(Color.GREEN);
+      else if(this.colourReadingR > 0.1 && this.colourReadingB < 0.07)
+        actualColor = ColourTranslator.GetColourId(Color.PURPLE);
+      else {
+        actualColor = colourId;
+      }
+    }
+    else if(inputColor == Color.RED) {
+      if(this.colourReadingB > 0.4)
+        actualColor = ColourTranslator.GetColourId(Color.BLUE);
+      else {
+        actualColor = colourId;
+      }
+    }
+    else {
+      actualColor = colourId;
+    }
+    return actualColor;
   }
 
   public int getColourId() {
