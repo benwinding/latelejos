@@ -3,24 +3,17 @@ package RobotRemote.UIServices.MapHandlers;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Movement.LocationState;
 import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
-import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObject;
 import RobotRemote.RobotStateMachine.Events.Shared.EventSwitchToAutoMap;
-import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.Logger;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.Events.*;
-import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.UIServices.MapTranslation.MapTransferObject;
 import RobotRemote.UIServices.MapTranslation.MapTranslator;
-import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
-import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterState;
 import com.google.common.eventbus.Subscribe;
-import com.sun.glass.ui.Application;
 import lejos.robotics.navigation.Pose;
-import org.omg.IOP.Encoding;
-import sun.nio.cs.UTF_32;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
@@ -133,7 +126,6 @@ public class MapInputEventHandlers {
     mapToExport.setVehicleTracks(coloursState.GetPointsMatching(config.colorTrail));
     mapToExport.setFootprintTracks(coloursState.GetPointsMatching(config.colorTrail));
     mapToExport.setCraters(coloursState.GetPointsMatching(config.colorCrater));
-
     // Location state
     LocationState locationState = this.sm.getAppState().getLocationState();
     // mapToExport.setUnexplored((ArrayList<MapPoint>) locationState.GetPointsVisited());
