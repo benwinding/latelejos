@@ -3,8 +3,6 @@ package RobotRemote.RobotServices.Sensors;
 import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.ColourTranslator;
-import RobotRemote.Shared.Logger;
-import RobotRemote.Shared.RobotConfiguration;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -79,7 +77,7 @@ public class SensorsState {
       }
     }
     else if(inputColor == Color.BLUE) {
-      if(this.colourReadingG > 0.16)
+      if(this.colourReadingG > 0.14)
         actualColor = ColourTranslator.GetColourId(Color.GREEN);
       else if(this.colourReadingR > 0.1 && this.colourReadingB < 0.07)
         actualColor = ColourTranslator.GetColourId(Color.PURPLE);
