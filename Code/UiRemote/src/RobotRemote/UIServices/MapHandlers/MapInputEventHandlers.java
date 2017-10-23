@@ -95,8 +95,8 @@ public class MapInputEventHandlers {
     double scaleYcm = scaleY / pixelsPerCm;
 
     // Translate mouse coordinates to account for map centering
-    double transXcm = scaleXcm + mapW/2;
-    double transYcm = scaleYcm + mapH/2;
+    double transXcm = scaleXcm + mapW/2 + uiUpdaterState.getMapDragDeltaX() / pixelsPerCm;
+    double transYcm = scaleYcm + mapH/2 + uiUpdaterState.getMapDragDeltaY() / pixelsPerCm;
 
     return new MapPoint(transXcm, transYcm);
   }
