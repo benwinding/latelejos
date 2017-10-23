@@ -35,6 +35,7 @@ public class UserNoGoZoneState {
 
   public void AddNgzSet(List<MapPoint> ngzSet) {
     this.allNgzSets.add(ngzSet);
+    this.AddPointToCurrentList(ngzSet.get(0));
   }
 
   void AddNgzStartPoint(MapPoint newNgzPoint) {
