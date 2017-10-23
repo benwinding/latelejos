@@ -43,6 +43,7 @@ public class UiUpdaterState {
 
   public void SetBorderPoints(List<MapPoint> borderPointsSet) {
     this.pointsMapBorder = borderPointsSet;
+    this.pointsMapBorder.add(borderPointsSet.get(0));
   }
 
   public void incrementZoomLevel() {
