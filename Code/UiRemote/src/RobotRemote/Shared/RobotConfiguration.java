@@ -2,17 +2,19 @@ package RobotRemote.Shared;
 import javafx.scene.paint.Color;
 
 public class RobotConfiguration {
+  public  boolean enableTestData =false;
+
   // Map Size: A1 594mm x 841mm
-  public float mapW = 59.4f; // cm
-  public float mapH = 84.1f; // cm
+  public float mapW = 84.1f ; // cm
+  public float mapH = 59.4f ; // cm
   // Initial map values
   public float mapInitZoom = 0.7f;
   public float mapPixelsPerCm = 10; // Define pixel density of map
-  public float initX = 52; // cm
-  public float initY = 76; // cm
-  public float initTheta = -180; // degrees
+  public float initX = 76; // cm
+  public float initY = 52; // cm
+  public float initTheta = 180; // degrees
   // Robot settings
-  public double robotLinearSpeed_cms = 3;
+  public double robotLinearSpeed_cms = 2;
   public double robotLinearAcceleration_cms2 = 0;
   public double robotAngularSpeed_degs = 30;
   public double robotAngularAcceleration_degs2 = 10;
@@ -28,10 +30,11 @@ public class RobotConfiguration {
   // Update intervals
   public int updateIntervalMoving_ms = 50;
   public int updateIntervalUi_ms = 50;
-  public Color colorTrail = Color.RED;
-  public Color colorBorder = Color.BLACK;
-  public Color colorCrater = Color.RED;
+  public Color colorTrail = Color.PURPLE;
+  public Color colorBorder = Color.BLUE;
+  public Color colorCrater = Color.BLACK;
   public Color colorApollo = Color.RED;
-  public double obstacleAvoidDistance = 5;
+  public Color colorRadiation = Color.GREEN;
+  public double obstacleAvoidDistance = 8;
   public float zigzagWidth = 15;
 }

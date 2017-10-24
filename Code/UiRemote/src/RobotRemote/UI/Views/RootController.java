@@ -224,7 +224,7 @@ public class RootController implements Initializable {
     else if(enterWaypoint.isSelected()) {
       Waypoint gotoOnMap = new Waypoint(mouseEvent.getX(), mouseEvent.getY());
       eventBus.post(new EventUserAddWaypoint(gotoOnMap));
-      eventBus.post(new EventAutoControl(gotoOnMap));
+      //eventBus.post(new EventAutoControl(gotoOnMap));
     }
   }
 

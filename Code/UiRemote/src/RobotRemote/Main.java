@@ -2,11 +2,13 @@ package RobotRemote;
 
 import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.IMovementService;
+import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
 import RobotRemote.RobotServices.Movement.MovementService;
 import RobotRemote.RobotServices.Sensors.SensorsService;
 import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.Shared.*;
 import RobotRemote.UI.Views.RootController;
+import RobotRemote.UIServices.MapHandlers.MapExportHandlers;
 import RobotRemote.UIServices.MapHandlers.MapInputEventHandlers;
 import RobotRemote.UIServices.UiUpdater.UiUpdaterService;
 import com.google.common.eventbus.EventBus;
@@ -65,6 +67,7 @@ public class Main extends Application {
 
     // Handler classes
     MapInputEventHandlers userInputEventHandlers = new MapInputEventHandlers(serviceManager);
+    MapExportHandlers mapExportHandlers = new MapExportHandlers(serviceManager);
 
       // State Machine Builder
     StateMachineBuilder stateMachineBuilder = new StateMachineBuilder(serviceManager);
@@ -77,6 +80,8 @@ public class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
     primaryStage.show();
+
+
   }
 
   @Override

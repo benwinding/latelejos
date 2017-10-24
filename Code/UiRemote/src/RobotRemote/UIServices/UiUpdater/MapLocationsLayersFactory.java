@@ -21,6 +21,8 @@ class MapLocationsLayersFactory {
   private LocationState locationState;
   private UiUpdaterState uiUpdaterState;
   private RobotConfiguration config;
+  private AppStateRepository appStateRepository;
+
 
   MapLocationsLayersFactory(RobotConfiguration config, AppStateRepository appStateRepository) {
     this.uiUpdaterState = appStateRepository.getUiUpdaterState();
@@ -30,12 +32,13 @@ class MapLocationsLayersFactory {
     this.mapW = uiUpdaterState.getMapW() * mapPixelsPerCm;
     this.locationState = appStateRepository.getLocationState();
     this.ngzState = appStateRepository.getUserNoGoZoneState();
+    this.appStateRepository = appStateRepository;
   }
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
-        this.CreateCurrentLocationLayer(locationState.GetCurrentPosition()),
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("GREEN", 0.15))
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("YELLOW", 0.15)),
+        this.CreateCurrentLocationLayer(locationState.GetCurrentPosition())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
@@ -69,14 +72,42 @@ class MapLocationsLayersFactory {
     gc.translate(-rotationCenterX, -rotationCenterY);
 
     Image imgRobot = new Image(getClass().getResourceAsStream("../../UI/Images/robot-map.png"));
-
     gc.drawImage(imgRobot,0,0, robotW, robotH);
 
-    if(ngzState.isRobotInNgz(robotLocation, config)) {
-      gc.setFill(Color.web("RED",0.3));
+    Color c =Color.web("BLUE",0.3);
+    if(config.enableTestData)
+    {
+      gc.setFill(c);
       gc.fillRect(0,0, robotW, robotH);
     }
+
+    if(ngzState.isRobotInNgz(robotLocation, config) || isThereABorder() ||isThereACrater() || isThereAnObject() ) {
+      c =Color.web("RED",0.3);
+      gc.setFill(c);
+      gc.fillRect(0,0, robotW, robotH);
+    }
+
     gc.restore();
     return layer;
   }
+
+
+  public boolean isThereAnObject()
+  {
+    if (!this.appStateRepository.getSensorsState().getStatusUltra())
+      return false;
+    return this.appStateRepository.getSensorsState().getUltraReadingCm() <= config.obstacleAvoidDistance;
+  }
+
+  private boolean isThereABorder()
+  {
+    javafx.scene.paint.Color color = this.appStateRepository.getSensorsState().getColourEnum();
+    return color == config.colorBorder;
+  }
+
+  private boolean isThereACrater()
+  {
+    return this.appStateRepository.getSensorsState().getColourEnum() == config.colorCrater;
+  }
+
 }

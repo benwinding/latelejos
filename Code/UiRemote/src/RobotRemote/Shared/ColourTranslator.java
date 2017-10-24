@@ -15,10 +15,7 @@ public class ColourTranslator {
       case 7: return "BLACK";
       case 8: return "PINK";
       case 9: return "GRAY";
-      case 10: return "LIGHT_GRAY";
-      case 11: return "DARK_GRAY";
-      case 12: return "CYAN";
-      case 13: return "BROWN";
+      case 10: return "PURPLE";
       default: return "WHITE";
     }
   }
@@ -35,7 +32,37 @@ public class ColourTranslator {
       case 7: return Color.BLACK;
       case 8: return Color.PINK;
       case 9: return Color.GRAY;
+      case 10: return Color.PURPLE;
       default: return Color.WHITE;
+    }
+  }
+
+
+  public static int GetColourId(Color colour) {
+    if (colour.equals(Color.RED)) {
+      return 0;
+    } else if (colour.equals(Color.GREEN)) {
+      return 1;
+    } else if (colour.equals(Color.BLUE)) {
+      return 2;
+    } else if (colour.equals(Color.YELLOW)) {
+      return 3;
+    } else if (colour.equals(Color.MAGENTA)) {
+      return 4;
+    } else if (colour.equals(Color.ORANGE)) {
+      return 5;
+    } else if (colour.equals(Color.WHITE)) {
+      return 6;
+    } else if (colour.equals(Color.BLACK)) {
+      return 7;
+    } else if (colour.equals(Color.PINK)) {
+      return 8;
+    } else if (colour.equals(Color.GRAY)) {
+      return 9;
+    } else if (colour.equals(Color.PURPLE)) {
+      return 10;
+    } else {
+      return 6;
     }
   }
 }

@@ -4,6 +4,7 @@ import RobotRemote.RobotServices.Connection.RobotConnectionService;
 import RobotRemote.RobotServices.Movement.Factories.PilotFactory;
 import RobotRemote.Shared.*;
 import javafx.geometry.Pos;
+import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.ArcRotateMoveController;
 import lejos.robotics.navigation.Pose;
 
@@ -19,7 +20,7 @@ public class MovementService implements IMovementService {
   private double angularSpeed;
 
   public void Initialize(RobotConfiguration config, RobotConnectionService robotConnectionService, AppStateRepository app) {
-    this.pilot = PilotFactory.GetPilot(config, robotConnectionService);
+    this.pilot = PilotFactory.GetPilot(config, robotConnectionService, app);
     this.locationState = app.getLocationState();
 
     Synchronizer.SerializeRobotCalls(() -> {
@@ -69,13 +70,16 @@ public class MovementService implements IMovementService {
   @Override
   public void forward(float dist_cm) throws InterruptedException {
     stop();
+    if(dist_cm==0)
+      return;
+
     // Set pilot forward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Start forward: " + dist_cm);
       this.pilot.forward();
     });
     // Set location-tracking forward async dist, will stop
-    long timeToTravel = (long)(dist_cm / linearSpeed)*1000;
+    long timeToTravel = (long)(dist_cm *1000/ linearSpeed);
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = dist_cm / numLoops;
 
@@ -88,6 +92,8 @@ public class MovementService implements IMovementService {
   @Override
   public void backward(float dist_cm) throws InterruptedException {
     stop();
+    if(dist_cm == 0)
+      return;
     // Set pilot backward async dist, will stop
     Synchronizer.SerializeRobotCalls(() -> {
       Logger.debug("MOVE: Start backward: " + dist_cm);
@@ -95,7 +101,7 @@ public class MovementService implements IMovementService {
     });
     // Set location-tracking backward async dist, will stop
     double distAbs = Math.abs(dist_cm);
-    long timeToTravel = (long)(distAbs/ linearSpeed)*1000;
+    long timeToTravel = (long)(distAbs*1000/ linearSpeed);
     double numLoops = timeToTravel / loopDelay;
     double distancePerLoop = distAbs / numLoops;
 
@@ -106,7 +112,7 @@ public class MovementService implements IMovementService {
   }
 
   @Override
-  public void turn(int degrees) throws InterruptedException {
+  public void turn(double degrees) throws InterruptedException {
     stop();
     // Set pilot turning forward async degrees, will stop
     Synchronizer.SerializeRobotCalls(() -> {
@@ -126,7 +132,12 @@ public class MovementService implements IMovementService {
         locationState.ChangingHeading(degreesPerLoop);
         return null;
       },
-      () -> locationState.SetHeading(degreesFin),
+      () -> {
+        locationState.SetHeading(degreesFin);
+        Synchronizer.SerializeRobotCalls(() -> {
+          pilot.stop();
+        });
+      },
       loopDelay,
       timeToTravel
     );
@@ -136,8 +147,17 @@ public class MovementService implements IMovementService {
   public void repeatWhileMoving(Callable repeatThis) throws InterruptedException {
     while (isMoving() && !Thread.interrupted()) {
       try {
-        repeatThis.call();
-        Thread.sleep(20);
+        Synchronizer.SerializeRobotCalls(() -> {
+          try
+          {
+            repeatThis.call();
+          } catch (Exception e)
+          {
+            Logger.debug("MOVE: Interrupted repeatThis");
+          }
+        });
+        //repeatThis.call();
+        Thread.sleep(40);
       } catch (Exception ignored) {
         Logger.debug("MOVE: Interrupted repeatWhileMoving");
         throw new InterruptedException();
@@ -167,10 +187,21 @@ public class MovementService implements IMovementService {
   }
 
   @Override
+  public void gotoPoint(float x, float y) throws InterruptedException {
+    Pose currentPose = this.locationState.GetCurrentPose();
+    float angleToPoint = currentPose.relativeBearing(new Point(x, y));
+    float distanceToPoint = currentPose.distanceTo(new Point(x, y));
+    turn(angleToPoint);
+    waitWhileMoving();
+    forward(distanceToPoint);
+  }
+
+  @Override
   public void stop() {
     // Set pilot stopped
     Synchronizer.SerializeRobotCalls(() -> {
-      Logger.debug("MOVE: Stopping");
+      if(this.locationState!=null)
+       // Logger.debug("MOVE: Stopping - " + this.locationState.GetCurrentPose().toString());
       if(this.pilot!=null)
         this.pilot.stop();
     });

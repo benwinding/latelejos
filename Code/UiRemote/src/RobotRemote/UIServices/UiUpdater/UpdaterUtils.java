@@ -59,4 +59,14 @@ public class UpdaterUtils {
       gc.strokeOval(p1x, p1y, circleSize, circleSize);
     }
   }
+
+  static void DrawFilledCirclesOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config, Color color, int circleSize) {
+    gc.setFill(color);
+    gc.setStroke(color);
+    for (MapPoint point : points) {
+      double p1x = (point.x + config.mapW) * config.mapPixelsPerCm - circleSize / 2;
+      double p1y = (point.y + config.mapH) * config.mapPixelsPerCm - circleSize / 2;
+      gc.fillOval(p1x, p1y, circleSize, circleSize);
+    }
+  }
 }

@@ -50,6 +50,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public void rotate(double v) {
+    this.isMoving = true;
     try{
       Thread.sleep(500);
     }catch (Exception ignored) {
@@ -59,7 +60,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public void rotate(double v, boolean b) {
-
+    this.isMoving = true;
   }
 
   @Override
@@ -69,7 +70,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public double getAngularSpeed() {
-    return this.angularSpeed;
+    return this.angularSpeed*ratio;
   }
 
   @Override
@@ -90,31 +91,34 @@ public class TestArcPilot implements ArcRotateMoveController {
   @Override
   public void rotateRight() {
 
+    this.isMoving = true;
   }
 
   @Override
   public void rotateLeft() {
-
+    this.isMoving = true;
   }
 
   @Override
   public void forward() {
-
+    this.isMoving = true;
   }
 
   @Override
   public void backward() {
-
+    this.isMoving = true;
   }
 
   @Override
   public void stop() {
-
+    this.isMoving = false;
   }
+
+  boolean isMoving = false;
 
   @Override
   public boolean isMoving() {
-    return false;
+    return isMoving;
   }
 
   @Override
@@ -126,7 +130,7 @@ public class TestArcPilot implements ArcRotateMoveController {
   public void travel(double v, boolean b) {
 
   }
-
+  private int ratio =2;
   @Override
   public void setLinearSpeed(double v) {
     this.linearSpeed = v;
@@ -134,7 +138,7 @@ public class TestArcPilot implements ArcRotateMoveController {
 
   @Override
   public double getLinearSpeed() {
-    return this.linearSpeed;
+    return this.linearSpeed*ratio;
   }
 
   @Override

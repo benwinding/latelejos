@@ -54,13 +54,12 @@ class SensorsDisplayLayerFactory {
     return layer;
   }
 
-  private static Canvas CreateUiSensorColour(String colourSensorName, double colourReadingR, Color barColour) {
+  private static Canvas CreateUiSensorColour(String colourSensorName, double sensorValue, Color barColour) {
     Canvas layer = new Canvas(300,31);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    double sensorValColourR = colourReadingR * 1000;
     gc.setFill(barColour);
-    gc.strokeText(String.format("%s: %.2f", colourSensorName, sensorValColourR),10, 10);
-    gc.fillRect(10,11,sensorValColourR,15);
+    gc.strokeText(String.format("%s: %.4f", colourSensorName, sensorValue),10, 10);
+    gc.fillRect(10,11,sensorValue * 1000,15);
     return layer;
   }
 

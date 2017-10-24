@@ -20,9 +20,9 @@ public class AppStateRepository {
   private UserNoGoZoneState userNoGoZoneState;
   private UserWaypointsState userWaypointsState;
   private RobotConnectionState robotConnectionState;
+  private RobotConfiguration robotConfig;
 
   public AppStateRepository(RobotConfiguration config) {
-    sensorsState = new SensorsState();
     movementState = new MovementState();
     locationState = new LocationState(config.initX, config.initY, config.initTheta);
     discoveredColoursState = new DiscoveredColoursState();
@@ -31,8 +31,10 @@ public class AppStateRepository {
     userNoGoZoneState = new UserNoGoZoneState();
     userWaypointsState = new UserWaypointsState();
     robotConnectionState = new RobotConnectionState();
+    sensorsState = new SensorsState(this);
+    robotConfig = config;
   }
-
+  public RobotConfiguration getRobotConfiguration(){return robotConfig;}
   public SensorsState getSensorsState() {
     return sensorsState;
   }
