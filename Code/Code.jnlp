@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Code.jnlp">
+  <information>
+    <title>RobotRemote</title>
+    <vendor>pG29</vendor>
+    <description>robot remiote</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Code.jar" size="1811852" download="eager" />
+    <jar href="UiRemote\lib\ev3classes.jar" size="846515" download="eager" />
+    <jar href="UiRemote\lib\guava-21.0.jar" size="2521113" download="eager" />
+    <jar href="UiRemote\lib\junit-4.10.jar" size="253160" download="eager" />
+    <jar href="ev3classes.jar" size="846515" download="eager" />
+    <jar href="guava-21.0.jar" size="2521113" download="eager" />
+    <jar href="junit-4.10.jar" size="253160" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="RobotRemote.Main"  name="RobotRemote_fx" />
+  <update check="background"/>
+</jnlp>
