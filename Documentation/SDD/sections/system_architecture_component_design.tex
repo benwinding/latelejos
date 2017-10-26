@@ -35,6 +35,17 @@ This component of the architecture is provided by the 3rd party library, version
 \subsubsection*{UI Display}
 The main interface for the user of the system is the UI Display. This part of the system is 
 
+\subsubsection*{Robot Control Services}
+The robot control services represent a part of the architecture that interact with the robot directly. It interacts with the Lejos library which provides a simplified abstraction for other parts of the system. Services in this include:
+
+\begin{itemize}
+	\item Movement Service
+	\item Sensor Service
+\end{itemize}
+
+\subsubsection*{Robot State Logic}
+The core of the robot's behaviour is maintained in a part of the system called the Robot State Logic. This provides a centralised location to describe the behaviour of the robot. It acts as an adapter between the UI and the Robot control services.
+
 \subsection{Detailed Components Design Description}\label{detailedSection}
 The following sections show the detailed design of each of the components in the system. It shows the Purpose, Function, Subordinates, Dependencies, Interfaces and Data that are required for the component.
 
