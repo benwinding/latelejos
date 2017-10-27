@@ -71,13 +71,6 @@ public class MapExportHandlers {
   }
 
   private void SetCurrentMap(MapTransferObject mapObject) {
-    // Set the mapTransfer object to the current state
-    this.config.colorTrail = mapObject.getVehicleTrackColor();
-
-    locationState.SetExploredAreaPoints(mapObject.getExplored());
-    locationState.SetCurrentLocation(mapObject.getCurrentPosition());
-    discoveredState.AddColouredPoint(7,mapObject.getRoverLandingSite());
-
     /*
     case 0: return "RED";
     case 1: return "GREEN";
@@ -90,34 +83,46 @@ public class MapExportHandlers {
     case 8: return "PINK";
     case 9: return "GRAY";
     case 10: return "PURPLE";
-    default: return "WHITE";*/
-    if (mapObject.getApolloLandingSite()!=null) {
+    default: return "WHITE";
+    */
+    // Set the mapTransfer object to the current state
+    this.config.colorTrail = mapObject.getVehicleTrackColor();
+    //EXPLORED
+    locationState.SetExploredAreaPoints(mapObject.getExplored());
+    //CURRENT LOC
+    locationState.SetCurrentLocation(mapObject.getCurrentPosition());
+    //ROVER LANDING SITE
+    discoveredState.AddColouredPoint(3,mapObject.getRoverLandingSite());
+    //APOLLO SITE
+        if (mapObject.getApolloLandingSite()!=null) {
       ngzState.AddDetectedAppollo((float)mapObject.getApolloLandingSite().x, (float)mapObject.getApolloLandingSite().y);
       discoveredState.AddColouredPoint(5,mapObject.getApolloLandingSite()); //0==RED
     }
-
+    //RADIATION ZONE
     for (MapPoint testPoint : mapObject.getRadiation()){ //1==green
       discoveredState.AddColouredPoint(1, testPoint);
     }
-
+    //NO GO ZONES
     ngzState.AddNgzSet(mapObject.getNoGoZones());
+    //BORDER
     updaterState.SetBorderPoints(mapObject.getBoundary());
-
+    //LANDING TRACKS
     for (MapPoint testPoint : mapObject.getLandingtracks()){
       discoveredState.AddColouredPoint(0, testPoint); //0==RED
     }
-
+    //CRATERS (treat as NGZ)
     ngzState.AddNgzSet(mapObject.getCraters());
     for (MapPoint testPoint : mapObject.getCraters()){
       //discoveredState.AddColouredPoint(4, testPoint); //4==MAGENTA
     }
-
+    //UNEXPLORED
     for (MapPoint testPoint : mapObject.getUnexplored()){ //6==WHITE
       discoveredState.AddColouredPoint(6, testPoint);
     }
+    //OBSTACLE (treat as NGZ)
     for (MapPoint testPoint : mapObject.getObstacles()){ //7==BLACK
       ngzState.AddDetectedObstacle((float) testPoint.x, (float) testPoint.y);
-      //discoveredState.AddColouredPoint(7, testPoint);
+    //discoveredState.AddColouredPoint(7, testPoint);
     }
   }
 
