@@ -46,7 +46,7 @@ class MapSelectedLayersFactory {
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
-        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.DARKBLUE),
+        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.ALICEBLUE),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
@@ -120,9 +120,7 @@ class MapSelectedLayersFactory {
       Collections.reverse(points);
       String colourName = ColourTranslator.GetColourName(colourInt);
       Color colorCircle = Color.web(colourName);
-      Color colorArea = Color.web(colourName, 0.3);
       UpdaterUtils.DrawCirclesOnContext(gc, points, config, colorCircle, circleSize);
-      UpdaterUtils.DrawAreaOnContext(gc, points, config, colorArea);
     }
     return layer;
   }
