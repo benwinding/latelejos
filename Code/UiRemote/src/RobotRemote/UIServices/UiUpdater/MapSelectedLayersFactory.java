@@ -45,12 +45,12 @@ class MapSelectedLayersFactory {
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("YELLOW", 0.15)),
         this.CreateDiscoveredColoursLayer(discoveredColoursState),
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
         this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.ALICEBLUE),
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("YELLOW", 0.15)),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
@@ -131,7 +131,7 @@ class MapSelectedLayersFactory {
       Collections.reverse(points);
       String colourName = ColourTranslator.GetColourName(colourInt);
       Color colorCircle = Color.web(colourName);
-      UpdaterUtils.DrawCirclesOnContext(gc, points, config, colorCircle, circleSize);
+      UpdaterUtils.DrawFilledCirclesOnContext(gc, points, config, colorCircle, circleSize);
     }
     return layer;
   }
