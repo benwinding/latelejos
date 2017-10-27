@@ -1,9 +1,9 @@
 package RobotRemote.UIServices.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Shared.RobotConfiguration;
-import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.RobotServices.Movement.LocationState;
+import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -37,18 +37,10 @@ class MapLocationsLayersFactory {
 
   List<Canvas> CreateMapLayers() {
     List<Canvas> mapLayers = Arrays.asList(
-        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("YELLOW", 0.15)),
         this.CreateCurrentLocationLayer(locationState.GetCurrentPosition())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
     return mapLayers;
-  }
-
-  private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
-    Canvas layer = new Canvas(mapW*3,mapH*3);
-    GraphicsContext gc = layer.getGraphicsContext2D();
-    UpdaterUtils.DrawFilledCirclesOnContext(gc, points, config, colour, 50);
-    return layer;
   }
 
   private Canvas CreateCurrentLocationLayer(MapPoint robotLocation) {

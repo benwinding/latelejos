@@ -1,13 +1,14 @@
 package RobotRemote.UIServices.UiUpdater;
 
-import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
-import RobotRemote.Shared.ColourTranslator;
 import RobotRemote.Models.MapPoint;
-import RobotRemote.Shared.RobotConfiguration;
+import RobotRemote.RobotServices.Movement.LocationState;
+import RobotRemote.RobotServices.Movement.Mocks.MockSensor;
+import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
 import RobotRemote.Shared.AppStateRepository;
+import RobotRemote.Shared.ColourTranslator;
+import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import RobotRemote.UIServices.MapHandlers.UserWaypointsState;
-import RobotRemote.RobotServices.Sensors.DiscoveredColoursState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -24,6 +25,7 @@ class MapSelectedLayersFactory {
   private final float mapW;
   private final float mapPixelsPerCm;
   private final RobotConfiguration config;
+  private LocationState locationState;
   private DiscoveredColoursState discoveredColoursState;
   private UserWaypointsState userWaypointsState;
   private UserNoGoZoneState userNoGoZoneState;
@@ -38,6 +40,7 @@ class MapSelectedLayersFactory {
     this.userNoGoZoneState = appStateRepository.getUserNoGoZoneState();
     this.userWaypointsState = appStateRepository.getUserWaypointsState();
     this.discoveredColoursState = appStateRepository.getDiscoveredColoursState();
+    this.locationState = appStateRepository.getLocationState();
   }
 
   List<Canvas> CreateMapLayers() {
@@ -47,6 +50,7 @@ class MapSelectedLayersFactory {
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
         this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.ALICEBLUE),
+        this.CreateVisitedLayer(locationState.GetPointsVisited(), Color.web("YELLOW", 0.15)),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
@@ -81,6 +85,13 @@ class MapSelectedLayersFactory {
     box.add(new MapPoint(rectangle.x+rectangle.width,rectangle.y+rectangle.height));
     box.add(new MapPoint(rectangle.x,rectangle.y +rectangle.height));
     UpdaterUtils.DrawAreaOnContext(gc, box, config, Color.web("BLUE",0.5));
+  }
+
+  private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
+    Canvas layer = new Canvas(mapW*3,mapH*3);
+    GraphicsContext gc = layer.getGraphicsContext2D();
+    UpdaterUtils.DrawFilledCirclesOnContext(gc, points, config, colour, 50);
+    return layer;
   }
 
   private Canvas CreateNgzLayer(List<List<MapPoint>> pointSets) {
