@@ -78,12 +78,25 @@ public class MapExportHandlers {
     locationState.SetCurrentLocation(mapObject.getCurrentPosition());
     discoveredState.AddColouredPoint(7,mapObject.getRoverLandingSite());
 
+    /*
+    case 0: return "RED";
+    case 1: return "GREEN";
+    case 2: return "BLUE";
+    case 3: return "YELLOW";
+    case 4: return "MAGENTA";
+    case 5: return "ORANGE";
+    case 6: return "WHITE";
+    case 7: return "BLACK";
+    case 8: return "PINK";
+    case 9: return "GRAY";
+    case 10: return "PURPLE";
+    default: return "WHITE";*/
     if (mapObject.getApolloLandingSite()!=null) {
-      discoveredState.AddColouredPoint(7,mapObject.getApolloLandingSite());
+      discoveredState.AddColouredPoint(5,mapObject.getApolloLandingSite()); //7==BLACK
     }
 
-    for (MapPoint testPoint : mapObject.getRadiation()){
-      discoveredState.AddColouredPoint(0, testPoint);
+    for (MapPoint testPoint : mapObject.getRadiation()){ //1==green
+      discoveredState.AddColouredPoint(1, testPoint);
     }
 
     ngzState.AddNgzSet(mapObject.getNoGoZones());
@@ -91,15 +104,15 @@ public class MapExportHandlers {
     updaterState.SetBorderPoints(mapObject.getBoundary());
 
     for (MapPoint testPoint : mapObject.getLandingtracks()){
-      discoveredState.AddColouredPoint(3, testPoint);
+      discoveredState.AddColouredPoint(0, testPoint); //0==RED
     }
     for (MapPoint testPoint : mapObject.getCraters()){
-      discoveredState.AddColouredPoint(4, testPoint);
+      discoveredState.AddColouredPoint(4, testPoint); //4==MAGENTA
     }
-    for (MapPoint testPoint : mapObject.getUnexplored()){
+    for (MapPoint testPoint : mapObject.getUnexplored()){ //6==WHITE
       discoveredState.AddColouredPoint(6, testPoint);
     }
-    for (MapPoint testPoint : mapObject.getObstacles()){
+    for (MapPoint testPoint : mapObject.getObstacles()){ //7==BLACK
       discoveredState.AddColouredPoint(7, testPoint);
     }
   }
