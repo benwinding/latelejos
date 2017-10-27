@@ -84,7 +84,7 @@ public class UserNoGoZoneState {
   }
 
   public ArrayList<MapPoint> GetAppollo() {
-    return obstacleList;
+    return appolloList;
   }
 
   public void AddDetectedAppollo(float x, float y) {

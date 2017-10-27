@@ -46,7 +46,7 @@ class MapSelectedLayersFactory {
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
-        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.ALICEBLUE),
+        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.DARKBLUE),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
