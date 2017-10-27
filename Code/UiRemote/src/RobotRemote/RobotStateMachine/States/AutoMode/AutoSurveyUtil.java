@@ -82,7 +82,7 @@ public class AutoSurveyUtil
   public void registerObjectDetected(boolean isApollo)
   {
     Pose current = locationState.GetCurrentPose();
-    current.moveUpdate((float) this.config.obstacleAvoidDistance);
+    current.moveUpdate((float) this.config.obstacleAvoidDistance+8);
     this.eventBus.post(new EventAutomapDetectedObject(current,isApollo));
   }
 

@@ -185,7 +185,7 @@ public class AutoSurveying implements IModeState
     //out of radiation zone
     if (!util.isThereRadiation())
     {
-      moveThread.stop();
+        moveThread.stop();
     }
 
     if(util.isThereApolloAsObject(currentState))
@@ -208,20 +208,18 @@ public class AutoSurveying implements IModeState
 
   private void handleSurveyRadiation() throws InterruptedException
   {
+    moveThread.forward(5, this::checkOutRadiationZone);
     while (!util.isThereApolloAsObject(currentState))
     {
-      moveThread.forward(3, this::checkOutRadiationZone);
       //look aground
-      moveThread.turn(45, this::turnAroundForApollo);
-      moveThread.turn(-90, this::turnAroundForApollo);
-      moveThread.turn(45, this::turnAroundForApollo);
+      moveThread.turn(60, this::turnAroundForApollo);
+      moveThread.turn(-120, this::turnAroundForApollo);
+      moveThread.turn(60, this::turnAroundForApollo);
+      moveThread.forward(4, this::checkOutRadiationZone);
       if(!util.isThereRadiation())
       {
-        moveThread.backward(3);
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 45) + 180;
-        moveThread.turn(180, this::checkOutRadiationZone);
-        randomNum = randomNum * (randomNum % 2 == 0 ? 1 : -1);
-        moveThread.turn(randomNum, this::checkOutRadiationZone);
+        moveThread.backward(4);
+        moveThread.turn(120, this::checkOutRadiationZone);
       }
     }
   }
@@ -315,7 +313,7 @@ public class AutoSurveying implements IModeState
   private Object checkSurroundings() throws InterruptedException
   {
 
-    if (util.isThereABorder() && !missionAccomplish)
+    if (util.isThereABorder() && currentState != AutoSurveyingInternalState.SurveyRadiation && !missionAccomplish)
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.BorderDetected);
@@ -332,7 +330,7 @@ public class AutoSurveying implements IModeState
       setCurrentState(AutoSurveyingInternalState.DetectedObject);
       Logger.specialLog("checkSurroundings: Detected Object");
     }
-    else if (currentState != AutoSurveyingInternalState.PathDetected && util.isThereATrail())
+    else if (currentState != AutoSurveyingInternalState.PathDetected && currentState != AutoSurveyingInternalState.SurveyRadiation && util.isThereATrail()&& !missionAccomplish)
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.PathDetected);
@@ -385,7 +383,7 @@ public class AutoSurveying implements IModeState
   {
     Logger.specialLog("Handling Detected Object");
     util.registerObjectDetected(false);
-    objectAvoidance(15);
+    objectAvoidance(10);
     //Try look around be for keep moving
     boolean stillSeeObject=false;
     do
@@ -496,7 +494,7 @@ public class AutoSurveying implements IModeState
     Logger.specialLog("Handling Detected Trail");
     boolean isFinishTrack = false;
     float moveStep = 3f;
-    while (!isFinishTrack)
+    while (!isFinishTrack && currentState == AutoSurveyingInternalState.PathDetected)
     {
       while (util.isThereATrail())
       {
@@ -513,28 +511,31 @@ public class AutoSurveying implements IModeState
       //Try turn to find the trail
       Logger.specialLog("Try find track");
 
-      float tryDegree = 0;
+      float tryCount = 0;
       int turnInterval = 5;
+      float maxTry = 60 / turnInterval;
       int turnDirection = direction == Direction.Down ? -1 : 1;
       if (isReverse)
       {
         turnDirection = -turnDirection;
       }
 
-      float maxTryDegree = 120 / Math.abs(turnInterval);
-      while (!util.isThereATrail() && tryDegree < maxTryDegree)
+      while (!util.isThereATrail() && tryCount < maxTry)
       {
         moveThread.turn(turnInterval * turnDirection,this::checkSurroundings);
-        tryDegree++;
+        tryCount++;
       }
-      //try turn back to find the trail
-      tryDegree = 0;
-      turnDirection = -turnDirection;
-      moveThread.turn(turnDirection*120,this::checkSurroundings);
-      while (!util.isThereATrail() && tryDegree < maxTryDegree)
+      if(!util.isThereATrail())
       {
-        moveThread.turn(turnInterval * turnDirection,this::checkSurroundings);
-        tryDegree++;
+        //try turn back to find the trail
+        tryCount = 0;
+        turnDirection = -turnDirection;
+        moveThread.turn(turnDirection * 120, this::checkSurroundings);
+        while (!util.isThereATrail() && tryCount < maxTry)
+        {
+          moveThread.turn(turnInterval * turnDirection, this::checkSurroundings);
+          tryCount++;
+        }
       }
       isFinishTrack = !util.isThereATrail();
     }
