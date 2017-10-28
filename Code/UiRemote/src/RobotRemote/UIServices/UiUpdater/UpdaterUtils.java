@@ -1,10 +1,12 @@
 package RobotRemote.UIServices.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
+import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.Shared.RobotConfiguration;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.List;
 
@@ -22,7 +24,15 @@ public class UpdaterUtils {
       gc.strokeLine(p1x,p1y,p2x,p2y);
     }
   }
+  public static void DrawTextOnContext(GraphicsContext gc,MapPoint location , RobotConfiguration config)
+  {
+    double p1x = (location.x + config.mapW)*config.mapPixelsPerCm;
+    double p1y = (location.y + config.mapH)*config.mapPixelsPerCm;
 
+    Font hiFont = new Font("arial regular", 30);
+    gc.setFont(hiFont);
+    gc.strokeText("Current Mode: "+StateMachineBuilder.CurrentMode,p1x, p1y);
+  }
   public static void DrawAreaOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config, Color fillColour) {
     gc.setStroke(fillColour);
     gc.setFill(fillColour.brighter());
@@ -57,6 +67,7 @@ public class UpdaterUtils {
       double p1x = (point.x + config.mapW) * config.mapPixelsPerCm - circleSize / 2;
       double p1y = (point.y + config.mapH) * config.mapPixelsPerCm - circleSize / 2;
       gc.strokeOval(p1x, p1y, circleSize, circleSize);
+
     }
   }
 

@@ -26,6 +26,12 @@ public class SensorsState {
   }
 
   public double getUltraReadingCm() {
+
+    if(appState.getRobotConfiguration().enableTestData)
+    {
+      return MockSensor.GetSensor(appState.getLocationState());
+    }
+
     return ultraReading * 100;
   }
 
@@ -141,6 +147,7 @@ public class SensorsState {
 
 
   public boolean getStatusUltra() {
+
     return statusUltra;
   }
 

@@ -6,6 +6,7 @@ import RobotRemote.RobotServices.Sensors.SensorsState;
 import RobotRemote.RobotStateMachine.Events.Shared.EventEmergencySTOP;
 import RobotRemote.RobotStateMachine.IModeState;
 import RobotRemote.Shared.*;
+import RobotRemote.UIServices.Events.EventModeChange;
 import RobotRemote.UIServices.MapHandlers.NgzUtils;
 import com.google.common.eventbus.EventBus;
 import lejos.robotics.navigation.Pose;
@@ -139,7 +140,8 @@ public class AutoSurveying implements IModeState
         break;
       case MissionCompleted:
         Logger.log("I'm Home!!!!");
-        eventBus.post(new EventEmergencySTOP());
+        //eventBus.post(new EventEmergencySTOP());
+        eventBus.post(new EventModeChange("I'm Home. Mission Accomplished!!!"));
         break;
       case SurveyRadiation:
         handleSurveyRadiation();
@@ -172,9 +174,11 @@ public class AutoSurveying implements IModeState
     setCurrentState(AutoSurveyingInternalState.BackToLastPosition);
   }
 
-  private void handleApolloDetectedAsObject()
+  private void handleApolloDetectedAsObject() throws InterruptedException
   {
     util.registerObjectDetected(true);
+    moveThread.backward(5);
+    moveThread.turn(180);
     LastPoint = new MapPoint(config.initX,config.initY);
     missionAccomplish=true;
     setCurrentState(AutoSurveyingInternalState.BackToLastPosition);
@@ -190,11 +194,12 @@ public class AutoSurveying implements IModeState
 
     if(util.isThereApolloAsObject(currentState))
     {
-      moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.ApolloDetected);
+      moveThread.stopExecuteCommand();
     }
     return null;
   }
+
 
   private Object turnAroundForApollo() throws InterruptedException
   {
@@ -308,6 +313,10 @@ public class AutoSurveying implements IModeState
       {
         currentState = AutoSurveyingInternalState.BackToLastPosition;
       }
+      String mode = currentState.toString();
+      if(currentState == AutoSurveyingInternalState.BackToLastPosition && missionAccomplish)
+        mode="Move Back Home";
+      util.modeChange(mode);
   }
 
   private Object checkSurroundings() throws InterruptedException
@@ -324,7 +333,7 @@ public class AutoSurveying implements IModeState
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.SurveyRadiation);
     }
-    else if (util.isThereAnObject())
+    else if (util.isThereAnObject() && currentState != AutoSurveyingInternalState.SurveyRadiation && currentState!= AutoSurveyingInternalState.ApolloDetected)
     {
       moveThread.stopExecuteCommand();
       setCurrentState(AutoSurveyingInternalState.DetectedObject);
