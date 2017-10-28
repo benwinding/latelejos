@@ -90,9 +90,9 @@ class MapSelectedLayersFactory {
   private Canvas CreateVisitedLayer(List<MapPoint> points, Color colour) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    int surveyedPointSize = 60;
-    double percentCovered = MapCalculations.CalculateSurveyedArea(points, config, surveyedPointSize);
-    UpdaterUtils.DrawTextOnContext(gc,new MapPoint(0,-6),config, "Percent Surveyed: %" + percentCovered);
+    int surveyedPointSize = 100;
+    double percentCovered = MapCalculations.CalculateSurveyedArea(points, config, (int) (surveyedPointSize/config.mapPixelsPerCm));
+    UpdaterUtils.DrawTextOnContext(gc,new MapPoint(0,-6),config, "Map Surveyed: %" + percentCovered);
     UpdaterUtils.DrawFilledCirclesOnContext(gc, points, config, colour, surveyedPointSize);
     return layer;
   }
