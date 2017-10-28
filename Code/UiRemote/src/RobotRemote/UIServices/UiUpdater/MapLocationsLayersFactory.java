@@ -2,6 +2,7 @@ package RobotRemote.UIServices.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
 import RobotRemote.RobotServices.Movement.LocationState;
+import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
@@ -49,6 +50,7 @@ class MapLocationsLayersFactory {
 
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
+    UpdaterUtils.DrawTextOnContext(gc,new MapPoint(0,-3),config);
 
     double x = (robotLocation.x * mapPixelsPerCm - robotW/2)+mapW;
     double y = (robotLocation.y * mapPixelsPerCm - robotH/2)+mapH;
@@ -77,7 +79,6 @@ class MapLocationsLayersFactory {
       gc.setFill(c);
       gc.fillRect(0,0, robotW, robotH);
     }
-
     gc.restore();
     return layer;
   }

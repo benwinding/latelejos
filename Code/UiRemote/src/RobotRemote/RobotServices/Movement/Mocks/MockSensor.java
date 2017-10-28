@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import RobotRemote.RobotServices.Movement.LocationState;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
+import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.Pose;
 
 public final class MockSensor
@@ -35,11 +36,6 @@ public final class MockSensor
     if (location.y < 0 || location.x < 0 || location.y > 60 || location.x > 85)
       return Color.BLUE;
 
-
-    if (apolloPath.contains(location.x, location.y))
-    {
-      return Color.RED;
-    }
 
     if (radiationPath.contains(location.x, location.y))
     {
@@ -164,5 +160,13 @@ public final class MockSensor
         trackPath1.lineTo(mapPoint.x, mapPoint.y);
       count++;
     }
+  }
+
+  public static double GetSensor(LocationState locationState)
+  {
+    Pose pose = locationState.GetCurrentPose();
+    float apolloX = (float)apolloPath.getBounds().getCenterX();
+    float apolloY =(float) apolloPath.getBounds().getCenterY();
+    return pose.distanceTo(new Point(apolloX,apolloY));
   }
 }

@@ -13,6 +13,7 @@ import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UI.UiState;
 import RobotRemote.UIServices.Events.*;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,6 +65,9 @@ public class RootController implements Initializable {
   Button btnMoveStop;
   @FXML
   VBox infoNgzSelction;
+
+  @FXML
+  Label lbModeInfo;
 
   private UiState uiState;
   private EventBus eventBus;

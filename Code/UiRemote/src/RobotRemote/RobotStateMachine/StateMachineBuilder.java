@@ -9,6 +9,8 @@ import RobotRemote.RobotStateMachine.States.IdleState;
 import RobotRemote.RobotStateMachine.States.ManualMoving;
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.ServiceManager;
+import RobotRemote.UIServices.Events.EventModeChange;
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 public class StateMachineBuilder {
@@ -16,7 +18,10 @@ public class StateMachineBuilder {
     private ManualMoving stateManualMoving;
     private AutoSurveying stateAutoSurveying;
     private IModeState currentState;
+    private EventBus bus;
+    public static  String CurrentMode ="Idle";
     public StateMachineBuilder(ServiceManager sm) {
+        this.bus = sm.getEventBus();
         sm.getEventBus().register(this);
         // Create State Instances
         stateManualMoving = new ManualMoving(sm);
@@ -40,9 +45,14 @@ public class StateMachineBuilder {
 
 
     @Subscribe
+    private void OnModeChange(EventModeChange event) {
+      CurrentMode = event.mode;
+    }
+    @Subscribe
     private void OnSwitchToManualMode(EventSwitchToManual event) {
         Logger.log("SWITCH TO MANUAL MODE...");
         enterState(stateManualMoving);
+        this.bus.post(new EventModeChange("Manual Mode"));
     }
 
     @Subscribe
@@ -52,6 +62,7 @@ public class StateMachineBuilder {
           stateAutoSurveying.setMoveToWaypoint(event.waypoint);
 
         enterState(stateAutoSurveying);
+        this.bus.post(new EventModeChange("Autosurvey Mode"));
     }
 
     @Subscribe
@@ -59,6 +70,7 @@ public class StateMachineBuilder {
       Logger.log("EMERGENCY STOP...");
       //Switch to idle mode
       enterState(stateIdle);
+      this.bus.post(new EventModeChange("Idle Mode"));
     }
 
     @Subscribe

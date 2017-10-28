@@ -6,6 +6,7 @@ import RobotRemote.RobotStateMachine.Events.AutoSurvey.EventAutomapDetectedObjec
 import RobotRemote.Shared.Logger;
 import RobotRemote.Shared.RobotConfiguration;
 import RobotRemote.Shared.ServiceManager;
+import RobotRemote.UIServices.Events.EventModeChange;
 import RobotRemote.UIServices.MapHandlers.NgzUtils;
 import com.google.common.eventbus.EventBus;
 import javafx.scene.paint.Color;
@@ -20,7 +21,6 @@ public class AutoSurveyUtil
   private RobotConfiguration config;
   private EventBus eventBus;
   private LocationState locationState;
-
   public AutoSurveyUtil(ServiceManager sm)
   {
     this.sm = sm;
@@ -32,8 +32,6 @@ public class AutoSurveyUtil
 
   public boolean isThereAnObject()
   {
-    if (!sm.getAppState().getSensorsState().getStatusUltra())
-      return false;
     return sensorState.getUltraReadingCm() <= config.obstacleAvoidDistance;
   }
 
@@ -84,6 +82,11 @@ public class AutoSurveyUtil
     Pose current = locationState.GetCurrentPose();
     current.moveUpdate((float) this.config.obstacleAvoidDistance+8);
     this.eventBus.post(new EventAutomapDetectedObject(current,isApollo));
+  }
+
+  public void modeChange(String mode)
+  {
+    this.eventBus.post(new EventModeChange("Auto - " + mode ));
   }
 
   public AutoSurveying.Direction getCurrentDirection()
