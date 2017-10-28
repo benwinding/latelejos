@@ -24,14 +24,14 @@ public class UpdaterUtils {
       gc.strokeLine(p1x,p1y,p2x,p2y);
     }
   }
-  public static void DrawTextOnContext(GraphicsContext gc,MapPoint location , RobotConfiguration config)
+  public static void DrawTextOnContext(GraphicsContext gc,MapPoint location , RobotConfiguration config, String text)
   {
     double p1x = (location.x + config.mapW)*config.mapPixelsPerCm;
     double p1y = (location.y + config.mapH)*config.mapPixelsPerCm;
 
     Font hiFont = new Font("arial regular", 30);
     gc.setFont(hiFont);
-    gc.strokeText("Current Mode: "+StateMachineBuilder.CurrentMode,p1x, p1y);
+    gc.strokeText(text,p1x, p1y);
   }
   public static void DrawAreaOnContext(GraphicsContext gc, List<MapPoint> points, RobotConfiguration config, Color fillColour) {
     gc.setStroke(fillColour);

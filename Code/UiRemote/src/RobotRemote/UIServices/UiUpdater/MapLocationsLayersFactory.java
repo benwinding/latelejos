@@ -50,7 +50,7 @@ class MapLocationsLayersFactory {
 
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    UpdaterUtils.DrawTextOnContext(gc,new MapPoint(0,-3),config);
+    UpdaterUtils.DrawTextOnContext(gc,new MapPoint(0,-3),config, "Current Mode: "+StateMachineBuilder.CurrentMode);
 
     double x = (robotLocation.x * mapPixelsPerCm - robotW/2)+mapW;
     double y = (robotLocation.y * mapPixelsPerCm - robotH/2)+mapH;
