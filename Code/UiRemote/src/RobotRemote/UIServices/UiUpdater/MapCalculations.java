@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 class MapCalculations {
@@ -66,5 +67,15 @@ class MapCalculations {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<MapPoint> GetEveryNthPointInList(int n, List<MapPoint> points) {
+        List<MapPoint> evenIndexes = new ArrayList<>();
+        int size = points.size();
+        for(int i=0;i<size;i++) {
+            if(i%n==0)
+                evenIndexes.add(points.get(i));
+        }
+        return evenIndexes;
     }
 }
