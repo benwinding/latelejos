@@ -130,7 +130,6 @@ public class MapExportHandlers {
     // Get the current map state convert to the map transfer object
     MapTransferObject mapToExport = new MapTransferObject();
     mapToExport.setVehicleTrackColor(this.config.colorTrail);
-
     // Ngz state
     mapToExport.setNoGoZones(ngzState.GetNgzPointsFlattened());
     mapToExport.setObstacles(ngzState.GetObstacles());
@@ -142,7 +141,7 @@ public class MapExportHandlers {
     mapToExport.setFootprintTracks(discoveredState.GetPointsMatching(config.colorTrail));
     mapToExport.setCraters(discoveredState.GetPointsMatching(config.colorCrater));
     // Location state
-    // mapToExport.setUnexplored((ArrayList<MapPoint>) locationState.GetPointsVisited());
+    mapToExport.setUnexplored((ArrayList<MapPoint>) locationState.GetPointsVisited());
     mapToExport.setExplored((ArrayList<MapPoint>) locationState.GetExploredAreaPoints());
     mapToExport.setCurrentPosition(locationState.GetCurrentPosition());
     mapToExport.setRoverLandingSite(new MapPoint(config.initX,config.initY,config.initTheta));
