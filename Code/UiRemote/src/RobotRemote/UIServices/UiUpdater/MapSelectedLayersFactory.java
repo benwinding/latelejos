@@ -93,7 +93,8 @@ class MapSelectedLayersFactory {
     int surveyedPointSize = 100;
     double percentCovered = MapCalculations.CalculateSurveyedArea(points, config, (int) (surveyedPointSize/config.mapPixelsPerCm));
     UpdaterUtils.DrawTextOnContext(gc,new MapPoint(0,-6),config, "Map Surveyed: %" + percentCovered);
-    UpdaterUtils.DrawFilledCirclesOnContext(gc, points, config, colour, surveyedPointSize);
+    List<MapPoint> everySecondPoint = MapCalculations.GetEveryNthPointInList(4, points);
+    UpdaterUtils.DrawFilledCirclesOnContext(gc, everySecondPoint, config, colour, surveyedPointSize);
     return layer;
   }
 
