@@ -39,6 +39,9 @@ public class ColourTranslator {
 
 
   public static int GetColourId(Color colour) {
+    if (colour == null)
+      return 6;
+
     if (colour.equals(Color.RED)) {
       return 0;
     } else if (colour.equals(Color.GREEN)) {
