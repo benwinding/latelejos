@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DiscoveredColoursState {
   private HashMap<Integer, ArrayList<MapPoint>> colouredPointsSeen;
@@ -31,6 +30,8 @@ public class DiscoveredColoursState {
   }
 
   public void AddColouredPoint(int colour, MapPoint newColouredPoint) {
+    if(ColourTranslator.GetColourEnum(colour).equals(Color.WHITE))
+      return;
     if(!colouredPointsSeen.containsKey(colour)) {
       colouredPointsSeen.put(colour, new ArrayList<MapPoint>());
     }
