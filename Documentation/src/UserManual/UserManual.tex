@@ -12,6 +12,13 @@
 \usepackage{multirow} % merge table rows
 \usepackage{vhistory} % revision table package
 \usepackage{pdfpages}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{nameref} % allows use of named references
 
 \setlist[itemize]{noitemsep} % No spaces in itemize lists
 \setlist[enumerate]{noitemsep} % No spaces in itemize lists
@@ -134,6 +141,7 @@
   \caption{Connection Overview} 
   \label{fig:Connection Overview}               
 \end{figure} 
+
    
   \subsection{Exit System} 
   Click on Exit. 
@@ -147,92 +155,130 @@
   \subsubsection{System Status} 
   This part is design for allowing the user know the connected status between the robot and the computer, including state of the system connection, the color sensor, and the ultrasonic sensor. When the status are connected, the icon will be changed from red to green.   
   \begin{figure}[H] 
-  \includegraphics[width=\linewidth]{systemconnect.png}  % created using www.draw.io 
+  \includegraphics[width=50mm, scale=0.5]{systemconnect.png}  % created using www.draw.io 
   \caption{System Connection} 
   \label{fig:System Connection}               
-  \end{figure} 
+  \end{figure}
+
    
   \subsubsection{System Mode and Status} 
-  This part is for the user to switch mode, including manual mode and automatically mode. The user can click one of modes to control the robot and user will see the current status of the mode on GUI.  \begin{figure}[H] 
-  \includegraphics[width=\linewidth]{mode.png}  % created using www.draw.io 
+  This part is for the user to switch mode, including manual mode and automatically mode. The user can click one of modes to control the robot and user will see the current status of the mode on GUI.  
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.4\textwidth}
+		\includegraphics[width=0.95\linewidth]{mode.png}  
   \caption{Mode Switch} 
-  \label{fig:Mode Switch}               
-  \end{figure} 
-  \begin{figure}[H] 
-  \includegraphics[width=\linewidth]{status.png}  % created using www.draw.io 
+\label{fig:Mode Switch}                
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\textwidth}
+		\includegraphics[width=0.95\linewidth]{status.png}  
   \caption{Mode status} 
-  \label{fig:Mode status}               
-  \end{figure} 
+\label{fig:Mode status}               
+	\end{subfigure}
+\end{figure}
+
+
+
+
+
   \subsubsection{  Manual Controls} 
-This part is for the user to control the robot manually, including up, down, turning left and turning right. The red button in the middle is for stopping the robot for the user.  \begin{figure}[H] 
-  \includegraphics[width=0.8\textwidth]{buttons.png}  % created using www.draw.io 
-  \caption{Manual Buttoons} 
-  \label{fig:Manual Buttoons}               
-  \end{figure} 
+This part is for the user to control the robot manually, including up, down, turning left and turning right. The red button in the middle is for stopping the robot for the user.   
    
-   
+  
   \subsubsection{Log Events} 
-This part is for showing the system log, sensor graphs, and the current location of the robot on the map. The user can check the log and status when the robot is surveying on the map.  \begin{figure}[H] 
+This part is for showing the system log, sensor graphs, and the current location of the robot on the map. The user can check the log and status when the robot is surveying on the map.  
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+  \includegraphics[width=0.8\textwidth]{buttons.png}  % created using www.draw.io 
+\caption{Manual Buttoons} 
+\label{fig:Manual Buttoons}                
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
   \includegraphics[width=0.8\textwidth]{log.png}  % created using www.draw.io 
-  \caption{Log Events} 
-  \label{fig:Log Events}               
-  \end{figure} 
+\caption{Log Events} 
+\label{fig:Log Events}              
+	\end{subfigure}
+\end{figure}
    
    
   \subsubsection{  Map Options} 
-This part is for showing the system log, sensor graphs, and the current location of the robot on the map. The user can check the log and status when the robot is surveying on the map.  \begin{figure}[H] 
-  \includegraphics[width=0.8\textwidth]{options.png}  % created using www.draw.io 
-  \caption{Map Options} 
-  \label{fig:Map Options}               
-  \end{figure} 
+This part is for showing the system log, sensor graphs, and the current location of the robot on the map. The user can check the log and status when the robot is surveying on the map.   
    
    
   \subsubsection{  System Mode} 
-This part is for showing the system log, sensor graphs, and the current location of the robot on the map. The user can check the log and status when the robot is surveying on the map.  \begin{figure}[H] 
-  \includegraphics[width=0.6\textwidth]{xml.png}  % created using www.draw.io 
-  \caption{XML Map} 
-  \label{fig:XML Map}               
-  \end{figure} 
+This part is for showing the system log, sensor graphs, and the current location of the robot on the map. The user can check the log and status when the robot is surveying on the map.
   
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\begin{subfigure}[t]{0.45\textwidth}
+  	\includegraphics[width=0.8\textwidth]{options.png}  % created using www.draw.io 
+	\caption{Map Options} 
+	\label{fig:Map Options}               
+ 	\end{subfigure}
+ 	\begin{subfigure}[t]{0.45\textwidth}
+  \includegraphics[width=0.8\textwidth]{xml.png}  % created using www.draw.io 
+\caption{XML Map} 
+\label{fig:XML Map}              
+ 	\end{subfigure}
+ \end{figure}
+ 
  
  
   \subsection{System Features} 
    
   \subsubsection{Manual Enter NGZ} 
   The user is able to designate the NGZ any time for avoiding potential dangerous areas of map detected by the remote operator. 
-  \begin{figure}[H] 
-  \includegraphics[width=\linewidth]{enterngz.png}  % created using www.draw.io 
-  \caption{Enter NGZ} 
-  \label{fig:Enter NGZ}               
-  \end{figure} 
  
   \subsubsection{Avoiding the NGZ} 
-The robot can avoid the NGZ when the robot is in automatically controlled.  \begin{figure}[H] 
-  \includegraphics[width=\linewidth]{avoidngz.png}  % created using www.draw.io 
+The robot can avoid the NGZ when the robot is in automatically controlled. 
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.95\linewidth]{enterngz.png}  
+  \caption{Enter NGZ} 
+\label{fig:Enter NGZ}                
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=0.95\linewidth]{avoidngz.png}  
   \caption{Avoid NGZ} 
-  \label{fig:Avoid NGZ}               
-  \end{figure} 
+\label{fig:Avoid NGZ}               
+	\end{subfigure}
+\end{figure}
+
    
   \subsubsection{  Move to Waypoint} 
-When the user designated a waypoint, the robot can go to the waypoint directly.  \begin{figure}[H] 
-  \includegraphics[width=\linewidth]{waypoint.png}  % created using www.draw.io 
-  \caption{Waypoint} 
-  \label{fig:Waypoint}               
-  \end{figure} 
-  
-  
-  
+When the user designated a waypoint, the robot can go to the waypoint directly.  
+   
 	\subsubsection{  Displaying the Red Color} 
-The robot will change red when the robot is closing to the crater, NGZ, or the obstacle.  \begin{figure}[H] 
+The robot will change red when the robot is closing to the crater, NGZ, or the obstacle.  
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+  \includegraphics[width=\linewidth]{waypoint.png}  % created using www.draw.io 
+\caption{Waypoint} 
+\label{fig:Waypoint}                 
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
   \includegraphics[width=0.9\textwidth]{red.png}  % created using www.draw.io 
-  \caption{Display Red} 
-  \label{fig:Display Red}               
-  \end{figure} 
+\caption{Display Red} 
+\label{fig:Display Red}              
+	\end{subfigure}
+\end{figure}
+
+
+
+ 
    
   \subsection{Special Instructions for Error Correction} 
   As a condition of your use of the Robot, you will not use the robot for any purpose that is prohibited or unlawful by these terms, conditions, and notices. You may not do any manner that could overburden, or impair, damage of the Robot. You will not be permitted to gain unauthorised access to the Robot.  
    
-   
+   \newpage
   \section{Appendices} 
   Instructions flow: 
   \begin{figure}[H] 

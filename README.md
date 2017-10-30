@@ -3,26 +3,25 @@
 #### Team: PG29
 This repository contains the documentation and code for our teams project
 
+[![Final Demonstration](https://i.imgur.com/7B3Z89w.png)](https://www.youtube.com/watch?v=u3IE2lwvw9Q "Everything Is AWESOME")
+
 ## Git Started
-How to get this on your local machine:
-### Init - Terminal
+How to get this running on your local machine.
+
+### Prerequisites
+ - Java8
+ - Apache Ant
+ - Git
+
+### Terminal
+Use the following commands to run the latest version of the system locally.
+
     $ git clone https://github.cs.adelaide.edu.au/a1210255/2017-S2-SEP-PG29
-
-### Init - GUI
-Some GUI applications are available for git are:
- - Sourcetree
- - GitKraken
- - ...
+    $ cd 2017-S2-SEP-PG29/Code/UiRemote
+    $ ant build
+    $ ant Main
  
-## Commiting To This!
-### Commiting - Terminal
-You always need to pull from the server before you commit, to make sure you commit with the latest version of the repository.
-    
-    $ git pull
-    $ git commit -m "My Change"
-    $ git push
-
-## Directory Structure
+## Project Structure
 After discussion it was decided that the structure of this repo would follow this format:
  - Documentation/
- - Code
+ - Code/

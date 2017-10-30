@@ -219,7 +219,7 @@ Software Manager - Huy Nguyen Phan established a program to simulate the robot c
 	\item \textbf{Test Owner:}  Huy Nguyen Phan
 	\item \textbf{Test Date:}: 22-Oct-2017
 	\item \textbf{Test Description:} To detect radiation area 
-	\item \textbf{Test Results:} FAIL
+	\item \textbf{Test Results:} PASS
 	\item \textbf{Additional Comments:} The color sensor is not sensitive enough to distinguish green and blue
 	
 \end{itemize}
@@ -265,7 +265,7 @@ Software Manager - Huy Nguyen Phan established a program to simulate the robot c
 	\item \textbf{Test Owner:} Benjamin Charles Winding
 	\item \textbf{Test Date:}: 22-Oct-2017
 	\item \textbf{Test Description:} To detect the border and do not exceed the border
-	\item \textbf{Test Results:} FAIL
+	\item \textbf{Test Results:} PASS
 	\item \textbf{Additional Comments:}The color sensor is not sensitive enough to distinguish green and blue
 \end{itemize}		
 
@@ -274,7 +274,7 @@ Software Manager - Huy Nguyen Phan established a program to simulate the robot c
 	\item \textbf{Test Owner:} Sean Hennessy
 	\item \textbf{Test Date:} 22-Oct-2017
 	\item \textbf{Test Description:} To detect a aplio and return to starting point
-	\item \textbf{Test Results:} PASS 
+	\item \textbf{Test Results:} FAIL 
 	\item \textbf{Additional Comments:} 
 \end{itemize}
 
@@ -288,11 +288,10 @@ Software Manager - Huy Nguyen Phan established a program to simulate the robot c
 \end{itemize}
 	
 \section{TEST RESULTS}
-The testing result is acceptable. However, regarding integration test cases running in user environment, the testing result is not satisfactory since the color sensor is not sensitive enough to detect the correct color
+The testing result is acceptable. However, regarding integration test cases running in user environment, the testing result is not satisfactory since it is hard to detect starting location due to hardware issue
 
 \section{SUGGESTED ACTIONS}
-In order to improve the accuracy for detecting the border and radiation area, we may need to
-change the color representation in the map for border and radiation area
+In order to improve the accuracy for detecting the location, we may need to change an algorithm or change the motor hardware to go back to starting location
 \newpage
 \section{Appendix A: TEST SUMMARY REPORT APPROVAL}
 The undersigned acknowledge they have reviewed the Lunar Rover Test Summary
