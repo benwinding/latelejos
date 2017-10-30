@@ -1,7 +1,6 @@
 package RobotRemote.UIServices.UiUpdater;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.RobotStateMachine.StateMachineBuilder;
 import RobotRemote.Shared.RobotConfiguration;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -67,7 +66,6 @@ public class UpdaterUtils {
       double p1x = (point.x + config.mapW) * config.mapPixelsPerCm - circleSize / 2;
       double p1y = (point.y + config.mapH) * config.mapPixelsPerCm - circleSize / 2;
       gc.strokeOval(p1x, p1y, circleSize, circleSize);
-
     }
   }
 

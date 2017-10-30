@@ -11,6 +11,7 @@ import RobotRemote.UIServices.MapHandlers.UserNoGoZoneState;
 import RobotRemote.UIServices.MapHandlers.UserWaypointsState;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
@@ -50,7 +51,7 @@ class MapSelectedLayersFactory {
         this.CreateBorderLayer(uiUpdaterState.GetPointsBorder(), config.colorBorder),
         this.CreateWaypointsLayer(userWaypointsState.GetSelectedMapPoints(), Color.BLUE),
         this.CreateObstaclesLayer(userNoGoZoneState.GetObstacles(), Color.ORANGE),
-        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo(), Color.DARKBLUE),
+        this.CreateAppolloLayer(userNoGoZoneState.GetAppollo()),
         this.CreateNgzLayer(userNoGoZoneState.GetNgzPoints())
     );
     UpdaterUtils.SetScalesOnLayers(mapLayers, config, uiUpdaterState);
@@ -139,10 +140,18 @@ class MapSelectedLayersFactory {
     return layer;
   }
 
-  private Canvas CreateAppolloLayer(ArrayList<MapPoint> mapPoints, Color color) {
+  private Canvas CreateAppolloLayer(ArrayList<MapPoint> mapPoints) {
     Canvas layer = new Canvas(mapW*3,mapH*3);
     GraphicsContext gc = layer.getGraphicsContext2D();
-    UpdaterUtils.DrawFilledCirclesOnContext(gc, mapPoints, config, color,40);
+    if(mapPoints.size() < 1)
+      return layer;
+    int apolloSize = 150;
+    javafx.scene.image.Image imgApollo = new Image(getClass().getResourceAsStream("../../UI/Images/apollo.png"));
+    for (MapPoint point : mapPoints) {
+      double p1x = (point.x + config.mapW) * config.mapPixelsPerCm - apolloSize / 2;
+      double p1y = (point.y + config.mapH) * config.mapPixelsPerCm - apolloSize / 2;
+      gc.drawImage(imgApollo, p1x, p1y, apolloSize, apolloSize);
+    }
     return layer;
   }
 
