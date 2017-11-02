@@ -3,10 +3,8 @@ package RobotRemote.UIServices.MapHandlers;
 import RobotRemote.Models.MapPoint;
 import RobotRemote.Shared.RobotConfiguration;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class UserNoGoZoneState {
   private List<List<MapPoint>> allNgzSets;
@@ -22,7 +20,8 @@ public class UserNoGoZoneState {
 
   public void AddNgzSet(List<MapPoint> ngzSet) {
     this.allNgzSets.add(ngzSet);
-    this.AddPointToCurrentList(ngzSet.get(0));
+    if(ngzSet.size() > 0)
+      this.AddPointToCurrentList(ngzSet.get(0));
   }
 
   void AddNgzStartPoint(MapPoint newNgzPoint) {

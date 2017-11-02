@@ -120,9 +120,11 @@ public class MapExportHandlers {
       discoveredState.AddColouredPoint(6, testPoint);
     }
     //OBSTACLE (treat as NGZ)
-    for (MapPoint testPoint : mapObject.getObstacles()){ //7==BLACK
-      ngzState.AddDetectedObstacle((float) testPoint.x, (float) testPoint.y);
-    //discoveredState.AddColouredPoint(7, testPoint);
+    if(mapObject.getObstacles() != null) {
+      for (MapPoint testPoint : mapObject.getObstacles()){ //7==BLACK
+        ngzState.AddDetectedObstacle((float) testPoint.x, (float) testPoint.y);
+        //discoveredState.AddColouredPoint(7, testPoint);
+      }
     }
   }
 
@@ -134,7 +136,7 @@ public class MapExportHandlers {
     mapToExport.setNoGoZones(ngzState.GetNgzPointsFlattened());
     mapToExport.setObstacles(ngzState.GetObstacles());
     // Tracks state
-    mapToExport.setBoundary(discoveredState.GetPointsMatching(config.colorBorder));
+    mapToExport.setBoundary((ArrayList<MapPoint>) updaterState.GetPointsBorder());
     mapToExport.setRadiation(discoveredState.GetPointsMatching(config.colorRadiation));
     mapToExport.setLandingtracks(discoveredState.GetPointsMatching(config.colorTrail));
     mapToExport.setVehicleTracks(discoveredState.GetPointsMatching(config.colorTrail));

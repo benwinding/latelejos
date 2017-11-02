@@ -1,11 +1,7 @@
 package RobotRemote.UIServices.MapTranslation;
 
 import RobotRemote.Models.MapPoint;
-import RobotRemote.RobotServices.Movement.LocationState;
-import RobotRemote.Shared.AppStateRepository;
 import RobotRemote.Shared.Logger;
-import RobotRemote.Shared.RobotConfiguration;
-import RobotRemote.Shared.ServiceManager;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.Lunarovermap;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.ObjectFactory;
 import RobotRemote.UIServices.MapTranslation.XmlTranslation.XmlTranslator;
@@ -13,9 +9,9 @@ import javafx.scene.paint.Color;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import javax.xml.bind.JAXBException;
-import java.util.*;
-
-import static java.awt.Color.BLACK;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class MapTranslator implements IMapTranslator {
 
@@ -40,27 +36,33 @@ public class MapTranslator implements IMapTranslator {
         }
       }
     }
-    throw new NotFound();
+    return new Lunarovermap.Track();
+    //throw new NotFound();
   }
 
   private void addZoneMapPoints(ArrayList<MapPoint> listName, Lunarovermap.Zone zoneName, String units) {
-    if (zoneName != null) {
-      for (Lunarovermap.Zone.Area.Point genericPoint : zoneName.area.point) {
-        int x = 0, y = 0;
-        x = genericPoint.getX() ;
-        y = genericPoint.getY() ;
-        if(Objects.equals(units, "metres")){
-          x=x/10;
-          y=y/10;
-        }
-        MapPoint point = new MapPoint(x, y);
-        listName.add(point);
+    if (zoneName == null)
+      return;
+    if (zoneName.area == null)
+      return;
+    if (zoneName.area.point == null)
+      return;
+
+    for (Lunarovermap.Zone.Area.Point genericPoint : zoneName.area.point) {
+      int x = 0, y = 0;
+      x = genericPoint.getX() ;
+      y = genericPoint.getY() ;
+      if(Objects.equals(units, "metres")){
+        x=x/10;
+        y=y/10;
       }
+      MapPoint point = new MapPoint(x, y);
+      listName.add(point);
     }
   }
 
   private void addTrackMapPoints(ArrayList<MapPoint> listName, Lunarovermap.Track trackName, String units) {
-    if (trackName != null) {
+    if (trackName != null && trackName.point != null) {
       for (Lunarovermap.Track.Point genericPoint : trackName.point) {
         int x = 0, y = 0;
         x = genericPoint.getX() ;
@@ -207,7 +209,7 @@ public class MapTranslator implements IMapTranslator {
     //Boundary
     ArrayList<MapPoint> boundary = new ArrayList<>();
     Lunarovermap.Boundary lunarBoundary = mapFromString.boundary;
-    if (lunarBoundary != null) {
+    if (lunarBoundary != null && lunarBoundary.area.point != null) {
       for (Lunarovermap.Boundary.Area.Point genericPoint : lunarBoundary.area.point) {
         int x = 0, y = 0;
         x = genericPoint.getX() ;
@@ -393,7 +395,7 @@ public class MapTranslator implements IMapTranslator {
     Lunarovermap.Boundary boundary =objectFactory.createLunarovermapBoundary();
     boundary.area= objectFactory.createLunarovermapBoundaryArea();
     boundary.area.point = new ArrayList<Lunarovermap.Boundary.Area.Point>();
-        for (MapPoint point : mapTransferObject.getBoundary()){
+    for (MapPoint point : mapTransferObject.getBoundary()){
       int x = 0, y = 0;
       Lunarovermap.Boundary.Area.Point point1=objectFactory.createLunarovermapBoundaryAreaPoint();
       point1.x=(int) point.x;
